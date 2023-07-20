@@ -2,7 +2,7 @@ kind: source
 spec:
   name: aws
   path: cloudquery/aws
-  version: "v21.1.0"
+  version: "v21.1.0" # latest version of aws plugin
   destinations: ["snowflake"]
   tables: ["*"]
 ---
@@ -10,6 +10,6 @@ kind: destination
 spec:
   name: snowflake
   path: cloudquery/snowflake
-  version: "v3.0.0"
+  version: "v3.0.0" # latest version of snowflake plugin
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}

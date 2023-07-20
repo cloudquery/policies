@@ -5,13 +5,13 @@ import datetime
 import argparse
 import sections
 import snowflake.connector
+import views
 
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
 
-def run_policy(args):
-    print("Running foundational Security Policy")
+def get_connection():
     conn = snowflake.connector.connect(
         user=os.environ.get("SNOW_USER"),
         password=os.environ.get("SNOW_PASSWORD"),
@@ -21,6 +21,11 @@ def run_policy(args):
         schema=os.environ.get("SNOW_SCHEMA"),
         region=os.environ.get("SNOW_REGION"),
     )
+    return conn
+
+def run_policy(args):
+    print("Running foundational Security Policy")
+    conn = get_connection()
     execution_time = datetime.datetime.now()
     # sections.execute_account(conn, execution_time)
     # sections.execute_acm(conn, execution_time)
@@ -33,8 +38,10 @@ def run_policy(args):
     sections.execute_ec2(conn, execution_time)
     print("Finished running foundational security policy")
 
-def create_views(args):
-    pass
+def create_view(args):
+    print("Creating policy results view")
+    conn = get_connection()
+    conn.cursor().execute(views.CREATE_AWS_POLICY_RESULTS)
 
 def main():
     parser = argparse.ArgumentParser(
@@ -43,8 +50,8 @@ def main():
     subparsers = parser.add_subparsers(help='sub-command help', required=True)
     parser_run_policy = subparsers.add_parser('run-policy', help='run policy')
     parser_run_policy.set_defaults(func=run_policy)
-    parser_create_views = subparsers.add_parser('create-view', help='create all required views')
-    parser_create_views.set_defaults(func=run_policy)
+    parser_create_view = subparsers.add_parser('create-view', help='create policy results view')
+    parser_create_view.set_defaults(func=create_view)
     args = parser.parse_args(sys.argv[1:])
     args.func(args)
 
