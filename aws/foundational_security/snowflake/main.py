@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()  # take environment variables from .env.
 
 def run_policy(args):
-    print("Running doundational Security Policy")
+    print("Running foundational Security Policy")
     conn = snowflake.connector.connect(
         user=os.environ.get("SNOW_USER"),
         password=os.environ.get("SNOW_PASSWORD"),
@@ -19,6 +19,7 @@ def run_policy(args):
         warehouse=os.environ.get("SNOW_WAREHOUSE"),
         database=os.environ.get("SNOW_DATABASE"),
         schema=os.environ.get("SNOW_SCHEMA"),
+        region=os.environ.get("SNOW_REGION"),
     )
     execution_time = datetime.datetime.now()
     # sections.execute_account(conn, execution_time)
@@ -29,7 +30,8 @@ def run_policy(args):
     # sections.execute_cloudtrail(conn, execution_time)
     # sections.execute_codebuild(conn, execution_time)
     sections.execute_dynamodb(conn, execution_time)
-    print("Finished running doundational security policy")
+    sections.execute_ec2(conn, execution_time)
+    print("Finished running foundational security policy")
 
 def create_views(args):
     pass

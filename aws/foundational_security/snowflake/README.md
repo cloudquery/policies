@@ -8,7 +8,7 @@ Make sure you synced your AWS metadata with CloudQuery [AWS source plugin](https
 
 ### Run the policy
 
-- Install Python > 3.8
+- Install Python >= 3.9
 - Run `pip install -r requirements.txt`
 - Run `cp env.example` to `.env` and fill the snowflake environment credentials
 - Run `python main.py`

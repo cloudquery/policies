@@ -1,6 +1,6 @@
 
 import datetime
-from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb
+from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2
 from snowflake.connector import SnowflakeConnection
 
 FRAMEWORK = 'Foundational Security Policy'
@@ -73,3 +73,8 @@ def execute_dynamodb(conn: SnowflakeConnection, execution_time: datetime.datetim
     conn.cursor().execute(dynamodb.POINT_IN_TIME_RECOVERY, (execution_time, FRAMEWORK, 'dynamodb.2'))
     print("Running check: dynamodb.3")
     conn.cursor().execute(dynamodb.DAX_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'dynamodb.3'))
+
+def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: EC2")
+    print("Executing check EC2.1")
+    conn.cursor().execute(ec2.EBS_SNAPSHOT_PERMISSIONS_CHECK, (execution_time, FRAMEWORK, 'EC2.1'))
