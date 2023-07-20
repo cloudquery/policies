@@ -249,11 +249,11 @@ LATERAL FLATTEN(INPUT => principals) AS p
 WHERE
     -- Any cross account principals (or unknown principals) get flagged
     (
-        p.VALUE::STRING NOT LIKE 'arn:aws:iam::' || account_id || ':%'
+        p.VALUE::STRING NOT LIKE 'arn:aws:iam::' || account_id || ':%%'
         OR p.VALUE::STRING = '*'
     )
     -- Any broad permissions or Deletes get flagged
-    AND (a.VALUE::STRING LIKE 's3:%*'
+    AND (a.VALUE::STRING LIKE 's3:%%*'
         OR a.VALUE::STRING LIKE 's3:DeleteObject')
 
 -- This will flag ALL canonical IDs as NOT COMPLIANT

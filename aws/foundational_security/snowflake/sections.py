@@ -1,6 +1,6 @@
 
 import datetime
-from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2, iam, awslambda
+from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2, iam, awslambda, s3, sagemaker, secretmanager, sns, sqs, ssm, waf
 from snowflake.connector import SnowflakeConnection
 import views
 
@@ -105,3 +105,64 @@ def execute_lambda(conn: SnowflakeConnection, execution_time: datetime.datetime)
     print("Running section: Lambda")
     print("Executing check lambda.2")
     conn.cursor().execute(awslambda.LAMBDA_FUNCTIONS_SHOULD_USE_SUPPORTED_RUNTIMES, (execution_time, FRAMEWORK, 'lambda.2'))
+
+def execute_s3(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: S3")
+    print("Executing check S3.1")
+    conn.cursor().execute(s3.ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS, (execution_time, FRAMEWORK, 'S3.1'))
+    print("Executing check S3.2")
+    conn.cursor().execute(s3.PUBLICLY_READABLE_BUCKETS, (execution_time, FRAMEWORK, 'S3.2'))
+    print("Executing check S3.3")
+    conn.cursor().execute(s3.PUBLICLY_WRITABLE_BUCKETS, (execution_time, FRAMEWORK, 'S3.3'))
+    print("Executing check S3.4")
+    conn.cursor().execute(s3.S3_SERVER_SIDE_ENCRYPTION_ENABLED, (execution_time, FRAMEWORK, 'S3.4'))
+    print("Executing check S3.5")
+    conn.cursor().execute(s3.DENY_HTTP_REQUESTS, (execution_time, FRAMEWORK, 'S3.5'))
+    print("Executing check S3.6")
+    conn.cursor().execute(s3.RESTRICT_CROSS_ACCOUNT_ACTIONS, (execution_time, FRAMEWORK, 'S3.6'))
+    print("Executing check S3.8")
+    conn.cursor().execute(s3.ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS, (execution_time, FRAMEWORK, 'S3.8'))
+
+def execute_sagemaker(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: SageMaker")
+    print("Executing check SageMaker.1")
+    conn.cursor().execute(sagemaker.SAGEMAKER_NOTEBOOK_INSTANCE_DIRECT_INTERNET_ACCESS_DISABLED, (execution_time, FRAMEWORK, 'SageMaker.1'))
+
+def execute_secretsmanager(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: SecretsManager")
+    print("Executing check SecretsManager.1")
+    conn.cursor().execute(secretmanager.SECRETS_SHOULD_HAVE_AUTOMATIC_ROTATION_ENABLED, (execution_time, FRAMEWORK, 'SecretsManager.1'))
+    print("Executing check SecretsManager.2")
+    conn.cursor().execute(secretmanager.SECRETS_CONFIGURED_WITH_AUTOMATIC_ROTATION_SHOULD_ROTATE_SUCCESSFULLY, (execution_time, FRAMEWORK, 'SecretsManager.2'))
+    print("Executing check SecretsManager.3")
+    conn.cursor().execute(secretmanager.REMOVE_UNUSED_SECRETS_MANAGER_SECRETS, (execution_time, FRAMEWORK, 'SecretsManager.3'))
+    print("Executing check SecretsManager.4")
+    conn.cursor().execute(secretmanager.SECRETS_SHOULD_BE_ROTATED_WITHIN_A_SPECIFIED_NUMBER_OF_DAYS, (execution_time, FRAMEWORK, 'SecretsManager.4'))
+
+def execute_sns(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: SNS")
+    print("Executing check SNS.1")
+    conn.cursor().execute(sns.SNS_TOPICS_SHOULD_BE_ENCRYPTED_AT_REST_USING_AWS_KMS, (execution_time, FRAMEWORK, 'SNS.1'))
+    print("Executing check SNS.2")
+    conn.cursor().execute(sns.SNS_TOPICS_SHOULD_HAVE_MESSAGE_DELIVERY_NOTIFICATION_ENABLED, (execution_time, FRAMEWORK, 'SNS.2'))
+
+def execute_sqs(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: SQS")
+    print("Executing check SQS.1")
+    conn.cursor().execute(sqs.SQS_QUEUES_SHOULD_BE_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'SQS.1'))
+
+def execute_ssm(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: SSM")
+    print("Executing check SSM.1")
+    conn.cursor().execute(ssm.EC2_INSTANCES_SHOULD_BE_MANAGED_BY_SSM, (execution_time, FRAMEWORK, 'SSM.1'))
+    print("Executing check SSM.2")
+    conn.cursor().execute(ssm.INSTANCES_SHOULD_HAVE_PATCH_COMPLIANCE_STATUS_OF_COMPLIANT, (execution_time, FRAMEWORK, 'SSM.2'))
+    print("Executing check SSM.3")
+    conn.cursor().execute(ssm.INSTANCES_SHOULD_HAVE_ASSOCIATION_COMPLIANCE_STATUS_OF_COMPLIANT, (execution_time, FRAMEWORK, 'SSM.3'))
+    print("Executing check SSM.4")
+    conn.cursor().execute(ssm.DOCUMENTS_SHOULD_NOT_BE_PUBLIC, (execution_time, FRAMEWORK, 'SSM.4'))
+
+def execute_waf(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: WAF")
+    print("Executing check WAF.1")
+    conn.cursor().execute(waf.WAF_WEB_ACL_LOGGING_SHOULD_BE_ENABLED, (execution_time, FRAMEWORK, 'WAF.1'))

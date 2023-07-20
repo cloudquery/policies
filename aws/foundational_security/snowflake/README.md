@@ -12,3 +12,10 @@ Make sure you synced your AWS metadata with CloudQuery [AWS source plugin](https
 - Run `pip install -r requirements.txt`
 - Run `cp env.example` to `.env` and fill the snowflake environment credentials
 - Run `python main.py`
+
+#### VirtualEnv
+
+- Run `pip install virtualenv`
+- Run `virtualenv venv`
+- Run `source venv/bin/activate`
+- Follow the steps above. This way you will have a virtual environment for dependencies.
