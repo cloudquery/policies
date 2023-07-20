@@ -13,3 +13,4 @@ spec:
   version: "v3.1.0" # latest version of destination snowflake plugin
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
+    migrate_concurrency: -1
