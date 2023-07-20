@@ -17,6 +17,7 @@ from queries import (
     elb,
     elbv2,
     emr,
+    guardduty,
     iam,
     awslambda,
     redshift,
@@ -202,6 +203,11 @@ def execute_emr(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: EMR")
     print("Executing check EMR.1")
     conn.cursor().execute(emr.EMR_CLUSTER_MASTER_NODES_SHOULD_NOT_HAVE_PUBLIC_IP_ADDRESSES, (execution_time, FRAMEWORK, 'EMR.1'))
+
+def execute_guardduty(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: GuardDuty")
+    print("Executing check GuardDuty.1")
+    conn.cursor().execute(guardduty.DETECTOR_ENABLED, (execution_time, FRAMEWORK, 'GuardDuty.1', execution_time, FRAMEWORK, 'GuardDuty.1'))
 
 def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: IAM")
