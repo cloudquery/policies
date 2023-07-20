@@ -1,0 +1,541 @@
+{
+  "__inputs": [
+    {
+      "name": "DS_SNOWFLAKE",
+      "label": "Snowflake",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "grafana-snowflake-datasource",
+      "pluginName": "Snowflake"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "10.0.3-cloud.2.14737d80"
+    },
+    {
+      "type": "datasource",
+      "id": "grafana-snowflake-datasource",
+      "name": "Snowflake",
+      "version": "1.6.3"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "panels": [],
+      "title": "Overview",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-snowflake-datasource",
+        "uid": "${DS_SNOWFLAKE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "dark-red",
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B FAIL_COUNT"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "A PASS_COUNT"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "B FAIL"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.0.3-cloud.2.14737d80",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-snowflake-datasource",
+            "uid": "${DS_SNOWFLAKE}"
+          },
+          "format": 0,
+          "rawSql": "-- SELECT \n-- \t $__timeGroup(execution_time, $__interval) as time,\n--  FROM <metric_table>\n--  WHERE $__timeFilter(time)\n-- select framework, account_id from aws_policy_results where\n-- execution_time = (\n--   SELECT MAX(execution_time)\n--   FROM aws_policy_results\n-- );\n\nselect \n     $__timeGroup(execution_time, $__interval) as time,\n    pass\nfrom (\nSELECT \n  execution_time,\n  framework, \n  COUNT(CASE WHEN status = 'pass' THEN 1 END) AS pass, \n  COUNT(CASE WHEN STATUS = 'fail' THEN 1 END) AS fail\nFROM \n  aws_policy_results\nGROUP BY \n  framework, execution_time order by execution_time);",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "grafana-snowflake-datasource",
+            "uid": "${DS_SNOWFLAKE}"
+          },
+          "format": 0,
+          "hide": false,
+          "rawSql": "select \n     $__timeGroup(execution_time, $__interval) as time,\n    fail\nfrom (\nSELECT \n  execution_time,\n  framework, \n  COUNT(CASE WHEN status = 'pass' THEN 1 END) AS pass, \n  COUNT(CASE WHEN STATUS = 'fail' THEN 1 END) AS fail\nFROM \n  aws_policy_results\nGROUP BY \n  framework, execution_time order by execution_time);",
+          "refId": "B"
+        }
+      ],
+      "title": "Pass / Fail overtime",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-snowflake-datasource",
+        "uid": "${DS_SNOWFLAKE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FAIL_COUNT"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PASS_COUNT"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FAIL"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "pluginVersion": "10.0.3-cloud.2.14737d80",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-snowflake-datasource",
+            "uid": "${DS_SNOWFLAKE}"
+          },
+          "format": 1,
+          "rawSql": "-- select * from aws_policy_results where\n-- execution_time = (\n--   SELECT MAX(execution_time)\n--   FROM aws_policy_results\n-- );\n\nselect \n    framework,\n    account_id,\n    pass,\n    fail\nfrom (\nSELECT \n  framework,\n  account_id,\n  COUNT(CASE WHEN status = 'pass' THEN 1 END) AS pass, \n  COUNT(CASE WHEN STATUS = 'fail' THEN 1 END) AS fail\nFROM \n  aws_policy_results\nwhere execution_time = (\n  SELECT MAX(execution_time)\n  FROM aws_policy_results\n) and REGEXP_LIKE(account_id, '${account_id:regex}') and REGEXP_LIKE(framework, '${framework:regex}')\nGROUP BY  framework, account_id );\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Pass / Fail by Framework",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-snowflake-datasource",
+        "uid": "${DS_SNOWFLAKE}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "TITLE"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 447
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "RESOURCE_ID"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 320
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "FRAMEWORK"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 275
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "EXECUTION_TIME"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 250
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 1,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.0.3-cloud.2.14737d80",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-snowflake-datasource",
+            "uid": "${DS_SNOWFLAKE}"
+          },
+          "format": 1,
+          "rawSql": "select * from aws_policy_results where\nexecution_time = (\n  SELECT MAX(execution_time)\n  FROM aws_policy_results\n) and REGEXP_LIKE(account_id, '${account_id:regex}') and REGEXP_LIKE(framework, '${framework:regex}')",
+          "refId": "A"
+        }
+      ],
+      "title": "Last AWS Policy Results",
+      "type": "table"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafana-snowflake-datasource",
+          "uid": "${DS_SNOWFLAKE}"
+        },
+        "definition": "Snowflake Query :  select distinct account_id from aws_policy_results",
+        "hide": 0,
+        "includeAll": true,
+        "label": "account_id",
+        "multi": true,
+        "name": "account_id",
+        "options": [],
+        "query": {
+          "format": 1,
+          "rawSql": "select distinct account_id from aws_policy_results"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "grafana-snowflake-datasource",
+          "uid": "${DS_SNOWFLAKE}"
+        },
+        "definition": "Snowflake Query :  select distinct framework from aws_policy_results",
+        "description": "",
+        "hide": 0,
+        "includeAll": true,
+        "label": "framework",
+        "multi": true,
+        "name": "framework",
+        "options": [],
+        "query": {
+          "format": 1,
+          "rawSql": "select distinct framework from aws_policy_results"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "AWS Policies",
+  "uid": "e3a2fe3a-10a3-4a7d-906b-be002df00418",
+  "version": 18,
+  "weekStart": ""
+}
