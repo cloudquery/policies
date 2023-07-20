@@ -34,8 +34,9 @@ def run_policy(args):
     # sections.execute_cloudfront(conn, execution_time)
     # sections.execute_cloudtrail(conn, execution_time)
     # sections.execute_codebuild(conn, execution_time)
-    sections.execute_dynamodb(conn, execution_time)
-    sections.execute_ec2(conn, execution_time)
+    # sections.execute_dynamodb(conn, execution_time)
+    # sections.execute_ec2(conn, execution_time)
+    sections.execute_iam(conn, execution_time)
     print("Finished running foundational security policy")
 
 def create_view(args):

@@ -1,6 +1,6 @@
 
 import datetime
-from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2
+from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2, iam
 from snowflake.connector import SnowflakeConnection
 import views
 
@@ -81,3 +81,22 @@ def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(views.SECURITY_GROUP_INGRESS_RULES)
     print("Executing check EC2.1")
     conn.cursor().execute(ec2.EBS_SNAPSHOT_PERMISSIONS_CHECK, (execution_time, FRAMEWORK, 'EC2.1'))
+
+def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: IAM")
+    # print("Executing check iam.1")
+    # conn.cursor().execute(iam.POLICIES_WITH_ADMIN_RIGHTS, (execution_time, FRAMEWORK, 'iam.1'))
+    print("Executing check iam.2")
+    conn.cursor().execute(iam.POLICIES_ATTACHED_TO_GROUPS_ROLES, (execution_time, FRAMEWORK, 'iam.2'))
+    print("Executing check iam.3")
+    conn.cursor().execute(iam.IAM_ACCESS_KEYS_ROTATED_MORE_THAN_90_DAYS, (execution_time, FRAMEWORK, 'iam.3'))
+    print("Executing check iam.4")
+    conn.cursor().execute(iam.ROOT_USER_NO_ACCESS_KEYS, (execution_time, FRAMEWORK, 'iam.4'))
+    print("Executing check iam.5")
+    conn.cursor().execute(iam.MFA_ENABLED_FOR_CONSOLE_ACCESS, (execution_time, FRAMEWORK, 'iam.5'))
+    print("Executing check iam.6")
+    conn.cursor().execute(iam.HARDWARE_MFA_ENABLED_FOR_ROOT, (execution_time, FRAMEWORK, 'iam.6'))
+    print("Executing check iam.7")
+    conn.cursor().execute(iam.PASSWORD_POLICY_STRONG, (execution_time, FRAMEWORK, 'iam.7'))
+    print("Executing check iam.8")
+    conn.cursor().execute(iam.IAM_ACCESS_KEYS_ROTATED_MORE_THAN_90_DAYS, (execution_time, FRAMEWORK, 'iam.8'))
