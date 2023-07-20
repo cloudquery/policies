@@ -18,4 +18,5 @@ Make sure you synced your AWS metadata with CloudQuery [AWS source plugin](https
 - Run `pip install virtualenv`
 - Run `virtualenv venv`
 - Run `source venv/bin/activate`
-- Follow the steps above. This way you will have a virtual environment for dependencies.
+- Follow the steps above. This way you will have a virtual environment for dependencies. `deactivate` to exit the virtual environment.
+- Alternatively, you can use the `pip` and `python` binaries from the virtual environment (inside `venv/bin/`) directly.
