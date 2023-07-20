@@ -1,6 +1,6 @@
 
 import datetime
-from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2, iam, awslambda, redshift, s3, sagemaker, secretmanager, sns, sqs, ssm, waf
+from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2, iam, awslambda, redshift, s3, sagemaker, secretmanager, sns, sqs, ssm, waf, rds
 from snowflake.connector import SnowflakeConnection
 import views
 
@@ -181,3 +181,41 @@ def execute_waf(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: WAF")
     print("Executing check WAF.1")
     conn.cursor().execute(waf.WAF_WEB_ACL_LOGGING_SHOULD_BE_ENABLED, (execution_time, FRAMEWORK, 'WAF.1'))
+def execute_rds(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: RDS")
+    print("Executing check rds.2")
+    conn.cursor().execute(rds.INSTANCES_SHOULD_PROHIBIT_PUBLIC_ACCESS, (execution_time, FRAMEWORK, 'rds.2'))
+    print("Executing check rds.3")
+    conn.cursor().execute(rds.INSTANCES_SHOULD_HAVE_ECNRYPTION_AT_REST_ENABLED, (execution_time, FRAMEWORK, 'rds.3'))
+    print("Executing check rds.4")
+    conn.cursor().execute(rds.CLUSTER_SNAPSHOTS_AND_DATABASE_SNAPSHOTS_SHOULD_BE_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'rds.4', execution_time, FRAMEWORK, 'rds.4'))
+    print("Executing check rds.5")
+    conn.cursor().execute(rds.INSTANCES_SHOULD_BE_CONFIGURED_WITH_MULTIPLE_AZS, (execution_time, FRAMEWORK, 'rds.5'))
+    print("Executing check rds.6")
+    conn.cursor().execute(rds.ENHANCED_MONITORING_SHOULD_BE_CONFIGURED_FOR_INSTANCES_AND_CLUSTERS, (execution_time, FRAMEWORK, 'rds.6'))
+    print("Executing check rds.7")
+    conn.cursor().execute(rds.CLUSTERS_SHOULD_HAVE_DELETION_PROTECTION_ENABLED, (execution_time, FRAMEWORK, 'rds.7'))
+    print("Executing check rds.8")
+    conn.cursor().execute(rds.INSTANCES_SHOULD_HAVE_DELETION_PROTECTION_ENABLED, (execution_time, FRAMEWORK, 'rds.8'))
+    print("Executing check rds.9")
+    conn.cursor().execute(rds.DATABASE_LOGGING_SHOULD_BE_ENABLED, (execution_time, FRAMEWORK, 'rds.9'))
+    print("Executing check rds.10")
+    conn.cursor().execute(rds.IAM_AUTHENTICATION_SHOULD_BE_CONFIGURED_FOR_RDS_INSTANCES, (execution_time, FRAMEWORK, 'rds.10'))
+    print("Executing check rds.12")
+    conn.cursor().execute(rds.IAM_AUTHENTICATION_SHOULD_BE_CONFIGURED_FOR_RDS_CLUSTERS, (execution_time, FRAMEWORK, 'rds.12'))
+    print("Executing check rds.13")
+    conn.cursor().execute(rds.RDS_AUTOMATIC_MINOR_VERSION_UPGRADES_SHOULD_BE_ENABLED, (execution_time, FRAMEWORK, 'rds.13'))
+    print("Executing check rds.14")
+    conn.cursor().execute(rds.AMAZON_AURORA_CLUSTERS_SHOULD_HAVE_BACKTRACKING_ENABLED, (execution_time, FRAMEWORK, 'rds.14'))
+    print("Executing check rds.15")
+    conn.cursor().execute(rds.CLUSTERS_SHOULD_BE_CONFIGURED_FOR_MULTIPLE_AVAILABILITY_ZONES, (execution_time, FRAMEWORK, 'rds.15'))
+    print("Executing check rds.16")
+    conn.cursor().execute(rds.CLUSTERS_SHOULD_BE_CONFIGURED_TO_COPY_TAGS_TO_SNAPSHOTS, (execution_time, FRAMEWORK, 'rds.16'))
+    print("Executing check rds.17")
+    conn.cursor().execute(rds.INSTANCES_SHOULD_BE_CONFIGURED_TO_COPY_TAGS_TO_SNAPSHOTS, (execution_time, FRAMEWORK, 'rds.17'))
+    print("Executing check rds.18")
+    conn.cursor().execute(rds.INSTANCES_SHOULD_BE_DEPLOYED_IN_A_VPC, (execution_time, FRAMEWORK, 'rds.18'))
+    print("Executing check rds.19")
+    conn.cursor().execute(rds.INSTANCES_SHOULD_BE_DEPLOYED_IN_A_VPC, (execution_time, FRAMEWORK, 'rds.18'))
+    print("Executing check rds.23")
+    conn.cursor().execute(rds.DATABASES_AND_CLUSTERS_SHOULD_NOT_USE_DATABASE_ENGINE_DEFAULT_PORT, (execution_time, FRAMEWORK, 'rds.23', execution_time, FRAMEWORK, 'rds.23'))

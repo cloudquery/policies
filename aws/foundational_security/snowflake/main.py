@@ -37,7 +37,7 @@ def run_policy(args):
     # sections.execute_dynamodb(conn, execution_time)
     # sections.execute_ec2(conn, execution_time)
     # sections.execute_iam(conn, execution_time)
-    sections.execute_lambda(conn, execution_time)
+    # sections.execute_lambda(conn, execution_time)
     # sections.execute_redshift(conn, execution_time)
     # sections.execute_s3(conn, execution_time)
     # sections.execute_sagemaker(conn, execution_time)
@@ -46,6 +46,9 @@ def run_policy(args):
     # sections.execute_sqs(conn, execution_time)
     # sections.execute_ssm(conn, execution_time)
     # sections.execute_waf(conn, execution_time)
+    # sections.execute_lambda(conn, execution_time)
+    sections.execute_rds(conn, execution_time)
+    
     print("Finished running foundational security policy")
 
 def create_view(args):
