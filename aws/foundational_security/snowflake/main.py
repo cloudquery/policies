@@ -38,6 +38,7 @@ def run_policy(args):
     # sections.execute_ec2(conn, execution_time)
     # sections.execute_iam(conn, execution_time)
     sections.execute_lambda(conn, execution_time)
+    # sections.execute_redshift(conn, execution_time)
     # sections.execute_s3(conn, execution_time)
     # sections.execute_sagemaker(conn, execution_time)
     # sections.execute_secretsmanager(conn, execution_time)

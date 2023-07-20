@@ -1,6 +1,6 @@
 
 import datetime
-from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2, iam, awslambda, s3, sagemaker, secretmanager, sns, sqs, ssm, waf
+from queries import account, acm, apigateway, awsconfig, cloudfront, cloudtrail, codebuild, dms, dynamodb, ec2, iam, awslambda, redshift, s3, sagemaker, secretmanager, sns, sqs, ssm, waf
 from snowflake.connector import SnowflakeConnection
 import views
 
@@ -105,6 +105,21 @@ def execute_lambda(conn: SnowflakeConnection, execution_time: datetime.datetime)
     print("Running section: Lambda")
     print("Executing check lambda.2")
     conn.cursor().execute(awslambda.LAMBDA_FUNCTIONS_SHOULD_USE_SUPPORTED_RUNTIMES, (execution_time, FRAMEWORK, 'lambda.2'))
+
+def execute_redshift(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: Redshift")
+    print("Executing check Redshift.1")
+    conn.cursor().execute(redshift.CLUSTER_PUBLICLY_ACCESSIBLE, (execution_time, FRAMEWORK, 'Redshift.1'))
+    print("Executing check Redshift.2")
+    conn.cursor().execute(redshift.CLUSTERS_SHOULD_BE_ENCRYPTED_IN_TRANSIT, (execution_time, FRAMEWORK, 'Redshift.2'))
+    print("Executing check Redshift.3")
+    conn.cursor().execute(redshift.CLUSTERS_SHOULD_HAVE_AUTOMATIC_SNAPSHOTS_ENABLED, (execution_time, FRAMEWORK, 'Redshift.3'))
+    print("Executing check Redshift.4")
+    conn.cursor().execute(redshift.CLUSTERS_SHOULD_HAVE_AUDIT_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'Redshift.4'))
+    print("Executing check Redshift.6")
+    conn.cursor().execute(redshift.CLUSTERS_SHOULD_HAVE_AUTOMATIC_UPGRADES_TO_MAJOR_VERSIONS_ENABLED, (execution_time, FRAMEWORK, 'Redshift.6'))
+    print("Executing check Redshift.7")
+    conn.cursor().execute(redshift.CLUSTERS_SHOULD_USE_ENHANCED_VPC_ROUTING, (execution_time, FRAMEWORK, 'Redshift.7'))
 
 def execute_s3(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: S3")
