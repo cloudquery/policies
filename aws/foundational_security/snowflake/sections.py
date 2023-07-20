@@ -31,7 +31,6 @@ from queries import (
     rds,
 )
 from snowflake.connector import SnowflakeConnection
-import views
 
 FRAMEWORK = 'Foundational Security Policy'
 
@@ -106,8 +105,6 @@ def execute_dynamodb(conn: SnowflakeConnection, execution_time: datetime.datetim
 
 def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: EC2")
-    print("Creating view_aws_security_group_ingress_rules")
-    conn.cursor().execute(views.SECURITY_GROUP_INGRESS_RULES)
     print("Executing check EC2.1")
     conn.cursor().execute(ec2.EBS_SNAPSHOT_PERMISSIONS_CHECK, (execution_time, FRAMEWORK, 'EC2.1'))
     print("Executing check EC2.2")

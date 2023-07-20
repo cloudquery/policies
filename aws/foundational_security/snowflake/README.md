@@ -4,7 +4,7 @@
 
 ### CloudQuery Sync
 
-Make sure you synced your AWS metadata with CloudQuery [AWS source plugin](https://www.cloudquery.io/docs/plugins/sources/overview) and [Snowflake destinatio](https://www.cloudquery.io/docs/plugins/destinations/snowflake/overview).
+Make sure you synced your AWS metadata with CloudQuery [AWS source plugin](https://www.cloudquery.io/docs/plugins/sources/overview) and [Snowflake destination](https://www.cloudquery.io/docs/plugins/destinations/snowflake/overview).
 
 ### Run the policy
 
