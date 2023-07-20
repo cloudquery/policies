@@ -1,9 +1,9 @@
 LAMBDA_FUNCTIONS_SHOULD_USE_SUPPORTED_RUNTIMES = """
 INSERT INTO aws_policy_results
 SELECT
-    %s AS execution_time,
-    %s AS framework,
-    %s AS check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Lambda functions should use supported runtimes' AS title,
     f.account_id,
     f.arn AS resource_id,

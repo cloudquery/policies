@@ -2,9 +2,9 @@
 ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'S3 Block Public Access setting should be enabled' as title,
     aws_iam_accounts.account_id,
     aws_iam_accounts.account_id AS resource_id,
@@ -55,9 +55,9 @@ WITH policy_allow_public AS (
 )
 
 SELECT
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'S3 buckets should prohibit public read access' AS title,
     aws_s3_buckets.account_id,
     aws_s3_buckets.arn AS resource_id,
@@ -116,9 +116,9 @@ WITH policy_allow_public AS (
 )
 
 SELECT
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'S3 buckets should prohibit public write access' AS title,
     aws_s3_buckets.account_id,
     aws_s3_buckets.arn AS resource_id,
@@ -148,9 +148,9 @@ WHERE
 S3_SERVER_SIDE_ENCRYPTION_ENABLED = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'S3 buckets should have server-side encryption enabled' as title,
     aws_s3_buckets.account_id,
     arn as resource_id,
@@ -166,9 +166,9 @@ left join aws_s3_bucket_encryption_rules on aws_s3_bucket_encryption_rules.bucke
 DENY_HTTP_REQUESTS = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'S3 buckets should deny non-HTTPS requests' AS title,
     account_id,
     arn AS resource_id,
@@ -199,9 +199,9 @@ WHERE
 RESTRICT_CROSS_ACCOUNT_ACTIONS = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon S3 permissions granted to other AWS accounts in bucket policies should be restricted' AS title,
     account_id,
     arn AS resource_id,
@@ -249,11 +249,11 @@ LATERAL FLATTEN(INPUT => principals) AS p
 WHERE
     -- Any cross account principals (or unknown principals) get flagged
     (
-        p.VALUE::STRING NOT LIKE 'arn:aws:iam::' || account_id || ':%%'
+        p.VALUE::STRING NOT LIKE 'arn:aws:iam::' || account_id || ':%'
         OR p.VALUE::STRING = '*'
     )
     -- Any broad permissions or Deletes get flagged
-    AND (a.VALUE::STRING LIKE 's3:%%*'
+    AND (a.VALUE::STRING LIKE 's3:%*'
         OR a.VALUE::STRING LIKE 's3:DeleteObject')
 
 -- This will flag ALL canonical IDs as NOT COMPLIANT

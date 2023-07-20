@@ -2,9 +2,9 @@
 SQS_QUEUES_SHOULD_BE_ENCRYPTED_AT_REST = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon SQS queues should be encrypted at rest' as title,
     account_id,
     arn as resource_id,

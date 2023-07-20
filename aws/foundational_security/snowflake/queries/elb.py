@@ -1,9 +1,9 @@
 ELBV1_CERT_PROVIDED_BY_ACM = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Classic Load Balancers with SSL/HTTPS listeners should use a certificate provided by AWS Certificate Manager' as title,
   lb.account_id,
   lb.arn as resource_id,
@@ -20,9 +20,9 @@ left join aws_acm_certificates on aws_acm_certificates.arn = li.value:Listener:S
 ELBV1_HTTPS_OR_TLS = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Classic Load Balancer listeners should be configured with HTTPS or TLS termination' as title,
   lb.account_id,
   lb.arn as resource_id,
@@ -37,9 +37,9 @@ from aws_elbv1_load_balancers lb, lateral flatten(input => parse_json(lb.listene
 ALB_DROP_HTTP_HEADERS = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Application load balancers should be configured to drop HTTP headers' as title,
   lb.account_id,
   lb.arn as resource_id,
@@ -57,9 +57,9 @@ inner join
 ALB_LOGGING_ENABLED = """
 insert into aws_policy_results
 (select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Application and Classic Load Balancers logging should be enabled' as title,
   lb.account_id,
   lb.arn as resource_id,
@@ -75,9 +75,9 @@ insert into aws_policy_results
 union
 (
     select
-      %s as execution_time,
-      %s as framework,
-      %s as check_id,
+      :1 as execution_time,
+      :2 as framework,
+      :3 as check_id,
       'Application and Classic Load Balancers logging should be enabled' as title,
       account_id,
       arn as resource_id,
@@ -94,9 +94,9 @@ union
 ALB_DELETION_PROTECTION_ENABLED = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Application Load Balancer deletion protection should be enabled' as title,
   lb.account_id,
   lb.arn as resource_id,
@@ -114,9 +114,9 @@ from aws_elbv2_load_balancers lb
 ELBV1_CONN_DRAINING_ENABLED = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Classic Load Balancers should have connection draining enabled' as title,
   account_id,
   arn as resource_id,
@@ -132,9 +132,9 @@ from
 ELBV1_HTTPS_PREDEFINED_POLICY = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Classic Load Balancers with HTTPS/SSL listeners should use a predefined security policy that has strong configuration' as title,
   lb.account_id,
   lb.arn as resource_id,

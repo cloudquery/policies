@@ -2,9 +2,9 @@
 AUTOSCALE_OR_ONDEMAND = """
 INSERT INTO aws_policy_results
 SELECT
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'DynamoDB tables should automatically scale capacity with demand' as title,
     t.account_id,
     pr.arn as resource_id,
@@ -33,9 +33,9 @@ FROM aws_dynamodb_tables t
 POINT_IN_TIME_RECOVERY = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'DynamoDB tables should have point-in-time recovery enabled' as title,
     t.account_id,
     t.arn as resource_id,
@@ -51,9 +51,9 @@ FROM aws_dynamodb_tables t
 DAX_ENCRYPTED_AT_REST = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'DynamoDB Accelerator (DAX) clusters should be encrypted at rest' as title,
     account_id,
     arn as resource_id,

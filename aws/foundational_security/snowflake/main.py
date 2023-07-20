@@ -10,6 +10,7 @@ import views
 from dotenv import load_dotenv
 
 load_dotenv()  # take environment variables from .env.
+snowflake.connector.paramstyle='numeric'
 
 def get_connection():
     conn = snowflake.connector.connect(

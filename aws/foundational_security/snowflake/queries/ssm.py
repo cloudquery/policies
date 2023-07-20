@@ -2,9 +2,9 @@
 EC2_INSTANCES_SHOULD_BE_MANAGED_BY_SSM = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon EC2 instances should be managed by AWS Systems Manager' as title,
     aws_ec2_instances.account_id,
     aws_ec2_instances.arn as resource_id,
@@ -19,9 +19,9 @@ left outer join aws_ssm_instances on aws_ec2_instances.instance_id = aws_ssm_ins
 INSTANCES_SHOULD_HAVE_PATCH_COMPLIANCE_STATUS_OF_COMPLIANT = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon EC2 instances managed by Systems Manager should have a patch compliance status of COMPLIANT after a patch installation' as title,
     aws_ssm_instances.account_id,
     aws_ssm_instances.arn,
@@ -37,9 +37,9 @@ inner join aws_ssm_instance_compliance_items on aws_ssm_instances.arn = aws_ssm_
 INSTANCES_SHOULD_HAVE_ASSOCIATION_COMPLIANCE_STATUS_OF_COMPLIANT = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon EC2 instances managed by Systems Manager should have an association compliance status of COMPLIANT' as title,
     aws_ssm_instances.account_id,
     aws_ssm_instances.arn,
@@ -55,9 +55,9 @@ inner join aws_ssm_instance_compliance_items on aws_ssm_instances.arn = aws_ssm_
 DOCUMENTS_SHOULD_NOT_BE_PUBLIC = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'SSM documents should not be public' as title,
     account_id,
     arn as resource_id,

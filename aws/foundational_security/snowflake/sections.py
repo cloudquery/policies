@@ -47,7 +47,7 @@ def execute_acm(conn: SnowflakeConnection, execution_time: datetime.datetime):
 def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: apigateway")
     print("Running check: apigateway.1")
-    conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1', execution_time, FRAMEWORK, 'apigateway.1'))
+    conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1'))
 
 def execute_awsconfig(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: aws_config")
@@ -183,7 +183,7 @@ def execute_elb(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check elb.4")
     conn.cursor().execute(elb.ALB_DROP_HTTP_HEADERS, (execution_time, FRAMEWORK, 'elb.4'))
     print("Executing check elb.5")
-    conn.cursor().execute(elb.ALB_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'elb.5', execution_time, FRAMEWORK, 'ELB.5'))
+    conn.cursor().execute(elb.ALB_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'elb.5'))
     print("Executing check elb.6")
     conn.cursor().execute(elb.ALB_DELETION_PROTECTION_ENABLED, (execution_time, FRAMEWORK, 'elb.6'))
     print("Executing check elb.7")
@@ -204,7 +204,7 @@ def execute_emr(conn: SnowflakeConnection, execution_time: datetime.datetime):
 def execute_guardduty(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: guarddury")
     print("Executing check guarddury.1")
-    conn.cursor().execute(guardduty.DETECTOR_ENABLED, (execution_time, FRAMEWORK, 'guarddury.1', execution_time, FRAMEWORK, 'guarddury.1'))
+    conn.cursor().execute(guardduty.DETECTOR_ENABLED, (execution_time, FRAMEWORK, 'guarddury.1'))
 
 def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: iam")
@@ -312,7 +312,7 @@ def execute_rds(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check rds.3")
     conn.cursor().execute(rds.INSTANCES_SHOULD_HAVE_ECNRYPTION_AT_REST_ENABLED, (execution_time, FRAMEWORK, 'rds.3'))
     print("Executing check rds.4")
-    conn.cursor().execute(rds.CLUSTER_SNAPSHOTS_AND_DATABASE_SNAPSHOTS_SHOULD_BE_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'rds.4', execution_time, FRAMEWORK, 'rds.4'))
+    conn.cursor().execute(rds.CLUSTER_SNAPSHOTS_AND_DATABASE_SNAPSHOTS_SHOULD_BE_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'rds.4'))
     print("Executing check rds.5")
     conn.cursor().execute(rds.INSTANCES_SHOULD_BE_CONFIGURED_WITH_MULTIPLE_AZS, (execution_time, FRAMEWORK, 'rds.5'))
     print("Executing check rds.6")
@@ -342,4 +342,4 @@ def execute_rds(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check rds.19")
     conn.cursor().execute(rds.INSTANCES_SHOULD_BE_DEPLOYED_IN_A_VPC, (execution_time, FRAMEWORK, 'rds.18'))
     print("Executing check rds.23")
-    conn.cursor().execute(rds.DATABASES_AND_CLUSTERS_SHOULD_NOT_USE_DATABASE_ENGINE_DEFAULT_PORT, (execution_time, FRAMEWORK, 'rds.23', execution_time, FRAMEWORK, 'rds.23'))
+    conn.cursor().execute(rds.DATABASES_AND_CLUSTERS_SHOULD_NOT_USE_DATABASE_ENGINE_DEFAULT_PORT, (execution_time, FRAMEWORK, 'rds.23'))

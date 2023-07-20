@@ -3,9 +3,9 @@ SECURITYHUB_ENABLED = """
 insert into aws_policy_results
 with enabled_securityhub_regions as (select account_id, region from aws_securityhub_hubs)
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'SecurityHub should be enabled' AS title,
     r.account_id,
     r.region AS resource_id,

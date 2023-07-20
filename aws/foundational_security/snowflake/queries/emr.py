@@ -1,9 +1,9 @@
 EMR_CLUSTER_MASTER_NODES_SHOULD_NOT_HAVE_PUBLIC_IP_ADDRESSES = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'EMR clusters should not have public IP addresses' as title,
     aws_emr_clusters.account_id,
     aws_emr_clusters.arn as resource_id,

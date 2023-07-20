@@ -2,9 +2,9 @@
 CLUSTER_PUBLICLY_ACCESSIBLE = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon Redshift clusters should prohibit public access' as title,
     account_id,
     arn AS resource_id,
@@ -15,9 +15,9 @@ from aws_redshift_clusters
 CLUSTERS_SHOULD_BE_ENCRYPTED_IN_TRANSIT = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Connections to Amazon Redshift clusters should be encrypted in transit' as title,
     account_id,
     arn as resource_id,
@@ -46,9 +46,9 @@ where exists(select 1
 CLUSTERS_SHOULD_HAVE_AUTOMATIC_SNAPSHOTS_ENABLED = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon Redshift clusters should have automatic snapshots enabled' as title,
     account_id,
     arn as resource_id,
@@ -61,9 +61,9 @@ from aws_redshift_clusters
 CLUSTERS_SHOULD_HAVE_AUDIT_LOGGING_ENABLED = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon Redshift clusters should have audit logging enabled' AS title,
     account_id,
     arn AS resource_id,
@@ -76,9 +76,9 @@ FROM aws_redshift_clusters
 CLUSTERS_SHOULD_HAVE_AUTOMATIC_UPGRADES_TO_MAJOR_VERSIONS_ENABLED = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon Redshift should have automatic upgrades to major versions enabled' as title,
     account_id,
     arn as resource_id,
@@ -91,9 +91,9 @@ from aws_redshift_clusters
 CLUSTERS_SHOULD_USE_ENHANCED_VPC_ROUTING = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon Redshift clusters should use enhanced VPC routing' as title,
     account_id,
     arn as resource_id,

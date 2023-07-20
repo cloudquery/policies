@@ -10,9 +10,9 @@ WITH snapshot_access_groups AS (
     FROM aws_ec2_ebs_snapshot_attributes, lateral flatten(input => parse_json(aws_ec2_ebs_snapshot_attributes.create_volume_permissions)) as create_volume_permissions
 )
 SELECT DISTINCT
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Amazon EBS snapshots should not be public, determined by the ability to be restorable by anyone' as title,
   account_id,
   snapshot_id as resource_id,
@@ -30,9 +30,9 @@ FROM snapshot_access_groups
 DEFAULT_SG_NO_ACCESS = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'The VPC default security group should not allow inbound and outbound traffic' AS title,
   account_id,
   arn,
@@ -49,9 +49,9 @@ FROM
 UNENCRYPTED_EBS_VOLUMES = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Attached EBS volumes should be encrypted at rest' as title,
     account_id,
     arn as resource_id,
@@ -66,9 +66,9 @@ from aws_ec2_ebs_volumes;
 STOPPED_MORE_THAN_30_DAYS_AGO_INSTANCES = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Stopped EC2 instances should be removed after a specified time period' as title,
   account_id,
   instance_id as resource_id,
@@ -84,9 +84,9 @@ from aws_ec2_instances;
 FLOW_LOGS_ENABLED_IN_ALL_VPCS = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'VPC flow logging should be enabled in all VPCs' as title,
   aws_ec2_vpcs.account_id,
   aws_ec2_vpcs.arn,
@@ -103,9 +103,9 @@ left join aws_ec2_flow_logs on
 EBS_ENCRYPTION_BY_DEFAULT_DISABLED = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'EBS default encryption should be enabled' as title,
   account_id,
   concat(account_id,':',region) as resource_id,
@@ -120,9 +120,9 @@ from aws_ec2_regional_configs
 NOT_IMDSV2_INSTANCES = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'EC2 instances should use IMDSv2' as title,
   account_id,
   instance_id as resource_id,
@@ -137,9 +137,9 @@ from aws_ec2_instances
 INSTANCES_WITH_PUBLIC_IP = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'EC2 instances should not have a public IP address' as title,
     account_id,
     instance_id as resource_id,
@@ -163,9 +163,9 @@ with endpoints as (
 )
 
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Amazon EC2 should be configured to use VPC endpoints that are created for the Amazon EC2 service' as title,
     account_id,
     vpc_id as resource_id,
@@ -182,9 +182,9 @@ left join endpoints
 SUBNETS_THAT_ASSIGN_PUBLIC_IPS = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'EC2 subnets should not automatically assign public IP addresses' as title,
     owner_id as account_id,
     arn as resource_id,
@@ -211,9 +211,9 @@ from aws_ec2_network_acls, lateral flatten(input => parse_json(aws_ec2_network_a
 )
 
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Unused network access control lists should be removed' as title,
     account_id,
     resource_id,
@@ -229,9 +229,9 @@ with data as (
     group by account_id, instance_id
 )
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'EC2 instances should not use multiple ENIs' as title,
     account_id,
     instance_id as resource_id,
@@ -243,9 +243,9 @@ SECURITY_GROUPS_WITH_ACCESS_TO_UNAUTHORIZED_PORTS = """
 -- uses view which uses aws_security_group_ingress_rules.sql query
 insert into aws_policy_results
 SELECT
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Aggregates rules of security groups with ports and IPs including ipv6' as title,
   account_id,
   id as resource_id,
@@ -266,9 +266,9 @@ SECURITY_GROUPS_WITH_OPEN_CRITICAL_PORTS = """
 -- uses view which uses aws_security_group_ingress_rules.sql query
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Security groups should not allow unrestricted access to ports with high risk' as title,
     account_id,
     id as resource_id,
