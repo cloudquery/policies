@@ -24,7 +24,7 @@ def get_connection():
     return conn
 
 def run_policy(args):
-    print("Running foundational Security Policy")
+    print("Running foundational security policy")
     conn = get_connection()
     execution_time = datetime.datetime.now()
     sections.execute_account(conn, execution_time)
