@@ -3,9 +3,9 @@ WAF_WEB_ACL_LOGGING_SHOULD_BE_ENABLED = """
 insert into aws_policy_results
 -- WAF Classic
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'AWS WAF Classic global web ACL logging should be enabled' as title,
     account_id,
     arn as resource_id,

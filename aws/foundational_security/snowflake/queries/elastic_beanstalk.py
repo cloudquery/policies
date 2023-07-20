@@ -1,9 +1,9 @@
 ADVANCED_HEALTH_REPORTING_ENABLED = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'Elastic Beanstalk environments should have enhanced health reporting enabled' as title,
     account_id,
     arn as resource_id,
@@ -19,9 +19,9 @@ from aws_elasticbeanstalk_environments
 ELASTIC_BEANSTALK_MANAGED_UPDATES_ENABLED = """
 insert into aws_policy_results
 SELECT
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Elastic Beanstalk managed platform updates should be enabled' as title,
   account_id,
   application_arn as resource_id,

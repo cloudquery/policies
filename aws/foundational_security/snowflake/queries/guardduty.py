@@ -8,9 +8,9 @@ with enabled_detector_regions as (
 )
 
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'GuardDuty should be enabled' AS title,
     r.account_id,
     r.region AS resource_id,
@@ -22,9 +22,9 @@ left join enabled_detector_regions e on e.region = r.region AND e.account_id = r
 union
 -- Add any detector that is enabled but all data sources are disabled
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'GuardDuty should be enabled (detectors)' AS title,
     account_id,
     region AS resource_id,

@@ -2,9 +2,9 @@
 API_GW_EXECUTION_LOGGING_ENABLED = """
 insert into aws_policy_results
 (select distinct
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'API Gateway REST and WebSocket API logging should be enabled' as title,
     r.account_id,
     'arn:' || 'aws' || ':apigateway:' || r.region || ':/restapis/' || r.id as resource_id,
@@ -21,9 +21,9 @@ left join
 union
 
 (select distinct
-     %s as execution_time,
-     %s as framework,
-     %s as check_id,
+     :1 as execution_time,
+     :2 as framework,
+     :3 as check_id,
      'API Gateway REST and WebSocket API logging should be enabled' as title,
      a.account_id,
      'arn:' || 'aws' || ':apigateway:' || a.region || ':/apis/' || a.id as resource_id,

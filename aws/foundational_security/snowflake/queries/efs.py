@@ -1,9 +1,9 @@
 UNENCRYPTED_EFS_FILESYSTEMS = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Amazon EFS should be configured to encrypt file data at rest using AWS KMS' as title,
   account_id,
   arn as resource_id,
@@ -19,9 +19,9 @@ from aws_efs_filesystems
 EFS_FILESYSTEMS_WITH_DISABLED_BACKUPS = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Amazon EFS volumes should be in backup plans' as title,
   account_id,
   arn as resource_id,

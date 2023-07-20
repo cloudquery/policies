@@ -2,9 +2,9 @@
 DEFAULT_ROOT_OBJECT_CONFIGURED = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'CloudFront distributions should have a default root object configured' as title,
     account_id,
     arn as resource_id,
@@ -18,14 +18,14 @@ from aws_cloudfront_distributions
 ORIGIN_ACCESS_IDENTITY_ENABLED = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'CloudFront distributions should have origin access identity enabled' as title,
     account_id,
     arn as resource_id,
     CASE
-        WHEN o.value:DomainName::STRING LIKE '%%s3.amazonaws.com' AND o.value:S3OriginConfig:OriginAccessIdentity::STRING = '' THEN 'fail'
+        WHEN o.value:DomainName::STRING LIKE '%s3.amazonaws.com' AND o.value:S3OriginConfig:OriginAccessIdentity::STRING = '' THEN 'fail'
         ELSE 'pass'
     END AS status
 from aws_cloudfront_distributions, LATERAL FLATTEN(input => distribution_config:Origins:Items) o
@@ -49,9 +49,9 @@ WITH cachebeviors AS (
     WHERE CacheBehavior:ViewerProtocolPolicy::STRING = 'allow-all'
 )
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'CloudFront distributions should require encryption in transit' as title,
     account_id,
     arn as resource_id,
@@ -76,9 +76,9 @@ from aws_cloudfront_distributions acd
     left join origin_groups o on o.arn = acd.arn
 )
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'CloudFront distributions should have origin failover configured' as title,
     account_id,
     resource_id,
@@ -89,9 +89,9 @@ from oids
 ACCESS_LOGS_ENABLED = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'CloudFront distributions should have logging enabled' as title,
     account_id,
     arn as resource_id,
@@ -105,9 +105,9 @@ from aws_cloudfront_distributions
 ASSOCIATED_WITH_WAF = """
 insert into aws_policy_results
 select
-    %s as execution_time,
-    %s as framework,
-    %s as check_id,
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
     'API Gateway should be associated with an AWS WAF web ACL' as title,
     account_id,
     arn as resource_id,

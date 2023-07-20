@@ -1,9 +1,9 @@
 ELBV2_REDIRECT_HTTP_TO_HTTPS = """
 insert into aws_policy_results
 select
-  %s as execution_time,
-  %s as framework,
-  %s as check_id,
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
   'Application Load Balancer should be configured to redirect all HTTP requests to HTTPS' as title,
   account_id,
   arn as resource_id,
