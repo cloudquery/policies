@@ -43,6 +43,8 @@ def execute_acm(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: acm")
     print("Running check: acm.1")
     conn.cursor().execute(acm.CERTIFICATES_SHOULD_BE_RENEWED, (execution_time, FRAMEWORK, 'acm.1'))
+    print("Running check: acm.2")
+    conn.cursor().execute(acm.RSA_CERTIFICATE_KEY_LENGTH_SHOULD_BE_MORE_THAN_2048_BITS, (execution_time, FRAMEWORK, 'acm.2'))
 
 def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: apigateway")
