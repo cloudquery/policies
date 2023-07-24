@@ -27,10 +27,7 @@ select
   'rsa certificate key length is less than 2048 bits' as title,
   account_id,
   arn AS resource_id,
-  case when
-    left(key_algorithm, 3) = 'RSA' and split_part(key_algorithm, '-', 2)::INTEGER < 2048
-    then 'fail'
-    else 'pass'
-  end as status
+  'fail' AS status
 FROM aws_acm_certificates
+WHERE key_algorithm IN ('RSA-1024', 'RSA 1024')
 """
