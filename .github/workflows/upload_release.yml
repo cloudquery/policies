@@ -1,4 +1,4 @@
-name: Main
+name: Upload Policies Zip
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - "*-v*.*.*"
 
 jobs:
-  build:
+  upload:
     runs-on: ubuntu-latest
     steps:
       - name: Split tag
@@ -14,7 +14,7 @@ jobs:
         run: |
           tag=${{ github.ref_name }}
           policies_dir=${tag%-*}
-          policies_dir=${plugin_dir//[-]//}
+          policies_dir=${policies_dir//[-]//}
           echo "policies_dir=${policies_dir}" >> $GITHUB_OUTPUT
       - name: Checkout
         uses: actions/checkout@v3
