@@ -1,20 +1,30 @@
 ELBV1_CERT_PROVIDED_BY_ACM = """
 insert into aws_policy_results
+with listeners as (
+  select
+      lb.account_id as account_id,
+      lb.arn as resource_id,
+      li.value:Listener:Protocol as protocol,
+      li.value:Listener:SSLCertificateId as ssl_certificate_id
+  from
+      aws_elbv1_load_balancers lb,
+      lateral flatten(input => parse_json(lb.listener_descriptions), outer => TRUE) as li
+)
+
 select
   :1 as execution_time,
   :2 as framework,
   :3 as check_id,
   'Classic Load Balancers with SSL/HTTPS listeners should use a certificate provided by AWS Certificate Manager' as title,
-  lb.account_id,
-  lb.arn as resource_id,
+  listeners.account_id,
+  listeners.resource_id,
   case when
-    li.value:Listener:Protocol = 'HTTPS' and aws_acm_certificates.arn is null
+    listeners.protocol = 'HTTPS' and aws_acm_certificates.arn is null
     then 'fail'
     else 'pass'
   end as status
-from aws_elbv1_load_balancers lb,
-table(flatten(input => parse_json(lb.listener_descriptions), outer => TRUE)) as li
-left join aws_acm_certificates on aws_acm_certificates.arn = li.value:Listener:SSLCertificateId
+from listeners
+left join aws_acm_certificates on aws_acm_certificates.arn = listeners.ssl_certificate_id
 """
 
 ELBV1_HTTPS_OR_TLS = """
