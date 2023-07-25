@@ -1,0 +1,27 @@
+name: Main
+
+on:
+  push:
+    tags:
+      - "*-v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Split tag
+        id: split
+        run: |
+          tag=${{ github.ref_name }}
+          policies_dir=${tag%-*}
+          policies_dir=${plugin_dir//[-]//}
+          echo "policies_dir=${policies_dir}" >> $GITHUB_OUTPUT
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Zip policies
+        run: |
+          zip -r policies.zip ./${{ steps.split.outputs.policies_dir }}
+      - name: Upload Release Artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload ${{ github.ref_name }} ./policies.zip
