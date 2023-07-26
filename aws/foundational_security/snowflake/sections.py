@@ -135,6 +135,14 @@ def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(ec2.SECURITY_GROUPS_WITH_ACCESS_TO_UNAUTHORIZED_PORTS, (execution_time, FRAMEWORK, 'ec2.18'))
     print("Executing check ec2.19")
     conn.cursor().execute(ec2.SECURITY_GROUPS_WITH_OPEN_CRITICAL_PORTS, (execution_time, FRAMEWORK, 'ec2.19'))
+    print("Executing check ec2.22")
+    conn.cursor().execute(ec2.SECURITY_GROUPS_NOT_ASSOCIATED, (execution_time, FRAMEWORK, 'ec2.22'))
+    print("Executing check ec2.23")
+    conn.cursor().execute(ec2.TRANSIT_GATEWAYS_SHOULD_NOT_AUTO_ACCEPT_VPC_ATTACHMENTS, (execution_time, FRAMEWORK, 'ec2.23'))
+    print("Executing check ec2.24")
+    conn.cursor().execute(ec2.PARAVIRTUAL_INSTANCES_SHOULD_NOT_BE_USED, (execution_time, FRAMEWORK, 'ec2.24'))
+    print("Executing check ec2.25")
+    conn.cursor().execute(ec2.LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP, (execution_time, FRAMEWORK, 'ec2.25'))
 
 def execute_ecs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: ecs")

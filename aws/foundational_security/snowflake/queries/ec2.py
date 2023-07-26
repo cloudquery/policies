@@ -304,3 +304,114 @@ select
     end
 from view_aws_security_group_ingress_rules
 """
+
+SECURITY_GROUPS_NOT_ASSOCIATED ="""
+insert into aws_policy_results
+WITH used_security_groups AS (
+    -- Security groups associated with EC2 instances
+    SELECT sg.value:GroupId::text as security_group_id
+      FROM aws_ec2_instances
+      JOIN LATERAL FLATTEN(input => security_groups) as sg
+    UNION
+    -- Security groups associated with network interfaces
+      SELECT sg.value:GroupId::text as security_group_id
+      FROM aws_ec2_network_interfaces
+      JOIN LATERAL FLATTEN(input => groups) as sg
+)
+SELECT 
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
+  'Unused Amazon EC2 security groups should be removed' as title,
+   account_id,
+   arn as resource_id,
+CASE
+when group_id IN (SELECT DISTINCT security_group_id FROM used_security_groups) THEN 'pass'
+ELSE 'fail'
+END as status
+FROM aws_ec2_security_groups
+"""
+
+TRANSIT_GATEWAYS_SHOULD_NOT_AUTO_ACCEPT_VPC_ATTACHMENTS = """
+insert into aws_policy_results
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Amazon EC2 Transit Gateways should not automatically accept VPC attachment requests' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+    WHEN options:AutoAcceptSharedAttachments = 'enable' THEN 'fail'
+    ELSE 'pass'
+    END as status
+FROM aws_ec2_transit_gateways
+"""
+
+PARAVIRTUAL_INSTANCES_SHOULD_NOT_BE_USED = """
+insert into aws_policy_results
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Amazon EC2 paravirtual instance types should not be used' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+    WHEN virtualization_type = 'paravirtual' THEN 'fail'
+    ELSE 'pass'
+    END as status
+FROM aws_ec2_instances
+"""
+
+LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP = """
+WITH FlattenedData AS (
+    SELECT
+        account_id,
+        arn,
+        flat_interfaces.value as interface
+    FROM
+        aws_ec2_launch_template_versions
+   JOIN LATERAL FLATTEN(input => launch_template_data:networkInterfaceSet) as flat_interfaces
+)
+
+SELECT
+    DISTINCT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Amazon EC2 launch templates should not assign public IPs to network interfaces' as title,
+    FlattenedData.account_id,
+    FlattenedData.arn as resource_id,
+    CASE
+    WHEN association:publicIp is not null
+        OR interface:associatePublicIpAddress::BOOLEAN = TRUE THEN 'fail'
+    ELSE 'pass'
+    END as status 
+FROM
+    FlattenedData
+LEFT JOIN
+    aws_ec2_network_interfaces
+        ON interface:networkInterfaceId = aws_ec2_network_interfaces.network_interface_id;
+"""
+
+####### A slightly more optimized version of LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP
+# SELECT DISTINCT
+#     :1 as execution_time,
+#     :2 as framework,
+#     :3 as check_id,
+#     aws_ec2_launch_template_versions.account_id,
+#     aws_ec2_launch_template_versions.arn as resource_id,
+#     CASE
+#     WHEN association:publicIp is not null
+#     OR flat_interfaces.value:associatePublicIpAddress::BOOLEAN = TRUE THEN 'fail'
+#     ELSE 'pass'
+#     END as status 
+
+
+# FROM
+#     aws_ec2_launch_template_versions
+# JOIN LATERAL FLATTEN(input => launch_template_data:networkInterfaceSet) as flat_interfaces
+# LEFT JOIN
+#   aws_ec2_network_interfaces
+#       ON flat_interfaces.value:networkInterfaceId = aws_ec2_network_interfaces.network_interface_id;
