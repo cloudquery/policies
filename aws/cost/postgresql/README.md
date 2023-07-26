@@ -4,7 +4,7 @@
 
 ### CloudQuery Sync
 
-Make sure you synced your AWS metadata with CloudQuery [AWS source plugin](https://www.cloudquery.io/docs/plugins/sources/overview), Cost and Usage data with the file plugin, and [PostgreSQL destination](https://www.cloudquery.io/docs/plugins/destinations/postgresql/overview).
+Make sure you synced your AWS metadata with CloudQuery [AWS source plugin](https://www.cloudquery.io/docs/plugins/sources/overview), Cost and Usage data with the [file plugin](https://github.com/cloudquery/plugins-premium/tree/main/plugins/file), and [PostgreSQL destination](https://www.cloudquery.io/docs/plugins/destinations/postgresql/overview).
 
 ### Run the policy
 
