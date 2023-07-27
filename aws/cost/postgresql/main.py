@@ -22,6 +22,7 @@ def create_views(args):
     conn = get_connection()
     executeQuery(conn, cost.RESOURCES_BY_COST, args.table)
     executeQuery(conn, cost.REGIONS_BY_COST, args.table)
+    executeQuery(conn, cost.COST_OVER_TIME, args.table)
     executeQuery(conn, cost.GCP2_EBS_VOLUMES, args.table)
     conn.commit()
 
