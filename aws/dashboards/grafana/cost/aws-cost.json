@@ -147,7 +147,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT\n  product_location,\n  sum(line_item_blended_cost) AS cost\nFROM ${cost_table}\nWHERE line_item_resource_id !='' and product_location_type = 'AWS Region' and product_location != 'Any'\nGROUP BY product_location\nHAVING sum(line_item_blended_cost) > 0\nORDER BY cost DESC;",
+          "rawSql": "SELECT\n  product_location,\n  sum(line_item_blended_cost) AS cost\nFROM ${cost_table}\nWHERE line_item_resource_id !='' and product_location_type = 'AWS Region' and product_location != 'Any' and line_item_currency_code = 'USD'\nGROUP BY product_location\nHAVING sum(line_item_blended_cost) > 0\nORDER BY cost DESC;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -168,7 +168,7 @@
           }
         }
       ],
-      "title": "Cost By Region",
+      "title": "$ Cost By Region",
       "type": "piechart"
     },
     {
@@ -227,7 +227,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\n  line_item_product_code,\n  sum(line_item_blended_cost) AS cost\nFROM ${cost_table}\nWHERE line_item_resource_id !=''\nGROUP BY line_item_product_code\nHAVING sum(line_item_blended_cost) > 0\nORDER BY cost DESC;",
+          "rawSql": "SELECT\n  line_item_product_code,\n  sum(line_item_blended_cost) AS cost\nFROM ${cost_table}\nWHERE line_item_resource_id !='' and line_item_currency_code = 'USD'\nGROUP BY line_item_product_code\nHAVING sum(line_item_blended_cost) > 0\nORDER BY cost DESC;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -248,7 +248,7 @@
           }
         }
       ],
-      "title": "Cost By Service",
+      "title": "$ Cost By Service",
       "type": "piechart"
     },
     {
@@ -304,7 +304,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "currencyUSD"
         },
         "overrides": []
       },
@@ -320,8 +321,9 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
+        "timezone": ["utc"],
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -357,7 +359,7 @@
           }
         }
       ],
-      "title": "Cost over time",
+      "title": "$ Cost over time",
       "type": "timeseries"
     }
   ],
@@ -396,6 +398,6 @@
   "timezone": "",
   "title": "AWS Cost",
   "uid": "f5f34498-78f3-49ff-ba4c-c52c7cadcbc3",
-  "version": 8,
+  "version": 9,
   "weekStart": ""
 }
