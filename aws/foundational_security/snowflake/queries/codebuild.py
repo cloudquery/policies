@@ -72,7 +72,7 @@ select
     CASE
     WHEN logs_config:S3Logs:status::text = 'ENABLED' then 'pass'
     WHEN logs_config:CloudWatchLogs:status::text = 'ENABLED' then 'pass'
-    ELSE 'else'
+    ELSE 'fail'
     END as status
 from aws_codebuild_projects
 """
