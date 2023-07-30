@@ -87,7 +87,7 @@ select
     account_id,
     arn as resource_id,
     CASE
-    WHEN logs_config:environment:PrivilegedMode:boolean then 'fail'
+    WHEN logs_config:environment:PrivilegedMode::boolean then 'fail'
     ELSE 'pass'
     END as status
 from aws_codebuild_projects
