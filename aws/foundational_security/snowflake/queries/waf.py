@@ -46,5 +46,5 @@ SELECT
 	ELSE 'pass'
 	END AS rule_status
 FROM
-  aws_waf_web_acls;
+  aws_wafregional_web_acls;
 """
