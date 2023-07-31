@@ -19,6 +19,8 @@ FROM aws_iam_accounts
 LEFT JOIN (
   SELECT * FROM aws_account_alternate_contacts
   WHERE 'alternate_contact_type' = 'SECURITY'
+  AND $where$
 ) AS account_security_contacts
 ON 'aws_iam_accounts.account_id' = 'account_security_contacts.account_id'
+WHERE $where:aws_iam_accounts$
 """

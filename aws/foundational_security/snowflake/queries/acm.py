@@ -15,7 +15,7 @@ select
     then 'fail'
     else 'pass'
   end as status
-FROM aws_acm_certificates
+FROM aws_acm_certificates WHERE $where$
 """
 
 RSA_CERTIFICATE_KEY_LENGTH_SHOULD_BE_MORE_THAN_2048_BITS = """
@@ -33,5 +33,5 @@ select
   ELSE 'pass'
   END AS status
 FROM aws_acm_certificates
-WHERE left(key_algorithm, 3) = 'RSA'
+WHERE $where$ AND LEFT(key_algorithm, 3) = 'RSA'
 """
