@@ -144,7 +144,18 @@ def execute_ecs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(ecs.ECS_SERVICES_WITH_PUBLIC_IPS, (execution_time, FRAMEWORK, 'ecs.2'))
     print("Executing check ecs.3")
     conn.cursor().execute(ecs.TASK_DEFINITIONS_SHOULD_NOT_SHARE_HOST_NAMESPACE, (execution_time, FRAMEWORK, 'ecs.3'))
-
+    print("Executing check ecs.4")
+    conn.cursor().execute(ecs.CONTAINERS_SHOULD_RUN_AS_NON_PRIVILEGED, (execution_time, FRAMEWORK, 'ecs.4'))
+    print("Executing check ecs.5")
+    conn.cursor().execute(ecs.CONTAINERS_LIMITED_READ_ONLY_ROOT_FILESYSTEMS, (execution_time, FRAMEWORK, 'ecs.5'))
+    print("Executing check ecs.8")
+    conn.cursor().execute(ecs.SECRETS_SHOULD_NOT_BE_IN_ENVIRONMENT_VARIABLES, (execution_time, FRAMEWORK, 'ecs.8'))
+    print("Executing check ecs.10")
+    conn.cursor().execute(ecs.FARGATE_SHOULD_RUN_ON_LATEST_VERSION, (execution_time, FRAMEWORK, 'ecs.10'))
+    print("Executing check ecs.12")
+    conn.cursor().execute(ecs.CLUSTERS_SHOULD_USE_CONTAINER_INSIGHTS, (execution_time, FRAMEWORK, 'ecs.12'))
+    
+    
 def execute_efs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: efs")
     print("Executing check efs.1")
