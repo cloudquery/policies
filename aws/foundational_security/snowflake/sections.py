@@ -311,6 +311,8 @@ def execute_waf(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(waf.wafv2_webacl_not_empty, (execution_time, FRAMEWORK, 'waf.10'))
     print("Executing check waf.8")
     conn.cursor().execute(waf.waf_global_webacl_not_empty, (execution_time, FRAMEWORK, 'waf.08'))
+    print("Executing check waf.7")
+    conn.cursor().execute(waf.waf_global_rulegroup_not_empty, (execution_time, FRAMEWORK, 'waf.07'))
 def execute_rds(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: rds")
     print("Executing check rds.2")
