@@ -365,6 +365,7 @@ FROM aws_ec2_instances
 """
 
 LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP = """
+insert into aws_policy_results
 WITH FlattenedData AS (
     SELECT
         account_id,
@@ -373,6 +374,7 @@ WITH FlattenedData AS (
     FROM
         aws_ec2_launch_template_versions
    JOIN LATERAL FLATTEN(input => launch_template_data:networkInterfaceSet) as flat_interfaces
+   WHERE default_version
 )
 
 SELECT
