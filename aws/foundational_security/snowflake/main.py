@@ -34,7 +34,6 @@ def run_policy(args):
     execution_time = datetime.datetime.now()
     sections.execute_account(conn, execution_time, where_stmt)
     sections.execute_acm(conn, execution_time, where_stmt)
-    return
     sections.execute_apigateway(conn, execution_time, where_stmt)
     sections.execute_awsconfig(conn, execution_time, where_stmt)
     sections.execute_cloudfront(conn, execution_time, where_stmt)
