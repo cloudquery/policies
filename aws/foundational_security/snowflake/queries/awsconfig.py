@@ -15,4 +15,5 @@ select
     END AS status
 FROM
     aws_config_configuration_recorders
+WHERE $where$
 """

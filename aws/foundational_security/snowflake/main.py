@@ -65,7 +65,7 @@ def run_policy(args):
     print("Finished running foundational security policy")
 
 def create_view(args):
-    print("Creating policy results view")
+    print("Creating policy results and required views")
     conn = get_connection()
     conn.cursor().execute(views.CREATE_AWS_POLICY_RESULTS)
     conn.cursor().execute(views.API_GATEWAY_METHOD_SETTINGS)
@@ -80,7 +80,7 @@ def main():
     parser_run_policy.set_defaults(func=run_policy)
     parser_run_policy.add_argument('--where', help='Optional WHERE statement', default=None)
 
-    parser_create_view = subparsers.add_parser('create-view', help='create policy results view')
+    parser_create_view = subparsers.add_parser('create-view', help='create required views and policy results table')
     parser_create_view.set_defaults(func=create_view)
     if len(sys.argv[1:]) == 0:
         parser.print_help()

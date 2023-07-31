@@ -21,6 +21,8 @@ inner join
         aws_cloudtrail_trails.arn = aws_cloudtrail_trail_event_selectors.trail_arn
         and aws_cloudtrail_trails.region = aws_cloudtrail_trail_event_selectors.region
         and aws_cloudtrail_trails.account_id = aws_cloudtrail_trail_event_selectors.account_id
+        and $where:aws_cloudtrail_trail_event_selectors$
+where $where:aws_cloudtrail_trails$
 """
 
 LOGS_ENCRYPTED = """
@@ -37,6 +39,7 @@ select
         else 'pass'
     end as status
 FROM aws_cloudtrail_trails
+WHERE $where$
 """
 
 LOGS_FILE_VALIDATION_ENABLED = """
@@ -53,6 +56,7 @@ select
       else 'pass'
     end as status
 from aws_cloudtrail_trails
+where $where$
 """
 
 INTEGRATED_WITH_CLOUDWATCH_LOGS = """
@@ -71,4 +75,5 @@ SELECT
     ELSE 'pass'
   END as status
 FROM aws_cloudtrail_trails
+WHERE $where$
 """

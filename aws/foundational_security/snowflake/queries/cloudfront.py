@@ -13,6 +13,7 @@ select
         ELSE 'pass'
     END AS status
 from aws_cloudfront_distributions
+where $where$
 """
 
 ORIGIN_ACCESS_IDENTITY_ENABLED = """
@@ -29,6 +30,7 @@ select
         ELSE 'pass'
     END AS status
 from aws_cloudfront_distributions, LATERAL FLATTEN(input => distribution_config:Origins:Items) o
+where $where:aws_cloudfront_distributions$
 """
 
 VIEWER_POLICY_HTTPS = """
@@ -40,11 +42,12 @@ WITH cachebeviors AS (
         SELECT arn, account_id, d.value AS CacheBehavior 
         FROM aws_cloudfront_distributions, 
         LATERAL FLATTEN(input => distribution_config:CacheBehaviors:Items) AS d 
-        WHERE distribution_config:CacheBehaviors:Items IS NOT NULL
+        WHERE distribution_config:CacheBehaviors:Items IS NOT NULL AND $where:aws_cloudfront_distributions$
         UNION 
         -- Handle default Cachebehaviors
         SELECT arn, account_id, distribution_config:DefaultCacheBehavior AS CacheBehavior 
         FROM aws_cloudfront_distributions
+        WHERE $where:aws_cloudfront_distributions$
     ) AS cachebeviors 
     WHERE CacheBehavior:ViewerProtocolPolicy::STRING = 'allow-all'
 )
@@ -74,6 +77,7 @@ select distinct
     end as status
 from aws_cloudfront_distributions acd
     left join origin_groups o on o.arn = acd.arn
+where $where:acd$
 )
 select
     :1 as execution_time,
@@ -100,6 +104,7 @@ select
         else 'pass'
     end as status
 from aws_cloudfront_distributions
+where $where$
 """
 
 ASSOCIATED_WITH_WAF = """
@@ -116,4 +121,5 @@ select
         else 'pass'
     end as status
 from aws_cloudfront_distributions
+where $where$
 """

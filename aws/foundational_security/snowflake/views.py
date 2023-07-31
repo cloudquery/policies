@@ -39,6 +39,7 @@ SELECT
     s.cache_cluster_enabled AS stage_caching_enabled,
     s.web_acl_arn AS waf,
     s.client_certificate_id AS cert,
+    s._cq_sync_time,
     key AS method,
     CASE WHEN PARSE_JSON(value):DataTraceEnabled::STRING = 'true' THEN 1 ELSE 0 END AS data_trace_enabled,
     CASE WHEN PARSE_JSON(value):CachingEnabled::STRING = 'true' THEN 1 ELSE 0 END AS caching_enabled,

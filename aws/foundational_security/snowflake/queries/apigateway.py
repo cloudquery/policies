@@ -16,6 +16,7 @@ from
     view_aws_apigateway_method_settings s
 left join
     aws_apigateway_rest_apis r on s.rest_api_arn = r.arn
+where $where:s$
 )
 
 union
@@ -35,5 +36,6 @@ from
     aws_apigatewayv2_api_stages s
 left join
     aws_apigatewayv2_apis a on s.api_arn = a.arn
+where $where:s$
 )
 """

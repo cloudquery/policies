@@ -20,6 +20,7 @@ SELECT DISTINCT
   END as status
 FROM aws_codebuild_projects, 
 LATERAL FLATTEN(input => environment:EnvironmentVariables) as e
+WHERE $where:aws_codebuild_projects$
 """
 
 CHECK_ENVIRONMENT_VARIABLES = """
@@ -42,4 +43,5 @@ select distinct
         else 'pass'
     end as status
 from aws_codebuild_projects, LATERAL FLATTEN(input => environment:EnvironmentVariables) as e
+where $where:aws_codebuild_projects$
 """
