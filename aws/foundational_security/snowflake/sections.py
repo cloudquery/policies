@@ -142,6 +142,8 @@ def execute_ecs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(ecs.TASK_DEFINITIONS_SECURE_NETWORKING, (execution_time, FRAMEWORK, 'ecs.1'))
     print("Executing check ecs.2")
     conn.cursor().execute(ecs.ECS_SERVICES_WITH_PUBLIC_IPS, (execution_time, FRAMEWORK, 'ecs.2'))
+    print("Executing check ecs.3")
+    conn.cursor().execute(ecs.TASK_DEFINITIONS_SHOULD_NOT_SHARE_HOST_NAMESPACE, (execution_time, FRAMEWORK, 'ecs.3'))
 
 def execute_efs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: efs")

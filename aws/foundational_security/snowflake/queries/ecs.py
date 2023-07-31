@@ -33,3 +33,22 @@ select
   end as status
 from aws_ecs_cluster_services
 """
+
+TASK_DEFINITIONS_SHOULD_NOT_SHARE_HOST_NAMESPACE = """
+insert into aws_policy_results
+select
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
+  'ECS task definitions should not share the hosts process namespace' as title,
+  account_id,
+  arn as resource_id,
+  CASE 
+    WHEN pid_mode = 'host' THEN 'fail'
+    ELSE 'pass'
+  END AS status
+FROM
+  aws_ecs_task_definitions
+WHERE
+  status = 'ACTIVE';
+"""
