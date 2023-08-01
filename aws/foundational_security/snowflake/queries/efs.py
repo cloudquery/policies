@@ -50,7 +50,7 @@ FROM
     aws_efs_access_points
 """
 
-ACCESS_POINT_ENFORE_USER_IDENTITY = """
+ACCESS_POINT_ENFORCE_USER_IDENTITY = """
 insert into aws_policy_results
 SELECT 
     :1 as execution_time,
