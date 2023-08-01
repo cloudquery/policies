@@ -56,7 +56,7 @@ SELECT
     :1 as execution_time,
     :2 as framework,
     :3 as check_id,
-    'EFS access points should enforce a root directory' as title,
+    'EFS access points should enforce a user identity' as title,
     account_id,
     arn as resource_id,
     CASE
