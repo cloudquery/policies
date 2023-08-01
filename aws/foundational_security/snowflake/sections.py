@@ -12,6 +12,7 @@ from queries import (
     dynamodb,ec2,
     ecs,
     efs,
+    eks,
     elastic_beanstalk,
     elasticsearch,
     elb,
@@ -155,6 +156,13 @@ def execute_efs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(efs.UNENCRYPTED_EFS_FILESYSTEMS, (execution_time, FRAMEWORK, 'efs.1'))
     print("Executing check efs.2")
     conn.cursor().execute(efs.EFS_FILESYSTEMS_WITH_DISABLED_BACKUPS, (execution_time, FRAMEWORK, 'efs.2'))
+
+def execute_eks(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: eks")
+    print("Executing check eks.1")
+    conn.cursor().execute(eks.CLUSTER_ENDPOINTS_NOT_PUBLICLY_ACCESSIBLE, (execution_time, FRAMEWORK, 'eks.1'))
+    print("Executing check eks.2")
+    conn.cursor().execute(eks.CLUSTERS_SHOULD_RUN_ON_SUPPORTED_KUBERNETERS_VERSION, (execution_time, FRAMEWORK, 'eks.2'))
 
 def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elastic_beanstalk")
