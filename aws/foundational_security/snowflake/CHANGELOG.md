@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.0.0...aws-foundational_security-snowflake-v1.1.0) (2023-08-01)
+
+
+### Features
+
+* Added queries for cloudbuild 3 to 5 ([#32](https://github.com/cloudquery/policies-premium/issues/32)) ([d3c805b](https://github.com/cloudquery/policies-premium/commit/d3c805ba9dc863cb08f7c3d3ccc7d23605fc8961))
+
+
+### Bug Fixes
+
+* **deps:** Update dependency certifi to v2023.7.22 ([#41](https://github.com/cloudquery/policies-premium/issues/41)) ([67329bc](https://github.com/cloudquery/policies-premium/commit/67329bcd72b21c9ebc4199c1230014dc11806159))
+* **deps:** Update dependency snowflake-connector-python to v3.1.0 ([#42](https://github.com/cloudquery/policies-premium/issues/42)) ([52e5358](https://github.com/cloudquery/policies-premium/commit/52e53580cdadf1af478607d5d78e1cb3546cb8b6))
+
 ## 1.0.0 (2023-07-25)
 
 
