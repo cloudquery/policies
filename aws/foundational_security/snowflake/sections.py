@@ -4,6 +4,7 @@ from queries import (
     account,
     acm,
     apigateway,
+    athena,
     awsconfig,
     cloudfront,
     cloudtrail,
@@ -50,6 +51,11 @@ def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datet
     print("Running section: apigateway")
     print("Running check: apigateway.1")
     conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1'))
+
+def execute_athena(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: Athena")
+    print("Running check: Athena.1")
+    conn.cursor().execute(athena.ATHENA_WORKGROUP_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'athena.1'))
 
 def execute_awsconfig(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: aws_config")
