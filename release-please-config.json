@@ -2,6 +2,9 @@
   "packages": {
     "aws/foundational_security/snowflake": {
       "component": "aws-foundational_security-snowflake"
+    },
+    "aws/cost/postgresql": {
+      "component": "aws-cost-postgresql"
     }
   },
   "pull-request-title-pattern": "chore${scope}: Release${component} v${version}",

@@ -1,0 +1,67 @@
+RESOURCES_BY_COST = """
+CREATE OR REPLACE VIEW resources_by_cost as
+SELECT
+  line_item_resource_id,
+  line_item_product_code,
+  sum(line_item_blended_cost) AS cost
+FROM {table}
+WHERE line_item_resource_id !=''
+GROUP BY line_item_resource_id, line_item_product_code
+HAVING sum(line_item_blended_cost) > 0
+ORDER BY cost DESC;
+"""
+
+REGIONS_BY_COST = """
+CREATE OR REPLACE VIEW regions_by_cost as
+SELECT
+  product_location,
+  sum(line_item_blended_cost) AS cost
+FROM {table}
+WHERE line_item_resource_id !='' and product_location_type = 'AWS Region'
+GROUP BY product_location
+HAVING sum(line_item_blended_cost) > 0
+ORDER BY cost DESC;
+"""
+
+COST_OVER_TIME = """
+CREATE OR REPLACE VIEW cost_over_time as
+SELECT
+  line_item_usage_start_date,
+  line_item_usage_end_date,
+  sum(line_item_blended_cost) AS cost
+FROM {table}
+WHERE line_item_resource_id !='' and product_location_type = 'AWS Region'
+GROUP BY line_item_usage_start_date, line_item_usage_end_date
+HAVING sum(line_item_blended_cost) > 0
+ORDER BY line_item_usage_start_date asc;
+"""
+
+GCP2_EBS_VOLUMES = """
+CREATE OR REPLACE VIEW gcp2_ebs_volumes as
+SELECT
+  costquery.line_item_resource_id,
+  costquery.cost,
+  vols.volume_type,
+  vols.attachments,
+  vols.arn,
+  vols.tags,
+  vols.state,
+  vols.snapshot_id,
+  vols.size,
+  vols.create_time
+FROM (
+	SELECT
+	  line_item_resource_id, line_item_product_code,
+    SUM(line_item_blended_cost) AS cost
+	FROM {table}
+	WHERE
+    line_item_resource_id LIKE 'vol-%'
+	GROUP BY
+    line_item_resource_id, line_item_product_code
+	HAVING SUM(line_item_blended_cost) > 0
+	ORDER BY cost DESC
+) as costquery
+LEFT JOIN "aws_ec2_ebs_volumes" as vols
+ON costquery.line_item_resource_id = vols.volume_id
+WHERE vols.volume_type = 'gp2'
+"""
