@@ -65,7 +65,7 @@ SELECT
         OR posix_user:gid::STRING IS NULL
       THEN 'fail'
       ELSE 'pass'
-    END as statis
+    END as status
 FROM 
     aws_efs_access_points
 """
