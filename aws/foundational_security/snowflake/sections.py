@@ -5,6 +5,7 @@ from queries import (
     acm,
     apigateway,
     athena,
+    autoscaling,
     awsconfig,
     cloudformation,
     cloudfront,
@@ -62,6 +63,19 @@ def execute_athena(conn: SnowflakeConnection, execution_time: datetime.datetime)
     print("Running section: Athena")
     print("Running check: Athena.1")
     conn.cursor().execute(athena.ATHENA_WORKGROUP_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'athena.1'))
+
+def execute_autoscaling(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: autoscaling")
+    print("Running check: autoscaling.1")
+    conn.cursor().execute(autoscaling.AUTOSCALING_GROUP_ELB_HEALTHCHECK_REQUIRED, (execution_time, FRAMEWORK, 'autoscaling.1'))
+    print("Running check: autoscaling.2")
+    conn.cursor().execute(autoscaling.AUTOSCALING_MULTIPLE_AZ, (execution_time, FRAMEWORK, 'autoscaling.2'))
+    print("Running check: autoscaling.3")
+    conn.cursor().execute(autoscaling.AUTOSCALING_LAUNCHCONFIG_REQUIRES_IMDSV2, (execution_time, FRAMEWORK, 'autoscaling.3'))
+    print("Running check: autoscaling.6")
+    conn.cursor().execute(autoscaling.AUTOSCALING_MULTIPLE_INSTANCE_TYPES, (execution_time, FRAMEWORK, 'autoscaling.6'))
+    print("Running check: autoscaling.9")
+    conn.cursor().execute(autoscaling.AUTOSCALING_LAUNCH_TEMPLATE, (execution_time, FRAMEWORK, 'autoscaling.9'))
 
 def execute_awsconfig(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: aws_config")
