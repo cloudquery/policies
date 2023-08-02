@@ -4,6 +4,7 @@ from queries import (
     account,
     acm,
     apigateway,
+    AutoScaling,
     awsconfig,
     cloudfront,
     cloudtrail,
@@ -50,6 +51,20 @@ def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datet
     print("Running section: apigateway")
     print("Running check: apigateway.1")
     conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1'))
+
+def execute_AutoScaling(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: AutoScaling")
+    print("Running check: AutoScaling.1")
+    conn.cursor().execute(AutoScaling.AUTOSCALING_GROUP_ELB_HEALTHCHECK_REQUIRED, (execution_time, FRAMEWORK, 'AutoScaling.1'))
+    print("Running check: AutoScaling.2")
+    conn.cursor().execute(AutoScaling.AUTOSCALING_MULTIPLE_AZ, (execution_time, FRAMEWORK, 'AutoScaling.2'))
+    print("Running check: AutoScaling.3")
+    conn.cursor().execute(AutoScaling.AUTOSCALING_LAUNCHCONFIG_REQUIRES_IMDSV2, (execution_time, FRAMEWORK, 'AutoScaling.3'))
+    print("Running check: AutoScaling.6")
+    conn.cursor().execute(AutoScaling.AUTOSCALING_MULTIPLE_INSTANCE_TYPES, (execution_time, FRAMEWORK, 'AutoScaling.6'))
+    print("Running check: AutoScaling.9")
+    conn.cursor().execute(AutoScaling.AUTOSCALING_LAUNCH_TEMPLATE, (execution_time, FRAMEWORK, 'AutoScaling.9'))
+
 
 def execute_awsconfig(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: aws_config")

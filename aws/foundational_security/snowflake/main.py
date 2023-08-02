@@ -31,6 +31,7 @@ def run_policy(args):
     sections.execute_account(conn, execution_time)
     sections.execute_acm(conn, execution_time)
     sections.execute_apigateway(conn, execution_time)
+    sections.execute_AutoScaling(conn, execution_time)
     sections.execute_awsconfig(conn, execution_time)
     sections.execute_cloudfront(conn, execution_time)
     sections.execute_cloudtrail(conn, execution_time)
