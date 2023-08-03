@@ -39,6 +39,7 @@ def run_policy(args):
     sections.execute_ec2(conn, execution_time)
     sections.execute_ecs(conn, execution_time)
     sections.execute_efs(conn, execution_time)
+    sections.execute_elasti_cache(conn, execution_time)
     sections.execute_elastic_beanstalk(conn, execution_time)
     sections.execute_elasticsearch(conn, execution_time)
     sections.execute_emr(conn, execution_time)
