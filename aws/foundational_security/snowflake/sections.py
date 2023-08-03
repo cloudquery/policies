@@ -5,6 +5,7 @@ from queries import (
     acm,
     apigateway,
     awsconfig,
+    cloudformation,
     cloudfront,
     cloudtrail,
     codebuild,
@@ -55,6 +56,11 @@ def execute_awsconfig(conn: SnowflakeConnection, execution_time: datetime.dateti
     print("Running section: aws_config")
     print("Running check: aws_config.1")
     conn.cursor().execute(awsconfig.ENABLED_ALL_REGIONS, (execution_time, FRAMEWORK, 'awsconfig.1'))
+
+def execute_cloudformation(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: cloudformation")
+    print("Running check: cloudformation.1")
+    conn.cursor().execute(cloudformation.CLOUDFORMATION_STACK_NOTIFICATION_CHECK, (execution_time, FRAMEWORK, 'cloudformation.1'))
 
 def execute_cloudfront(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: cloudfront")

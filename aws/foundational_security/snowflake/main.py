@@ -32,6 +32,7 @@ def run_policy(args):
     sections.execute_acm(conn, execution_time)
     sections.execute_apigateway(conn, execution_time)
     sections.execute_awsconfig(conn, execution_time)
+    sections.execute_cloudformation(conn, execution_time)
     sections.execute_cloudfront(conn, execution_time)
     sections.execute_cloudtrail(conn, execution_time)
     sections.execute_codebuild(conn, execution_time)
