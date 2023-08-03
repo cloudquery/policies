@@ -163,6 +163,10 @@ def execute_efs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(efs.UNENCRYPTED_EFS_FILESYSTEMS, (execution_time, FRAMEWORK, 'efs.1'))
     print("Executing check efs.2")
     conn.cursor().execute(efs.EFS_FILESYSTEMS_WITH_DISABLED_BACKUPS, (execution_time, FRAMEWORK, 'efs.2'))
+    print("Executing check efs.3")
+    conn.cursor().execute(efs.ACCESS_POINT_PATH_SHOULD_NOT_BE_ROOT, (execution_time, FRAMEWORK, 'efs.3'))
+    print("Executing check efs.4")
+    conn.cursor().execute(efs.ACCESS_POINT_ENFORCE_USER_IDENTITY, (execution_time, FRAMEWORK, 'efs.4'))
 
 def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elastic_beanstalk")
