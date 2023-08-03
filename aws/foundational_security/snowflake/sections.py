@@ -90,6 +90,12 @@ def execute_codebuild(conn: SnowflakeConnection, execution_time: datetime.dateti
     conn.cursor().execute(codebuild.CHECK_OAUTH_USAGE_FOR_SOURCES, (execution_time, FRAMEWORK, 'codebuild.1'))
     print("Running check: codebuild.2")
     conn.cursor().execute(codebuild.CHECK_ENVIRONMENT_VARIABLES, (execution_time, FRAMEWORK, 'codebuild.2'))
+    print("Running check: codebuild.3")
+    conn.cursor().execute(codebuild.S3_LOGS_ENCRYPTED, (execution_time, FRAMEWORK, 'codebuild.3'))
+    print("Running check: codebuild.4")
+    conn.cursor().execute(codebuild.PROJECT_ENVIRONMENT_HAS_LOGGING_AWS_CONFIGURATION, (execution_time, FRAMEWORK, 'codebuild.4'))
+    print("Running check: codebuild.5")
+    conn.cursor().execute(codebuild.PROJECT_ENVIRONMENT_SHOULD_NOT_HAVE_PRIVILEGED_MODE, (execution_time, FRAMEWORK, 'codebuild.5'))
 
 def execute_dms(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: dms")
