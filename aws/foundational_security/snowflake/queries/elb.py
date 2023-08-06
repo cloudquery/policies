@@ -1,3 +1,4 @@
+# ELB.2
 ELBV1_CERT_PROVIDED_BY_ACM = """
 insert into aws_policy_results
 with listeners as (
@@ -27,6 +28,7 @@ from listeners
 left join aws_acm_certificates on aws_acm_certificates.arn = listeners.ssl_certificate_id
 """
 
+# ELB.3
 ELBV1_HTTPS_OR_TLS = """
 insert into aws_policy_results
 select
@@ -44,6 +46,7 @@ select
 from aws_elbv1_load_balancers lb, lateral flatten(input => parse_json(lb.listener_descriptions)) as li
 """
 
+#ELB.4
 ALB_DROP_HTTP_HEADERS = """
 insert into aws_policy_results
 select
@@ -64,6 +67,7 @@ inner join
         a.load_balancer_arn = lb.arn and a.key='routing.http.drop_invalid_header_fields.enabled'
 """
 
+#ELB.5
 ALB_LOGGING_ENABLED = """
 insert into aws_policy_results
 (select
@@ -101,6 +105,7 @@ union
 )
 """
 
+#ELB.6
 ALB_DELETION_PROTECTION_ENABLED = """
 insert into aws_policy_results
 select
@@ -121,6 +126,7 @@ from aws_elbv2_load_balancers lb
                  a.load_balancer_arn = lb.arn AND a.key='deletion_protection.enabled'
 """
 
+#ELB.7
 ELBV1_CONN_DRAINING_ENABLED = """
 insert into aws_policy_results
 select
@@ -139,6 +145,7 @@ from
     aws_elbv1_load_balancers
 """
 
+#ELB.8
 ELBV1_HTTPS_PREDEFINED_POLICY = """
 insert into aws_policy_results
 select
@@ -155,4 +162,22 @@ select
   end as status
 from aws_elbv1_load_balancers lb, lateral flatten(input => parse_json(lb.listener_descriptions)) as li,
                                   lateral flatten(input => parse_json(lb.policies)) as po
+"""
+
+#ELB.9
+ELBV1_HAVE_CROSS_ZONE_LOAD_BALANCING = """
+insert into aws_policy_results
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Classic Load Balancers should have cross-zone load balancing enabled' as title,
+    account_id,
+    arn as resource_id,
+    case
+        WHEN attributes:CrossZoneLoadBalancing = 'true' THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM
+    aws_elbv1_load_balancers    
 """

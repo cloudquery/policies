@@ -218,10 +218,12 @@ def execute_elb(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(elb.ELBV1_CONN_DRAINING_ENABLED, (execution_time, FRAMEWORK, 'elb.7'))
     print("Executing check elb.8")
     conn.cursor().execute(elb.ELBV1_HTTPS_PREDEFINED_POLICY, (execution_time, FRAMEWORK, 'elb.8'))
+    print("Executing check elb.9")
+    conn.cursor().execute(elb.ELBV1_HAVE_CROSS_ZONE_LOAD_BALANCING, (execution_time, FRAMEWORK, 'elb.9'))
 
 def execute_elbv2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elbv2")
-    print("Executing check elbv2.1")
+    print("Executing check elbv2.1") # this is elb.1
     conn.cursor().execute(elbv2.ELBV2_REDIRECT_HTTP_TO_HTTPS, (execution_time, FRAMEWORK, 'elbv2.1'))
 
 def execute_emr(conn: SnowflakeConnection, execution_time: datetime.datetime):
