@@ -19,6 +19,7 @@ from queries import (
     emr,
     guardduty,
     iam,
+    kinesis,
     awslambda,
     redshift,
     s3,
@@ -244,6 +245,11 @@ def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(iam.PASSWORD_POLICY_STRONG, (execution_time, FRAMEWORK, 'iam.7'))
     print("Executing check iam.8")
     conn.cursor().execute(iam.IAM_ACCESS_KEYS_ROTATED_MORE_THAN_90_DAYS, (execution_time, FRAMEWORK, 'iam.8'))
+
+def execute_kinesis(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: kinesis")
+    print("Executing check kinesis.1")
+    conn.cursor().execute(kinesis.KINESIS_STREAM_ENCRYPTED, (execution_time, FRAMEWORK, 'kinesis'))
 
 def execute_lambda(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: lambda")
