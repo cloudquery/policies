@@ -9,7 +9,9 @@ from queries import (
     cloudtrail,
     codebuild,
     dms,
-    dynamodb,ec2,
+    dynamodb,
+    ec2,
+    ecr,
     ecs,
     efs,
     elastic_beanstalk,
@@ -141,6 +143,16 @@ def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(ec2.SECURITY_GROUPS_WITH_ACCESS_TO_UNAUTHORIZED_PORTS, (execution_time, FRAMEWORK, 'ec2.18'))
     print("Executing check ec2.19")
     conn.cursor().execute(ec2.SECURITY_GROUPS_WITH_OPEN_CRITICAL_PORTS, (execution_time, FRAMEWORK, 'ec2.19'))
+
+def execute_ecr(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: ecr")
+    print("Executing check ecr.1")
+    conn.cursor().execute(ecr.PRIVATE_REPOSITORIES_HAVE_IMAGE_SCANNING_CONFIGURED, (execution_time, FRAMEWORK, 'ecr.1'))
+    print("Executing check ecr.2")
+    conn.cursor().execute(ecr.PRIVATE_REPOSITORIES_HAVE_TAG_IMMUTABILITY_CONFIGURED, (execution_time, FRAMEWORK, 'ecr.2'))
+    print("Executing check ecr.3")
+    conn.cursor().execute(ecr.REPOSITORIES_HAVE_AT_LEAST_ONE_LIFECYCLE_POLICY, (execution_time, FRAMEWORK, 'ecr.3'))
+
 
 def execute_ecs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: ecs")
