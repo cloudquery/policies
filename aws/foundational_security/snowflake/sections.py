@@ -174,6 +174,9 @@ def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetim
     conn.cursor().execute(elastic_beanstalk.ADVANCED_HEALTH_REPORTING_ENABLED, (execution_time, FRAMEWORK, 'elastic_beanstalk.1'))
     print("Executing check elastic_beanstalk.2")
     conn.cursor().execute(elastic_beanstalk.ELASTIC_BEANSTALK_MANAGED_UPDATES_ENABLED, (execution_time, FRAMEWORK, 'elastic_beanstalk.2'))
+    print("Executing check elastic_beanstalk.3")
+    conn.cursor().execute(elastic_beanstalk.ELASTIC_BEANSTALK_STREAM_LOGS_TO_CLOUDWATCH, (execution_time, FRAMEWORK, 'elastic_beanstalk.3'))
+    
 
 def execute_elasticsearch(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elastic_search")
