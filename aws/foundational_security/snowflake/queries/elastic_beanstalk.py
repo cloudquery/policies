@@ -37,7 +37,7 @@ ELASTIC_BEANSTALK_STREAM_LOGS_TO_CLOUDWATCH = """
 insert into aws_policy_results
 with flat_configs as (
     select 
-        c.enviornment_id,
+        c.environment_id,
         f.value:Namespace:Value::string as is_log_streaming
         
     from 
@@ -63,5 +63,5 @@ SELECT
     END as status
 FROM aws_elasticbeanstalk_environments e
 JOIN flat_configs as fc
-    ON e.id = fc.environment_id
+    ON e.environment_id = fc.environment_id
     """
