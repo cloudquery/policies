@@ -25,6 +25,7 @@ from queries import (
     guardduty,
     iam,
     kinesis,
+    networkfirewall,
     awslambda,
     redshift,
     s3,
@@ -290,6 +291,17 @@ def execute_lambda(conn: SnowflakeConnection, execution_time: datetime.datetime)
     print("Running section: lambda")
     print("Executing check lambda.2")
     conn.cursor().execute(awslambda.LAMBDA_FUNCTIONS_SHOULD_USE_SUPPORTED_RUNTIMES, (execution_time, FRAMEWORK, 'lambda.2'))
+
+def execute_networkfirewall(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: networkfirewall")
+    print("Executing check networkfirewall.3")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_RULE_GROUP_ASSOCIATED, (execution_time, FRAMEWORK, 'networkfirewall.3'))
+    print("Executing check networkfirewall.4")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_DEFAULT_ACTION_FULL_PACKETS, (execution_time, FRAMEWORK, 'networkfirewall.4'))
+    print("Executing check networkfirewall.5")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_DEFAULT_ACTION_FRAGMENT_PACKETS, (execution_time, FRAMEWORK, 'networkfirewall.5'))
+    print("Executing check networkfirewall.6")
+    conn.cursor().execute(networkfirewall.NETFW_STATELESS_RULE_GROUP_NOT_EMPTY, (execution_time, FRAMEWORK, 'networkfirewall.6'))
 
 def execute_redshift(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: redshift")
