@@ -12,6 +12,7 @@ from queries import (
     dynamodb,ec2,
     ecs,
     efs,
+    eks,
     elastic_beanstalk,
     elasticsearch,
     elb,
@@ -141,6 +142,14 @@ def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(ec2.SECURITY_GROUPS_WITH_ACCESS_TO_UNAUTHORIZED_PORTS, (execution_time, FRAMEWORK, 'ec2.18'))
     print("Executing check ec2.19")
     conn.cursor().execute(ec2.SECURITY_GROUPS_WITH_OPEN_CRITICAL_PORTS, (execution_time, FRAMEWORK, 'ec2.19'))
+    print("Executing check ec2.22")
+    conn.cursor().execute(ec2.SECURITY_GROUPS_NOT_ASSOCIATED, (execution_time, FRAMEWORK, 'ec2.22'))
+    print("Executing check ec2.23")
+    conn.cursor().execute(ec2.TRANSIT_GATEWAYS_SHOULD_NOT_AUTO_ACCEPT_VPC_ATTACHMENTS, (execution_time, FRAMEWORK, 'ec2.23'))
+    print("Executing check ec2.24")
+    conn.cursor().execute(ec2.PARAVIRTUAL_INSTANCES_SHOULD_NOT_BE_USED, (execution_time, FRAMEWORK, 'ec2.24'))
+    print("Executing check ec2.25")
+    conn.cursor().execute(ec2.LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP, (execution_time, FRAMEWORK, 'ec2.25'))
 
 def execute_ecs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: ecs")
@@ -155,6 +164,17 @@ def execute_efs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(efs.UNENCRYPTED_EFS_FILESYSTEMS, (execution_time, FRAMEWORK, 'efs.1'))
     print("Executing check efs.2")
     conn.cursor().execute(efs.EFS_FILESYSTEMS_WITH_DISABLED_BACKUPS, (execution_time, FRAMEWORK, 'efs.2'))
+    print("Executing check efs.3")
+    conn.cursor().execute(efs.ACCESS_POINT_PATH_SHOULD_NOT_BE_ROOT, (execution_time, FRAMEWORK, 'efs.3'))
+    print("Executing check efs.4")
+    conn.cursor().execute(efs.ACCESS_POINT_ENFORCE_USER_IDENTITY, (execution_time, FRAMEWORK, 'efs.4'))
+
+def execute_eks(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: eks")
+    print("Executing check eks.1")
+    conn.cursor().execute(eks.CLUSTER_ENDPOINTS_NOT_PUBLICLY_ACCESSIBLE, (execution_time, FRAMEWORK, 'eks.1'))
+    print("Executing check eks.2")
+    conn.cursor().execute(eks.CLUSTERS_SHOULD_RUN_ON_SUPPORTED_KUBERNETERS_VERSION, (execution_time, FRAMEWORK, 'eks.2'))
 
 def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elastic_beanstalk")
