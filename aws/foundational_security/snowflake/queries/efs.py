@@ -32,3 +32,40 @@ select
   end as status
 from aws_efs_filesystems
 """
+
+ACCESS_POINT_PATH_SHOULD_NOT_BE_ROOT = """
+insert into aws_policy_results
+SELECT 
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'EFS access points should enforce a root directory' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+        WHEN root_directory:Path::STRING = '/' THEN 'fail'
+        ELSE 'pass'
+    END as status
+FROM 
+    aws_efs_access_points
+"""
+
+ACCESS_POINT_ENFORCE_USER_IDENTITY = """
+insert into aws_policy_results
+SELECT 
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'EFS access points should enforce a user identity' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+      WHEN posix_user IS NULL 
+        OR posix_user:uid::STRING IS NULL
+        OR posix_user:gid::STRING IS NULL
+      THEN 'fail'
+      ELSE 'pass'
+    END as status
+FROM 
+    aws_efs_access_points
+"""
