@@ -21,12 +21,12 @@ SELECT
 	:1 as execution_time,
     :2 as framework,
     :3 as check_id,
-	'A WAFV2 web ACL should have at least one rule or rule group' as title,
+	'A WAFv2 web ACL should have at least one rule or rule group' as title,
 	account_id,
 	arn,
 	CASE
-	WHEN ARRAY_SIZE(rules) = 0 THEN 'fail'
-	ELSE 'pass'
+	WHEN ARRAY_SIZE(rules) > 0 or ARRAY_SIZE(POST_PROCESS_FIREWALL_MANAGER_RULE_GROUPS) > 0 or ARRAY_SIZE(PRE_PROCESS_FIREWALL_MANAGER_RULE_GROUPS) > 0 THEN 'pass'
+    ELSE 'fail'
 	END AS rule_status
 FROM
   aws_wafv2_web_acls;
