@@ -9,7 +9,9 @@ from queries import (
     cloudtrail,
     codebuild,
     dms,
-    dynamodb,ec2,
+    dynamodb,
+    ec2,
+    ecr,
     ecs,
     efs,
     eks,
@@ -150,6 +152,16 @@ def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(ec2.PARAVIRTUAL_INSTANCES_SHOULD_NOT_BE_USED, (execution_time, FRAMEWORK, 'ec2.24'))
     print("Executing check ec2.25")
     conn.cursor().execute(ec2.LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP, (execution_time, FRAMEWORK, 'ec2.25'))
+
+def execute_ecr(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: ecr")
+    print("Executing check ecr.1")
+    conn.cursor().execute(ecr.PRIVATE_REPOSITORIES_HAVE_IMAGE_SCANNING_CONFIGURED, (execution_time, FRAMEWORK, 'ecr.1'))
+    print("Executing check ecr.2")
+    conn.cursor().execute(ecr.PRIVATE_REPOSITORIES_HAVE_TAG_IMMUTABILITY_CONFIGURED, (execution_time, FRAMEWORK, 'ecr.2'))
+    print("Executing check ecr.3")
+    conn.cursor().execute(ecr.REPOSITORIES_HAVE_AT_LEAST_ONE_LIFECYCLE_POLICY, (execution_time, FRAMEWORK, 'ecr.3'))
+
 
 def execute_ecs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: ecs")

@@ -37,6 +37,7 @@ def run_policy(args):
     sections.execute_codebuild(conn, execution_time)
     sections.execute_dynamodb(conn, execution_time)
     sections.execute_ec2(conn, execution_time)
+    sections.execute_ecr(conn, execution_time)
     sections.execute_ecs(conn, execution_time)
     sections.execute_efs(conn, execution_time)
     sections.execute_eks(conn, execution_time)
