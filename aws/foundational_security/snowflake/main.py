@@ -50,6 +50,7 @@ def run_policy(args):
     sections.execute_elbv2(conn, execution_time)
     sections.execute_emr(conn, execution_time)
     sections.execute_iam(conn, execution_time)
+    sections.execute_kinesis(conn, execution_time)
     sections.execute_lambda(conn, execution_time)
     sections.execute_redshift(conn, execution_time)
     sections.execute_guardduty(conn, execution_time)
