@@ -1,5 +1,34 @@
 POLICIES_WITH_ADMIN_RIGHTS = """
-TODO
+insert into aws_policy_results
+with bad_statements as (
+SELECT
+    p.id,
+    1 as has_nad_statement
+
+FROM
+    aws_iam_policies p
+    , lateral flatten(input => p.POLICY_VERSION_LIST) as f
+    , lateral flatten(input => parse_json(f.value:Document):Statement) as s
+where f.value:IsDefaultVersion = 'true'
+    and s.value:Effect = 'Allow'
+            and (s.value:Action = '*' or s.value:Action = '*:*')
+            and s.value:Resource = '*' 
+)
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'IAM policies should not allow full * administrative privileges' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+        WHEN b.has_nad_statement = 1 THEN 'fail'
+        ELSE 'pass'
+    END as status
+from
+    aws_iam_policies as p
+LEFT JOIN bad_statements as b
+    ON p.id = b.id
 """
 
 POLICIES_ATTACHED_TO_GROUPS_ROLES = """
