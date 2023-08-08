@@ -175,9 +175,49 @@ SELECT
     account_id,
     arn as resource_id,
     case
-        WHEN attributes:CrossZoneLoadBalancing = 'true' THEN 'pass'
+        WHEN attributes:CrossZoneLoadBalancing:Enabled = 'true' THEN 'pass'
         ELSE 'fail'
     END as status
 FROM
     aws_elbv1_load_balancers    
+"""
+
+#ELB.10
+ELBV1_HAVE_MULTIPLE_AVAILABILITY_ZONES = """
+insert into aws_policy_results
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Classic Load Balancer should span multiple Availability Zones' as title,
+    account_id,
+    arn as resource_id,
+    case
+        WHEN array_size(availability_zones) > 1 THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM
+    aws_elbv1_load_balancers    
+"""
+
+#ELB.14
+ELBV1_DESYNC_MIGRATION_MODE_DEFENSIVE_OR_STRICTEST = """
+insert into aws_policy_results
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Classic Load Balancer should be configured with defensive or strictest desync mitigation mode' as title,
+SELECT
+    account_id,
+    arn as resource_id,
+    case
+        WHEN aa.value:Value in ('defensive', 'strictest') THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM
+    aws_elbv1_load_balancers as lb,
+    LATERAL FLATTEN(input => attributes:AdditionalAttributes) aa
+WHERE
+    aa.value:Key = 'elb.http.desyncmitigationmode'   
 """
