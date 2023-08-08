@@ -23,17 +23,15 @@ select
   :1 as execution_time,
   :2 as framework,
   :3 as check_id,
-  'Application Load Balancer should be configured with defensive or strictest desync mitigation mode' as title,
-  a.account_id,
-  a.load_balancer_arn as resource_id,
+'Application Load Balancer should be configured with defensive or strictest desync mitigation mode' as title,
+  account_id,
+  load_balancer_arn as resource_id,
   case
-        WHEN aa.value:Value in ('defensive', 'strictest') THEN 'pass'
+        WHEN value in ('defensive', 'strictest') THEN 'pass'
         ELSE 'fail'
   END as status
-from aws_elbv2_load_balancer_attributes a,
-     LATERAL FLATTEN(input => parse_json(a.value)) as aa
-where a.key = 'AdditionalAttributes'
-  AND aa.value:Key = 'elb.http.desyncmitigationmode'
+from aws_elbv2_load_balancer_attributes
+where key = 'routing.http.desync_mitigation_mode'
 """
 
 #ELB.13

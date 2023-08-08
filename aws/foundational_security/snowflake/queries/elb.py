@@ -208,7 +208,6 @@ SELECT
     :2 as framework,
     :3 as check_id,
     'Classic Load Balancer should be configured with defensive or strictest desync mitigation mode' as title,
-SELECT
     account_id,
     arn as resource_id,
     case
