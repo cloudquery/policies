@@ -4,14 +4,19 @@ from queries import (
     account,
     acm,
     apigateway,
+    athena,
     awsconfig,
+    cloudformation,
     cloudfront,
     cloudtrail,
     codebuild,
     dms,
-    dynamodb,ec2,
+    dynamodb,
+    ec2,
+    ecr,
     ecs,
     efs,
+    eks,
     elastic_beanstalk,
     elasticsearch,
     elb,
@@ -52,10 +57,20 @@ def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datet
     print("Running check: apigateway.1")
     conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1'))
 
+def execute_athena(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: Athena")
+    print("Running check: Athena.1")
+    conn.cursor().execute(athena.ATHENA_WORKGROUP_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'athena.1'))
+
 def execute_awsconfig(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: aws_config")
     print("Running check: aws_config.1")
     conn.cursor().execute(awsconfig.ENABLED_ALL_REGIONS, (execution_time, FRAMEWORK, 'awsconfig.1'))
+
+def execute_cloudformation(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: cloudformation")
+    print("Running check: cloudformation.1")
+    conn.cursor().execute(cloudformation.CLOUDFORMATION_STACK_NOTIFICATION_CHECK, (execution_time, FRAMEWORK, 'cloudformation.1'))
 
 def execute_cloudfront(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: cloudfront")
@@ -151,6 +166,16 @@ def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check ec2.25")
     conn.cursor().execute(ec2.LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP, (execution_time, FRAMEWORK, 'ec2.25'))
 
+def execute_ecr(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: ecr")
+    print("Executing check ecr.1")
+    conn.cursor().execute(ecr.PRIVATE_REPOSITORIES_HAVE_IMAGE_SCANNING_CONFIGURED, (execution_time, FRAMEWORK, 'ecr.1'))
+    print("Executing check ecr.2")
+    conn.cursor().execute(ecr.PRIVATE_REPOSITORIES_HAVE_TAG_IMMUTABILITY_CONFIGURED, (execution_time, FRAMEWORK, 'ecr.2'))
+    print("Executing check ecr.3")
+    conn.cursor().execute(ecr.REPOSITORIES_HAVE_AT_LEAST_ONE_LIFECYCLE_POLICY, (execution_time, FRAMEWORK, 'ecr.3'))
+
+
 def execute_ecs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: ecs")
     print("Executing check ecs.1")
@@ -168,6 +193,13 @@ def execute_efs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(efs.ACCESS_POINT_PATH_SHOULD_NOT_BE_ROOT, (execution_time, FRAMEWORK, 'efs.3'))
     print("Executing check efs.4")
     conn.cursor().execute(efs.ACCESS_POINT_ENFORCE_USER_IDENTITY, (execution_time, FRAMEWORK, 'efs.4'))
+
+def execute_eks(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: eks")
+    print("Executing check eks.1")
+    conn.cursor().execute(eks.CLUSTER_ENDPOINTS_NOT_PUBLICLY_ACCESSIBLE, (execution_time, FRAMEWORK, 'eks.1'))
+    print("Executing check eks.2")
+    conn.cursor().execute(eks.CLUSTERS_SHOULD_RUN_ON_SUPPORTED_KUBERNETERS_VERSION, (execution_time, FRAMEWORK, 'eks.2'))
 
 def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elastic_beanstalk")
@@ -331,6 +363,20 @@ def execute_waf(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: waf")
     print("Executing check waf.1")
     conn.cursor().execute(waf.WAF_WEB_ACL_LOGGING_SHOULD_BE_ENABLED, (execution_time, FRAMEWORK, 'waf.1'))
+    print("Executing check waf.2")
+    conn.cursor().execute(waf.WAF_REGIONAL_RULE_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.2'))
+    print("Executing check waf.3")
+    conn.cursor().execute(waf.WAF_REGIONAL_RULEGROUP_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.3'))
+    print("Executing check waf.4")
+    conn.cursor().execute(waf.WAF_REGIONAL_WEBACL_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.4'))
+    print("Executing check waf.6")
+    conn.cursor().execute(waf.WAF_GLOBAL_RULE_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.6'))
+    print("Executing check waf.7")
+    conn.cursor().execute(waf.WAF_GLOBAL_RULEGROUP_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.7'))
+    print("Executing check waf.8")
+    conn.cursor().execute(waf.WAF_GLOBAL_WEBACL_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.8'))
+    print("Executing check waf.10")
+    conn.cursor().execute(waf.WAFV2_WEBACL_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.10'))
 def execute_rds(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: rds")
     print("Executing check rds.2")
