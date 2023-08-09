@@ -158,3 +158,37 @@ SELECT
     END AS status
 FROM aws_iam_user_access_keys;
 """
+
+POLICIES_HAVE_WILDCARD_ACTIONS = """
+INSERT INTO aws_policy_results
+with bad_statements as (
+SELECT
+    p.account_id,
+    p.arn as resource_id,
+    CASE
+        WHEN s.value:Action REGEXP '^[a-zA-Z0-9]+:\\*$' 
+            OR s.value:Action = '*:*' THEN 1
+        ELSE 0
+    END as status
+
+FROM
+    aws_iam_policies p
+    , lateral flatten(input => p.POLICY_VERSION_LIST) as f
+    , lateral flatten(input => parse_json(f.value:Document):Statement) as s
+where f.value:IsDefaultVersion = 'true' AND s.value:Effect = 'Allow'
+  
+  )
+select DISTINCT
+      :1 as execution_time,
+      :2 as framework,
+      :3 as check_id,
+      'IAM customer managed policies that you create should not allow wildcard actions for services' AS title,
+       account_id,
+       resource_id,
+       CASE
+           WHEN max(status) over(partition by resource_id) = 1 THEN 'fail'
+           ELSE 'pass'
+       END as status
+FROM
+    bad_statements
+"""
