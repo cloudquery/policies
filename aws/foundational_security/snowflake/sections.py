@@ -25,6 +25,7 @@ from queries import (
     guardduty,
     iam,
     kinesis,
+    networkfirewall,
     awslambda,
     redshift,
     s3,
@@ -219,6 +220,9 @@ def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetim
     conn.cursor().execute(elastic_beanstalk.ADVANCED_HEALTH_REPORTING_ENABLED, (execution_time, FRAMEWORK, 'elastic_beanstalk.1'))
     print("Executing check elastic_beanstalk.2")
     conn.cursor().execute(elastic_beanstalk.ELASTIC_BEANSTALK_MANAGED_UPDATES_ENABLED, (execution_time, FRAMEWORK, 'elastic_beanstalk.2'))
+    print("Executing check elastic_beanstalk.3")
+    conn.cursor().execute(elastic_beanstalk.ELASTIC_BEANSTALK_STREAM_LOGS_TO_CLOUDWATCH, (execution_time, FRAMEWORK, 'elastic_beanstalk.3'))
+    
 
 def execute_elasticsearch(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elastic_search")
@@ -255,11 +259,22 @@ def execute_elb(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(elb.ELBV1_CONN_DRAINING_ENABLED, (execution_time, FRAMEWORK, 'elb.7'))
     print("Executing check elb.8")
     conn.cursor().execute(elb.ELBV1_HTTPS_PREDEFINED_POLICY, (execution_time, FRAMEWORK, 'elb.8'))
+    print("Executing check elb.9")
+    conn.cursor().execute(elb.ELBV1_HAVE_CROSS_ZONE_LOAD_BALANCING  , (execution_time, FRAMEWORK, 'elb.9'))
+    print("Executing check elb.10")
+    conn.cursor().execute(elb.ELBV1_HAVE_MULTIPLE_AVAILABILITY_ZONES  , (execution_time, FRAMEWORK, 'elb.10'))
+    print("Executing check elb.14")
+    conn.cursor().execute(elb.ELBV1_DESYNC_MIGRATION_MODE_DEFENSIVE_OR_STRICTEST  , (execution_time, FRAMEWORK, 'elb.14'))
+
 
 def execute_elbv2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elbv2")
-    print("Executing check elbv2.1")
+    print("Executing check elbv2.1") #elb.1
     conn.cursor().execute(elbv2.ELBV2_REDIRECT_HTTP_TO_HTTPS, (execution_time, FRAMEWORK, 'elbv2.1'))
+    print("Executing check elbv2.12") #elb.12
+    conn.cursor().execute(elbv2.ELBV2_DESYNC_MIGRATION_MODE_DEFENSIVE_OR_STRICTEST, (execution_time, FRAMEWORK, 'elbv2.12'))
+    print("Executing check elbv2.13") #elb.13
+    conn.cursor().execute(elbv2.ELBV2_HAVE_MULTIPLE_AVAILABILITY_ZONES, (execution_time, FRAMEWORK, 'elbv2.13'))
 
 def execute_emr(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: emr")
@@ -299,6 +314,17 @@ def execute_lambda(conn: SnowflakeConnection, execution_time: datetime.datetime)
     print("Running section: lambda")
     print("Executing check lambda.2")
     conn.cursor().execute(awslambda.LAMBDA_FUNCTIONS_SHOULD_USE_SUPPORTED_RUNTIMES, (execution_time, FRAMEWORK, 'lambda.2'))
+
+def execute_networkfirewall(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: networkfirewall")
+    print("Executing check networkfirewall.3")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_RULE_GROUP_ASSOCIATED, (execution_time, FRAMEWORK, 'networkfirewall.3'))
+    print("Executing check networkfirewall.4")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_DEFAULT_ACTION_FULL_PACKETS, (execution_time, FRAMEWORK, 'networkfirewall.4'))
+    print("Executing check networkfirewall.5")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_DEFAULT_ACTION_FRAGMENT_PACKETS, (execution_time, FRAMEWORK, 'networkfirewall.5'))
+    print("Executing check networkfirewall.6")
+    conn.cursor().execute(networkfirewall.NETFW_STATELESS_RULE_GROUP_NOT_EMPTY, (execution_time, FRAMEWORK, 'networkfirewall.6'))
 
 def execute_redshift(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: redshift")
