@@ -174,7 +174,6 @@ def execute_elasticache(conn: SnowflakeConnection, execution_time: datetime.date
     print("Executing check elasticache.7")
     conn.cursor().execute(elasticache.CLUSTERS_SHOULD_NOT_USE_DEFAULT_SUBNET_GROUP, (execution_time, FRAMEWORK, 'elasticache.7'))
     
-
 def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elastic_beanstalk")
     print("Executing check elastic_beanstalk.1")
