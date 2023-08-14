@@ -4,12 +4,16 @@ from queries import (
     account,
     acm,
     apigateway,
+    athena,
     awsconfig,
+    cloudformation,
     cloudfront,
     cloudtrail,
     codebuild,
     dms,
-    dynamodb,ec2,
+    dynamodb,
+    ec2,
+    ecr,
     ecs,
     efs,
     eks,
@@ -20,6 +24,8 @@ from queries import (
     emr,
     guardduty,
     iam,
+    kinesis,
+    networkfirewall,
     awslambda,
     redshift,
     s3,
@@ -52,10 +58,20 @@ def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datet
     print("Running check: apigateway.1")
     conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1'))
 
+def execute_athena(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: Athena")
+    print("Running check: Athena.1")
+    conn.cursor().execute(athena.ATHENA_WORKGROUP_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'athena.1'))
+
 def execute_awsconfig(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: aws_config")
     print("Running check: aws_config.1")
     conn.cursor().execute(awsconfig.ENABLED_ALL_REGIONS, (execution_time, FRAMEWORK, 'awsconfig.1'))
+
+def execute_cloudformation(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: cloudformation")
+    print("Running check: cloudformation.1")
+    conn.cursor().execute(cloudformation.CLOUDFORMATION_STACK_NOTIFICATION_CHECK, (execution_time, FRAMEWORK, 'cloudformation.1'))
 
 def execute_cloudfront(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: cloudfront")
@@ -151,6 +167,16 @@ def execute_ec2(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check ec2.25")
     conn.cursor().execute(ec2.LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP, (execution_time, FRAMEWORK, 'ec2.25'))
 
+def execute_ecr(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: ecr")
+    print("Executing check ecr.1")
+    conn.cursor().execute(ecr.PRIVATE_REPOSITORIES_HAVE_IMAGE_SCANNING_CONFIGURED, (execution_time, FRAMEWORK, 'ecr.1'))
+    print("Executing check ecr.2")
+    conn.cursor().execute(ecr.PRIVATE_REPOSITORIES_HAVE_TAG_IMMUTABILITY_CONFIGURED, (execution_time, FRAMEWORK, 'ecr.2'))
+    print("Executing check ecr.3")
+    conn.cursor().execute(ecr.REPOSITORIES_HAVE_AT_LEAST_ONE_LIFECYCLE_POLICY, (execution_time, FRAMEWORK, 'ecr.3'))
+
+
 def execute_ecs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: ecs")
     print("Executing check ecs.1")
@@ -182,6 +208,9 @@ def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetim
     conn.cursor().execute(elastic_beanstalk.ADVANCED_HEALTH_REPORTING_ENABLED, (execution_time, FRAMEWORK, 'elastic_beanstalk.1'))
     print("Executing check elastic_beanstalk.2")
     conn.cursor().execute(elastic_beanstalk.ELASTIC_BEANSTALK_MANAGED_UPDATES_ENABLED, (execution_time, FRAMEWORK, 'elastic_beanstalk.2'))
+    print("Executing check elastic_beanstalk.3")
+    conn.cursor().execute(elastic_beanstalk.ELASTIC_BEANSTALK_STREAM_LOGS_TO_CLOUDWATCH, (execution_time, FRAMEWORK, 'elastic_beanstalk.3'))
+    
 
 def execute_elasticsearch(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elastic_search")
@@ -264,10 +293,26 @@ def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check iam.8")
     conn.cursor().execute(iam.IAM_ACCESS_KEYS_ROTATED_MORE_THAN_90_DAYS, (execution_time, FRAMEWORK, 'iam.8'))
 
+def execute_kinesis(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: kinesis")
+    print("Executing check kinesis.1")
+    conn.cursor().execute(kinesis.KINESIS_STREAM_ENCRYPTED, (execution_time, FRAMEWORK, 'kinesis'))
+
 def execute_lambda(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: lambda")
     print("Executing check lambda.2")
     conn.cursor().execute(awslambda.LAMBDA_FUNCTIONS_SHOULD_USE_SUPPORTED_RUNTIMES, (execution_time, FRAMEWORK, 'lambda.2'))
+
+def execute_networkfirewall(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: networkfirewall")
+    print("Executing check networkfirewall.3")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_RULE_GROUP_ASSOCIATED, (execution_time, FRAMEWORK, 'networkfirewall.3'))
+    print("Executing check networkfirewall.4")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_DEFAULT_ACTION_FULL_PACKETS, (execution_time, FRAMEWORK, 'networkfirewall.4'))
+    print("Executing check networkfirewall.5")
+    conn.cursor().execute(networkfirewall.NETFW_POLICY_DEFAULT_ACTION_FRAGMENT_PACKETS, (execution_time, FRAMEWORK, 'networkfirewall.5'))
+    print("Executing check networkfirewall.6")
+    conn.cursor().execute(networkfirewall.NETFW_STATELESS_RULE_GROUP_NOT_EMPTY, (execution_time, FRAMEWORK, 'networkfirewall.6'))
 
 def execute_redshift(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: redshift")
@@ -344,6 +389,20 @@ def execute_waf(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: waf")
     print("Executing check waf.1")
     conn.cursor().execute(waf.WAF_WEB_ACL_LOGGING_SHOULD_BE_ENABLED, (execution_time, FRAMEWORK, 'waf.1'))
+    print("Executing check waf.2")
+    conn.cursor().execute(waf.WAF_REGIONAL_RULE_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.2'))
+    print("Executing check waf.3")
+    conn.cursor().execute(waf.WAF_REGIONAL_RULEGROUP_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.3'))
+    print("Executing check waf.4")
+    conn.cursor().execute(waf.WAF_REGIONAL_WEBACL_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.4'))
+    print("Executing check waf.6")
+    conn.cursor().execute(waf.WAF_GLOBAL_RULE_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.6'))
+    print("Executing check waf.7")
+    conn.cursor().execute(waf.WAF_GLOBAL_RULEGROUP_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.7'))
+    print("Executing check waf.8")
+    conn.cursor().execute(waf.WAF_GLOBAL_WEBACL_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.8'))
+    print("Executing check waf.10")
+    conn.cursor().execute(waf.WAFV2_WEBACL_NOT_EMPTY, (execution_time, FRAMEWORK, 'waf.10'))
 def execute_rds(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: rds")
     print("Executing check rds.2")
