@@ -12,7 +12,7 @@ from queries import (
     dynamodb,ec2,
     ecs,
     efs,
-    elasti_cache,
+    elasticache,
     elastic_beanstalk,
     elasticsearch,
     elb,
@@ -157,22 +157,22 @@ def execute_efs(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check efs.2")
     conn.cursor().execute(efs.EFS_FILESYSTEMS_WITH_DISABLED_BACKUPS, (execution_time, FRAMEWORK, 'efs.2'))
 
-def execute_elasti_cache(conn: SnowflakeConnection, execution_time: datetime.datetime):
+def execute_elasticache(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: elasticache")
     print("Executing check elasticache.1")
-    conn.cursor().execute(elasti_cache.REDIS_CLUSTERS_SHOULD_HAVE_AUTOMATIC_BACKUPS, (execution_time, FRAMEWORK, 'elasticache.1'))
+    conn.cursor().execute(elasticache.REDIS_CLUSTERS_SHOULD_HAVE_AUTOMATIC_BACKUPS, (execution_time, FRAMEWORK, 'elasticache.1'))
     print("Executing check elasticache.2")
-    conn.cursor().execute(elasti_cache.REDIS_CLUSTERS_HAVE_AUTOMINORVERSIONUPGRADE, (execution_time, FRAMEWORK, 'elasticache.2'))
+    conn.cursor().execute(elasticache.REDIS_CLUSTERS_HAVE_AUTOMINORVERSIONUPGRADE, (execution_time, FRAMEWORK, 'elasticache.2'))
     print("Executing check elasticache.3")
-    conn.cursor().execute(elasti_cache.REDIS_REPLICATION_GROUPS_AUTOMATIC_FAILOVER_ENABLED, (execution_time, FRAMEWORK, 'elasticache.3'))
+    conn.cursor().execute(elasticache.REDIS_REPLICATION_GROUPS_AUTOMATIC_FAILOVER_ENABLED, (execution_time, FRAMEWORK, 'elasticache.3'))
     print("Executing check elasticache.4")
-    conn.cursor().execute(elasti_cache.REDIS_REPLICATION_GROUPS_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'elasticache.4'))
+    conn.cursor().execute(elasticache.REDIS_REPLICATION_GROUPS_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'elasticache.4'))
     print("Executing check elasticache.5")
-    conn.cursor().execute(elasti_cache.REDIS_REPLICATION_GROUPS_ENCRYPTED_IN_TRANSIT, (execution_time, FRAMEWORK, 'elasticache.5'))
+    conn.cursor().execute(elasticache.REDIS_REPLICATION_GROUPS_ENCRYPTED_IN_TRANSIT, (execution_time, FRAMEWORK, 'elasticache.5'))
     print("Executing check elasticache.6")
-    conn.cursor().execute(elasti_cache.REDIS_REPLICATION_GROUPS_UNDER_VERSION_6_USE_AUTH, (execution_time, FRAMEWORK, 'elasticache.6'))
+    conn.cursor().execute(elasticache.REDIS_REPLICATION_GROUPS_UNDER_VERSION_6_USE_AUTH, (execution_time, FRAMEWORK, 'elasticache.6'))
     print("Executing check elasticache.7")
-    conn.cursor().execute(elasti_cache.CLUSTERS_SHOULD_NOT_USE_DEFAULT_SUBNET_GROUP, (execution_time, FRAMEWORK, 'elasticache.7'))
+    conn.cursor().execute(elasticache.CLUSTERS_SHOULD_NOT_USE_DEFAULT_SUBNET_GROUP, (execution_time, FRAMEWORK, 'elasticache.7'))
     
 
 def execute_elastic_beanstalk(conn: SnowflakeConnection, execution_time: datetime.datetime):

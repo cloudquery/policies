@@ -63,8 +63,8 @@ SELECT
     account_id,
     arn as resource_id,
     CASE
-        WHEN at_rest_encryption_enabled = 'false' OR at_rest_encryption_enabled IS NULL THEN 'fail'
-        ELSE 'pass'
+        WHEN at_rest_encryption_enabled = 'true' THEN 'pass'
+        ELSE 'fail'
     END as status
 FROM 
     aws_elasticache_replication_groups
