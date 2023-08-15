@@ -35,6 +35,7 @@ from queries import (
     sns,
     sqs,
     ssm,
+    stepfunctions,
     waf,
     rds,
 )
@@ -398,6 +399,11 @@ def execute_ssm(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(ssm.INSTANCES_SHOULD_HAVE_ASSOCIATION_COMPLIANCE_STATUS_OF_COMPLIANT, (execution_time, FRAMEWORK, 'ssm.3'))
     print("Executing check ssm.4")
     conn.cursor().execute(ssm.DOCUMENTS_SHOULD_NOT_BE_PUBLIC, (execution_time, FRAMEWORK, 'SSM.4'))
+
+def execute_stepfunctions(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: stepfunctions")
+    print("Executing check stepfunctions.1")
+    conn.cursor().execute(stepfunctions.STEP_FUNCTIONS_STATE_MACHINE_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'stepfunctions.1'))
 
 def execute_waf(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: waf")

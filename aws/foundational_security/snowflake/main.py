@@ -62,6 +62,7 @@ def run_policy(args):
     sections.execute_sns(conn, execution_time)
     sections.execute_sqs(conn, execution_time)
     sections.execute_ssm(conn, execution_time)
+    sections.execute_stepfunctions(conn, execution_time)
     sections.execute_waf(conn, execution_time)
     sections.execute_rds(conn, execution_time)
     
