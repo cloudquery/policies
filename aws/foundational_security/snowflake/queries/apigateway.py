@@ -1,4 +1,5 @@
 
+#APIGateway.1
 API_GW_EXECUTION_LOGGING_ENABLED = """
 insert into aws_policy_results
 (select distinct
@@ -36,4 +37,89 @@ from
 left join
     aws_apigatewayv2_apis a on s.api_arn = a.arn
 )
+"""
+
+#APIGateway.2
+API_GW_STAGE_SHOULD_USE_SSL = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'API Gateway REST API stages should be configured to use SSL certificates for backend authentication' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+        WHEN client_certificate_id is not null THEN 'pass'
+        ELSE 'fail'
+    END as status
+
+from aws_apigateway_rest_api_stages
+"""
+
+#APIGateway.3
+API_GW_STAGE_SHOULD_HAVE_XRAY_TRACING_ENABLED = """
+insert into aws_policy_results
+SELECT 
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'API Gateway REST API stages should have AWS X-Ray tracing enabled' as title,
+    account_id, 
+    arn as resource_id,
+    CASE
+        WHEN tracing_enabled = true THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM 
+    aws_apigateway_rest_api_stages
+"""
+
+#APIGateway.4
+API_GW_ASSOCIATED_WTH_WAF = """
+insert into aws_policy_results
+SELECT 
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'API Gateway should be associated with a WAF Web ACL' as title,
+    account_id, 
+    arn as resource_id,
+    CASE
+        WHEN web_acl_arn is not null THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM 
+    aws_apigateway_rest_api_stages
+"""
+
+#APIGateway.5
+API_GW_CACHE_DATA_ENCRYPTED = """
+insert into aws_policy_results
+with bad_methods as (
+select DISTINCT
+    arn
+
+from aws_apigateway_rest_api_stages as s,
+  LATERAL FLATTEN(input => s.method_settings) as ms
+  
+  WHERE
+    method_settings:cachingEnabled = 'true'
+    OR
+    method_settings:cacheDataEncrypted <> 'true'
+)
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'API Gateway REST API cache data should be encrypted at rest' as title,
+    s.account_id,
+    s.arn as resource_id,
+    CASE
+        WHEN b.arn is not null THEN 'fail'
+        ELSE 'pass'
+    END as status
+FROM 
+    aws_apigateway_rest_api_stages s
+    LEFT JOIN bad_methods as b
 """
