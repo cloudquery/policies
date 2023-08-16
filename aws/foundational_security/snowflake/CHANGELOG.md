@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.1.0...aws-foundational_security-snowflake-v1.2.0) (2023-08-15)
+
+
+### Features
+
+* Add queries for ec.2 22 to 25 ([#24](https://github.com/cloudquery/policies-premium/issues/24)) ([09eab30](https://github.com/cloudquery/policies-premium/commit/09eab30b2b1e62c2c4bf9e285f713c6a1cf9d3fb))
+* Added new elastic beanstalk query ([#59](https://github.com/cloudquery/policies-premium/issues/59)) ([6f880c6](https://github.com/cloudquery/policies-premium/commit/6f880c6495dd0b3f6c82237055e2a9b2b44fda85))
+* Added new ELB V1 and V2 queries ([#62](https://github.com/cloudquery/policies-premium/issues/62)) ([143ac4c](https://github.com/cloudquery/policies-premium/commit/143ac4c444cdfaeb841f4335ffb4f7a8450ade39))
+* Added queries 3 and 4 to efs.py ([#49](https://github.com/cloudquery/policies-premium/issues/49)) ([aa25e5a](https://github.com/cloudquery/policies-premium/commit/aa25e5a4de10e7d2758cd5ad1e501412670b14bb))
+* Added queries of Amazon CloudFormation controls ([#56](https://github.com/cloudquery/policies-premium/issues/56)) ([dd54e70](https://github.com/cloudquery/policies-premium/commit/dd54e7021c643244b0caaa43aceee21f0ae425d3))
+* Added queries of Athena controls ([#48](https://github.com/cloudquery/policies-premium/issues/48)) ([4bb0800](https://github.com/cloudquery/policies-premium/commit/4bb0800039579c4b36b5d47b66f99e58251976c2))
+* Added queries of AWS EC2 Auto Scaling controls ([#52](https://github.com/cloudquery/policies-premium/issues/52)) ([8a7910b](https://github.com/cloudquery/policies-premium/commit/8a7910b8bcebf78f602dcb30975395dd50ba48d8))
+* Added queries of AWS Network Firewall controls ([#60](https://github.com/cloudquery/policies-premium/issues/60)) ([7de9311](https://github.com/cloudquery/policies-premium/commit/7de9311e082bb32758773d092a4da67054d65cd4))
+* Added queries of AWS WAF controls 2 to 10 ([#40](https://github.com/cloudquery/policies-premium/issues/40)) ([152a300](https://github.com/cloudquery/policies-premium/commit/152a3000f476cd136de0ed1c3a83acfb817db508))
+* Added query of Amazon Kinesis controls ([#57](https://github.com/cloudquery/policies-premium/issues/57)) ([6d759e7](https://github.com/cloudquery/policies-premium/commit/6d759e7f03792ae8a5e326f7738c4acca9e4933f))
+
 ## [1.1.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.0.0...aws-foundational_security-snowflake-v1.1.0) (2023-08-01)
 
 
