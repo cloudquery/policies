@@ -101,12 +101,12 @@ select DISTINCT
     arn
 
 from aws_apigateway_rest_api_stages as s,
-  LATERAL FLATTEN(input => s.method_settings) as ms
+  LATERAL FLATTEN(input => COALESCE(s.method_settings, ARRAY_CONSTRUCT())) as ms
   
   WHERE
-    method_settings:cachingEnabled = 'true'
-    OR
-    method_settings:cacheDataEncrypted <> 'true'
+    ms.value:CachingEnabled = 'true'
+    AND
+    ms.value:CacheDataEncrypted <> 'true'
 )
 SELECT
     :1 as execution_time,
@@ -122,4 +122,41 @@ SELECT
 FROM 
     aws_apigateway_rest_api_stages s
     LEFT JOIN bad_methods as b
+        ON s.arn = b.arn
+"""
+
+#APIGateway.8
+API_GW_ROUTES_SHOULD_SPECIFY_AUTHORIZATION_TYPE = """
+insert into aws_policy_results
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'API Gateway routes should specify an authorization type' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+        WHEN authorization_type IS NULL OR authorization_type = '' THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM 
+    aws_apigatewayv2_api_routes
+"""
+
+#APIGateway.9
+API_GW_ACCESS_LOGGING_SHOULD_BE_CONFIGURED = """
+insert into aws_policy_results
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Access logging should be configured for API Gateway V2 Stages' as title,
+    account_id, 
+    arn AS resource_id,
+    CASE
+        WHEN access_log_settings::text IS NULL OR access_log_settings = '' THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM 
+    aws_apigatewayv2_api_stages
 """
