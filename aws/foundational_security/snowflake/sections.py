@@ -4,6 +4,7 @@ from queries import (
     account,
     acm,
     apigateway,
+    appsync,
     athena,
     autoscaling,
     awsconfig,
@@ -58,6 +59,11 @@ def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datet
     print("Running section: apigateway")
     print("Running check: apigateway.1")
     conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1'))
+
+def execute_appsync(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: appsync")
+    print("Running check: appsync.2")
+    conn.cursor().execute(appsync.APPSYNC_SHOULD_HAVE_LOGGING_TURNED_ON, (execution_time, FRAMEWORK, 'appsync.2'))
 
 def execute_athena(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: Athena")
