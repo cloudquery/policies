@@ -314,8 +314,14 @@ def execute_kinesis(conn: SnowflakeConnection, execution_time: datetime.datetime
 
 def execute_lambda(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: lambda")
+    print("Executing check lambda.1")
+    conn.cursor().execute(awslambda.LAMBDA_FUNCTION_PUBLIC_ACCESS_PROHIBITED, (execution_time, FRAMEWORK, 'lambda.1'))
     print("Executing check lambda.2")
     conn.cursor().execute(awslambda.LAMBDA_FUNCTIONS_SHOULD_USE_SUPPORTED_RUNTIMES, (execution_time, FRAMEWORK, 'lambda.2'))
+    print("Executing check lambda.3")
+    conn.cursor().execute(awslambda.LAMBDA_INSIDE_VPC, (execution_time, FRAMEWORK, 'lambda.3'))
+    print("Executing check lambda.5")
+    conn.cursor().execute(awslambda.LAMBDA_VPC_MULTI_AZ_CHECK, (execution_time, FRAMEWORK, 'lambda.5'))
 
 def execute_networkfirewall(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: networkfirewall")
