@@ -186,17 +186,30 @@ WHERE
 CLUSTERS_SHOULD_USE_CONTAINER_INSIGHTS = """
 insert into 
     aws_policy_results
+with settings as (
+SELECT DISTINCT
+  arn
+FROM
+  aws_ecs_clusters c
+  , LATERAL FLATTEN(input => c.settings) as f
+WHERE
+    f.value:Name::text = 'containerInsights'
+    AND
+    f.value:Value::text <> 'enabled'
+  )
 SELECT 
   :1 as execution_time,
   :2 as framework,
   :3 as check_id,
   'ECS clusters should use Container Insights' as title,
-  arn as resource_id,
-  account_id,
+  c.arn as resource_id,
+  c.account_id,
   CASE
-    WHEN settings::text LIKE '%"container_insights":"ENABLED"%' THEN 'pass'
-    ELSE 'fail'
+    WHEN s.arn is not null THEN 'fail'
+    ELSE 'pass'
     END as status
 FROM
-  aws_ecs_clusters
+  aws_ecs_clusters c
+LEFT JOIN
+    settings s ON c.arn = s.arn
 """
