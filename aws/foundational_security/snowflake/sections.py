@@ -364,6 +364,10 @@ def execute_sagemaker(conn: SnowflakeConnection, execution_time: datetime.dateti
     print("Running section: sagemaker")
     print("Executing check sagemaker.1")
     conn.cursor().execute(sagemaker.SAGEMAKER_NOTEBOOK_INSTANCE_DIRECT_INTERNET_ACCESS_DISABLED, (execution_time, FRAMEWORK, 'sagemaker.1'))
+    print("Executing check sagemaker.2")
+    conn.cursor().execute(sagemaker.SAGEMAKER_NOTEBOOK_INSTANCE_INSIDE_VPC, (execution_time, FRAMEWORK, 'sagemaker.2'))
+    print("Executing check sagemaker.3")
+    conn.cursor().execute(sagemaker.SAGEMAKER_NOTEBOOK_INSTANCE_ROOT_ACCESS_CHECK, (execution_time, FRAMEWORK, 'sagemaker.3'))
 
 def execute_secretsmanager(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: secretmanager")
