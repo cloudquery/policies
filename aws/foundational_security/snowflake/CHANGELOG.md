@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.2.0...aws-foundational_security-snowflake-v1.3.0) (2023-08-27)
+
+
+### Features
+
+* Add ECS queries 3-5 8 10 12 ([#39](https://github.com/cloudquery/policies-premium/issues/39)) ([8952cef](https://github.com/cloudquery/policies-premium/commit/8952cefe8dd6d804336677b5f5ccbc2ece88f20b))
+* Added queries of Amazon SageMaker controls ([#68](https://github.com/cloudquery/policies-premium/issues/68)) ([47fd390](https://github.com/cloudquery/policies-premium/commit/47fd39073e1b2435c47ad504a4e8e338c7190730))
+* New elasticache queries ([#54](https://github.com/cloudquery/policies-premium/issues/54)) ([303fdc3](https://github.com/cloudquery/policies-premium/commit/303fdc390465da2bdbe8af039f77abc0e87f80d0))
+
 ## [1.2.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.1.0...aws-foundational_security-snowflake-v1.2.0) (2023-08-15)
 
 
