@@ -373,6 +373,12 @@ def execute_redshift(conn: SnowflakeConnection, execution_time: datetime.datetim
     conn.cursor().execute(redshift.CLUSTERS_SHOULD_HAVE_AUTOMATIC_UPGRADES_TO_MAJOR_VERSIONS_ENABLED, (execution_time, FRAMEWORK, 'redshift.6'))
     print("Executing check redshift.7")
     conn.cursor().execute(redshift.CLUSTERS_SHOULD_USE_ENHANCED_VPC_ROUTING, (execution_time, FRAMEWORK, 'redshift.7'))
+    print("Executing check redshift.8")
+    conn.cursor().execute(redshift.REDSHIFT_DEFAULT_ADMIN_CHECK, (execution_time, FRAMEWORK, 'redshift.8'))
+    print("Executing check redshift.9")
+    conn.cursor().execute(redshift.REDSHIFT_DEFAULT_DB_NAME_CHECK, (execution_time, FRAMEWORK, 'redshift.9'))
+    print("Executing check redshift.10")
+    conn.cursor().execute(redshift.REDSHIFT_CLUSTER_KMS_ENABLED, (execution_time, FRAMEWORK, 'redshift.10'))
 
 def execute_s3(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: s3")
