@@ -27,8 +27,8 @@ SELECT
     account_id,
     arn as resource_id,
     CASE
-        WHEN backup_retention_period < 7 THEN 'fail'
-        ELSE 'pass'
+        WHEN backup_retention_period >= 7 THEN 'pass'
+        ELSE 'fail'
     END as status
 FROM aws_docdb_clusters
 """
