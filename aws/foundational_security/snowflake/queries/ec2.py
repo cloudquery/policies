@@ -321,7 +321,7 @@ SELECT
     :1 as execution_time,
     :2 as framework,
     :3 as check_id,
-    'Unused Amazon EC2 security groups should be removed' as title,
+    'Both VPN tunnels for an AWS Site-to-Site VPN connection should be up' as title,
     c.account_id,
     'arn:aws:ec2:' || c.region || ':' || c.account_id || ':vpn-connection/' || c.vpn_connection_id AS resource_id,
     CASE
