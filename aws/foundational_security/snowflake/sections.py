@@ -421,7 +421,13 @@ def execute_s3(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check s3.6")
     conn.cursor().execute(s3.RESTRICT_CROSS_ACCOUNT_ACTIONS, (execution_time, FRAMEWORK, 's3.6'))
     print("Executing check s3.8")
-    conn.cursor().execute(s3.ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS, (execution_time, FRAMEWORK, 's3.8'))
+    conn.cursor().execute(s3.S3_BUCKET_LEVEL_PUBLIC_ACCESS_PROHIBITED, (execution_time, FRAMEWORK, 's3.8'))
+    print("Executing check s3.9")
+    conn.cursor().execute(s3.S3_BUCKET_LOGGING_ENABLED, (execution_time, FRAMEWORK, 's3.9'))
+    print("Executing check s3.10")
+    conn.cursor().execute(s3.S3_VERSION_LIFECYCLE_POLICY_CHECK, (execution_time, FRAMEWORK, 's3.10'))
+    print("Executing check s3.13")
+    conn.cursor().execute(s3.S3_LIFECYCLE_POLICY_CHECK, (execution_time, FRAMEWORK, 's3.13'))
 
 def execute_sagemaker(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: sagemaker")
