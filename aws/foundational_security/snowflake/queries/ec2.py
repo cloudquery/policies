@@ -305,6 +305,75 @@ select
 from view_aws_security_group_ingress_rules
 """
 
+#EC2.20
+BOTH_VPN_CHANNELS_SHOULD_BE_UP = """
+insert into aws_policy_results
+WITH TunnelStatus AS (
+    SELECT
+        distinct c.vpn_connection_id,
+        COUNT_IF(t.value:Status::text = 'UP') OVER(PARTITION BY c.vpn_connection_id) as up_count
+    FROM
+        aws_ec2_vpn_connections c,
+        LATERAL FLATTEN(input => c.vgw_telemetry) t
+)
+
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Both VPN tunnels for an AWS Site-to-Site VPN connection should be up' as title,
+    c.account_id,
+    'arn:aws:ec2:' || c.region || ':' || c.account_id || ':vpn-connection/' || c.vpn_connection_id AS resource_id,
+    CASE
+        WHEN t.up_count >= 2 THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM
+    aws_ec2_vpn_connections c
+LEFT JOIN TunnelStatus t ON c.vpn_connection_id = t.vpn_connection_id
+"""
+
+#EC2.21
+NETWORK_ACLS_SHOULD_NOT_ALLOW_INGRESS_FOR_SSH_RDP_PORTS = """
+insert into aws_policy_results
+WITH bad_entries as (
+SELECT
+    DISTINCT
+    arn
+FROM 
+    aws_ec2_network_acls,
+    LATERAL FLATTEN(input => entries) AS entry
+WHERE 
+    entry.value:Egress::STRING = 'false'
+    AND entry.value:Protocol::STRING = '6'
+    AND entry.value:RuleAction::STRING = 'allow'
+    AND (
+        entry.value:PortRange:From::INTEGER IN (22, 3389) 
+        OR entry.value:PortRange:To::INTEGER IN (22, 3389)
+    )
+    AND (
+        entry.value:CidrBlock::STRING = '0.0.0.0/0' 
+        OR entry.value:Ipv6CidrBlock::STRING = '::/0'
+)
+)
+SELECT
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Network ACLs should not allow ingress from 0.0.0.0/0 to port 22 or port 3389' as title,
+    a.account_id,
+    a.arn as resource_id,
+    CASE
+        WHEN b.arn is not null THEN 'fail'
+        ELSE 'pass'
+    END as status
+FROM
+    aws_ec2_network_acls a
+LEFT JOIN bad_entries b
+    ON a.arn = b.arn
+"""
+
+#EC2.22
 SECURITY_GROUPS_NOT_ASSOCIATED ="""
 insert into aws_policy_results
 WITH used_security_groups AS (
@@ -332,6 +401,7 @@ END as status
 FROM aws_ec2_security_groups
 """
 
+#EC2.23
 TRANSIT_GATEWAYS_SHOULD_NOT_AUTO_ACCEPT_VPC_ATTACHMENTS = """
 insert into aws_policy_results
 SELECT
@@ -348,6 +418,7 @@ SELECT
 FROM aws_ec2_transit_gateways
 """
 
+#EC2.24
 PARAVIRTUAL_INSTANCES_SHOULD_NOT_BE_USED = """
 insert into aws_policy_results
 SELECT
@@ -364,6 +435,7 @@ SELECT
 FROM aws_ec2_instances
 """
 
+#EC2.25
 LAUNCH_TEMPLATES_SHOULD_NOT_ASSIGN_PUBLIC_IP = """
 insert into aws_policy_results
 WITH FlattenedData AS (
