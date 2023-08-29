@@ -53,6 +53,7 @@ def run_policy(args):
     sections.execute_emr(conn, execution_time)
     sections.execute_iam(conn, execution_time)
     sections.execute_kinesis(conn, execution_time)
+    sections.execute_neptune(conn, execution_time)
     sections.execute_networkfirewall(conn, execution_time)
     sections.execute_lambda(conn, execution_time)
     sections.execute_redshift(conn, execution_time)
@@ -63,6 +64,7 @@ def run_policy(args):
     sections.execute_sns(conn, execution_time)
     sections.execute_sqs(conn, execution_time)
     sections.execute_ssm(conn, execution_time)
+    sections.execute_stepfunctions(conn, execution_time)
     sections.execute_waf(conn, execution_time)
     sections.execute_rds(conn, execution_time)
     

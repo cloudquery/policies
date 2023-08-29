@@ -18,29 +18,29 @@ select
     :1 as execution_time,
     :2 as framework,
     :3 as check_id,
-    'Connections to Amazon Redshift clusters should be encrypted in transit' as title,
-    account_id,
-    arn as resource_id,
-    'fail' as status -- TODO FIXME
-from aws_redshift_clusters as rsc
-
-where exists(select 1
-                    from aws_redshift_cluster_parameter_groups as rscpg
-    inner join aws_redshift_cluster_parameters as rscp
-        on
-            rscpg.cluster_arn = rscp.cluster_arn
-    where rsc.arn = rscpg.cluster_arn
-        and (
-            rscp.parameter_name = 'require_ssl' and rscp.parameter_value = 'false'
-        )
-        or (
-            rscp.parameter_name = 'require_ssl' and rscp.parameter_value is null
-        )
-        or not exists((select 1
-            from aws_redshift_cluster_parameters
-            where cluster_arn = rscpg.cluster_arn
-                and parameter_name = 'require_ssl'))
-)
+'Connections to Amazon Redshift clusters should be encrypted in transit' AS title,
+  rsc.account_id,
+  rsc.arn AS resource_id,
+  'fail' AS status
+FROM
+  aws_redshift_clusters AS rsc
+JOIN
+  aws_redshift_cluster_parameter_groups AS rscpg ON rsc.arn = rscpg.cluster_arn
+LEFT JOIN
+  aws_redshift_cluster_parameters AS rscp ON rscpg.cluster_arn = rscp.cluster_arn
+  AND rscp.parameter_name = 'require_ssl'
+WHERE
+  (rscp.parameter_value = 'false')
+  OR (rscp.parameter_value IS NULL)
+  OR NOT EXISTS (
+    SELECT
+      1
+    FROM
+      aws_redshift_cluster_parameters
+    WHERE
+      cluster_arn = rscpg.cluster_arn
+      AND parameter_name = 'require_ssl'
+ )
 """
 
 CLUSTERS_SHOULD_HAVE_AUTOMATIC_SNAPSHOTS_ENABLED = """
@@ -100,5 +100,56 @@ select
     case when
         enhanced_vpc_routing is distinct from TRUE
     then 'fail' else 'pass' end as status
+from aws_redshift_clusters
+"""
+
+#Redshift.8
+REDSHIFT_DEFAULT_ADMIN_CHECK = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Amazon Redshift clusters should not use the default Admin username' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+    WHEN master_username = 'awsuser' THEN 'fail'
+    ELSE 'pass'
+    END AS status
+from aws_redshift_clusters
+"""
+
+#Redshift.9
+REDSHIFT_DEFAULT_DB_NAME_CHECK = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Redshift clusters should not use the default database name' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+    WHEN db_name = 'dev' THEN 'fail'
+    ELSE 'pass'
+    END AS status
+from aws_redshift_clusters
+"""
+
+#Redshift.10
+REDSHIFT_CLUSTER_KMS_ENABLED = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'Redshift clusters should be encrypted at rest' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+    WHEN encrypted AND kms_key_id is not null THEN 'pass'
+    ELSE 'fail'
+    END AS status
 from aws_redshift_clusters
 """
