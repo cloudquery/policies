@@ -13,6 +13,7 @@ from queries import (
     cloudtrail,
     codebuild,
     dms,
+    documentdb,
     dynamodb,
     ec2,
     ecr,
@@ -141,6 +142,13 @@ def execute_dms(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: dms")
     print("Running check: dms.1")
     conn.cursor().execute(dms.REPLICATION_NOT_PUBLIC, (execution_time, FRAMEWORK, 'dms.1'))
+
+def execute_documentdb(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: DocumentDB")
+    print("Running check: DocumentDB.1")
+    conn.cursor().execute(documentdb.CLUSTERS_SHOULD_BE_ENCRYPTED_AT_REST, (execution_time, FRAMEWORK, 'DocumentDB.1'))
+    print("Running check: DocumentDB.2")
+    conn.cursor().execute(documentdb.CLUSTERS_SHOULD_HAVE_7_DAYS_BACKUP_RETENTION, (execution_time, FRAMEWORK, 'DocumentDB.2'))
 
 def execute_dynamodb(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: dynamodb")
