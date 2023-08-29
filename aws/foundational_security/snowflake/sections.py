@@ -27,6 +27,7 @@ from queries import (
     guardduty,
     iam,
     kinesis,
+    neptune,
     networkfirewall,
     awslambda,
     redshift,
@@ -342,6 +343,25 @@ def execute_kinesis(conn: SnowflakeConnection, execution_time: datetime.datetime
     print("Running section: kinesis")
     print("Executing check kinesis.1")
     conn.cursor().execute(kinesis.KINESIS_STREAM_ENCRYPTED, (execution_time, FRAMEWORK, 'kinesis'))
+
+def execute_neptune(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: neptune")
+    print("Executing check neptune.1")
+    conn.cursor().execute(neptune.NEPTUNE_CLUSTER_ENCRYPTED, (execution_time, FRAMEWORK, 'neptune.1'))
+    print("Executing check neptune.2")
+    conn.cursor().execute(neptune.NEPTUNE_CLUSTER_CLOUDWATCH_LOG_EXPORT_ENABLED, (execution_time, FRAMEWORK, 'neptune.2'))
+    print("Executing check neptune.3")
+    conn.cursor().execute(neptune.NEPTUNE_CLUSTER_SNAPSHOT_PUBLIC_PROHIBITED, (execution_time, FRAMEWORK, 'neptune.3'))
+    print("Executing check neptune.4")
+    conn.cursor().execute(neptune.NEPTUNE_CLUSTER_DELETION_PROTECTION_ENABLED, (execution_time, FRAMEWORK, 'neptune.4'))
+    print("Executing check neptune.5")
+    conn.cursor().execute(neptune.NEPTUNE_CLUSTER_BACKUP_RETENTION_CHECK, (execution_time, FRAMEWORK, 'neptune.5'))
+    print("Executing check neptune.6")
+    conn.cursor().execute(neptune.NEPTUNE_CLUSTER_SNAPSHOT_ENCRYPTED, (execution_time, FRAMEWORK, 'neptune.6'))
+    print("Executing check neptune.7")
+    conn.cursor().execute(neptune.NEPTUNE_CLUSTER_IAM_DATABASE_AUTHENTICATION, (execution_time, FRAMEWORK, 'neptune.7'))
+    print("Executing check neptune.8")
+    conn.cursor().execute(neptune.NEPTUNE_CLUSTER_COPY_TAGS_TO_SNAPSHOT_ENABLED, (execution_time, FRAMEWORK, 'neptune.8'))
 
 def execute_lambda(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: lambda")
