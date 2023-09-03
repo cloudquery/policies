@@ -135,8 +135,11 @@ select
     account_id,
     arn as resource_id,
     CASE 
-        WHEN distribution_config:ViewerCertificate:ACMCertificateArn is null
-            OR distribution_config:ViewerCertificate:CloudFrontDefaultCertificate = true 
+        WHEN (distribution_config:ViewerCertificate:ACMCertificateArn is null
+            AND
+            distribution_config:ViewerCertificate:IAMCertificateId is null
+            ) 
+            OR distribution_config:ViewerCertificate:CloudFrontDefaultCertificate = true
         THEN 'fail'
         ELSE 'pass'
     END as status
