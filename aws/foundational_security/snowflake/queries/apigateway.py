@@ -136,7 +136,7 @@ SELECT
     account_id,
     arn as resource_id,
     CASE
-        WHEN authorization_type IS NULL OR authorization_type = '' THEN 'fail'
+        WHEN authorization_type IS NULL OR authorization_type = '' OR authorization_type = 'NONE' THEN 'fail'
         ELSE 'pass'
     END AS status
 FROM 
