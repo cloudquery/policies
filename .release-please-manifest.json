@@ -1,5 +1,5 @@
 {
-  "aws/foundational_security/snowflake": "1.4.0",
+  "aws/foundational_security/snowflake": "1.4.1",
   "aws/foundational_security/snowflake+FILLER": "0.0.0",
   "aws/cost/postgresql": "1.0.0",
   "aws/cost/postgresql+FILLER": "0.0.0"
