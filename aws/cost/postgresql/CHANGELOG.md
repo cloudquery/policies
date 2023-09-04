@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/cloudquery/policies-premium/compare/aws-cost-postgresql-v1.0.0...aws-cost-postgresql-v1.0.1) (2023-09-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency filelock to v3.12.3 ([#88](https://github.com/cloudquery/policies-premium/issues/88)) ([f0bb3a0](https://github.com/cloudquery/policies-premium/commit/f0bb3a021c403a8c08210edca7e1f085672d49ba))
+* **deps:** Update dependency psycopg to v3.1.10 ([#89](https://github.com/cloudquery/policies-premium/issues/89)) ([dffc086](https://github.com/cloudquery/policies-premium/commit/dffc086c74b515dd0e31c73366a51ed1732d4e14))
+
 ## 1.0.0 (2023-08-01)
 
 
