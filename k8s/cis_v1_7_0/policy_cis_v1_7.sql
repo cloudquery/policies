@@ -13,3 +13,4 @@ END AS "execution_time"  \gset
 \ir ../create_k8s_policy_results.sql
 \ir ./rbac_and_service_accounts.sql
 \ir ./api_server.sql
+\ir ./etcd.sql
