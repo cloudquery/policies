@@ -1,5 +1,36 @@
 # Changelog
 
+## [1.4.1](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.4.0...aws-foundational_security-snowflake-v1.4.1) (2023-09-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency filelock to v3.12.3 ([#88](https://github.com/cloudquery/policies-premium/issues/88)) ([f0bb3a0](https://github.com/cloudquery/policies-premium/commit/f0bb3a021c403a8c08210edca7e1f085672d49ba))
+* **deps:** Update dependency snowflake-connector-python to v3.1.1 ([#90](https://github.com/cloudquery/policies-premium/issues/90)) ([f1d0296](https://github.com/cloudquery/policies-premium/commit/f1d02961083dfa6ef5704bab3774668e5aa7135e))
+
+## [1.4.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.3.0...aws-foundational_security-snowflake-v1.4.0) (2023-08-29)
+
+
+### Features
+
+* Added documentdb queries ([#75](https://github.com/cloudquery/policies-premium/issues/75)) ([d3cc0e2](https://github.com/cloudquery/policies-premium/commit/d3cc0e2658b0b0689a7756572198f75eda2be9d4))
+* Added queries 20 and 21 to ec2 ([#77](https://github.com/cloudquery/policies-premium/issues/77)) ([ef627d6](https://github.com/cloudquery/policies-premium/commit/ef627d6311ef4eddf09b051a2bb252162b658653))
+* Added queries of Amazon Neptune controls ([#72](https://github.com/cloudquery/policies-premium/issues/72)) ([863efd3](https://github.com/cloudquery/policies-premium/commit/863efd3a094c54e85958cb987000a57f13e6a133))
+* Added queries of Amazon RDS controls ([#65](https://github.com/cloudquery/policies-premium/issues/65)) ([ff740cd](https://github.com/cloudquery/policies-premium/commit/ff740cdb484533565c01eaca91b8c68fba3e8455))
+* Added queries of Amazon Redshift controls ([#63](https://github.com/cloudquery/policies-premium/issues/63)) ([7f7456b](https://github.com/cloudquery/policies-premium/commit/7f7456b17fd2e193cae28c49fbfa796f5c08fd65))
+* Added queries of Amazon Simple Storage Service (S3) controls ([#67](https://github.com/cloudquery/policies-premium/issues/67)) ([709d8f4](https://github.com/cloudquery/policies-premium/commit/709d8f460a534d48dca4596bc7763771df07c29f))
+* Added queries of AWS Lambda controls ([#73](https://github.com/cloudquery/policies-premium/issues/73)) ([145838e](https://github.com/cloudquery/policies-premium/commit/145838ef0cd70b9dae8347ba51b8b87d494c6685))
+* Added queries of AWS Step Functions controls ([#69](https://github.com/cloudquery/policies-premium/issues/69)) ([1f2b9da](https://github.com/cloudquery/policies-premium/commit/1f2b9da057ae1ac2cd66024a4477a03f760fb262))
+
+## [1.3.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.2.0...aws-foundational_security-snowflake-v1.3.0) (2023-08-27)
+
+
+### Features
+
+* Add ECS queries 3-5 8 10 12 ([#39](https://github.com/cloudquery/policies-premium/issues/39)) ([8952cef](https://github.com/cloudquery/policies-premium/commit/8952cefe8dd6d804336677b5f5ccbc2ece88f20b))
+* Added queries of Amazon SageMaker controls ([#68](https://github.com/cloudquery/policies-premium/issues/68)) ([47fd390](https://github.com/cloudquery/policies-premium/commit/47fd39073e1b2435c47ad504a4e8e338c7190730))
+* New elasticache queries ([#54](https://github.com/cloudquery/policies-premium/issues/54)) ([303fdc3](https://github.com/cloudquery/policies-premium/commit/303fdc390465da2bdbe8af039f77abc0e87f80d0))
+
 ## [1.2.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.1.0...aws-foundational_security-snowflake-v1.2.0) (2023-08-15)
 
 
