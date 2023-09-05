@@ -111,6 +111,18 @@ def execute_cloudfront(conn: SnowflakeConnection, execution_time: datetime.datet
     conn.cursor().execute(cloudfront.ACCESS_LOGS_ENABLED, (execution_time, FRAMEWORK, 'cloudfront.5'))
     print("Running check: cloudfront.6")
     conn.cursor().execute(cloudfront.ASSOCIATED_WITH_WAF, (execution_time, FRAMEWORK, 'cloudfront.6'))
+    print("Running check: cloudfront.7")
+    conn.cursor().execute(cloudfront.DISTRIBUTION_SHOULD_USE_SSL_TLS_CERTIFICATES, (execution_time, FRAMEWORK, 'cloudfront.7'))
+    print("Running check: cloudfront.8")
+    conn.cursor().execute(cloudfront.DISTRIBUTION_SHOULD_USE_SNI, (execution_time, FRAMEWORK, 'cloudfront.8'))
+    print("Running check: cloudfront.9")
+    conn.cursor().execute(cloudfront.DISTRIBUTION_SHOULD_ENCRYPT_TRAFFIC_TO_CUSTOM_ORIGINS, (execution_time, FRAMEWORK, 'cloudfront.9'))
+    print("Running check: cloudfront.10")
+    conn.cursor().execute(cloudfront.DISTRIBUTION_SHOULD_NOT_USE_DEPRICATED_SSL_PROTOCOLS, (execution_time, FRAMEWORK, 'cloudfront.10'))
+    print("Running check: cloudfront.12")
+    conn.cursor().execute(cloudfront.DISTRIBUTION_SHOULD_NOT_POINT_TO_NON_EXISTENT_S3_ORIGINS, (execution_time, FRAMEWORK, 'cloudfront.12'))
+    print("Running check: cloudfront.13")
+    conn.cursor().execute(cloudfront.DISTRIBUTION_SHOULD_USE_ORIGIN_ACCESS_CONTROL, (execution_time, FRAMEWORK, 'cloudfront.13'))
 
 def execute_cloudtrail(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: cloudtrail")
