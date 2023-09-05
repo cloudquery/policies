@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.4.1...aws-foundational_security-snowflake-v1.5.0) (2023-09-05)
+
+
+### Features
+
+* Added new cloudfront queries ([#66](https://github.com/cloudquery/policies-premium/issues/66)) ([b10c831](https://github.com/cloudquery/policies-premium/commit/b10c831a9283751282a2800cb9196100cea3bd48))
+
 ## [1.4.1](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.4.0...aws-foundational_security-snowflake-v1.4.1) (2023-09-01)
 
 
