@@ -29,6 +29,7 @@ from queries import (
     guardduty,
     iam,
     kinesis,
+    kms,
     neptune,
     networkfirewall,
     awslambda,
@@ -378,6 +379,17 @@ def execute_kinesis(conn: SnowflakeConnection, execution_time: datetime.datetime
     print("Running section: kinesis")
     print("Executing check kinesis.1")
     conn.cursor().execute(kinesis.KINESIS_STREAM_ENCRYPTED, (execution_time, FRAMEWORK, 'kinesis'))
+
+def execute_kms(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: kms")
+    print("Executing check kms.1")
+    conn.cursor().execute(kms.IAM_CUSTOMER_POLICY_NO_KMS_DECRYPT, (execution_time, FRAMEWORK, 'kms.1'))
+    print("Executing check kms.2")
+    conn.cursor().execute(kms.IAM_INLINE_POLICY_NO_KMS_DECRYPT, (execution_time, FRAMEWORK, 'kms.2'))
+    print("Executing check kms.3")
+    conn.cursor().execute(kms.KEYS_NOT_UNINTENTIONALLY_DELETED, (execution_time, FRAMEWORK, 'kms.3'))
+    print("Executing check kms.4")
+    conn.cursor().execute(kms.KEY_ROTATION_ENABLLED, (execution_time, FRAMEWORK, 'kms.4'))
 
 def execute_neptune(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: neptune")
