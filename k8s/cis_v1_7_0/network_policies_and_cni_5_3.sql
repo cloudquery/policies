@@ -3,4 +3,4 @@
  \echo "Policies - Network Policies and CNI"
 
  \echo "Queries - Network Policies and CNI"
- \ir ../queries_cis_v1_7_0/pod_security_standards_5_3_queries.sql
+ \ir ../queries_cis_v1_7_0/network_policies_and_cni_5_3_queries.sql
