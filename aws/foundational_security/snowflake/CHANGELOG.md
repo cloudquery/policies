@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.4.1...aws-foundational_security-snowflake-v1.5.0) (2023-09-05)
+
+
+### Features
+
+* Added new cloudfront queries ([#66](https://github.com/cloudquery/policies-premium/issues/66)) ([b10c831](https://github.com/cloudquery/policies-premium/commit/b10c831a9283751282a2800cb9196100cea3bd48))
+
+## [1.4.1](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.4.0...aws-foundational_security-snowflake-v1.4.1) (2023-09-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency filelock to v3.12.3 ([#88](https://github.com/cloudquery/policies-premium/issues/88)) ([f0bb3a0](https://github.com/cloudquery/policies-premium/commit/f0bb3a021c403a8c08210edca7e1f085672d49ba))
+* **deps:** Update dependency snowflake-connector-python to v3.1.1 ([#90](https://github.com/cloudquery/policies-premium/issues/90)) ([f1d0296](https://github.com/cloudquery/policies-premium/commit/f1d02961083dfa6ef5704bab3774668e5aa7135e))
+
 ## [1.4.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.3.0...aws-foundational_security-snowflake-v1.4.0) (2023-08-29)
 
 

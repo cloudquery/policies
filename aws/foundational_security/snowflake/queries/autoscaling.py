@@ -56,6 +56,43 @@ FROM
   aws_autoscaling_launch_configurations;
 """
 
+#autoscaling.4
+AUTOSCALING_LAUNCH_CONFIG_HOP_LIMIT = """
+INSERT INTO aws_policy_results
+SELECT
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
+  'Auto Scaling group launch configuration should not have a metadata response hop limit greater than 1' AS "title",
+  account_id,
+  arn AS resource_id,
+  case
+  when METADATA_OPTIONS:HttpPutResponseHopLimit > 1 then 'fail'
+    else 'pass'
+  END
+    AS status
+FROM
+  aws_autoscaling_launch_configurations;
+"""
+
+#autoscaling.5
+AUTOSCALING_LAUNCH_CONFIG_PUBLIC_IP_DISABLED = """
+INSERT INTO aws_policy_results
+SELECT
+  :1 as execution_time,
+  :2 as framework,
+  :3 as check_id,
+  'Amazon EC2 instances launched using Auto Scaling group launch configurations should not have Public IP addresses' AS "title",
+  account_id,
+  arn AS resource_id,
+  case
+  when associate_public_ip_address = true then 'fail'
+    else 'pass'
+  END
+    AS status
+FROM
+  aws_autoscaling_launch_configurations;
+"""
 #autoscaling.6
 AUTOSCALING_MULTIPLE_INSTANCE_TYPES = """
 INSERT INTO aws_policy_results
