@@ -389,7 +389,7 @@ def execute_kms(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Executing check kms.3")
     conn.cursor().execute(kms.KEYS_NOT_UNINTENTIONALLY_DELETED, (execution_time, FRAMEWORK, 'kms.3'))
     print("Executing check kms.4")
-    conn.cursor().execute(kms.KEY_ROTATION_ENABLLED, (execution_time, FRAMEWORK, 'kms.4'))
+    conn.cursor().execute(kms.KEY_ROTATION_ENABLED, (execution_time, FRAMEWORK, 'kms.4'))
 
 def execute_neptune(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: neptune")
