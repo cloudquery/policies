@@ -167,7 +167,7 @@ FROM
 """
 
 #KMS.4
-KEY_ROTATION_ENABLLED = """
+KEY_ROTATION_ENABLED = """
 INSERT INTO aws_policy_results
 SELECT
   :1 as execution_time,
