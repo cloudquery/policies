@@ -82,7 +82,7 @@ SELECT
     :1 as execution_time,
     :2 as framework,
     :3 as check_id,
-    'API Gateway should be associated with a WAF Web ACL' as title,
+    'API Gateway should be associated with a WAF We0ACL' as title,
     account_id, 
     arn as resource_id,
     CASE
@@ -107,22 +107,31 @@ from aws_apigateway_rest_api_stages as s,
     ms.value:CachingEnabled = 'true'
     AND
     ms.value:CacheDataEncrypted <> 'true'
+),
+cache_enabled AS (
+select DISTINCT
+    arn,
+    account_id
+FROM  aws_apigateway_rest_api_stages as s,
+LATERAL FLATTEN(input => COALESCE(s.method_settings, ARRAY_CONSTRUCT())) as ms
+WHERE
+    ms.value:CachingEnabled = 'true'
 )
 SELECT
     :1 as execution_time,
     :2 as framework,
     :3 as check_id,
     'API Gateway REST API cache data should be encrypted at rest' as title,
-    s.account_id,
-    s.arn as resource_id,
+    ce.account_id,
+    ce.arn as resource_id,
     CASE
         WHEN b.arn is not null THEN 'fail'
         ELSE 'pass'
     END as status
 FROM 
-    aws_apigateway_rest_api_stages s
+    cache_enabled ce
     LEFT JOIN bad_methods as b
-        ON s.arn = b.arn
+        ON ce.arn = b.arn; 
 """
 
 #APIGateway.8
