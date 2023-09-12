@@ -358,8 +358,8 @@ def execute_guardduty(conn: SnowflakeConnection, execution_time: datetime.dateti
 
 def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: iam")
-    # print("Executing check iam.1")
-    # conn.cursor().execute(iam.POLICIES_WITH_ADMIN_RIGHTS, (execution_time, FRAMEWORK, 'iam.1'))
+    print("Executing check iam.1")
+    conn.cursor().execute(iam.POLICIES_WITH_ADMIN_RIGHTS, (execution_time, FRAMEWORK, 'iam.1'))
     print("Executing check iam.2")
     conn.cursor().execute(iam.POLICIES_ATTACHED_TO_GROUPS_ROLES, (execution_time, FRAMEWORK, 'iam.2'))
     print("Executing check iam.3")
@@ -374,6 +374,8 @@ def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(iam.PASSWORD_POLICY_STRONG, (execution_time, FRAMEWORK, 'iam.7'))
     print("Executing check iam.8")
     conn.cursor().execute(iam.IAM_ACCESS_KEYS_ROTATED_MORE_THAN_90_DAYS, (execution_time, FRAMEWORK, 'iam.8'))
+    print("Executing check iam.21")
+    conn.cursor().execute(iam.POLICIES_HAVE_WILDCARD_ACTIONS, (execution_time, FRAMEWORK, 'iam.21'))
 
 def execute_kinesis(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: kinesis")
