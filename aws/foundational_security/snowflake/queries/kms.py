@@ -1,7 +1,7 @@
 #KMS.1
 IAM_CUSTOMER_POLICY_NO_KMS_DECRYPT = """
 INSERT INTO aws_policy_results
-WITH policy_with_decrypt_grant AS (
+WITH policy_with_decrypt AS (
     SELECT DISTINCT arn
     FROM aws_iam_policies p
     ,lateral flatten(input => p.POLICY_VERSION_LIST) as f
@@ -31,7 +31,7 @@ SELECT
     END AS status
 FROM    
     aws_iam_policies i
-LEFT JOIN policy_with_decrypt_grant d ON i.arn = d.arn;
+LEFT JOIN policy_with_decrypt d ON i.arn = d.arn;
 """
 
 #KMS.2
@@ -159,7 +159,7 @@ SELECT
     account_id,
     arn AS resource_id,
     CASE 
-        WHEN key_state = 'PendingDeletion' AND key_manager = 'CUSTOMER' THEN 'fail'
+        WHEN key_state IN ('PendingDeletion', 'PendingReplicaDeletion') AND key_manager = 'CUSTOMER' THEN 'fail'
         ELSE 'pass'
     END AS status
 FROM    
