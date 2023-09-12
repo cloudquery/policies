@@ -14,3 +14,5 @@ END AS "execution_time"  \gset
 \ir ./rbac_and_service_accounts.sql
 \ir ./api_server.sql
 \ir ./etcd.sql
+\ir ./scheduler.sql
+\ir ./logging.sql
