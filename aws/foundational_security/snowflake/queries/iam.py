@@ -2,9 +2,7 @@ POLICIES_WITH_ADMIN_RIGHTS = """
 insert into aws_policy_results
 with bad_statements as (
 SELECT
-    p.id,
-    1 as has_nad_statement
-
+    p.id
 FROM
     aws_iam_policies p
     , lateral flatten(input => p.POLICY_VERSION_LIST) as f
@@ -22,13 +20,14 @@ select
     account_id,
     arn as resource_id,
     CASE
-        WHEN b.has_nad_statement = 1 THEN 'fail'
+        WHEN b.id is not null THEN 'fail'
         ELSE 'pass'
     END as status
 from
     aws_iam_policies as p
 LEFT JOIN bad_statements as b
     ON p.id = b.id
+WHERE p.arn REGEXP '.*\\d{12}.*';
 """
 
 POLICIES_ATTACHED_TO_GROUPS_ROLES = """
