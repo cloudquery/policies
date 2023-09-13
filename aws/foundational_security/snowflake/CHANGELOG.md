@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.6.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.5.0...aws-foundational_security-snowflake-v1.6.0) (2023-09-13)
+
+
+### Features
+
+* Added APIGateway queries ([#70](https://github.com/cloudquery/policies-premium/issues/70)) ([61fc0d3](https://github.com/cloudquery/policies-premium/commit/61fc0d389aa3bd3499db239bc183a23b156b681c))
+* Added IAM queries ([#64](https://github.com/cloudquery/policies-premium/issues/64)) ([c321ff9](https://github.com/cloudquery/policies-premium/commit/c321ff90b56335b386290e7aae15a6eee4937bd1))
+* Added new kms queries ([#100](https://github.com/cloudquery/policies-premium/issues/100)) ([123f0f5](https://github.com/cloudquery/policies-premium/commit/123f0f5944c9b5cb4abb777cb5f87c2b70428d67))
+* Added queries of AWS EC2 Auto Scaling controls ([#74](https://github.com/cloudquery/policies-premium/issues/74)) ([6416db1](https://github.com/cloudquery/policies-premium/commit/6416db13b40578fe0b8cb9e787782f8ee324b3a0))
+
 ## [1.5.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.4.1...aws-foundational_security-snowflake-v1.5.0) (2023-09-05)
 
 
