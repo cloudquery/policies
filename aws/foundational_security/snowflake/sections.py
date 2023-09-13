@@ -63,6 +63,19 @@ def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datet
     print("Running section: apigateway")
     print("Running check: apigateway.1")
     conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1'))
+    print("Running check: apigateway.2")
+    conn.cursor().execute(apigateway.API_GW_STAGE_SHOULD_USE_SSL, (execution_time, FRAMEWORK, 'apigateway.2'))
+    print("Running check: apigateway.3")
+    conn.cursor().execute(apigateway.API_GW_STAGE_SHOULD_HAVE_XRAY_TRACING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.3'))
+    print("Running check: apigateway.4")
+    conn.cursor().execute(apigateway.API_GW_ASSOCIATED_WTH_WAF, (execution_time, FRAMEWORK, 'apigateway.4'))
+    print("Running check: apigateway.5")
+    conn.cursor().execute(apigateway.API_GW_CACHE_DATA_ENCRYPTED, (execution_time, FRAMEWORK, 'apigateway.5'))
+    print("Running check: apigateway.8")
+    conn.cursor().execute(apigateway.API_GW_ROUTES_SHOULD_SPECIFY_AUTHORIZATION_TYPE, (execution_time, FRAMEWORK, 'apigateway.8'))
+    print("Running check: apigateway.9")
+    conn.cursor().execute(apigateway.API_GW_ACCESS_LOGGING_SHOULD_BE_CONFIGURED, (execution_time, FRAMEWORK, 'apigateway.9'))
+
 
 def execute_appsync(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: appsync")
