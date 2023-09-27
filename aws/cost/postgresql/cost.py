@@ -65,3 +65,6 @@ LEFT JOIN "aws_ec2_ebs_volumes" as vols
 ON costquery.line_item_resource_id = vols.volume_id
 WHERE vols.volume_type = 'gp2'
 """
+
+#AWS Compute Optimizer Section
+#TODO: Separate this out to a different file
