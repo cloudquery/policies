@@ -1,6 +1,6 @@
 asn1crypto==1.5.1
 certifi==2023.7.22
-cffi==1.15.1
+cffi==1.16.0
 charset-normalizer==3.2.0
 cryptography==40.0.2
 filelock==3.12.4
