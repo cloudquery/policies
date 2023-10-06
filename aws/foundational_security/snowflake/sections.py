@@ -488,8 +488,12 @@ def execute_s3(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(s3.S3_BUCKET_LOGGING_ENABLED, (execution_time, FRAMEWORK, 's3.9'))
     print("Executing check s3.10")
     conn.cursor().execute(s3.S3_VERSION_LIFECYCLE_POLICY_CHECK, (execution_time, FRAMEWORK, 's3.10'))
+    print("Executing check s3.11")
+    conn.cursor().execute(s3.S3_EVENT_NOTIFICATIONS_ENABLED, (execution_time, FRAMEWORK, 's3.11'))
     print("Executing check s3.13")
     conn.cursor().execute(s3.S3_LIFECYCLE_POLICY_CHECK, (execution_time, FRAMEWORK, 's3.13'))
+    print("Executing check s3.15")
+    conn.cursor().execute(s3.S3_BUCKET_DEFAULT_LOCK_ENABLED, (execution_time, FRAMEWORK, 's3.15'))
 
 def execute_sagemaker(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: sagemaker")

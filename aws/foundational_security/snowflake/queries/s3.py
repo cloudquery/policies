@@ -326,6 +326,28 @@ ON
 where b.versioning_status = 'Enabled'
 """
 
+#s11
+S3_EVENT_NOTIFICATIONS_ENABLED = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'S3 buckets should have event notifications enabled' AS title,
+    account_id,
+    bucket_arn AS resource_id,    
+    CASE WHEN
+        (EVENT_BRIDGE_CONFIGURATION::String IS NULL OR ARRAY_SIZE(EVENT_BRIDGE_CONFIGURATION) = 0)
+        AND (LAMBDA_FUNCTION_CONFIGURATIONS::String IS NULL OR ARRAY_SIZE(LAMBDA_FUNCTION_CONFIGURATIONS) = 0)
+        AND (QUEUE_CONFIGURATIONS::String IS NULL OR ARRAY_SIZE(QUEUE_CONFIGURATIONS) = 0)
+        AND (TOPIC_CONFIGURATIONS::String IS NULL OR ARRAY_SIZE(TOPIC_CONFIGURATIONS) = 0)
+    THEN 'fail'
+    ELSE 'pass'
+    END AS status
+FROM
+    aws_s3_bucket_notification_configurations;
+"""
+
 #s13
 S3_LIFECYCLE_POLICY_CHECK = """
 insert into aws_policy_results
@@ -346,4 +368,27 @@ LEFT JOIN
     aws_s3_bucket_lifecycles AS l
 ON
     b.arn = l.bucket_arn
+"""
+
+#s15
+S3_BUCKET_DEFAULT_LOCK_ENABLED = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'S3 buckets should be configured to use Object Lock' AS title,
+    a.account_id,
+    a.arn AS resource_id,
+    CASE WHEN b.object_lock_enabled = 'Enabled' THEN 'pass' ELSE 'fail' END AS status
+FROM
+    aws_s3_buckets a
+LEFT JOIN
+    aws_s3_bucket_object_lock_configurations b
+ON
+    a.arn = b.bucket_arn
+GROUP BY
+    a.account_id,
+    a.arn,
+    status;
 """
