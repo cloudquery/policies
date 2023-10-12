@@ -1,0 +1,677 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Gain insights into CIS Kubernetes v1.7.0 compliance status and track policy adherence with this comprehensive dashboard.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 6,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 16,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH complaince as (\nselect \n\t\t'API Server' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%api_server%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'Controller Manager' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%controller_manager%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'Scheduler' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%scheduler%'\n\tGROUP BY check_id) as a\n),\ntable1 as (\n\tselect Title, \n       (CAST(success AS DECIMAL) / all_policies) * 100 as percentage\nfrom complaince\n)\nSELECT\n    MAX(CASE WHEN Title = 'API Server' THEN percentage END) AS \"API Server\",\n    MAX(CASE WHEN Title = 'Controller Manager' THEN percentage END) AS \"Controller Manager\",\n    MAX(CASE WHEN Title = 'Scheduler' THEN percentage END) AS \"Scheduler\"\nFROM table1;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Control Plane Components",
+      "type": "gauge"
+    },
+    {
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 46,
+      "libraryPanel": {
+        "name": "RBAC and Service Accounts",
+        "uid": "c161b70c-6120-4787-85c1-789457d10192"
+      },
+      "title": "RBAC and Service Accounts"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Successful"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 22,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select \n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS \"Successful\",\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS \"Failed\"\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%pod_security%'\n\tGROUP BY check_id) as a\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Pod Security",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Successful"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 23,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select \n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS \"Successful\",\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS \"Failed\"\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%network%'\n\tGROUP BY check_id) as a\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Network",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 16,
+        "w": 12,
+        "x": 12,
+        "y": 5
+      },
+      "id": 30,
+      "libraryPanel": {
+        "name": "Policies Overview by Section",
+        "uid": "a3eaca3f-e951-4014-b1ee-f684bbfda77b"
+      },
+      "title": "Policies Overview by Section"
+    },
+    {
+      "gridPos": {
+        "h": 7,
+        "w": 3,
+        "x": 0,
+        "y": 11
+      },
+      "id": 32,
+      "libraryPanel": {
+        "name": "API Server",
+        "uid": "dab71cb1-d75d-44b8-bab6-a8749837a61f"
+      },
+      "title": "API Server"
+    },
+    {
+      "gridPos": {
+        "h": 7,
+        "w": 4,
+        "x": 3,
+        "y": 11
+      },
+      "id": 34,
+      "libraryPanel": {
+        "name": "Controller Manager",
+        "uid": "d47913a5-468a-4c0f-a8d8-bc3bcd133189"
+      },
+      "title": "Controller Manager"
+    },
+    {
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 7,
+        "y": 11
+      },
+      "id": 36,
+      "libraryPanel": {
+        "name": "Scheduler",
+        "uid": "f9103aa8-0b56-4f8d-b182-aae0740c432d"
+      },
+      "title": "Scheduler"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 0,
+        "y": 18
+      },
+      "id": 37,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH complaince as (\n\tselect \n\t\t'Logging' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%logging%'\n\tGROUP BY check_id) as a\n),\ntable1 as (\n\tselect Title, \n       (CAST(success AS DECIMAL) / all_policies) * 100 as percentage\nfrom complaince\n)\nSELECT\n    MAX(CASE WHEN Title = 'Logging' THEN percentage END) AS \"Logging\"\nFROM table1;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Control Plane Configuration",
+      "type": "gauge"
+    },
+    {
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 14,
+        "y": 21
+      },
+      "id": 27,
+      "libraryPanel": {
+        "name": "Secrets",
+        "uid": "d8f9140e-4f35-4b92-bf71-c552461c19f9"
+      },
+      "title": "Secrets"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Successful"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 19,
+        "y": 21
+      },
+      "id": 25,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select \n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS \"Successful\",\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS \"Failed\"\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%general%'\n\tGROUP BY check_id) as a\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "General",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 26
+      },
+      "id": 41,
+      "libraryPanel": {
+        "name": "Logging",
+        "uid": "f7d20d0c-b8ac-4308-a7c0-e4e095a1cff7"
+      },
+      "title": "Logging"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "minikube",
+          "value": "minikube"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+        },
+        "definition": "select context from k8s_policy_results\ngroup by context",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": "select context from k8s_policy_results\ngroup by context",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Compliance Dashboard - In-Depth Analysis",
+  "uid": "fba911e3-dcbf-4d66-b180-07b8a179ee45",
+  "version": 7,
+  "weekStart": ""
+}

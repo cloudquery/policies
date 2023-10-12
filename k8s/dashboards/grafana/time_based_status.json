@@ -1,0 +1,71 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 8,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "gridPos": {
+        "h": 12,
+        "w": 14,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "libraryPanel": {
+        "name": "Activity Log",
+        "uid": "f37c756b-6c2e-429a-a13e-bc18d5f09b33"
+      },
+      "title": "Activity Log"
+    },
+    {
+      "gridPos": {
+        "h": 20,
+        "w": 14,
+        "x": 0,
+        "y": 12
+      },
+      "id": 4,
+      "libraryPanel": {
+        "name": "Compliance Status Over Time: Pass and Fail Checks",
+        "uid": "a9e9da45-637a-4da7-92e8-4f6d6a39c5ae"
+      },
+      "title": "Compliance Status Over Time: Pass and Fail Checks"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Compliance Dashboard - Time-Based Status",
+  "uid": "f21d0bc5-0bb5-468d-b63e-d1f9ecc86e40",
+  "version": 5,
+  "weekStart": ""
+}
