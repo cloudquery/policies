@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.6.1...aws-foundational_security-snowflake-v1.7.0) (2023-10-12)
+
+
+### Features
+
+* Added queries of Amazon S3 controls ([#106](https://github.com/cloudquery/policies-premium/issues/106)) ([213b302](https://github.com/cloudquery/policies-premium/commit/213b30211aeb07cbcb721c9d96bd90df06d2d6a8))
+
 ## [1.6.1](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.6.0...aws-foundational_security-snowflake-v1.6.1) (2023-10-04)
 
 
