@@ -1,6 +1,6 @@
 {% macro compute_ssl_proxy_with_weak_cipher(framework, check_id) %}
     select DISTINCT
-                gctsp.id                                                                   AS resource_id,
+                gctsp.id::text                                                                   AS resource_id,
                 gctsp._cq_sync_time As execution_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
@@ -13,10 +13,10 @@
                     THEN 'fail'
                 ELSE 'pass'
                 END AS status
-    FROM gcp_compute_target_https_proxies gctsp
+    FROM gcp_compute_target_ssl_proxies gctsp
     UNION ALL
     select DISTINCT
-                gctsp.id                                                                   AS resource_id,
+                gctsp.id::text                                                                 AS resource_id,
                 gctsp._cq_sync_time As execution_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
@@ -42,7 +42,7 @@
                         THEN 'fail'
                     ELSE 'pass'
                     END                                                                                            AS status
-    FROM gcp_compute_target_https_proxies gctsp
+    FROM gcp_compute_target_ssl_proxies gctsp
         JOIN gcp_compute_ssl_policies p ON
         gctsp.ssl_policy = p.self_link
 {% endmacro %}

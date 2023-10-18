@@ -2,7 +2,7 @@
     WITH combined AS (
     SELECT * FROM gcp_compute_firewalls gcf, JSONB_ARRAY_ELEMENTS(gcf.allowed) AS a
     )
-    
+
     select
     DISTINCT 
                 gcf.name                                                                                   AS resource_id,

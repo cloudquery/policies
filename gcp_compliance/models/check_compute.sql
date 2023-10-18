@@ -23,11 +23,14 @@ with
         {{ compute_legacy_network_exist('cis_v1.2.0', '3.2') }}
         union
         {{ compute_oslogin_disabled('cis_v1.2.0', '4.4') }}
+        union
+        {{ compute_rdp_access_permitted('cis_v1.2.0', '3.7') }}
+        union
+        {{ compute_serial_port_connection_enabled('cis_v1.2.0', '4.5') }}
+        union
+        {{ compute_ssh_access_permitted('cis_v1.2.0', '3.6') }}
+        union
+        {{ compute_ssl_proxy_with_weak_cipher('cis_v1.2.0', '3.9') }}
     )
-
-
-
-
-
 
 select * from aggregated
