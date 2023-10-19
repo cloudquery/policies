@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.7.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.6.1...aws-foundational_security-snowflake-v1.7.0) (2023-10-12)
+
+
+### Features
+
+* Added queries of Amazon S3 controls ([#106](https://github.com/cloudquery/policies-premium/issues/106)) ([213b302](https://github.com/cloudquery/policies-premium/commit/213b30211aeb07cbcb721c9d96bd90df06d2d6a8))
+
+## [1.6.1](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.6.0...aws-foundational_security-snowflake-v1.6.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency cffi to v1.16.0 ([#120](https://github.com/cloudquery/policies-premium/issues/120)) ([a26246c](https://github.com/cloudquery/policies-premium/commit/a26246cb01a992f6ab2b3b54c9af559d77d65bbf))
+* **deps:** Update dependency charset-normalizer to v3.3.0 ([#121](https://github.com/cloudquery/policies-premium/issues/121)) ([eb79178](https://github.com/cloudquery/policies-premium/commit/eb791782788c171dc9bc4504e1e6b8a7ab49c000))
+* **deps:** Update dependency filelock to v3.12.4 ([#115](https://github.com/cloudquery/policies-premium/issues/115)) ([c4d82e7](https://github.com/cloudquery/policies-premium/commit/c4d82e7529b43f194ab065bc7537a456646eae8f))
+* **deps:** Update dependency pycryptodomex to v3.19.0 ([#122](https://github.com/cloudquery/policies-premium/issues/122)) ([60b99af](https://github.com/cloudquery/policies-premium/commit/60b99afff91a2c0915cef601e2fe675658974e08))
+* **deps:** Update dependency pytz to v2023.3.post1 ([#119](https://github.com/cloudquery/policies-premium/issues/119)) ([162af6e](https://github.com/cloudquery/policies-premium/commit/162af6e5bd5876da89d1b049babe2a5bdf37d755))
+* **deps:** Update dependency snowflake-connector-python to v3.2.0 ([#123](https://github.com/cloudquery/policies-premium/issues/123)) ([45fa46b](https://github.com/cloudquery/policies-premium/commit/45fa46b5512a8fbca7cc55ef0095ceb8ceb41281))
+* **deps:** Update dependency typing_extensions to v4.8.0 ([#124](https://github.com/cloudquery/policies-premium/issues/124)) ([07c0959](https://github.com/cloudquery/policies-premium/commit/07c09593443aee8606b05dc80ae32861c5601964))
+
+## [1.6.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.5.0...aws-foundational_security-snowflake-v1.6.0) (2023-09-13)
+
+
+### Features
+
+* Added APIGateway queries ([#70](https://github.com/cloudquery/policies-premium/issues/70)) ([61fc0d3](https://github.com/cloudquery/policies-premium/commit/61fc0d389aa3bd3499db239bc183a23b156b681c))
+* Added IAM queries ([#64](https://github.com/cloudquery/policies-premium/issues/64)) ([c321ff9](https://github.com/cloudquery/policies-premium/commit/c321ff90b56335b386290e7aae15a6eee4937bd1))
+* Added new kms queries ([#100](https://github.com/cloudquery/policies-premium/issues/100)) ([123f0f5](https://github.com/cloudquery/policies-premium/commit/123f0f5944c9b5cb4abb777cb5f87c2b70428d67))
+* Added queries of AWS EC2 Auto Scaling controls ([#74](https://github.com/cloudquery/policies-premium/issues/74)) ([6416db1](https://github.com/cloudquery/policies-premium/commit/6416db13b40578fe0b8cb9e787782f8ee324b3a0))
+
 ## [1.5.0](https://github.com/cloudquery/policies-premium/compare/aws-foundational_security-snowflake-v1.4.1...aws-foundational_security-snowflake-v1.5.0) (2023-09-05)
 
 

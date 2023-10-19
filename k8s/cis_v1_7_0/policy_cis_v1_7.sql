@@ -12,3 +12,12 @@ END AS "execution_time"  \gset
 
 \ir ../create_k8s_policy_results.sql
 \ir ./controller_manager_1_3.sql
+\ir ./pod_security_standards_5_2.sql
+\ir ./network_policies_and_cni_5_3.sql
+\ir ./secrets_managment_5_4.sql
+\ir ./general_policies_5_7.sql
+\ir ./rbac_and_service_accounts.sql
+\ir ./api_server.sql
+\ir ./etcd.sql
+\ir ./scheduler.sql
+\ir ./logging.sql

@@ -29,6 +29,7 @@ from queries import (
     guardduty,
     iam,
     kinesis,
+    kms,
     neptune,
     networkfirewall,
     awslambda,
@@ -63,6 +64,19 @@ def execute_apigateway(conn: SnowflakeConnection, execution_time: datetime.datet
     print("Running section: apigateway")
     print("Running check: apigateway.1")
     conn.cursor().execute(apigateway.API_GW_EXECUTION_LOGGING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.1'))
+    print("Running check: apigateway.2")
+    conn.cursor().execute(apigateway.API_GW_STAGE_SHOULD_USE_SSL, (execution_time, FRAMEWORK, 'apigateway.2'))
+    print("Running check: apigateway.3")
+    conn.cursor().execute(apigateway.API_GW_STAGE_SHOULD_HAVE_XRAY_TRACING_ENABLED, (execution_time, FRAMEWORK, 'apigateway.3'))
+    print("Running check: apigateway.4")
+    conn.cursor().execute(apigateway.API_GW_ASSOCIATED_WTH_WAF, (execution_time, FRAMEWORK, 'apigateway.4'))
+    print("Running check: apigateway.5")
+    conn.cursor().execute(apigateway.API_GW_CACHE_DATA_ENCRYPTED, (execution_time, FRAMEWORK, 'apigateway.5'))
+    print("Running check: apigateway.8")
+    conn.cursor().execute(apigateway.API_GW_ROUTES_SHOULD_SPECIFY_AUTHORIZATION_TYPE, (execution_time, FRAMEWORK, 'apigateway.8'))
+    print("Running check: apigateway.9")
+    conn.cursor().execute(apigateway.API_GW_ACCESS_LOGGING_SHOULD_BE_CONFIGURED, (execution_time, FRAMEWORK, 'apigateway.9'))
+
 
 def execute_appsync(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: appsync")
@@ -357,8 +371,8 @@ def execute_guardduty(conn: SnowflakeConnection, execution_time: datetime.dateti
 
 def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: iam")
-    # print("Executing check iam.1")
-    # conn.cursor().execute(iam.POLICIES_WITH_ADMIN_RIGHTS, (execution_time, FRAMEWORK, 'iam.1'))
+    print("Executing check iam.1")
+    conn.cursor().execute(iam.POLICIES_WITH_ADMIN_RIGHTS, (execution_time, FRAMEWORK, 'iam.1'))
     print("Executing check iam.2")
     conn.cursor().execute(iam.POLICIES_ATTACHED_TO_GROUPS_ROLES, (execution_time, FRAMEWORK, 'iam.2'))
     print("Executing check iam.3")
@@ -373,11 +387,24 @@ def execute_iam(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(iam.PASSWORD_POLICY_STRONG, (execution_time, FRAMEWORK, 'iam.7'))
     print("Executing check iam.8")
     conn.cursor().execute(iam.IAM_ACCESS_KEYS_ROTATED_MORE_THAN_90_DAYS, (execution_time, FRAMEWORK, 'iam.8'))
+    print("Executing check iam.21")
+    conn.cursor().execute(iam.POLICIES_HAVE_WILDCARD_ACTIONS, (execution_time, FRAMEWORK, 'iam.21'))
 
 def execute_kinesis(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: kinesis")
     print("Executing check kinesis.1")
     conn.cursor().execute(kinesis.KINESIS_STREAM_ENCRYPTED, (execution_time, FRAMEWORK, 'kinesis'))
+
+def execute_kms(conn: SnowflakeConnection, execution_time: datetime.datetime):
+    print("Running section: kms")
+    print("Executing check kms.1")
+    conn.cursor().execute(kms.IAM_CUSTOMER_POLICY_NO_KMS_DECRYPT, (execution_time, FRAMEWORK, 'kms.1'))
+    print("Executing check kms.2")
+    conn.cursor().execute(kms.IAM_INLINE_POLICY_NO_KMS_DECRYPT, (execution_time, FRAMEWORK, 'kms.2'))
+    print("Executing check kms.3")
+    conn.cursor().execute(kms.KEYS_NOT_UNINTENTIONALLY_DELETED, (execution_time, FRAMEWORK, 'kms.3'))
+    print("Executing check kms.4")
+    conn.cursor().execute(kms.KEY_ROTATION_ENABLED, (execution_time, FRAMEWORK, 'kms.4'))
 
 def execute_neptune(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: neptune")
@@ -461,8 +488,12 @@ def execute_s3(conn: SnowflakeConnection, execution_time: datetime.datetime):
     conn.cursor().execute(s3.S3_BUCKET_LOGGING_ENABLED, (execution_time, FRAMEWORK, 's3.9'))
     print("Executing check s3.10")
     conn.cursor().execute(s3.S3_VERSION_LIFECYCLE_POLICY_CHECK, (execution_time, FRAMEWORK, 's3.10'))
+    print("Executing check s3.11")
+    conn.cursor().execute(s3.S3_EVENT_NOTIFICATIONS_ENABLED, (execution_time, FRAMEWORK, 's3.11'))
     print("Executing check s3.13")
     conn.cursor().execute(s3.S3_LIFECYCLE_POLICY_CHECK, (execution_time, FRAMEWORK, 's3.13'))
+    print("Executing check s3.15")
+    conn.cursor().execute(s3.S3_BUCKET_DEFAULT_LOCK_ENABLED, (execution_time, FRAMEWORK, 's3.15'))
 
 def execute_sagemaker(conn: SnowflakeConnection, execution_time: datetime.datetime):
     print("Running section: sagemaker")
