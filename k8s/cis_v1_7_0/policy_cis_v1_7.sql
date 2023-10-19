@@ -11,6 +11,7 @@ END AS "execution_time"  \gset
 \set framework 'cis_v1.7.0'
 
 \ir ../create_k8s_policy_results.sql
+\ir ./controller_manager_1_3.sql
 \ir ./pod_security_standards_5_2.sql
 \ir ./network_policies_and_cni_5_3.sql
 \ir ./secrets_managment_5_4.sql
