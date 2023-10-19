@@ -1,4 +1,4 @@
-
+#S3.1
 ACCOUNT_LEVEL_PUBLIC_ACCESS_BLOCKS = """
 insert into aws_policy_results
 select
@@ -21,7 +21,7 @@ left join
     aws_s3_accounts on
         aws_iam_accounts.account_id = aws_s3_accounts.account_id
 """
-
+#S3.2
 # Unverified
 PUBLICLY_READABLE_BUCKETS = """
 WITH policy_allow_public AS (
@@ -83,6 +83,7 @@ WHERE
     )
 """
 
+#S3.3
 # Unverified
 PUBLICLY_WRITABLE_BUCKETS = """
 WITH policy_allow_public AS (
@@ -144,6 +145,7 @@ WHERE
     )
 """
 
+#S3.4
 # Note: This query doesn't validate if a bucket policy requires encryption for `put-object` requests
 S3_SERVER_SIDE_ENCRYPTION_ENABLED = """
 insert into aws_policy_results
@@ -162,6 +164,7 @@ from
 left join aws_s3_bucket_encryption_rules on aws_s3_bucket_encryption_rules.bucket_arn=aws_s3_buckets.arn
 """
 
+#S3.5
 # Unverified
 DENY_HTTP_REQUESTS = """
 insert into aws_policy_results
@@ -194,7 +197,7 @@ WHERE
             OR CONTAINS(GET_PATH(foo.statement, 'Principal')::STRING, '*')
     )
 """
-
+#S3.6
 # Unverified
 RESTRICT_CROSS_ACCOUNT_ACTIONS = """
 insert into aws_policy_results
@@ -259,4 +262,133 @@ WHERE
 -- This will flag ALL canonical IDs as NOT COMPLIANT
 -- This will flag ALL users that have been deleted as NOT COMPLIANT
 -- This will not catch if an explicit deny supercedes the statement
+"""
+
+#s8
+S3_BUCKET_LEVEL_PUBLIC_ACCESS_PROHIBITED = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'S3 Block Public Access setting should be enabled at the bucket-level' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE
+    when block_public_acls
+    and block_public_policy
+    and ignore_public_acls
+    and restrict_public_buckets THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM
+    aws_s3_buckets
+"""
+
+#s9
+S3_BUCKET_LOGGING_ENABLED = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'S3 bucket server access logging should be enabled' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE
+        when logging_target_bucket IS NOT NULL
+        THEN 'pass' ELSE 'fail'
+    END AS status
+FROM
+    aws_s3_buckets
+"""
+
+#s10
+S3_VERSION_LIFECYCLE_POLICY_CHECK = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'S3 buckets with versioning enabled should have lifecycle policies configured' AS title,
+    b.account_id,
+    b.arn AS resource_id,
+    CASE
+        WHEN l.STATUS = 'Enabled' THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM
+    aws_s3_buckets AS b
+LEFT JOIN
+    aws_s3_bucket_lifecycles AS l
+ON
+    b.arn = l.bucket_arn
+where b.versioning_status = 'Enabled'
+"""
+
+#s11
+S3_EVENT_NOTIFICATIONS_ENABLED = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'S3 buckets should have event notifications enabled' AS title,
+    account_id,
+    bucket_arn AS resource_id,    
+    CASE WHEN
+        (EVENT_BRIDGE_CONFIGURATION::String IS NULL OR ARRAY_SIZE(EVENT_BRIDGE_CONFIGURATION) = 0)
+        AND (LAMBDA_FUNCTION_CONFIGURATIONS::String IS NULL OR ARRAY_SIZE(LAMBDA_FUNCTION_CONFIGURATIONS) = 0)
+        AND (QUEUE_CONFIGURATIONS::String IS NULL OR ARRAY_SIZE(QUEUE_CONFIGURATIONS) = 0)
+        AND (TOPIC_CONFIGURATIONS::String IS NULL OR ARRAY_SIZE(TOPIC_CONFIGURATIONS) = 0)
+    THEN 'fail'
+    ELSE 'pass'
+    END AS status
+FROM
+    aws_s3_bucket_notification_configurations;
+"""
+
+#s13
+S3_LIFECYCLE_POLICY_CHECK = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'S3 buckets should have lifecycle policies configured' AS title,
+    b.account_id,
+    b.arn AS resource_id,
+    CASE
+        WHEN l.STATUS = 'Enabled' THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM
+    aws_s3_buckets AS b
+LEFT JOIN
+    aws_s3_bucket_lifecycles AS l
+ON
+    b.arn = l.bucket_arn
+"""
+
+#s15
+S3_BUCKET_DEFAULT_LOCK_ENABLED = """
+insert into aws_policy_results
+select
+    :1 as execution_time,
+    :2 as framework,
+    :3 as check_id,
+    'S3 buckets should be configured to use Object Lock' AS title,
+    a.account_id,
+    a.arn AS resource_id,
+    CASE WHEN b.object_lock_enabled = 'Enabled' THEN 'pass' ELSE 'fail' END AS status
+FROM
+    aws_s3_buckets a
+LEFT JOIN
+    aws_s3_bucket_object_lock_configurations b
+ON
+    a.arn = b.bucket_arn
+GROUP BY
+    a.account_id,
+    a.arn,
+    status;
 """
