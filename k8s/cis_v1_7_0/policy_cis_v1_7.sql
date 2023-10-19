@@ -15,3 +15,8 @@ END AS "execution_time"  \gset
 \ir ./network_policies_and_cni_5_3.sql
 \ir ./secrets_managment_5_4.sql
 \ir ./general_policies_5_7.sql
+\ir ./rbac_and_service_accounts.sql
+\ir ./api_server.sql
+\ir ./etcd.sql
+\ir ./scheduler.sql
+\ir ./logging.sql

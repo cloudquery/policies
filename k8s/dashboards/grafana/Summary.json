@@ -1,0 +1,1542 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Gain insights into CIS Kubernetes v1.7.0 compliance status and track policy adherence with this comprehensive dashboard.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "panels": [],
+      "title": "CIS Kubernetes v1.7.0 Compliance Dashboard",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "yellow",
+            "mode": "palette-classic-by-name"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [],
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "success"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fail"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 7,
+        "x": 0,
+        "y": 1
+      },
+      "id": 1,
+      "options": {
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": false,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "\nWITH complaince as (\nselect \n\t\t'api_server' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%api_server%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'etcd' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%etcd%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'logging' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%logging%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'controller_manager' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%controller_manager%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'scheduler' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%scheduler%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'authentication' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%authentication%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'kubelet' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%kubelet%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'rbac_and_service_accounts' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%rbac_and_service_accounts%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'pod_security' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%pod_security%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'network' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%network%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'secrets' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%secrets%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'general' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%general%'\n\tGROUP BY check_id) as a\n)\nselect sum(failed) as fail,  sum(success) as success\nfrom complaince\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Success vs. Fail Distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "success"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fail"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 7,
+        "y": 1
+      },
+      "id": 28,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "\nWITH complaince as (\nselect \n\t\t'api_server' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%api_server%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'etcd' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%etcd%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'logging' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%logging%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'controller_manager' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%controller_manager%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'scheduler' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%scheduler%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'authentication' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%authentication%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'kubelet' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%kubelet%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'rbac_and_service_accounts' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%rbac_and_service_accounts%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'pod_security' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%pod_security%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'network' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%network%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'secrets' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%secrets%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'general' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%general%'\n\tGROUP BY check_id) as a\n)\nselect sum(failed) as fail\nfrom complaince\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Failed Checks",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "Visualizes the compliance status of policies categorized by sections such as 'etcd,' 'logging,' and 'api_server.' Failed policies are highlighted to draw immediate attention, helping you quickly identify areas that require corrective action.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 13,
+        "x": 11,
+        "y": 1
+      },
+      "id": 31,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "WITH complaince as (\nselect \n\t\t'Components' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%api_server%' or check_id like '%controller_manager%' or check_id like '%scheduler%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'etcd' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%etcd%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'Configuration' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%authentication%' or check_id like '%logging%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'Policies' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%rbac_and_service_accounts%' \n\t or check_id like '%pod_security%' \n\t or check_id like '%network%' \n\t or check_id like '%secrets%' \n\t or check_id like '%general%'\n\tGROUP BY check_id) as a\n),\ntable1 as (\n\tselect Title, \n       (CAST(success AS DECIMAL) / all_policies) * 100 as percentage\nfrom complaince\n)\nSELECT\n    MAX(CASE WHEN Title = 'Components' THEN percentage END) AS \"Components\",\n    MAX(CASE WHEN Title = 'etcd' THEN percentage END) AS \"etcd\",\n    MAX(CASE WHEN Title = 'Configuration' THEN percentage END) AS \"Configuration\",\n\tMAX(CASE WHEN Title = 'Policies' THEN percentage END) AS \"Policies\"\nFROM table1;\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Overview by Section",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "success"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "fail"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 7,
+        "y": 7
+      },
+      "id": 29,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "\nWITH complaince as (\nselect \n\t\t'api_server' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%api_server%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'etcd' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%etcd%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'logging' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%logging%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'controller_manager' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%controller_manager%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'scheduler' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%scheduler%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'authentication' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%authentication%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'kubelet' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%kubelet%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'rbac_and_service_accounts' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%rbac_and_service_accounts%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'pod_security' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%pod_security%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'network' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%network%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'secrets' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%secrets%'\n\tGROUP BY check_id) as a\nUNION\n\tselect \n\t\t'general' as Title,\n\t\tCOUNT(*) as all_policies,\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS failed,\n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS success\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%general%'\n\tGROUP BY check_id) as a\n)\nselect sum(success) as success\nfrom complaince\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Passed Checks",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Successful"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 11,
+        "y": 12
+      },
+      "id": 33,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select \n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS \"Successful\",\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS \"Failed\"\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%api_server%' or check_id like '%controller_manager%' or check_id like '%scheduler%'\n\tGROUP BY check_id) as a\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Components",
+      "type": "stat"
+    },
+    {
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 15,
+        "y": 12
+      },
+      "id": 35,
+      "libraryPanel": {
+        "name": "etcd",
+        "uid": "fa67fced-3961-4126-aa39-d2e5ba79b563"
+      },
+      "title": "etcd"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Successful"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 18,
+        "y": 12
+      },
+      "id": 36,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select \n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS \"Successful\",\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS \"Failed\"\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\n\twhere check_id like '%authentication%' or check_id like '%logging%'\n\tGROUP BY check_id) as a\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Configuration",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This pie chart provides a visual representation of the distribution between successful and failed cases",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Successful"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Failed"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "red",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 21,
+        "y": 12
+      },
+      "id": 38,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select \n\t\tSUM(CASE WHEN failed_checks = 0 THEN 1 ELSE 0 END) AS \"Successful\",\n\t\tSUM(CASE WHEN failed_checks > 0 THEN 1 ELSE 0 END) AS \"Failed\"\n\tfrom \n\t(SELECT\n\tcheck_id,\n\t\tCOUNT(*) AS total_checks,\n\t\tSUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) AS failed_checks,\n\t\tSUM(CASE WHEN status = 'pass' THEN 1 ELSE 0 END) AS successful_checks\n\tFROM k8s_policy_results\nwhere check_id like '%rbac_and_service_accounts%' \n\t or check_id like '%pod_security%' \n\t or check_id like '%network%' \n\t or check_id like '%secrets%' \n\t or check_id like '%general%'\n\t GROUP BY check_id) as a\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Policies",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This table provides an overview of policies that have failed, including details about the execution time, resource name, resource ID, check ID, and a brief title describing the policy violation.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "status"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 149
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 13
+      },
+      "id": 4,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select resource_id as \"resource id\", resource_name as \"resource name\", status, title as reason from k8s_policy_results\nwhere status = 'fail'",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Failed Policies Overview",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This table provides an overview of policies that have failed, including details about the execution time, resource name, resource ID, check ID, and a brief title describing the policy violation.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "status"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 134
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 11,
+        "x": 0,
+        "y": 21
+      },
+      "id": 15,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select resource_id as \"resource id\", resource_name as \"resource name\", status, title as reason from k8s_policy_results\nwhere status = 'pass'",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Successful Policies Overview",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This panel displays the count of resources",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 0,
+        "y": 28
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 1
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select count(distinct resource_id) as count_resources from k8s_policy_results",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Total Resources",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "description": "This panel displays the count of resources",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 3,
+        "x": 3,
+        "y": 28
+      },
+      "id": 39,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "titleSize": 1
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select count(distinct resource_id) as count_resources \nfrom k8s_policy_results\nwhere status = 'fail' ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Non-Compliant Resources",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 28
+      },
+      "id": 27,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT 'Nodes' AS resource_type, COUNT(*) AS resource_count\nFROM k8s_core_nodes\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Nodes",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 9,
+        "y": 28
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT 'Pods' AS resource_type, COUNT(*) AS resource_count\nFROM k8s_core_pods\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Pods",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 6,
+        "y": 31
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT 'Services' AS resource_type, COUNT(*) AS resource_count\n    FROM k8s_core_services\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Services",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "postgres",
+        "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 9,
+        "y": 31
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "10.1.1",
+      "targets": [
+        {
+          "datasource": {
+            "type": "postgres",
+            "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "    SELECT 'ConfigMaps' AS resource_type, COUNT(*) AS resource_count\n    FROM k8s_core_config_maps\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "ConfigMaps",
+      "type": "stat"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "minikube",
+          "value": "minikube"
+        },
+        "datasource": {
+          "type": "postgres",
+          "uid": "aa72cbdd-9fb5-4a2a-b212-bf833586e643"
+        },
+        "definition": "select context from k8s_policy_results\ngroup by context",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": "select context from k8s_policy_results\ngroup by context",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Compliance Dashboard - Summary",
+  "uid": "f826630f-b598-4db2-8bfd-5bca3ef82e60",
+  "version": 44,
+  "weekStart": ""
+}
