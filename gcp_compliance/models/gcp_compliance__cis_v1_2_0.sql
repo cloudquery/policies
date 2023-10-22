@@ -1,20 +1,20 @@
 with
     aggregated as (
-        {{ iam_managed_service_account_keys('cis_v1.2.0', '1.4') }}
+        select * from {{ ref('check_iam') }}
         union
-        {{ iam_service_account_admin_priv('cis_v1.2.0', '1.5') }}
+        select * from {{ ref('check_kms') }}
         union
-        {{ iam_users_with_service_account_token_creator_role('cis_v1.2.0', '1.6') }}
+        select * from {{ ref('check_bigquery') }}
         union
-        {{ iam_service_account_keys_not_rotated('cis_v1.2.0', '1.7') }}
+        select * from {{ ref('check_compute') }}
         union
-        {{ iam_separation_of_duties('cis_v1.2.0', '1.8') }}
+        select * from {{ ref('check_dns') }}
         union
-        {{ kms_publicly_accessible('cis_v1.2.0', '1.9') }}
+        select * from {{ ref('check_logging') }}
         union
-        {{ kms_keys_not_rotated_within_90_days('cis_v1.2.0', '1.10') }}
+        select * from {{ ref('check_sql') }}
         union
-        {{ kms_separation_of_duties('cis_v1.2.0', '1.11') }}
+        select * from {{ ref('check_storage') }}
 
     )
 select *

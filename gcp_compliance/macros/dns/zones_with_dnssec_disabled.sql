@@ -1,7 +1,7 @@
 {% macro dns_zones_with_dnssec_disabled(framework, check_id) %}
     select
     DISTINCT 
-                "id"                                                                                   AS resource_id,
+                "id"::text                                                                                   AS resource_id,
                 _cq_sync_time As execution_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         

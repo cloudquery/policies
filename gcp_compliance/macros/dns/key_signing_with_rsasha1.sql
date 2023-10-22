@@ -1,7 +1,7 @@
 {% macro dns_key_signing_with_rsasha1(framework, check_id) %}
     select
     DISTINCT 
-                gdmz.id                                                                                   AS resource_id,
+                gdmz.id::text                                                                                   AS resource_id,
                 gdmz._cq_sync_time As execution_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
