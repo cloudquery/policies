@@ -1,9 +1,4 @@
 {% macro logging_sinks_not_configured_for_all_log_entries(framework, check_id) %}
-    WITH found_sinks AS (SELECT project_id, name, count(*) AS configured_sinks
-                     FROM gcp_logging_sinks gls
-                     WHERE gls.FILTER = ''
-                     GROUP BY project_id, name)
-
     select DISTINCT 
                 "name"                                                                    AS resource_id,
                 CURRENT_TIMESTAMP As execution_time,
@@ -16,6 +11,6 @@
                     configured_sinks = 0
                     THEN 'fail'
                 ELSE 'pass'
-                END AS status
-    FROM found_sinks
+                END AS status 
+    FROM {{ ref('found_sinks') }}
 {% endmacro %}

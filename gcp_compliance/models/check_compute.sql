@@ -12,6 +12,8 @@ with
         union
         {{ compute_ssl_proxy_with_weak_cipher('cis_v1.2.0', '3.9') }}
         union
+        {{ compute_allow_traffic_behind_iap('cis_v1.2.0', '3.10') }}
+        union
         {{ compute_instances_with_default_service_account('cis_v1.2.0', '4.1') }}
         union
         {{ compute_instances_with_default_service_account_with_full_access('cis_v1.2.0', '4.2') }}
@@ -29,6 +31,7 @@ with
         {{ compute_instances_with_public_ip('cis_v1.2.0', '4.9') }}
         union
         {{ compute_instances_without_confidential_computing('cis_v1.2.0', '4.11') }}
+        
     )
 
 select * from aggregated

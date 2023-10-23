@@ -1,5 +1,9 @@
 with
     aggregated as (
+        {{ logging_not_configured_across_services_and_users('cis_v1.2.0', '2.1') }}
+        union
+        {{ logging_sinks_not_configured_for_all_log_entries('cis_v1.2.0', '2.2') }}
+        union
         {{ logging_log_buckets_retention_policy_disabled('cis_v1.2.0', '2.3') }}
         union
         {{ logging_project_ownership_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.4') }}
