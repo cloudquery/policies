@@ -11,5 +11,5 @@ SELECT
     ELSE 'fail'
 	END AS rule_status
 FROM
-  aws_wafv2_web_acls;
+  aws_wafv2_web_acls
 {% endmacro %}
