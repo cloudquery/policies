@@ -2,7 +2,7 @@ kind: source
 spec:
   name: aws
   path: cloudquery/aws
-  version: "v22.16.0" # latest version of source aws plugin
+  version: "v22.17.0" # latest version of source aws plugin
   destinations: ["snowflake"]
   tables: ["*"]
 ---
