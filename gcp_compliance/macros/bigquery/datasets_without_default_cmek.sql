@@ -2,7 +2,7 @@
     select
     DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As execution_time,
+                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that all BigQuery Tables are encrypted with Customer-managed encryption key (CMEK) (Automated)' AS title,

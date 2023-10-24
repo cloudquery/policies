@@ -1,7 +1,7 @@
 {% macro bigquery_datasets_publicly_accessible(framework, check_id) %}
     select DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As execution_time,
+                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that BigQuery datasets are not anonymously or publicly accessible (Automated)' AS title,

@@ -1,7 +1,7 @@
 {% macro sql_postgresql_log_connections_flag_off(framework, check_id) %}
     select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the "log_connections" database flag for Cloud SQL PostgreSQL instance is set to "on" (Automated)' AS title,

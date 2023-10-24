@@ -1,7 +1,7 @@
 {% macro compute_disks_encrypted_with_csek(framework, check_id) %}
     select 
                 "name"                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure VM disks for critical VMs are encrypted with Customer-Supplied Encryption Keys (CSEK) (Automated)' AS title,

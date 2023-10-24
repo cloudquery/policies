@@ -2,7 +2,7 @@
     select
     DISTINCT 
                 "id"::text                                                                                   AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that DNSSEC is enabled for Cloud DNS (Automated)' AS title,

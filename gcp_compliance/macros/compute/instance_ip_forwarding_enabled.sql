@@ -1,7 +1,7 @@
 {% macro compute_instance_ip_forwarding_enabled(framework, check_id) %}
     select 
                 "name"                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that IP forwarding is not enabled on Instances (Automated)' AS title,

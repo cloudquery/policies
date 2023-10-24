@@ -1,7 +1,7 @@
 {% macro compute_ssh_access_permitted(framework, check_id) %}
     select
                 "name"                                                                   AS resource_id,
-                CURRENT_TIMESTAMP As execution_time,
+                _cq_sync_time As sync_time, 
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that SSH access is restricted from the internet (Automated)' AS title,

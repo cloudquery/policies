@@ -2,7 +2,7 @@
     select
     DISTINCT 
                 gci.name                                                                    AS resource_id,
-                gci._cq_sync_time As execution_time,
+                gci._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that instances are not configured to use the default service account with full access to all Cloud APIs (Automated)' AS title,

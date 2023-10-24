@@ -1,7 +1,7 @@
 {% macro logging_dns_logging_disabled(framework, check_id) %}
     select DISTINCT 
                 gcn.name                                                                    AS resource_id,
-                gcn._cq_sync_time As execution_time,
+                gcn._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud DNS logging is enabled for all VPC networks (Automated)' AS title,

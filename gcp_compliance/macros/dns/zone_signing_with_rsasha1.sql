@@ -2,7 +2,7 @@
     select
     DISTINCT 
                 gdmz.id::text                                                                                    AS resource_id,
-                gdmz._cq_sync_time As execution_time,
+                gdmz._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that RSASHA1 is not used for the zone-signing key in Cloud DNS DNSSEC (Manual)' AS title,

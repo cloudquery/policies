@@ -2,7 +2,7 @@
     select
     DISTINCT 
                 gcn.name                                                                    AS resource_id,
-                gcn._cq_sync_time As execution_time,
+                gcn._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network (Automated)' AS title,

@@ -1,7 +1,7 @@
 {% macro iam_service_account_keys_not_rotated(framework, check_id) %}
     select distinct
         gisa.name as resource_id,
-        gisa._cq_sync_time as execution_time,
+        gisa._cq_sync_time as sync_time,
         '{{framework}}' as framework,
         '{{check_id}}' as check_id,
         'Ensure user-managed/external keys for service accounts are rotated every 90 days or less (Automated)'

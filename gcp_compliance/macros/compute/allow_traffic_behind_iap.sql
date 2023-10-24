@@ -2,7 +2,7 @@
     SELECT
         DISTINCT
         gcf.name AS resource_id,
-        gcf._cq_sync_time AS execution_time,
+        gcf._cq_sync_time AS sync_time,
         '{{framework}}' AS framework,
         '{{check_id}}' AS check_id,
         'GCP CIS3.10 Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses (Manual)' AS title,

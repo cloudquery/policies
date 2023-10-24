@@ -1,7 +1,7 @@
 {% macro logging_sinks_not_configured_for_all_log_entries(framework, check_id) %}
     select DISTINCT 
                 "name"                                                                    AS resource_id,
-                CURRENT_TIMESTAMP As execution_time,
+                _cq_sync_time As sync_time, 
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that sinks are configured for all log entries (Automated)' AS title,

@@ -1,7 +1,7 @@
 {% macro logging_log_buckets_retention_policy_disabled(framework, check_id) %}
     select DISTINCT 
                 gsb.name                                                                    AS resource_id,
-                gsb._cq_sync_time As execution_time,
+                gsb._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that retention policies on log buckets are configured using Bucket Lock (Automated)' AS title,

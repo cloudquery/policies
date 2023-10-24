@@ -1,7 +1,7 @@
 {% macro sql_sqlserver_trace_flag_on(framework, check_id) %}
     select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure "3625 (trace flag)" database flag for Cloud SQL SQL Server instance is set to "on" (Automated)'  AS title,

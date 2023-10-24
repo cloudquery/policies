@@ -1,7 +1,7 @@
 {% macro sql_sqlserver_user_connections_flag_not_set(framework, check_id) %}
     select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure "user connections" database flag for Cloud SQL SQL Server instance is set as appropriate (Automated)' AS title,

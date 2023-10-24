@@ -1,7 +1,7 @@
 {% macro logging_vpc_firewall_changes_without_log_metric_filter_alerts(framework, check_id) %}
     select 
                 "filter"                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the log metric filter and alerts exist for VPC Network Firewall rule changes (Automated)' AS title,

@@ -1,7 +1,7 @@
 {% macro logging_not_configured_across_services_and_users(framework, check_id) %}
     select DISTINCT 
                 service                                                                    AS resource_id,
-                CURRENT_TIMESTAMP As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud Audit Logging is configured properly across all services and all users from a project (Automated)' AS title,

@@ -1,7 +1,7 @@
 {% macro storage_buckets_publicly_accessible(framework, check_id) %}
     select 
                 "name"                                                                    AS resource_id,
-                CURRENT_TIMESTAMP As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud Storage bucket is not anonymously or publicly accessible (Automated)' AS title,

@@ -1,7 +1,7 @@
 {% macro sql_db_instance_publicly_accessible(framework, check_id) %}
     select DISTINCT
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud SQL database instances are not open to the world (Automated)' AS title,

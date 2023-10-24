@@ -1,7 +1,7 @@
 {% macro compute_instances_without_block_project_wide_ssh_keys(framework, check_id) %}
     select 
                 gci.name                                                                   AS resource_id,
-                gci._cq_sync_time As execution_time,
+                gci._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure "Block Project-wide SSH keys" is enabled for VM instances (Automated)' AS title,

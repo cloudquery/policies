@@ -2,6 +2,7 @@ WITH combined AS (
     SELECT * FROM gcp_compute_firewalls gcf, JSONB_ARRAY_ELEMENTS(gcf.allowed) AS a
 )
 SELECT
+    gcf._cq_sync_time,
     gcf.project_id,
     gcf."name",
     gcf.network,

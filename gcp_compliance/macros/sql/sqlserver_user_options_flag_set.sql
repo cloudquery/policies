@@ -1,7 +1,7 @@
 {% macro sql_sqlserver_user_options_flag_set(framework, check_id) %}
     select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure "user options" database flag for Cloud SQL SQL Server instance is not configured (Automated)' AS title,

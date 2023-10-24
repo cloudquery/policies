@@ -1,7 +1,7 @@
 {% macro compute_default_network_exist(framework, check_id) %}
     select 
                 "name"                                                                    AS resource_id,
-                _cq_sync_time As execution_time,
+                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the default network does not exist in a project (Automated)' AS title,
