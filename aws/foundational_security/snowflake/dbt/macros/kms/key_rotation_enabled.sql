@@ -1,6 +1,5 @@
 {% macro key_rotation_enabled(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'AWS KMS key rotation should be enabled' AS title,
@@ -11,5 +10,5 @@ SELECT
   ELSE 'pass'
   END as status
 FROM
-  aws_kms_keys;
+  aws_kms_keys
 {% endmacro %}

@@ -1,6 +1,5 @@
 {% macro security_groups_not_associated(framework, check_id) %}
-insert into aws_policy_results
-WITH used_security_groups AS (
+wITH used_security_groups AS (
     -- Security groups associated with EC2 instances
     SELECT sg.value:GroupId::text as security_group_id
       FROM aws_ec2_instances

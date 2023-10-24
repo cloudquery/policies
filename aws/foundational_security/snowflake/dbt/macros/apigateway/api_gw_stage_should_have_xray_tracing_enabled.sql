@@ -1,6 +1,5 @@
 {% macro api_gw_stage_should_have_xray_tracing_enabled(framework, check_id) %}
-insert into aws_policy_results
-SELECT 
+select 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'API Gateway REST API stages should have AWS X-Ray tracing enabled' as title,

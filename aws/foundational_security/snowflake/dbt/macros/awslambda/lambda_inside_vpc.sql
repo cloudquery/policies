@@ -1,6 +1,5 @@
 {% macro lambda_inside_vpc(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
   'Lambda functions should be in a VPC' AS title,

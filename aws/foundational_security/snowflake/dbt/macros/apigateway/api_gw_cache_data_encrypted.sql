@@ -1,5 +1,4 @@
 {% macro api_gw_cache_data_encrypted(framework, check_id) %}
-insert into aws_policy_results
 with bad_methods as (
 select DISTINCT
     arn
@@ -34,5 +33,5 @@ SELECT
 FROM 
     cache_enabled ce
     LEFT JOIN bad_methods as b
-        ON ce.arn = b.arn; 
+        ON ce.arn = b.arn
 {% endmacro %}

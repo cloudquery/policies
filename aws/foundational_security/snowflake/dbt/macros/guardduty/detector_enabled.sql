@@ -1,5 +1,4 @@
 {% macro detector_enabled(framework, check_id) %}
-insert into aws_policy_results
 with enabled_detector_regions as (
     select account_id, region
     from aws_guardduty_detectors

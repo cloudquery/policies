@@ -1,6 +1,5 @@
 {% macro integrated_with_cloudwatch_logs(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'CloudTrail trails should be integrated with CloudWatch Logs' as title,

@@ -1,6 +1,5 @@
 {% macro cloudformation_stack_notification_check(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'CloudFormation stacks should be integrated with Simple Notification Service (SNS)' AS "title",
@@ -12,5 +11,5 @@ SELECT
   END
     AS status
 FROM
-  aws_cloudformation_stacks;
+  aws_cloudformation_stacks
 {% endmacro %}

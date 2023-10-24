@@ -1,5 +1,4 @@
 {% macro sagemaker_notebook_instance_root_access_check(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

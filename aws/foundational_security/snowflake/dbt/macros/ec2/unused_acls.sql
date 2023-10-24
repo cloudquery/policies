@@ -1,5 +1,4 @@
 {% macro unused_acls(framework, check_id) %}
-insert into aws_policy_results
 with results as (
 select distinct
     account_id,

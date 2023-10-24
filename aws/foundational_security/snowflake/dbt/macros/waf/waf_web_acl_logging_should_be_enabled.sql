@@ -1,6 +1,4 @@
 {% macro waf_web_acl_logging_should_be_enabled(framework, check_id) %}
-insert into aws_policy_results
--- WAF Classic
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

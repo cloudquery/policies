@@ -1,6 +1,5 @@
 {% macro distribution_should_not_use_depricated_ssl_protocols(framework, check_id) %}
-insert into aws_policy_results
-WITH origins_with_sslv3 AS (
+wITH origins_with_sslv3 AS (
 SELECT DISTINCT
     arn,
     o.value:Id AS origin_id

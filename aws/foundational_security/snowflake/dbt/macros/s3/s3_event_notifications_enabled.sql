@@ -1,5 +1,4 @@
 {% macro s3_event_notifications_enabled(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
@@ -15,5 +14,5 @@ select
     ELSE 'pass'
     END AS status
 FROM
-    aws_s3_bucket_notification_configurations;
+    aws_s3_bucket_notification_configurations
 {% endmacro %}

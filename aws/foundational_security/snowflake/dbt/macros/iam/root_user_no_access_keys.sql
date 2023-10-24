@@ -1,5 +1,4 @@
 {% macro root_user_no_access_keys(framework, check_id) %}
-insert into aws_policy_results
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
@@ -11,5 +10,5 @@ select
     then 'fail'
     else 'pass'
   end
-from aws_iam_user_access_keys;
+from aws_iam_user_access_keys
 {% endmacro %}

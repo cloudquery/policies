@@ -1,6 +1,5 @@
 {% macro paravirtual_instances_should_not_be_used(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Amazon EC2 paravirtual instance types should not be used' as title,

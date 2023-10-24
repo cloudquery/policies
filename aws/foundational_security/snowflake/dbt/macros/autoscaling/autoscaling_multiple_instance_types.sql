@@ -1,6 +1,5 @@
 {% macro autoscaling_multiple_instance_types(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Auto Scaling groups should use multiple instance types in multiple Availability Zones' AS "title",
@@ -19,5 +18,5 @@ JOIN (
     aws_autoscaling_groups AS aag,
     LATERAL FLATTEN(input => aag.INSTANCES) instance
   GROUP BY arn
-) AS ditc ON aag.arn = ditc.arn;
+) AS ditc ON aag.arn = ditc.arn
 {% endmacro %}

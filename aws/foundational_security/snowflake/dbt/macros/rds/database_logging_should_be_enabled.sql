@@ -1,6 +1,5 @@
 {% macro database_logging_should_be_enabled(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Database logging should be enabled' AS title,
@@ -22,5 +21,5 @@ SELECT
                   ARRAY_CONSTRUCT('error', 'agent'))) THEN 'fail'
         ELSE 'pass' 
     END AS status
-FROM aws_rds_instances;
+FROM aws_rds_instances
 {% endmacro %}

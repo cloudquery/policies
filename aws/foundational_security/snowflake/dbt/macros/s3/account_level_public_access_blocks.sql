@@ -1,5 +1,4 @@
 {% macro account_level_public_access_blocks(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

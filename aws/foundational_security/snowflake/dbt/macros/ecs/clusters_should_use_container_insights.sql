@@ -1,6 +1,4 @@
 {% macro clusters_should_use_container_insights(framework, check_id) %}
-insert into 
-    aws_policy_results
 with settings as (
 SELECT DISTINCT
   arn

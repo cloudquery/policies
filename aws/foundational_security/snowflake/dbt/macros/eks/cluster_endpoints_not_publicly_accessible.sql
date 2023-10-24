@@ -1,6 +1,5 @@
 {% macro cluster_endpoints_not_publicly_accessible(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'EKS cluster endpoints should not be publicly accessible' as title,

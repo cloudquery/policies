@@ -1,6 +1,5 @@
 {% macro keys_not_unintentionally_deleted(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT 
+select 
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'AWS KMS keys should not be deleted unintentionally' AS title,
@@ -11,5 +10,5 @@ SELECT
         ELSE 'pass'
     END AS status
 FROM    
-    aws_kms_keys;
+    aws_kms_keys
 {% endmacro %}

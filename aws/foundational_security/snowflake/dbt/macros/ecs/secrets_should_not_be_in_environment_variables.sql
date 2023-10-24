@@ -1,6 +1,4 @@
 {% macro secrets_should_not_be_in_environment_variables(framework, check_id) %}
-insert into 
-    aws_policy_results
 with flat_containers AS (
 SELECT 
     t.arn,

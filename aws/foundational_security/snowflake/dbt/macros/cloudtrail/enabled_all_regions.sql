@@ -1,5 +1,4 @@
 {% macro cloudtrail_enabled_all_regions(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{check_id}}' As check_id,
     '{{framework}}' As framework,

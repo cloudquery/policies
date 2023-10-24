@@ -1,5 +1,4 @@
 {% macro connections_to_elasticsearch_domains_should_be_encrypted_using_tls_1_2(framework, check_id) %}
-insert into aws_policy_results
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,

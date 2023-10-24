@@ -1,6 +1,5 @@
 {% macro elastic_beanstalk_managed_updates_enabled(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Elastic Beanstalk managed platform updates should be enabled' as title,

@@ -1,6 +1,6 @@
 {% macro security_groups_with_open_critical_ports(framework, check_id) %}
 -- uses view which uses aws_security_group_ingress_rules.sql query
-insert into aws_policy_results
+
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

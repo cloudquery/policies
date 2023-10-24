@@ -1,5 +1,4 @@
 {% macro restrict_cross_account_actions(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

@@ -1,6 +1,5 @@
 {% macro transit_gateways_should_not_auto_accept_vpc_attachments(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Amazon EC2 Transit Gateways should not automatically accept VPC attachment requests' as title,

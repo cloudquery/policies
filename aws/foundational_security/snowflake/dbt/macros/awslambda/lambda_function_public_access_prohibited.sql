@@ -1,6 +1,5 @@
 {% macro lambda_function_public_access_prohibited(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT DISTINCT
+select DISTINCT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Lambda function policies should prohibit public access' AS title,

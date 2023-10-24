@@ -1,6 +1,5 @@
 {% macro both_vpn_channels_should_be_up(framework, check_id) %}
-insert into aws_policy_results
-WITH TunnelStatus AS (
+wITH TunnelStatus AS (
     SELECT
         distinct c.vpn_connection_id,
         COUNT_IF(t.value:Status::text = 'UP') OVER(PARTITION BY c.vpn_connection_id) as up_count

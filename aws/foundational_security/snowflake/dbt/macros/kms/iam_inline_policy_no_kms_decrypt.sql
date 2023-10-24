@@ -1,6 +1,5 @@
 {% macro iam_inline_policy_no_kms_decrypt(framework, check_id) %}
-INSERT INTO aws_policy_results
-WITH decrypt_users as (
+wITH decrypt_users as (
     SELECT DISTINCT
         u.user_arn as arn
     FROM 
@@ -105,5 +104,5 @@ SELECT
     END as status
 FROM aws_iam_groups g
 LEFT JOIN decrypt_groups dg
-    ON g.arn = dg.arn;
+    ON g.arn = dg.arn
 {% endmacro %}

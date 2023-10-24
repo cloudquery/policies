@@ -1,5 +1,4 @@
 {% macro distribution_should_encrypt_traffic_to_custom_origins(framework, check_id) %}
-insert into aws_policy_results
 with origins as (
     select distinct
         arn,

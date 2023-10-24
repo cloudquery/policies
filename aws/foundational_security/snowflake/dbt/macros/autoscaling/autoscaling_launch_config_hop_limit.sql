@@ -1,6 +1,5 @@
 {% macro autoscaling_launch_config_hop_limit(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Auto Scaling group launch configuration should not have a metadata response hop limit greater than 1' AS "title",
@@ -12,5 +11,5 @@ SELECT
   END
     AS status
 FROM
-  aws_autoscaling_launch_configurations;
+  aws_autoscaling_launch_configurations
 {% endmacro %}

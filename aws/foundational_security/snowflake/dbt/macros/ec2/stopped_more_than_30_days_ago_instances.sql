@@ -1,5 +1,4 @@
 {% macro stopped_more_than_30_days_ago_instances(framework, check_id) %}
-insert into aws_policy_results
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
@@ -12,5 +11,5 @@ select
       then 'fail'
       else 'pass'
   end AS status
-from aws_ec2_instances;
+from aws_ec2_instances
 {% endmacro %}

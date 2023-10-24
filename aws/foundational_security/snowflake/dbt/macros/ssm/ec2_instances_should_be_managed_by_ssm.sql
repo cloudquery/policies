@@ -1,5 +1,4 @@
 {% macro ec2_instances_should_be_managed_by_ssm(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

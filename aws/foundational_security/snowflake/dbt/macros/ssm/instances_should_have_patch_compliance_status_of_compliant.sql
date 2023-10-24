@@ -1,5 +1,4 @@
 {% macro instances_should_have_patch_compliance_status_of_compliant(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

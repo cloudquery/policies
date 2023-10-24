@@ -1,6 +1,5 @@
 {% macro autoscale_or_ondemand(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'DynamoDB tables should automatically scale capacity with demand' as title,
@@ -25,5 +24,5 @@ FROM aws_dynamodb_tables t
     LEFT JOIN aws_applicationautoscaling_policies pw ON (pw.service_namespace = 'dynamodb'
         AND pw.resource_id = CONCAT('table/', t.table_name)
         AND pw.policy_type = 'TargetTrackingScaling'
-        AND pw.scalable_dimension = 'dynamodb:table:WriteCapacityUnits');
+        AND pw.scalable_dimension = 'dynamodb:table:WriteCapacityUnits')
 {% endmacro %}

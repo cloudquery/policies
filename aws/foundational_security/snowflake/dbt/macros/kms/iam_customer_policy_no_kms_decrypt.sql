@@ -1,6 +1,5 @@
 {% macro iam_customer_policy_no_kms_decrypt(framework, check_id) %}
-INSERT INTO aws_policy_results
-WITH policy_with_decrypt AS (
+wITH policy_with_decrypt AS (
     SELECT DISTINCT arn
     FROM aws_iam_policies p
     ,lateral flatten(input => p.POLICY_VERSION_LIST) as f
@@ -29,5 +28,5 @@ SELECT
     END AS status
 FROM    
     aws_iam_policies i
-LEFT JOIN policy_with_decrypt d ON i.arn = d.arn;
+LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
 {% endmacro %}

@@ -1,6 +1,5 @@
 {% macro elbv2_have_multiple_availability_zones(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Application, Network and Gateway Load Balancers should span multiple Availability Zones' as title,

@@ -1,6 +1,5 @@
 {% macro autoscaling_launch_template(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Amazon EC2 Auto Scaling groups should use Amazon EC2 launch templates' AS "title",
@@ -12,5 +11,5 @@ SELECT
   END
     AS status
 FROM
-  aws_autoscaling_groups;
+  aws_autoscaling_groups
 {% endmacro %}

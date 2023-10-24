@@ -1,6 +1,5 @@
 {% macro rds_snapshots_public_prohibited(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'RDS snapshot should be private' AS title,
@@ -28,5 +27,5 @@ SELECT
     END AS status
 FROM
     aws_rds_db_snapshots,
-    LATERAL FLATTEN(ATTRIBUTES) a;
+    LATERAL FLATTEN(ATTRIBUTES) a
 {% endmacro %}

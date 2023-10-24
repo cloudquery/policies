@@ -1,5 +1,4 @@
 {% macro origin_failover_enabled(framework, check_id) %}
-insert into aws_policy_results
 with origin_groups as ( select acd.arn, distribution_config:OriginGroups:Items as ogs from aws_cloudfront_distributions acd),
      oids as (
 select distinct

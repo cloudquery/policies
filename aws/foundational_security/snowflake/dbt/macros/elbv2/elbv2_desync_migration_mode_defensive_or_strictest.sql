@@ -1,5 +1,4 @@
 {% macro elbv2_desync_migration_mode_defensive_or_strictest(framework, check_id) %}
-insert into aws_policy_results
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,

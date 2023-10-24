@@ -1,6 +1,5 @@
 {% macro autoscaling_launch_config_public_ip_disabled(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Amazon EC2 instances launched using Auto Scaling group launch configurations should not have Public IP addresses' AS "title",
@@ -12,5 +11,5 @@ SELECT
   END
     AS status
 FROM
-  aws_autoscaling_launch_configurations;
+  aws_autoscaling_launch_configurations
 {% endmacro %}

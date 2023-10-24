@@ -1,6 +1,5 @@
 {% macro lambda_functions_should_use_supported_runtimes(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Lambda functions should use supported runtimes' AS title,

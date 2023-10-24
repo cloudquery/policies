@@ -1,6 +1,5 @@
 {% macro network_acls_should_not_allow_ingress_for_ssh_rdp_ports(framework, check_id) %}
-insert into aws_policy_results
-WITH bad_entries as (
+wITH bad_entries as (
 SELECT
     DISTINCT
     arn

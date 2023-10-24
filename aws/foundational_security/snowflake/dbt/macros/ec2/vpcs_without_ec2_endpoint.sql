@@ -1,5 +1,4 @@
 {% macro vpcs_without_ec2_endpoint(framework, check_id) %}
-insert into aws_policy_results
 with endpoints as (
     select vpc_endpoint_id
     from aws_ec2_vpc_endpoints

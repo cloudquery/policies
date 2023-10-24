@@ -1,5 +1,4 @@
 {% macro instances_with_more_than_2_network_interfaces(framework, check_id) %}
-insert into aws_policy_results
 with data as (
     select account_id, instance_id, COUNT(nics.value:Status) as cnt
     from aws_ec2_instances, lateral flatten(input => parse_json(aws_ec2_instances.network_interfaces), OUTER => TRUE) as nics

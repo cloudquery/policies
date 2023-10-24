@@ -1,5 +1,4 @@
 {% macro elastic_beanstalk_stream_logs_to_cloudwatch(framework, check_id) %}
-insert into aws_policy_results
 with flat_configs as (
     select 
         c.environment_id,

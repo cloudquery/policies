@@ -1,5 +1,4 @@
 {% macro policies_have_wildcard_actions(framework, check_id) %}
-INSERT INTO aws_policy_results
 with bad_statements as (
 SELECT
     p.account_id,

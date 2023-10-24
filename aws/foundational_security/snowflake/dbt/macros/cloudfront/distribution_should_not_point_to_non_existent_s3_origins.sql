@@ -1,6 +1,5 @@
 {% macro distribution_should_not_point_to_non_existent_s3_origins(framework, check_id) %}
-insert into aws_policy_results
-WITH s3_origins AS (
+wITH s3_origins AS (
     SELECT DISTINCT
         arn,
         o.value:DomainName AS s3_domain_name

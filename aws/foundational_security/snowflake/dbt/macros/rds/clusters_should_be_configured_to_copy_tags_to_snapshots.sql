@@ -1,5 +1,4 @@
 {% macro clusters_should_be_configured_to_copy_tags_to_snapshots(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

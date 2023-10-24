@@ -1,6 +1,4 @@
 {% macro fargate_should_run_on_latest_version(framework, check_id) %}
-insert into 
-    aws_policy_results
 SELECT 
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,

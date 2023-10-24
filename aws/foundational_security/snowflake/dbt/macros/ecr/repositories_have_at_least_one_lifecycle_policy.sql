@@ -1,6 +1,5 @@
 {% macro repositories_have_at_least_one_lifecycle_policy(framework, check_id) %}
-insert into aws_policy_results
-SELECT DISTINCT
+select DISTINCT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,   
      'ECR repositories should have at least one lifecycle policy configured' as title,

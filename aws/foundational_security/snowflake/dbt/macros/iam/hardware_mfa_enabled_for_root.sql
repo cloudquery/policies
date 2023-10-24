@@ -1,5 +1,4 @@
 {% macro hardware_mfa_enabled_for_root(framework, check_id) %}
-insert into aws_policy_results
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
@@ -15,5 +14,5 @@ left join
     aws_iam_virtual_mfa_devices mfa on
         mfa.user:Arn = cr.arn
 where cr.user = '<root_account>'
-group by mfa.serial_number, cr.mfa_active, cr.arn;
+group by mfa.serial_number, cr.mfa_active, cr.arn
 {% endmacro %}

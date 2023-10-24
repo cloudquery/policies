@@ -1,6 +1,4 @@
 {% macro containers_should_run_as_non_privileged(framework, check_id) %}
-insert into 
-    aws_policy_results 
 with flat_containers as (
         SELECT
             arn,

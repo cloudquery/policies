@@ -1,6 +1,5 @@
 {% macro ebs_snapshot_permissions_check(framework, check_id) %}
-insert into aws_policy_results
-WITH snapshot_access_groups AS (
+wITH snapshot_access_groups AS (
     SELECT account_id,
            region,
            snapshot_id,

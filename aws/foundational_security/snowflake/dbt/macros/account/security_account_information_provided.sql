@@ -1,6 +1,4 @@
 {% macro security_account_information_provided(framework, check_id) %}
-
-INSERT INTO aws_policy_results
 SELECT
 '{{framework}}' As framework,
 '{{check_id}}' As check_id,

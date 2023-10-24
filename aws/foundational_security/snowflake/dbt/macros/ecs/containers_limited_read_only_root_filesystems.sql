@@ -1,6 +1,4 @@
 {% macro containers_limited_read_only_root_filesystems(framework, check_id) %}
-insert into 
-    aws_policy_results 
 with flat_containers as (
         SELECT
             arn,

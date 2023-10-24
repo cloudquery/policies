@@ -1,6 +1,4 @@
 {% macro waf_global_rulegroup_not_empty(framework, check_id) %}
--- Insert statement to add the result into aws_policy_results table
-insert into aws_policy_results
 SELECT
 	'{{framework}}' As framework,
     '{{check_id}}' As check_id,

@@ -1,6 +1,5 @@
 {% macro check_oauth_usage_for_sources(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT DISTINCT
+select DISTINCT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'CodeBuild project environment variables should not contain clear text credentials' as title,

@@ -1,5 +1,4 @@
 {% macro elbv1_cert_provided_by_acm(framework, check_id) %}
-insert into aws_policy_results
 with listeners as (
   select
       lb.account_id as account_id,

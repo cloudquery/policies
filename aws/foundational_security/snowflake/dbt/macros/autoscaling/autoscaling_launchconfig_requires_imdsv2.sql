@@ -1,6 +1,5 @@
 {% macro autoscaling_launchconfig_requires_imdsv2(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Auto Scaling group launch configurations should configure EC2 instances to require Instance Metadata Service Version 2' AS "title",
@@ -12,5 +11,5 @@ SELECT
   END
     AS status
 FROM
-  aws_autoscaling_launch_configurations;
+  aws_autoscaling_launch_configurations
 {% endmacro %}

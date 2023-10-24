@@ -1,6 +1,5 @@
 {% macro viewer_policy_https(framework, check_id) %}
-insert into aws_policy_results
-WITH cachebeviors AS (
+wITH cachebeviors AS (
     -- Handle all non-defaults as well as when there is only a default route
     SELECT DISTINCT arn, account_id 
     FROM (

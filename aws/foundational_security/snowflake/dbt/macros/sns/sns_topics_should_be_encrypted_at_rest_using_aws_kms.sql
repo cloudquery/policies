@@ -1,5 +1,4 @@
 {% macro sns_topics_should_be_encrypted_at_rest_using_aws_kms(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

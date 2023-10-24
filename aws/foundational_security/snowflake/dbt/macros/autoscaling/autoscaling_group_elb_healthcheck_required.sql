@@ -1,6 +1,5 @@
 {% macro autoscaling_group_elb_healthcheck_required(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Auto Scaling groups associated with a Classic Load Balancer should use load balancer health checks' AS "title",
@@ -13,5 +12,5 @@ SELECT
   END
     AS status
 FROM
-  aws_autoscaling_groups;
+  aws_autoscaling_groups
 {% endmacro %}

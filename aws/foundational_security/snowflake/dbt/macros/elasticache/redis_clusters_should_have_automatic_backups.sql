@@ -1,6 +1,5 @@
 {% macro redis_clusters_should_have_automatic_backups(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ElastiCache for Redis clusters should have automatic backups scheduled' as title,

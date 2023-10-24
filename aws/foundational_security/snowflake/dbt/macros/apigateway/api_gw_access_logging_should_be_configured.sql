@@ -1,6 +1,5 @@
 {% macro api_gw_access_logging_should_be_configured(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Access logging should be configured for API Gateway V2 Stages' as title,

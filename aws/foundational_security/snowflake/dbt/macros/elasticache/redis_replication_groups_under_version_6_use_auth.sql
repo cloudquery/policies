@@ -1,6 +1,5 @@
 {% macro redis_replication_groups_under_version_6_use_auth(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ElastiCache for Redis replication groups before version 6.0 should use Redis AUTH' as title,

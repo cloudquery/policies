@@ -1,5 +1,4 @@
 {% macro policies_with_admin_rights(framework, check_id) %}
-insert into aws_policy_results
 with bad_statements as (
 SELECT
     p.id
@@ -26,5 +25,5 @@ from
     aws_iam_policies as p
 LEFT JOIN bad_statements as b
     ON p.id = b.id
-WHERE p.arn REGEXP '.*\d{12}.*';
+WHERE p.arn REGEXP '.*\d{12}.*'
 {% endmacro %}

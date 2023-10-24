@@ -1,6 +1,6 @@
 {% macro security_groups_with_access_to_unauthorized_ports(framework, check_id) %}
 -- uses view which uses aws_security_group_ingress_rules.sql query
-insert into aws_policy_results
+
 SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,

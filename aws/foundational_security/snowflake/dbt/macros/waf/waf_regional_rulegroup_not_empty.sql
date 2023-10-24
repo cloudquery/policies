@@ -1,6 +1,5 @@
 {% macro waf_regional_rulegroup_not_empty(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
 	'{{framework}}' As framework,
     '{{check_id}}' As check_id,
 	'A WAF Regional rule group should have at least one rule' as title,

@@ -1,6 +1,5 @@
 {% macro redis_replication_groups_encrypted_in_transit(framework, check_id) %}
-insert into aws_policy_results
-SELECT
+select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ElastiCache for Redis replication groups should be encrypted in transit' as title,

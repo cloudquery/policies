@@ -1,6 +1,5 @@
 {% macro lambda_vpc_multi_az_check(framework, check_id) %}
-INSERT INTO aws_policy_results
-SELECT
+select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
   'VPC Lambda functions should operate in more than one Availability Zone' AS title,

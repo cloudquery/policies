@@ -1,5 +1,4 @@
 {% macro netfw_policy_default_action_full_packets(framework, check_id) %}
-insert into aws_policy_results
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
@@ -12,5 +11,5 @@ select
   else 'fail'
   END AS status
 FROM
-  aws_networkfirewall_firewall_policies;
+  aws_networkfirewall_firewall_policies
 {% endmacro %}

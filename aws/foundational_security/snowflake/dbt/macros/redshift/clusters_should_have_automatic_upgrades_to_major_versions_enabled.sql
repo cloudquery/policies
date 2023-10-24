@@ -1,5 +1,4 @@
 {% macro clusters_should_have_automatic_upgrades_to_major_versions_enabled(framework, check_id) %}
-insert into aws_policy_results
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

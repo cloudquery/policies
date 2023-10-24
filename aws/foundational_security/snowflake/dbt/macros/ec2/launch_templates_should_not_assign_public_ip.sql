@@ -1,6 +1,5 @@
 {% macro launch_templates_should_not_assign_public_ip(framework, check_id) %}
-insert into aws_policy_results
-WITH FlattenedData AS (
+wITH FlattenedData AS (
     SELECT
         account_id,
         arn,
@@ -27,5 +26,5 @@ FROM
     FlattenedData
 LEFT JOIN
     aws_ec2_network_interfaces
-        ON interface:networkInterfaceId = aws_ec2_network_interfaces.network_interface_id;
+        ON interface:networkInterfaceId = aws_ec2_network_interfaces.network_interface_id
 {% endmacro %}
