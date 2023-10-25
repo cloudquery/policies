@@ -54,7 +54,7 @@ jobs:
         env:
           SNOW_USER: ${{ secrets.SNOW_USER }}
           SNOW_PASSWORD: ${{ secrets.SNOW_PASSWORD }}
-          SNOW_ACCOUNT: "{{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}"
+          SNOW_ACCOUNT: "${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}"
           SNOW_WAREHOUSE: ${{ secrets.SNOW_WAREHOUSE }}
           SNOW_DATABASE: ${{ secrets.SNOW_DATABASE }}
           SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
