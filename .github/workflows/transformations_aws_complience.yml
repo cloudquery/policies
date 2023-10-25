@@ -49,7 +49,7 @@ jobs:
           SNOW_DATABASE: ${{ secrets.SNOW_DATABASE }}
           SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
           SNOW_REGION: ${{ secrets.SNOW_REGION }}
-      - name: Get dbt dependencies
+      - name: Run Policies
         run: |
           dbt run --target dev --profiles-dir ./tests
         env:
