@@ -1,0 +1,14 @@
+aws_compliance: # This should match the name in your dbt_project.yml
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOW_ACCOUNT') }}"
+
+      # User/password auth
+      user:  "{{ env_var('SNOW_USER') }}"
+      password: "{{ env_var('SNOW_PASSWORD') }}"
+
+      database: "{{ env_var('SNOW_DATABASE') }}"
+      warehouse: "{{ env_var('SNOW_WAREHOUSE') }}"
+      schema: "{{ env_var('SNOW_SCHEMA') }}"
