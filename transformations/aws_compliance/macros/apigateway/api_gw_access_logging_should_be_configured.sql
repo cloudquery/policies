@@ -1,8 +1,7 @@
 {% macro api_gw_access_logging_should_be_configured(framework, check_id) %}
-  as (
-    select
-    '{{framework}}' AS framework,
-    '{{check_id}}' AS check_id,
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
     'Access logging should be configured for API Gateway V2 Stages' as title,
     account_id, 
     arn AS resource_id,
