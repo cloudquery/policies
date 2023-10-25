@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./aws/foundational_security/snowflake/dbt
+        working-directory: ./transformations/aws_compliance
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: "3.9"
           cache: "pip"
-          cache-dependency-path: "./aws/foundational_security/snowflake/dbt/requirements.txt"
+          cache-dependency-path: "./transformations/aws_compliance/requirements.txt"
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Setup CloudQuery
