@@ -39,7 +39,7 @@ jobs:
           SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}:${{ secrets.SNOW_PASSWORD }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
       - name: DBT dependencies
         run: |
-          dbt deps --target aws_compliance --profiles-dir $PWD
+          dbt deps --target aws_compliance --profiles-dir ..
         env:
           SNOW_USER: ${{ secrets.SNOW_USER }}
           SNOW_PASSWORD: ${{ secrets.SNOW_PASSWORD }}
@@ -50,7 +50,7 @@ jobs:
           SNOW_REGION: ${{ secrets.SNOW_REGION }}
       - name: Get dbt dependencies
         run: |
-          dbt run --target aws_compliance --profiles-dir $PWD
+          dbt run --target aws_compliance --profiles-dir ..
         env:
           SNOW_USER: ${{ secrets.SNOW_USER }}
           SNOW_PASSWORD: ${{ secrets.SNOW_PASSWORD }}
