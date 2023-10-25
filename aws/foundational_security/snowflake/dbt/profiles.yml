@@ -9,7 +9,7 @@ aws_compliance: # This should match the name in your dbt_project.yml
       user:  "{{ env_var('SNOW_USER') }}"
       password: "{{ env_var('SNOW_PASSWORD') }}"
 
-      # role: "{{ env_var('SNOW_PASSWORD') }}"
+      role: "PUBLIC"
       database: "{{ env_var('SNOW_DATABASE') }}"
       warehouse: "{{ env_var('SNOW_WAREHOUSE') }}"
       schema: "{{ env_var('SNOW_SCHEMA') }}"
