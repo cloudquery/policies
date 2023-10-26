@@ -1,7 +1,5 @@
-
-{% macro anonymous_auth_disabled(framework, check_id) %}
-
-select  uid                              AS resource_id,
+{% macro api_server_1_2_1(framework, check_id) %}
+select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
         'Ensure that the --anonymous-auth argument is set to false' AS title,
@@ -18,5 +16,7 @@ from
   k8s_core_pods,
   jsonb_array_elements(spec_containers) as container
 where 
-	namespace = 'kube-system' and container ->> 'name' = 'kube-apiserver';
+	namespace = 'kube-system' and container ->> 'name' = 'kube-apiserver'
+
+
 {% endmacro %}
