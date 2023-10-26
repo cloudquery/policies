@@ -1,9 +1,5 @@
--- 5.3.1 - a simple check there is a network policy
--- SELECT *
--- FROM k8s_networking_network_policies;
-
 -- 5.3.2
- \echo "pod_security_standards_5.3.2"
+\echo "pod_security_standards_5.3.2"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
