@@ -33,18 +33,13 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   aws_cost:
-    compute_optimizer_results:
+    aws_cost__by_regions:
       +enabled: true
-      # +materialized: ephemeral
-    cost_over_time:
+    aws_cost__by_resources:
       +enabled: true
-      # +materialized: ephemeral
-    gcp2_ebs_volumes:
+    aws_cost__compute_optimizer_results:
       +enabled: true
-      # +materialized: ephemeral
-    regions_by_cost:
+    aws_cost__gcp2_ebs_volumes:
       +enabled: true
-      # +materialized: ephemeral
-    resources_by_cost:
+    aws_cost__over_time:
       +enabled: true
-      # +materialized: ephemeral
