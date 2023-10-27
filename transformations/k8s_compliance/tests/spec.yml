@@ -1,18 +1,20 @@
-TODO: Replace with valid k8 spec for testing
-# kind: source
-# spec:
-#   name: aws
-#   path: cloudquery/aws
-#   version: "v22.18.0" # latest version of source aws plugin
-#   destinations: ["snowflake"]
-#   tables: ["*"]
-# ---
-# kind: destination
-# spec:
-#   name: snowflake
-#   path: cloudquery/snowflake
-#   version: "v3.2.11" # latest version of destination snowflake plugin
-#   spec:
-#     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
-#     migrate_concurrency: -1
-
+kind: source
+spec:
+  # Source spec section
+  name: k8s
+  path: cloudquery/k8s
+  registry: cloudquery
+  version: "v5.2.1"
+  tables: ["*"]
+  destinations: ["postgresql"]
+  spec:
+    contexts: ["context"]
+---
+kind: destination
+spec:
+  name: "postgresql"
+  path: "cloudquery/postgresql"
+  version: "v6.1.1"
+  spec:
+    batch_size: 10000
+    connection_string: ${CQ_DSN}
