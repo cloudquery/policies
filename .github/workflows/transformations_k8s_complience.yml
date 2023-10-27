@@ -1,4 +1,4 @@
-name: Test Snowflake Policies
+name: Test K8s Policies
 
 on:
   pull_request:
