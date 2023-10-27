@@ -1,6 +1,5 @@
--- 5.2.1 TODO
 -- 5.2.2
- \echo "pod_security_standards_5.2.2"
+\echo "pod_security_standards_5.2.2"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -40,7 +39,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.3
- \echo "pod_security_standards_5.2.3"
+\echo "pod_security_standards_5.2.3"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -62,7 +61,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.4
- \echo "pod_security_standards_5.2.4"
+\echo "pod_security_standards_5.2.4"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -84,7 +83,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.5
- \echo "pod_security_standards_5.2.5"
+\echo "pod_security_standards_5.2.5"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -106,7 +105,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.6
- \echo "pod_security_standards_5.2.6"
+\echo "pod_security_standards_5.2.6"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -145,10 +144,9 @@ SELECT
 FROM
   k8s_core_pods;
   
--- 5.2.7 TODO
 
 -- 5.2.8
- \echo "pod_security_standards_5.2.8"
+\echo "pod_security_standards_5.2.8"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -193,7 +191,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.9
- \echo "pod_security_standards_5.2.9"
+\echo "pod_security_standards_5.2.9"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -236,7 +234,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.10
- \echo "pod_security_standards_5.2.10"
+\echo "pod_security_standards_5.2.10"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -279,7 +277,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.11
- \echo "pod_security_standards_5.2.11"
+\echo "pod_security_standards_5.2.11"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -320,7 +318,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.12
- \echo "pod_security_standards_5.2.12"
+\echo "pod_security_standards_5.2.12"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
@@ -368,7 +366,7 @@ FROM
   k8s_core_pods;
 
 -- 5.2.13
- \echo "pod_security_standards_5.2.13"
+\echo "pod_security_standards_5.2.13"
 
  INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)

@@ -1,7 +1,5 @@
--- 5.7.1 - TODO
-
 -- 5.7.2
- \echo "pod_security_standards_5.7.2"
+\echo "pod_security_standards_5.7.2"
 INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
 SELECT
@@ -26,7 +24,7 @@ FROM
   k8s_core_pods;
 
   -- 5.7.3
- \echo "pod_security_standards_5.7.3"
+\echo "pod_security_standards_5.7.3"
 INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
 WITH
@@ -67,7 +65,7 @@ FROM
   k8s_core_pods;
 
   -- 5.7.4
- \echo "pod_security_standards_5.7.4"
+\echo "pod_security_standards_5.7.4"
 INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
 -- only pods, talk with jason for more ressoures

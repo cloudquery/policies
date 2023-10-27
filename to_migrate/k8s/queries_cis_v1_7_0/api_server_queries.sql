@@ -1,4 +1,3 @@
--- query 1.2.1
 \echo "api_server_1.2.1"
 
 INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,

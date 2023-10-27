@@ -1,5 +1,5 @@
 -- 5.4.1
- \echo "pod_security_standards_5.4.1"
+\echo "pod_security_standards_5.4.1"
 INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
 WITH
@@ -40,9 +40,11 @@ FROM
 
 
 -- 5.4.2
- \echo "pod_security_standards_5.4.2"
+\echo "pod_security_standards_5.4.2"
 INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                  resource_name, status)
+
+                                 
 WITH
   pod_containers
     AS (
