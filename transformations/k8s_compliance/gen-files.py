@@ -8,8 +8,8 @@ def queryName(name):
     )
 
 
-source = "./to_migrate/k8s/queries_cis_v1_7_0"
-dest = "./transformations/k8s_compliance/macros"
+source = "../../to_migrate/k8s/queries_cis_v1_7_0"
+dest = "./macros"
 
 filesToTransform = [
     ("api_server_queries.sql", "api_server"),

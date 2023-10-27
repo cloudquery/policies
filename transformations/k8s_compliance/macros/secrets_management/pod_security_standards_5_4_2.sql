@@ -1,4 +1,6 @@
-{% macro pod_security_standards_5_4_2(framework, check_id) %}WITH
+{% macro pod_security_standards_5_4_2(framework, check_id) %}
+                                 
+WITH
   pod_containers
     AS (
       SELECT
