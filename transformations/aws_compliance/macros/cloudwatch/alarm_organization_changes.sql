@@ -33,4 +33,4 @@ select
             AND pattern LIKE '%($.eventName = UpdateOrganizationalUnit)%' then 'pass'
         else 'fail'
         end as title
-from aws_compliance__log_metric_filter_and_alarm{% endmacro %}
+from {{ ref('aws_compliance__log_metric_filter_and_alarm') }}{% endmacro %}

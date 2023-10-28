@@ -18,5 +18,5 @@ select
         AND pattern LIKE '%$.eventType != "AwsServiceEvent"%' then 'pass'
     else 'fail'
   end as title
-from aws_compliance__log_metric_filter_and_alarm
+from {{ ref('aws_compliance__log_metric_filter_and_alarm') }}
 {% endmacro %}

@@ -21,5 +21,5 @@ select
       then 'fail'
       else 'pass'
   end
-from aws_compliance__nacl_allow_ingress_rules
+from {{ ref('aws_compliance__nacl_allow_ingress_rules') }}
 {% endmacro %}

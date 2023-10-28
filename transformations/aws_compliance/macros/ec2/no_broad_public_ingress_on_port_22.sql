@@ -20,5 +20,5 @@ select
       then 'fail'
       else 'pass'
   end
-from aws_compliance__security_group_ingress_rules
+from {{ ref('aws_compliance__security_group_ingress_rules') }}
 {% endmacro %}

@@ -16,5 +16,5 @@ select
         else 'pass'
         end as status
 from
-    aws_compliance__apigateway_method_settings
+    {{ ref('aws_compliance__apigateway_method_settings') }}
 {% endmacro %}
