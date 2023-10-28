@@ -54,7 +54,7 @@ jobs:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres  
       - name: DBT dependencies
         run: |
-          dbt deps --target dev-pg --profiles-dir ./tests  --exclude aws_compliance__foundational_security
+          dbt deps --target dev-pg --profiles-dir ./tests
       - name: Run Policies
         run: |
           dbt run --target dev-pg --profiles-dir ./tests --exclude aws_compliance__foundational_security
