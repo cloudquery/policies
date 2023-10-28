@@ -23,7 +23,7 @@ where sns in
     )
     and sgs in
     -- 	Find all functions that have egress rule that allows access to all ip addresses
-    (select id from view_aws_security_group_egress_rules where ip = '0.0.0.0/0' or ip6 = '::/0')
+    (select id from aws_compliance__security_group_egress_rules where ip = '0.0.0.0/0' or ip6 = '::/0')
 union
 -- Find all Lambda functions that do not run in a VPC
 select distinct

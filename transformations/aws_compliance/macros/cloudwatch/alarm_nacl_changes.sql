@@ -21,5 +21,5 @@ select
           AND pattern LIKE '%($.eventName = ReplaceNetworkAclEntry)%' then 'pass'
       else 'fail'
   end as status
-from view_aws_log_metric_filter_and_alarm
+from aws_compliance__log_metric_filter_and_alarm
 {% endmacro %}

@@ -15,6 +15,6 @@ select
     'fail' as status -- TODO FIXME
 from aws_ec2_instances, jsonb_array_elements(security_groups) sg
     -- 	Find all instances that have egress rule that allows access to all ip addresses
-    inner join view_aws_security_group_egress_rules on id = sg->>'GroupId'
+    inner join aws_compliance__security_group_egress_rules on id = sg->>'GroupId'
 where (ip = '0.0.0.0/0' or ip6 = '::/0')
 {% endmacro %}

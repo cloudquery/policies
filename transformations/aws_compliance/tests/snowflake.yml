@@ -1,14 +1,6 @@
-kind: source
-spec:
-  name: aws
-  path: cloudquery/aws
-  version: "v22.18.0" # latest version of source aws plugin
-  destinations: ["snowflake"]
-  tables: ["*"]
----
 kind: destination
 spec:
-  name: snowflake
+  name: dest
   path: cloudquery/snowflake
   version: "v3.2.11" # latest version of destination snowflake plugin
   spec:

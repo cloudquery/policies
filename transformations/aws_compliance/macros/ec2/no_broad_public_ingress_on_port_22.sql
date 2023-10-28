@@ -20,5 +20,5 @@ select
       then 'fail'
       else 'pass'
   end
-from view_aws_security_group_ingress_rules
+from aws_compliance__security_group_ingress_rules
 {% endmacro %}

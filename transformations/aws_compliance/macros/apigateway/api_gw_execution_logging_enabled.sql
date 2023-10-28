@@ -15,7 +15,7 @@
         else 'pass'
     end as status
 from
-    view_aws_apigateway_method_settings s
+    aws_compliance__apigateway_method_settings s
 left join
     aws_apigateway_rest_apis r on s.rest_api_arn = r.arn
 )
@@ -51,7 +51,7 @@ left join
         else 'pass'
     end as status
 from
-    view_aws_apigateway_method_settings s
+    aws_compliance__apigateway_method_settings s
 left join
     aws_apigateway_rest_apis r on s.rest_api_arn = r.arn
 )

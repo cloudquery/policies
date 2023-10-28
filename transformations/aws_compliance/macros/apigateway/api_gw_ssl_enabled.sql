@@ -16,5 +16,5 @@ select
     else 'pass'
   end as status
 from
-    view_aws_apigateway_method_settings
+    aws_compliance__apigateway_method_settings
 {% endmacro %}

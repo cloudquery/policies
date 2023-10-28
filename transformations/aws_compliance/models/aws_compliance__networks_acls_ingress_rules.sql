@@ -11,4 +11,4 @@ WITH rules AS (SELECT aena.arn,
 SELECT arn, account_id, port_range_from, port_range_to, protocol, cidr_block, ipv6_cidr_block
 FROM rules
 WHERE egress IS DISTINCT FROM 'true'
-  AND rule_action = 'allow';
+  AND rule_action = 'allow'
