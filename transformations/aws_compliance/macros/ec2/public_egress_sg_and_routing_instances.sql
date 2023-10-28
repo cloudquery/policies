@@ -25,6 +25,6 @@ where subnet_id in
     -- 	Find all instances that have egress rule that allows access to all ip addresses
     (select instance_id
         from aws_ec2_instances, jsonb_array_elements(security_groups) sg
-        inner join {{ ref('{{ ref('aws_compliance__security_group_egress_rules') }}') }} on id = sg->>'GroupId'
+        inner join {{ ref('aws_compliance__security_group_egress_rules') }} on id = sg->>'GroupId'
         where (ip = '0.0.0.0/0' or ip6 = '::/0'))
 {% endmacro %}
