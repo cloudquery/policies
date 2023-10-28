@@ -42,8 +42,8 @@ left join
 
 {% macro postgres__api_gw_execution_logging_enabled(framework, check_id) %}
 (select distinct
-    '{{framework}}' as framework,
-    '{{check_id}}' as check_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
     'API Gateway REST and WebSocket API logging should be enabled' as title,
     r.account_id,
     'arn:' || 'aws' || ':apigateway:' || r.region || ':/restapis/' || r.id as resource_id,
@@ -60,8 +60,8 @@ left join
 union
 
 (select distinct
-     '{{framework}}' as framework,
-     '{{check_id}}' as check_id,
+     '{{framework}}' As framework,
+     '{{check_id}}' As check_id,
      'API Gateway REST and WebSocket API logging should be enabled' as title,
      a.account_id,
      'arn:' || 'aws' || ':apigateway:' || a.region || ':/apis/' || a.id as resource_id,
