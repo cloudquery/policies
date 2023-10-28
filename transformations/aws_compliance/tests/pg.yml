@@ -1,6 +1,6 @@
 kind: destination
 spec:
-  name: "postgresql"
+  name: "dest"
   path: "cloudquery/postgresql"
   version: "v6.1.1"
   spec:
