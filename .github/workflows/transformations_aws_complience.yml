@@ -51,7 +51,7 @@ jobs:
           SNOW_REGION: ${{ secrets.SNOW_REGION }}
       - name: Run Policies
         run: |
-          dbt run --target dev --profiles-dir ./tests
+          dbt run --target dev --profiles-dir ./tests --select aws_compliance__foundational_security
         env:
           SNOW_USER: ${{ secrets.SNOW_USER }}
           SNOW_PASSWORD: ${{ secrets.SNOW_PASSWORD }}
