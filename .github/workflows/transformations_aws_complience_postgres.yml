@@ -1,4 +1,4 @@
-name: Test Snowflake Policies
+name: "Test Policies: Snowflake"
 
 on:
   pull_request:
