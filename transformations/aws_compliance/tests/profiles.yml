@@ -12,7 +12,7 @@ aws_compliance: # This should match the name in your dbt_project.yml
       database: "{{ env_var('SNOW_DATABASE') }}"
       warehouse: "{{ env_var('SNOW_WAREHOUSE') }}"
       schema: "{{ env_var('SNOW_SCHEMA') }}"
-     dev-pg:
+    dev-pg:
       type: postgres
       host: 127.0.0.1
       user: postgres
