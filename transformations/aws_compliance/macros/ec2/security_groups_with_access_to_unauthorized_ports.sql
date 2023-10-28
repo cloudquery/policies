@@ -21,7 +21,7 @@ SELECT
     then 'fail'
     else 'pass'
   end
-FROM {{ ref('aws_compliance__security_group_ingress_rules') }}
+FROM view_aws_security_group_ingress_rules
 {% endmacro %}
 
 {% macro postgres__security_groups_with_access_to_unauthorized_ports(framework, check_id) %}
