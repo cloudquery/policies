@@ -13,5 +13,5 @@ select
        arn                                as resource_id,
        'fail'                             as status
 from aws_cloudfront_distributions
-where (distribution_config->>'Enabled')::boolean is distinct from true;
+where (distribution_config->>'Enabled')::boolean is distinct from true
 {% endmacro %}

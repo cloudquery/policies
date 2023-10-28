@@ -13,5 +13,5 @@ select
        arn                                  as resource_id,
        'fail'                               as status
 from aws_ec2_network_acls
-where coalesce(jsonb_array_length(associations), 0) = 0;
+where coalesce(jsonb_array_length(associations), 0) = 0
 {% endmacro %}

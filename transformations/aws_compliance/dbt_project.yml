@@ -37,10 +37,20 @@ dispatch:
 # files using the `{{ config(...) }}` macro.
 models:
   aws_compliance:
-    # Config indicated by + and applies to all files under models/example/
-    # example:
-    #   +materialized: view
+    aws_compliance__networks_acls_ingress_rules:
+      +enabled: true
+    aws_compliance__api_gateway_method_settings:
+      +enabled: true
+    aws_compliance__foundational_security:
+      +enabled: true
+    aws_compliance__security_group_egress_rules:
+      +enabled: true
+    aws_compliance__security_group_ingress_rules:
+      +enabled: true
+    aws_compliance__log_metric_filter_and_alarm:
+      +enabled: true
 
 
 
 
+    

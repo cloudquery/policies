@@ -22,5 +22,5 @@ SELECT
 FROM
     aws_regions ar
     LEFT JOIN aws_accessanalyzer_analyzers aregion ON
-        ar.region = aregion.region;
+        ar.region = aregion.region
 {% endmacro %}

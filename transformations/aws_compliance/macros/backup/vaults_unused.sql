@@ -15,4 +15,5 @@ select
        'fail'                           as status
 from aws_backup_vaults vault
          left join point on point.vault_arn = vault.arn
-where point.vault_arn is null;{% endmacro %}
+where point.vault_arn is null
+{% endmacro %}

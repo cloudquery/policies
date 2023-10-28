@@ -13,5 +13,5 @@ select
        arn                    as resource_id,
        'fail'                 as status
 from aws_ec2_images
-where coalesce(jsonb_array_length(block_device_mappings), 0) = 0;
+where coalesce(jsonb_array_length(block_device_mappings), 0) = 0
 {% endmacro %}

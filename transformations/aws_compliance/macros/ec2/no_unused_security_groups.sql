@@ -19,5 +19,5 @@ from
     aws_ec2_security_groups
 left join
     interface_groups on
-        aws_ec2_security_groups.group_id = interface_groups.id;
+        aws_ec2_security_groups.group_id = interface_groups.id
 {% endmacro %}

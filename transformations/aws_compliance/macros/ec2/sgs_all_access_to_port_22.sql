@@ -83,7 +83,7 @@ from (
             )
     ) as t
 group by t.arn
-having SUM(t.totalips) = 340282366920938463463374607431768211456;
+having SUM(t.totalips) = 340282366920938463463374607431768211456
 
 /* this value is the total number of ips in ipv6 space ie ::/0 */
 {% endmacro %}

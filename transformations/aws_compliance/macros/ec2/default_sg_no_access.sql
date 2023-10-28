@@ -34,5 +34,5 @@ select
       else 'pass'
   end
 from
-    aws_ec2_security_groups;
+    aws_ec2_security_groups
 {% endmacro %}

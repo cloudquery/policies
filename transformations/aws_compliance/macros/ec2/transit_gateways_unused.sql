@@ -15,4 +15,4 @@ select
        'fail'                   as status
 from aws_ec2_transit_gateways gateway
          left join attachment on attachment.transit_gateway_arn = gateway.arn
-where attachment.transit_gateway_arn is null;{% endmacro %}
+where attachment.transit_gateway_arn is null{% endmacro %}

@@ -15,5 +15,5 @@ select
        'fail'                                as status
 from aws_lightsail_container_services cs
          left join deployment on deployment.container_service_arn = cs.arn
-where deployment.container_service_arn is null;
+where deployment.container_service_arn is null
 {% endmacro %}

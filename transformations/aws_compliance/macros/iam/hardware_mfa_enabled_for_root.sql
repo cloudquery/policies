@@ -37,5 +37,5 @@ left join
     aws_iam_virtual_mfa_devices mfa on
         mfa.user->>'Arn' = cr.arn
 where cr.user = '<root_account>'
-group by mfa.serial_number, cr.mfa_active, cr.arn;
+group by mfa.serial_number, cr.mfa_active, cr.arn
 {% endmacro %}

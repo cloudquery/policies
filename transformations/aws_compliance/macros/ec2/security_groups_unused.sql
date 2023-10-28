@@ -17,5 +17,5 @@ select
        'fail'                      as status
 from aws_ec2_security_groups sg
          left join interface_groups on interface_groups.group_id = sg.group_id
-where interface_groups.group_id is null;
+where interface_groups.group_id is null
 {% endmacro %}

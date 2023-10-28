@@ -13,5 +13,5 @@ select
        arn                               as resource_id,
        'fail'                            as status
 from aws_lightsail_load_balancers
-where coalesce(jsonb_array_length(instance_health_summary), 0) = 0;
+where coalesce(jsonb_array_length(instance_health_summary), 0) = 0
 {% endmacro %}

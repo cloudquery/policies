@@ -13,5 +13,5 @@ select
        arn                     as resource_id,
        'fail'                  as status
 from aws_ec2_hosts
-where coalesce(jsonb_array_length(instances), 0) = 0;
+where coalesce(jsonb_array_length(instances), 0) = 0
 {% endmacro %}

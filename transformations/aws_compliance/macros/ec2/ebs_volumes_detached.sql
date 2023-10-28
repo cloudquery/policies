@@ -13,5 +13,5 @@ select
        arn            as resource_id,
        'fail'                as status
 from aws_ec2_ebs_volumes
-where coalesce(jsonb_array_length(attachments), 0) = 0;
+where coalesce(jsonb_array_length(attachments), 0) = 0
 {% endmacro %}

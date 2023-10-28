@@ -15,5 +15,5 @@ select
        'fail'                  as status
 from aws_ecr_repositories repository
          left join image on image.account_id = repository.account_id and image.repository_name = repository.repository_name
-where image.repository_name is null;
+where image.repository_name is null
 {% endmacro %}

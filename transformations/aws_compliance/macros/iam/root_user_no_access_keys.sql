@@ -29,5 +29,5 @@ select
     then 'fail'
     else 'pass'
   end
-from aws_iam_user_access_keys;
+from aws_iam_user_access_keys
 {% endmacro %}
