@@ -41,7 +41,7 @@ select
         then 'fail'
         else 'pass'
     end
-from view_aws_security_group_ingress_rules
+FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 {% endmacro %}
 
 {% macro postgres__security_groups_with_open_critical_ports(framework, check_id) %}
