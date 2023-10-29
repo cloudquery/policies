@@ -15,7 +15,7 @@
         else 'pass'
     end as status
 from
-    view_aws_apigateway_method_settings s
+    {{ ref('aws_compliance__api_gateway_method_settings') }} s
 left join
     aws_apigateway_rest_apis r on s.rest_api_arn = r.arn
 )
