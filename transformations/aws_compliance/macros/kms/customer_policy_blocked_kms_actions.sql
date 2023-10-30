@@ -1,0 +1,47 @@
+{% macro customer_policy_blocked_kms_actions(framework, check_id) %}
+  {{ return(adapter.dispatch('customer_policy_blocked_kms_actions')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__customer_policy_blocked_kms_actions(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__customer_policy_blocked_kms_actions(framework, check_id) %}
+
+with iam_policies as (
+    select
+        (v->>'Document')::jsonb AS document,
+        account_id,
+        arn,
+        id
+    from aws_iam_policies, jsonb_array_elements(aws_iam_policies.policy_version_list) AS v
+),
+
+violations as (
+    select distinct id
+    from iam_policies,
+        jsonb_array_elements(
+            case jsonb_typeof(document -> 'Statement')
+                when 'string' then jsonb_build_array(document ->> 'Statement')
+                when 'array' then document -> 'Statement'
+            end
+        ) as statement
+    where
+        not(
+            arn like 'arn:aws:iam::aws:policy%' or arn like 'arn:aws-us-gov:iam::aws:policy%'
+        )
+        and statement ->> 'Effect' = 'Allow'
+        AND lower(statement::TEXT)::JSONB -> 'resource'?| array['*', 'arn:aws:kms:*:' || account_id || ':key/*', 'arn:aws:kms:*:' || account_id || ':alias/*'] -- noqa
+        AND lower(statement::TEXT)::JSONB -> 'action' ?| array['*', 'kms:*', 'kms:decrypt', 'kms:reencryptfrom', 'kms:reencrypt*'] -- noqa
+)
+
+select
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'IAM customer managed policies should not allow decryption and re-encryption actions on all KMS keys' AS title,
+    account_id,
+    arn AS resource_id,
+    case when
+        violations.id is not null
+    then 'fail' else 'pass' end as status
+from aws_iam_policies
+left join violations on violations.id = aws_iam_policies.id
+{% endmacro %}
