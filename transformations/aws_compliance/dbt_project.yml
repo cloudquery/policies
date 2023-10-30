@@ -23,6 +23,12 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order: ['aws_compliance', 'dbt_utils']
+
+
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -31,10 +37,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   aws_compliance:
-    # Config indicated by + and applies to all files under models/example/
-    # example:
-    #   +materialized: view
 
 
-
-
+    
