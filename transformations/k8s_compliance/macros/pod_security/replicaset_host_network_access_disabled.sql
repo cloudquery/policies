@@ -5,7 +5,6 @@
 {% macro default__replicaset_host_network_access_disabled(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__replicaset_host_network_access_disabled(framework, check_id) %}
-INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                resource_name, status)
 select uid                                         AS resource_id,
        '{{framework}}'                                AS framework,

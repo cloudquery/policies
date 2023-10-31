@@ -5,7 +5,6 @@
 {% macro default__namespace_resource_quota_cpu_request(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__namespace_resource_quota_cpu_request(framework, check_id) %}
-INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                resource_name, status)
 select DISTINCT (k8s_core_namespaces.uid)                       AS resource_id,
                 '{{framework}}'                                    AS framework,

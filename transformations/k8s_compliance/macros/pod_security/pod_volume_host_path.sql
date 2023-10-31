@@ -9,7 +9,6 @@ WITH pod_volumes AS (SELECT uid, value AS volumes
                      FROM k8s_core_pods
                      CROSS JOIN jsonb_array_elements(spec_volumes) AS value)
 
-INSERT INTO k8s_policy_results (resource_id, execution_time, framework, check_id, title, context, namespace,
                                 resource_name, status)
 select uid                              AS resource_id,
             '{{framework}}'                      AS framework,
