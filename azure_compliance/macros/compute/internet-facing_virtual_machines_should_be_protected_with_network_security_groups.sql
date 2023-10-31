@@ -1,7 +1,7 @@
 {% macro compute_internet_facing_virtual_machines_should_be_protected_with_network_security_groups(framework, check_id) %}
 
 SELECT
-  _cq_sync_time As sync_time,
+  vm._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Internet-facing virtual machines should be protected with network security groups',

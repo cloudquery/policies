@@ -12,4 +12,5 @@ SELECT
     when type IS DISTINCT FROM 'Microsoft.Compute/virtualMachines'
     then 'fail' else 'pass'
   end
-FROM azure_compute_virtual_machines{% endmacro %}
+FROM azure_compute_virtual_machines
+{% endmacro %}

@@ -6,7 +6,7 @@ WITH valid_accounts AS (
 ) -- TODO check
 
 SELECT
-  _cq_sync_time As sync_time,
+  a._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Cosmos DB should use a virtual network service endpoint',

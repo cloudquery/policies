@@ -13,4 +13,5 @@ SELECT _cq_sync_time As sync_time,
            ELSE 'pass'
            END                                                                         AS status
 FROM azure_security_assessments
-WHERE name = '57e98606-6b1e-6193-0e3d-fe621387c16b'{% endmacro %}
+WHERE name = '57e98606-6b1e-6193-0e3d-fe621387c16b'
+{% endmacro %}

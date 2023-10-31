@@ -17,4 +17,5 @@ SELECT
       then 'fail' else 'pass'
   end
 FROM azure_storage_accounts a
-  LEFT JOIN secured_accounts s ON a._cq_id = s._cq_id{% endmacro %}
+  LEFT JOIN secured_accounts s ON a._cq_id = s._cq_id
+  {% endmacro %}

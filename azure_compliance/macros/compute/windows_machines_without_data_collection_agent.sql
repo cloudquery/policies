@@ -6,7 +6,7 @@ WITH secured_vms AS ( SELECT vm.id as compute_virtual_machine_id
                        AND ex.properties ->> 'provisioningState' = 'Succeeded')
 
 SELECT
-  _cq_sync_time As sync_time,
+  vms._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   '[Preview]: Network traffic data collection agent should be installed on Windows virtual machines',

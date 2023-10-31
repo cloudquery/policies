@@ -7,7 +7,7 @@ WITH valid_namespaces AS (
 )
 
 SELECT
-  _cq_sync_time As sync_time,
+  n._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Event Hub should use a virtual network service endpoint',

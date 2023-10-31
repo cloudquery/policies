@@ -11,7 +11,7 @@ WITH logging_enabled AS (
     AND retention_policy_enabled = TRUE
 )
 SELECT 
-  :'execution_time'
+  _cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   '',

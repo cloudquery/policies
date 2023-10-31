@@ -23,4 +23,5 @@ SELECT
       then 'fail' else 'pass'
   end
 FROM azure_sql_servers s
-     LEFT JOIN secured_servers ss ON s._cq_id = ss._cq_id{% endmacro %}
+     LEFT JOIN secured_servers ss ON s._cq_id = ss._cq_id
+     {% endmacro %}

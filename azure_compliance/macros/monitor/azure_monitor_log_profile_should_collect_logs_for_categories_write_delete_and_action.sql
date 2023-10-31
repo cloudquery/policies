@@ -1,7 +1,7 @@
 {% macro monitor_azure_monitor_log_profile_should_collect_logs_for_categories_write_delete_and_action(framework, check_id) %}
 
 SELECT
-  _cq_sync_time As sync_time,
+  s._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Azure Monitor log profile should collect logs for categories ''write,'' ''delete,'' and ''action''',
@@ -13,5 +13,5 @@ FROM
   ON s.id = '/subscriptions/' || p.subscription_id
 WHERE
   p.properties -> 'categories' IS NULL
-  OR NOT p.properties -> 'categories' @> '["Write", "Action","Delete"]'::jsonb;
+  OR NOT p.properties -> 'categories' @> '["Write", "Action","Delete"]'::jsonb
 {% endmacro %}

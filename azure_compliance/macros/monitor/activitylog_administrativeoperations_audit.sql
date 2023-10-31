@@ -26,7 +26,7 @@ WITH alert_condition AS (
 	)
 
 SELECT
-  _cq_sync_time As sync_time,
+  sub._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'An activity log alert should exist for specific Administrative operations',
@@ -39,5 +39,5 @@ WHERE
 	A.subscription_id IS NULL
 GROUP BY
     sub.id,
-	display_name;
+	display_name
 {% endmacro %}
