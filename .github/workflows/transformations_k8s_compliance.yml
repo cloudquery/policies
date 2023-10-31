@@ -4,13 +4,13 @@ on:
   pull_request:
     paths:
       - "transformations/k8s_compliance/**"
-      - ".github/workflows/transformations_k8s_complience.yml"
+      - ".github/workflows/transformations_k8s_compliance.yml"
   push:
     branches:
       - main
     paths:
       - "transformations/k8s_compliance/**"
-      - ".github/workflows/transformations_k8s_complience.yml"
+      - ".github/workflows/transformations_k8s_compliance.yml"
 
 jobs:
   test-policies:

@@ -4,13 +4,13 @@ on:
   pull_request:
     paths:
       - "transformations/aws_compliance/**"
-      - ".github/workflows/transformations_aws_complience_snowflake.yml"
+      - ".github/workflows/transformations_aws_compliance_snowflake.yml"
   push:
     branches:
       - main
     paths:
       - "transformations/aws_compliance/**"
-      - ".github/workflows/transformations_aws_complience_snowflake.yml"
+      - ".github/workflows/transformations_aws_compliance_snowflake.yml"
 
 jobs:
   test-policies:

@@ -4,13 +4,13 @@ on:
   pull_request:
     paths:
       - "transformations/aws_compliance/**"
-      - ".github/workflows/transformations_aws_complience_postgres.yml"
+      - ".github/workflows/transformations_aws_compliance_postgres.yml"
   push:
     branches:
       - main
     paths:
       - "transformations/aws_compliance/**"
-      - ".github/workflows/transformations_aws_complience_postgres.yml"
+      - ".github/workflows/transformations_aws_compliance_postgres.yml"
 
 jobs:
   test-policies:
