@@ -7,7 +7,7 @@ WITH secured_vms AS (SELECT _cq_id
                        AND res->'settings'->>'workspaceId' IS NOT NULL) -- TODO check
 
 SELECT
-  _cq_sync_time As sync_time,
+  vms._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Virtual machines should have the Log Analytics extension installed',
@@ -17,4 +17,5 @@ SELECT
     when s._cq_id IS NULL then 'fail' else 'pass'
   end
 FROM azure_compute_virtual_machines vms
-         LEFT JOIN secured_vms s ON vms._cq_id = s._cq_id{% endmacro %}
+         LEFT JOIN secured_vms s ON vms._cq_id = s._cq_id
+{% endmacro %}

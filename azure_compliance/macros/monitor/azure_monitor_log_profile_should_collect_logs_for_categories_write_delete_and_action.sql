@@ -6,7 +6,8 @@ SELECT
   '{{check_id}}' As check_id,
   'Azure Monitor log profile should collect logs for categories ''write,'' ''delete,'' and ''action''',
   s.id,
-  s.id
+  s.id,
+  'fail' as status
 FROM
   azure_subscription_subscriptions s
   LEFT OUTER JOIN azure_monitor_log_profiles p

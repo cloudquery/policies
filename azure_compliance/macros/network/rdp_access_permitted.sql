@@ -15,4 +15,5 @@ SELECT
       AND direction = 'Inbound'
     then 'fail' else 'pass'
   end
-FROM view_azure_nsg_rules{% endmacro %}
+FROM {{ ref('view_azure_nsg_rules') }}
+{% endmacro %}

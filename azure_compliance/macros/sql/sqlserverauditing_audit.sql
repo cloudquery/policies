@@ -1,7 +1,7 @@
 {% macro sql_sqlserverauditing_audit(framework, check_id) %}
 
 SELECT
-  _cq_sync_time As sync_time,
+  sub._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Auditing on SQL server should be enabled' as title,
@@ -16,4 +16,5 @@ SELECT
 FROM
     azure_sql_server_blob_auditing_policies,
 	azure_sql_servers,
-    azure_subscription_subscriptions sub{% endmacro %}
+    azure_subscription_subscriptions sub
+{% endmacro %}

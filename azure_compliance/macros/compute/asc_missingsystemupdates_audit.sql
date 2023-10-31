@@ -1,7 +1,7 @@
 {% macro compute_asc_missingsystemupdates_audit(framework, check_id) %}
 
 SELECT
-  _cq_sync_time As sync_time,
+  azure_compute_virtual_machines._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'System updates should be installed on your machines',

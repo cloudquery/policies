@@ -31,7 +31,8 @@ SELECT
   '{{check_id}}' As check_id,
   'An activity log alert should exist for specific Administrative operations',
   sub.id,
-  sub.id
+  sub.id,
+  'fail' as status
 FROM
     azure_subscription_subscriptions sub
 	LEFT JOIN alert_condition A ON sub.id = A.subscription_id

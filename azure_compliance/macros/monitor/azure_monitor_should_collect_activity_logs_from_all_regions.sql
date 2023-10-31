@@ -6,7 +6,8 @@ SELECT
   '{{check_id}}' As check_id,
   'Azure Monitor should collect activity logs from all regions',
   s.id,
-  s.id
+  s.id,
+  'fail' as status
 FROM
   azure_subscription_subscriptions s
   LEFT OUTER JOIN azure_monitor_log_profiles p

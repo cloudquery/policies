@@ -116,6 +116,73 @@ union
 ({{postgresql_enforce_ssl_connection_should_be_enabled_for_postgresql_database_servers('cis_v1.3.0','1450.05i2Organizational.2 - 05.i - 1')}})
 union
 ({{redis_only_secure_connections_to_your_azure_cache_for_redis_should_be_enabled('cis_v1.3.0','1451.05iCSPOrganizational.2 - 05.i - 1')}})
+--audit_logging
+union
+({{datalake_datalake_storage_accounts_with_disabled_logging('cis_v1.3.0','1202.09aa1System.1 - 09.aa - 1')}})
+union
+({{logic_app_workflow_logging_enabled('cis_v1.3.0','1203.09aa1System.2 - 09.aa - 1')}})
+union
+({{batch_resource_logs_in_batch_accounts_should_be_enabled('cis_v1.3.0','1205.09aa2System.1 - 09.aa - 1')}})
+union
+({{compute_virtual_machine_scale_sets_without_logs('cis_v1.3.0','1206.09aa2System.23 - 09.aa - 1')}})
+union
+({{streamanalytics_resource_logs_in_azure_stream_analytics_should_be_enabled('cis_v1.3.0','1207.09aa2System.4 - 09.aa - 1')}})
+union
+({{eventhub_namespaces_without_logging('cis_v1.3.0','1207.09aa2System.4 - 09.aa - 2')}})
+union
+({{search_resource_logs_in_search_services_should_be_enabled('cis_v1.3.0','1208.09aa3System.1 - 09.aa - 1')}})
+union
+({{web_apps_with_logging_disabled('cis_v1.3.0','1209.09aa3System.2 - 09.aa - 1')}})
+union
+({{sql_sqlserverauditing_audit('cis_v1.3.0','1211.09aa3System.4 - 09.aa - 1')}})
+union
+({{keyvault_hsms_without_logging('cis_v1.3.0','1211.09aa3System.4 - 09.aa - 2')}})
+union
+({{keyvault_vaults_without_logging('cis_v1.3.0','1211.09aa3System.4 - 09.aa - 3')}})
+--monitoring_system_use
+union
+({{monitor_azure_monitor_should_collect_activity_logs_from_all_regions('cis_v1.3.0','1120.09ab3System.9 - 09.ab - 1')}})
+--dup
+union
+({{compute_machines_without_log_analytics_agent('cis_v1.3.0','12100.09ab2System.15 - 09.ab - 1')}})
+union
+({{compute_scale_sets_without_log_analytics_agent('cis_v1.3.0','12101.09ab1Organizational.3 - 09.ab - 1')}})
+--dup
+union
+({{compute_guestconfiguration_windowsloganalyticsagentconnection_aine('cis_v1.3.0','12102.09ab1Organizational.4 - 09.ab - 1')}})
+union
+({{monitor_azure_monitor_log_profile_should_collect_logs_for_categories_write_delete_and_action('cis_v1.3.0','1212.09ab1System.1 - 09.ab - 1')}})
+union
+({{security_asc_automatic_provisioning_log_analytics_monitoring_agent('cis_v1.3.0','1213.09ab2System.128 - 09.ab - 1')}})
+union
+({{monitor_azure_monitor_should_collect_activity_logs_from_all_regions('cis_v1.3.0','1214.09ab2System.3456 - 09.ab - 1')}})
+union
+({{compute_machines_without_log_analytics_agent('cis_v1.3.0','1215.09ab2System.7 - 09.ab - 1')}})
+--dup
+union
+({{compute_scale_sets_without_log_analytics_agent('cis_v1.3.0','1216.09ab3System.12 - 09.ab - 1')}})
+union
+({{monitor_azure_monitor_log_profile_should_collect_logs_for_categories_write_delete_and_action('cis_v1.3.0','1217.09ab3System.3 - 09.ab - 1')}})
+--dup
+union
+({{monitor_azure_monitor_log_profile_should_collect_logs_for_categories_write_delete_and_action('cis_v1.3.0','1219.09ab3System.10 - 09.ab - 1')}})
+--dup
+union
+({{security_asc_automatic_provisioning_log_analytics_monitoring_agent('cis_v1.3.0','1220.09ab3System.56 - 09.ab - 1')}})
+--dup
+--administrator_and_operator_logs
+union
+({{monitor_activitylog_administrativeoperations_audit('cis_v1.3.0','1270.09ad1System.12 - 09.ad - 1')}})
+union
+({{monitor_activitylog_administrativeoperations_audit('cis_v1.3.0','1271.09ad1System.1 - 09.ad - 1')}})
+--dup
+--segregation_of_duties
+union
+({{container_aks_rbac_disabled('cis_v1.3.0','1229.09c1Organizational.1 - 09.c - 1')}})
+union
+({{authorization_custom_roles('cis_v1.3.0','1230.09c2Organizational.1 - 09.c - 1')}})
+union
+({{network_rdp_access_permitted('cis_v1.3.0','1232.09c3Organizational.12 - 09.c - 1')}})
 
  )
 select *

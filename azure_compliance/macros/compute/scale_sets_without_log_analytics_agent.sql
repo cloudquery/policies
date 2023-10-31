@@ -9,7 +9,7 @@ WITH sets_with_logs AS (
       )
 
 SELECT 
-  _cq_sync_time As sync_time,
+  s._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'The Log Analytics extension should be installed on Virtual Machine Scale Sets',
@@ -19,4 +19,5 @@ SELECT
     when ss.compute_virtual_machine_id IS NULL then 'fail' else 'pass'
   end
 FROM azure_compute_virtual_machine_scale_sets s
-  LEFT JOIN sets_with_logs ss ON s.id = ss.compute_virtual_machine_id -- TODO check id match{% endmacro %}
+  LEFT JOIN sets_with_logs ss ON s.id = ss.compute_virtual_machine_id -- TODO check id match
+{% endmacro %}
