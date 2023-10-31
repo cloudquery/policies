@@ -24,4 +24,5 @@ select uid                                     AS resource_id,
                THEN 'fail'
            ELSE 'pass'
            END                                 AS status
-FROM k8s_core_namespaces;{% endmacro %}
+FROM k8s_core_namespaces
+{% endmacro %}
