@@ -5,7 +5,6 @@
 {% macro default__network_policy_default_deny_egress(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__network_policy_default_deny_egress(framework, check_id) %}
-                        resource_name, status)
 select uid                                   AS resource_id,
        '{{framework}}'                         AS framework,
        '{{check_id}}'                          AS check_id,

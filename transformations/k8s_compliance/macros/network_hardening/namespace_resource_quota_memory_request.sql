@@ -5,7 +5,6 @@
 {% macro default__namespace_resource_quota_memory_request(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__namespace_resource_quota_memory_request(framework, check_id) %}
-                               resource_name, status)
 select DISTINCT (k8s_core_namespaces.uid)                          AS resource_id,
                 '{{framework}}'                                       AS framework,
                 '{{check_id}}'                                        AS check_id,

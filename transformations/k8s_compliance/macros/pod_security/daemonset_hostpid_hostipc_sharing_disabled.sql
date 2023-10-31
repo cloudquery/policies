@@ -5,7 +5,6 @@
 {% macro default__daemonset_hostpid_hostipc_sharing_disabled(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__daemonset_hostpid_hostipc_sharing_disabled(framework, check_id) %}
-                               resource_name, status)
 select uid                                                         AS resource_id,
        '{{framework}}'                                                AS framework,
        '{{check_id}}'                                                 AS check_id,

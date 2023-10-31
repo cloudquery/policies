@@ -9,7 +9,6 @@ WITH job_containers AS (SELECT uid, value AS container
                         FROM k8s_batch_jobs
                         CROSS JOIN jsonb_array_elements(spec_template->'spec'->'containers') AS value)
                         
-                                resource_name, status)
 select uid                                         AS resource_id,
         '{{framework}}'                                AS framework,
         '{{check_id}}'                                 AS check_id,

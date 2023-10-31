@@ -10,7 +10,6 @@ WITH deployment_containers AS (SELECT uid, value AS container
                                FROM k8s_apps_deployments
                                CROSS JOIN jsonb_array_elements(spec_template->'spec'->'containers') AS value)
 
-                               resource_name, status)
 select uid                              AS resource_id,
        '{{framework}}'                     AS framework,
        '{{check_id}}'                      AS check_id,

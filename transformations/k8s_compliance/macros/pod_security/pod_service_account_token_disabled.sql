@@ -5,7 +5,6 @@
 {% macro default__pod_service_account_token_disabled(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__pod_service_account_token_disabled(framework, check_id) %}
-                               resource_name, status)
 select DISTINCT uid                                   AS resource_id,
                 '{{framework}}'                          AS framework,
                 '{{check_id}}'                           AS check_id,

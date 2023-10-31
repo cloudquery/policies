@@ -9,7 +9,6 @@ WITH pod_volumes AS (SELECT uid, value AS volumes
                      FROM k8s_core_pods
                      CROSS JOIN jsonb_array_elements(spec_volumes) AS value)
 
-                                resource_name, status)
 select uid                              AS resource_id,
             '{{framework}}'                      AS framework,
             '{{check_id}}'                       AS check_id,
