@@ -19,4 +19,4 @@ select uid                                                   AS resource_id,
                THEN 'fail'
            ELSE 'pass'
            END                                               AS status
-FROM k8s_batch_jobs {% endmacro %}
+FROM k8s_batch_jobs{% endmacro %}
