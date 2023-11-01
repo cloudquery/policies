@@ -7,7 +7,7 @@ WITH protected_instances AS (SELECT s.id AS instance_id
                                AND ep.properties ->> 'uri' IS NOT NULL)
 
 SELECT
-  _cq_sync_time As sync_time,
+  i._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'SQL managed instances should use customer-managed keys to encrypt data at rest' as title,
@@ -18,4 +18,5 @@ SELECT
       then 'fail' else 'pass'
   end
 FROM azure_sql_managed_instances i
-         LEFT JOIN protected_instances p ON p.instance_id = i.id{% endmacro %}
+         LEFT JOIN protected_instances p ON p.instance_id = i.id
+{% endmacro %}

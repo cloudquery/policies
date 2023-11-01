@@ -1,7 +1,7 @@
 {% macro sql_long_term_geo_redundant_backup_should_be_enabled_for_azure_sql_databases(framework, check_id) %}
 
 SELECT
-  _cq_sync_time As sync_time,
+  s._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Long-term geo-redundant backup should be enabled for Azure SQL Databases' as title,

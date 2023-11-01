@@ -1,7 +1,7 @@
 {% macro storage_accounts_with_unrestricted_access(framework, check_id) %}
 
 SELECT
-  _cq_sync_time As sync_time,
+  az_sub._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Storage accounts should restrict network access',

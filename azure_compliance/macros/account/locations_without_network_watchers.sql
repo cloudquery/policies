@@ -1,7 +1,7 @@
 {% macro account_locations_without_network_watchers(framework, check_id) %}
 
 select
-  _cq_sync_time As sync_time,
+  l._cq_sync_time As sync_time,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Network Watcher should be enable' as title,

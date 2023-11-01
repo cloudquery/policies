@@ -12,4 +12,5 @@ SELECT
       AND kind LIKE 'functionapp%'
     then 'fail' else 'pass'
   end
-FROM azure_appservice_web_apps{% endmacro %}
+FROM azure_appservice_web_apps
+{% endmacro %}
