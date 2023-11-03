@@ -1,0 +1,61 @@
+name: Test K8s Policies
+
+on:
+  pull_request:
+    paths:
+      - "transformations/k8s_compliance/**"
+      - ".github/workflows/transformations_k8s_compliance.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "transformations/k8s_compliance/**"
+      - ".github/workflows/transformations_k8s_compliance.yml"
+
+jobs:
+  test-policies:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./transformations/k8s_compliance
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_PASSWORD: pass
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+          cache: "pip"
+          cache-dependency-path: "./transformations/k8s_compliance/requirements.txt"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Setup CloudQuery
+        uses: cloudquery/setup-cloudquery@v3
+        with:
+          version: v3.27.3
+      - name: Migrate DB
+        run: cloudquery migrate tests/spec.yml
+        env:
+          CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres  
+      - name: DBT dependencies
+        run: |
+          dbt deps --target dev --profiles-dir ./tests 
+      - name: Run Policies
+        run: |
+          dbt run --target dev --profiles-dir ./tests
