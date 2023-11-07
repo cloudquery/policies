@@ -28,15 +28,17 @@ dispatch:
     search_order: ['aws_compliance', 'dbt_utils']
 
 
-
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
 # In this example config, we tell dbt to build all models in the example/
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
-models:
-  aws_compliance:
+# models:
+  # aws_compliance:
 
-
-    
+# models:
+#   aws_compliance__foundational_security_free:
+#     # Apply this configuration when the `target.name` is 'snowflake'
+#     +tags: ["snowflake"]
+#     +enabled: "{{ target.name != 'snowflake' }}"
