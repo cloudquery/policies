@@ -10,23 +10,45 @@ with
         union
         {{ iam_separation_of_duties('cis_v1.2.0', '1.8') }}
         union
-        {{ iam_avoid_root_usage('cis_v1.2.0', '3.4') }}
-        union
         {{ kms_publicly_accessible('cis_v1.2.0', '1.9') }}
         union
         {{ kms_keys_not_rotated_within_90_days('cis_v1.2.0', '1.10') }}
         union
         {{ kms_separation_of_duties('cis_v1.2.0', '1.11') }}
         union
-        {{ bigquery_datasets_publicly_accessible('cis_v1.2.0', '7.1') }}
+        {{ logging_not_configured_across_services_and_users('cis_v1.2.0', '2.1') }}
         union
-        {{ bigquery_datasets_without_default_cmek('cis_v1.2.0', '7.2') }}
+        {{ logging_sinks_not_configured_for_all_log_entries('cis_v1.2.0', '2.2') }}
         union
-        {{ bigquery_tables_not_encrypted_with_cmek('cis_v1.2.0', '7.3') }}
+        {{ logging_log_buckets_retention_policy_disabled('cis_v1.2.0', '2.3') }}
+        union
+        {{ logging_project_ownership_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.4') }}
+        union
+        {{ logging_audit_config_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.5') }}
+        union
+        {{ logging_custom_role_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.6') }}
+        union
+        {{ logging_vpc_firewall_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.7') }}
+        union
+        {{ logging_vpc_route_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.8') }}
+        union
+        {{ logging_vpc_network_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.9') }}
+        union
+        {{ logging_storage_iam_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.10') }}
+        union
+        {{ logging_sql_instance_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.11') }}
+        union
+        {{ logging_dns_logging_disabled('cis_v1.2.0', '2.12') }}
         union
         {{ compute_default_network_exist('cis_v1.2.0', '3.1') }}
         union
         {{ compute_legacy_network_exist('cis_v1.2.0', '3.2') }}
+        union
+        {{ dns_zones_with_dnssec_disabled('cis_v1.2.0', '3.3') }}
+        union
+        {{ dns_key_signing_with_rsasha1('cis_v1.2.0', '3.4') }}
+        union
+        {{ dns_zone_signing_with_rsasha1('cis_v1.2.0', '3.5') }}
         union
         {{ compute_ssh_access_permitted('cis_v1.2.0', '3.6') }}
         union
@@ -56,35 +78,9 @@ with
         union
         {{ compute_instances_without_confidential_computing('cis_v1.2.0', '4.11') }}
         union
-        {{ dns_zones_with_dnssec_disabled('cis_v1.2.0', '3.3') }}
+        {{ storage_buckets_publicly_accessible('cis_v1.2.0', '5.1') }}
         union
-        {{ dns_key_signing_with_rsasha1('cis_v1.2.0', '3.4') }}
-        union
-        {{ dns_zone_signing_with_rsasha1('cis_v1.2.0', '3.5') }}
-        union
-        {{ logging_not_configured_across_services_and_users('cis_v1.2.0', '2.1') }}
-        union
-        {{ logging_sinks_not_configured_for_all_log_entries('cis_v1.2.0', '2.2') }}
-        union
-        {{ logging_log_buckets_retention_policy_disabled('cis_v1.2.0', '2.3') }}
-        union
-        {{ logging_project_ownership_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.4') }}
-        union
-        {{ logging_audit_config_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.5') }}
-        union
-        {{ logging_custom_role_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.6') }}
-        union
-        {{ logging_vpc_firewall_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.7') }}
-        union
-        {{ logging_vpc_route_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.8') }}
-        union
-        {{ logging_vpc_network_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.9') }}
-        union
-        {{ logging_storage_iam_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.10') }}
-        union
-        {{ logging_sql_instance_changes_without_log_metric_filter_alerts('cis_v1.2.0', '2.11') }}
-        union
-        {{ logging_dns_logging_disabled('cis_v1.2.0', '2.12') }}
+        {{ storage_buckets_without_uniform_bucket_level_access('cis_v1.2.0', '5.2') }}
         union
         {{ sql_mysql_skip_show_database_flag_off('cis_v1.2.0', '6.1.2') }}
         union
@@ -140,9 +136,11 @@ with
         union
         {{ sql_db_instances_without_backups('cis_v1.2.0', '6.7') }}
         union
-        {{ storage_buckets_publicly_accessible('cis_v1.2.0', '5.1') }}
+        {{ bigquery_datasets_publicly_accessible('cis_v1.2.0', '7.1') }}
         union
-        {{ storage_buckets_without_uniform_bucket_level_access('cis_v1.2.0', '5.2') }}
+        {{ bigquery_datasets_without_default_cmek('cis_v1.2.0', '7.2') }}
+        union
+        {{ bigquery_tables_not_encrypted_with_cmek('cis_v1.2.0', '7.3') }}
     )
 select *
 from aggregated
