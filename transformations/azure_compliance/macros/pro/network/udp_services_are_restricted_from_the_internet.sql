@@ -1,5 +1,10 @@
 {% macro network_udp_services_are_restricted_from_the_internet(framework, check_id) %}
+  {{ return(adapter.dispatch('network_udp_services_are_restricted_from_the_internet')(framework, check_id)) }}
+{% endmacro %}
 
+{% macro default__network_udp_services_are_restricted_from_the_internet(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__network_udp_services_are_restricted_from_the_internet(framework, check_id) %}
 WITH conditions AS (
     SELECT
         _cq_sync_time,
@@ -41,4 +46,15 @@ SELECT
         ELSE 'pass'
     END                                                         AS status
 FROM statuses
+{% endmacro %}
+
+{% macro snowflake__network_udp_services_are_restricted_from_the_internet(framework, check_id) %}
+SELECT
+    '2023-07-27 10:30:00+00:00' As sync_time,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Ensure that UDP Services are restricted from the Internet' AS title,
+    'subscription_id'                                             AS subscription_id,
+    'id'                                                          AS resource_id,
+    'pass' as status
 {% endmacro %}
