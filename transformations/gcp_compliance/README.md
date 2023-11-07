@@ -12,13 +12,25 @@
 
 #### dbt Installation
 
-An example of how to install dbt to work with Postgres.
+An example of how to install dbt to work with the destination of your choice.
 
-First, install `dbt`:
+First, install `dbt` for the destination of your choice:
+
+An example installation of dbt-postgres:
 
 ```bash
 pip install dbt-postgres
 ```
+
+An example installation of dbt-snowflake:
+```bash
+pip install dbt-snowflake
+```
+
+These commands will also install install dbt-core and any other dependencies.
+
+
+Another option:
 
 Create the profile directory:
 
@@ -43,6 +55,10 @@ gcp_compliance: # This should match the name in your dbt_project.yml
       threads: 1 # number of threads to use when running in parallel
 ```
 
+[DBT + Snowflake](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup)
+[DBT + Postgres](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
+[DBT + BigQuery](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)
+
 Test the Connection:
 
 After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly:
@@ -51,7 +67,7 @@ After setting up your `profiles.yml`, you should test the connection to ensure e
 dbt debug
 ```
 
-This command will tell you if dbt can successfully connect to your PostgreSQL instance.
+This command will tell you if dbt can successfully connect to your destination database.
 
 #### Running Your dbt Project
 
@@ -69,10 +85,10 @@ If everything compiles without errors, you can then execute:
 dbt run
 ```
 
-This command will run your `dbt` models and create tables/views in your PostgreSQL database as defined in your models.
+This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
 
 ### Usage
 
-- Sync your data from GCP: `cloudquery sync gcp.yml postgres.yml`
+- Sync your data from GCP to destination (Postgres Example): `cloudquery sync gcp.yml postgres.yml`
 
 - Run dbt: `dbt run`
