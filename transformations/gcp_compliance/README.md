@@ -55,9 +55,9 @@ gcp_compliance: # This should match the name in your dbt_project.yml
       threads: 1 # number of threads to use when running in parallel
 ```
 
-[DBT + Snowflake](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup)
-[DBT + Postgres](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
-[DBT + BigQuery](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)
+- [DBT + Snowflake](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup)
+- [DBT + Postgres](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
+- [DBT + BigQuery](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)
 
 Test the Connection:
 
