@@ -439,5 +439,6 @@ with
         ({{ wafv2_webacl_not_empty('foundational_security','waf.10') }})
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

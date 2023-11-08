@@ -97,5 +97,7 @@ with
         ({{ wafv2_web_acl_logging_should_be_enabled('pci_dss_v3.2.1','waf.1') }})    
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated
+

@@ -142,5 +142,7 @@ with
         union
         {{ bigquery_tables_not_encrypted_with_cmek('cis_v1.2.0', '7.3') }}
     )
-select *
+select 
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated
