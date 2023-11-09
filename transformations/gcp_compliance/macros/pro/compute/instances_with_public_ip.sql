@@ -1,5 +1,11 @@
 {% macro compute_instances_with_public_ip(framework, check_id) %}
-    select
+  {{ return(adapter.dispatch('compute_instances_with_public_ip')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__compute_instances_with_public_ip(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__compute_instances_with_public_ip(framework, check_id) %}
+select
     DISTINCT 
                 gci.name                                                                    AS resource_id,
                 gci._cq_sync_time As sync_time,
@@ -17,4 +23,8 @@
     FROM gcp_compute_instances gci, JSONB_ARRAY_ELEMENTS(gci.network_interfaces) AS ni
     LEFT JOIN JSONB_ARRAY_ELEMENTS(ni->'access_configs') AS ac4 ON TRUE
     LEFT JOIN JSONB_ARRAY_ELEMENTS(ni->'ipv6_access_configs') AS ac6 ON TRUE
+{% endmacro %}
+
+{% macro snowflake__compute_instances_with_public_ip(framework, check_id) %}
+---
 {% endmacro %}
