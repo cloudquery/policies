@@ -1,5 +1,14 @@
 {% macro compute_allow_traffic_behind_iap(framework, check_id) %}
-    SELECT
+  {{ return(adapter.dispatch('compute_allow_traffic_behind_iap')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__compute_allow_traffic_behind_iap(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__compute_allow_traffic_behind_iap(framework, check_id) %}
+WITH expanded_firewalls AS (
+    SELECT * FROM gcp_compute_firewalls gcf, JSONB_ARRAY_ELEMENTS(gcf.allowed) AS a
+)
+SELECT
         DISTINCT
         gcf.name AS resource_id,
         gcf._cq_sync_time AS sync_time,
@@ -15,5 +24,9 @@
             THEN 'fail'
             ELSE 'pass'
         END AS status
-    FROM {{ ref('expanded_firewalls') }} AS gcf
- {% endmacro %}
+    FROM expanded_firewalls AS gcf
+{% endmacro %}
+
+{% macro snowflake__compute_allow_traffic_behind_iap(framework, check_id) %}
+---
+{% endmacro %}

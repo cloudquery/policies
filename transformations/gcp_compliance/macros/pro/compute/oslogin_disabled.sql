@@ -1,5 +1,11 @@
 {% macro compute_oslogin_disabled(framework, check_id) %}
-    select 
+  {{ return(adapter.dispatch('compute_oslogin_disabled')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__compute_oslogin_disabled(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__compute_oslogin_disabled(framework, check_id) %}
+select 
                 "name"                                                                   AS resource_id,
                 _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
@@ -15,4 +21,8 @@
            END AS status
     FROM gcp_compute_projects
     LEFT JOIN JSONB_ARRAY_ELEMENTS(common_instance_metadata->'items') cimd ON cimd->>'key' = 'enable-oslogin'
+{% endmacro %}
+
+{% macro snowflake__compute_oslogin_disabled(framework, check_id) %}
+---
 {% endmacro %}

@@ -1,5 +1,11 @@
 {% macro compute_instances_with_default_service_account(framework, check_id) %}
-    select
+  {{ return(adapter.dispatch('compute_instances_with_default_service_account')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__compute_instances_with_default_service_account(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__compute_instances_with_default_service_account(framework, check_id) %}
+select
     DISTINCT 
                 gci.name                                                                    AS resource_id,
                 gci._cq_sync_time As sync_time,
@@ -17,4 +23,8 @@
                     ELSE 'pass'
                     END AS status
     FROM gcp_compute_instances gci, JSONB_ARRAY_ELEMENTS(gci.service_accounts) gcisa
+{% endmacro %}
+
+{% macro snowflake__compute_instances_with_default_service_account(framework, check_id) %}
+---
 {% endmacro %}
