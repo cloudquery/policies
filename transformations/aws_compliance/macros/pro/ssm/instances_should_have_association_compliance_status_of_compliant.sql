@@ -11,9 +11,6 @@ with association_compliance_status_groups as(
         aws_ssm_instance_compliance_items
     where
         compliance_type = 'Association'
-    group by
-        instance_arn,
-        status
 )
 select
     '{{framework}}' As framework,
@@ -38,9 +35,6 @@ with association_compliance_status_groups as(
         aws_ssm_instance_compliance_items
     where
         compliance_type = 'Association'
-    group by
-        instance_arn,
-        status
 )
 select
     '{{framework}}' as framework,
