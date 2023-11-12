@@ -67,5 +67,14 @@ select
 {% endmacro %}
 
 {% macro snowflake__compute_rdp_access_permitted(framework, check_id) %}
----
+select
+                name                                                                   AS resource_id,
+                _cq_sync_time As sync_time,
+                '{{framework}}' As framework,
+                '{{check_id}}' As check_id,                                                                         
+                'Ensure that RDP access is restricted from the Internet (Automated)' AS title,
+                project_id                                                                AS project_id,
+                'pass' as status
+    FROM gcp_compute_firewalls
+ WHERE 1=0
 {% endmacro %}

@@ -41,5 +41,15 @@ select
 {% endmacro %}
 
 {% macro snowflake__storage_buckets_publicly_accessible(framework, check_id) %}
----
+select 
+                name                                                                    AS resource_id,
+                _cq_sync_time As sync_time,
+                '{{framework}}' As framework,
+                '{{check_id}}' As check_id,                                                                         
+                'Ensure that Cloud Storage bucket is not anonymously or publicly accessible (Automated)' AS title,
+                project_id                                                                AS project_id,
+                'pass' as status
+
+    FROM gcp_storage_buckets
+    WHERE 1=0
 {% endmacro %}
