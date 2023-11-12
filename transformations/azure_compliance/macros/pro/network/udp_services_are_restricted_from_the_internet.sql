@@ -49,12 +49,51 @@ FROM statuses
 {% endmacro %}
 
 {% macro snowflake__network_udp_services_are_restricted_from_the_internet(framework, check_id) %}
+WITH conditions AS (
+    SELECT
+        _cq_sync_time,
+        subscription_id,
+        id,
+        access = 'Allow' AS acceptAccess,
+        protocol = '*' OR upper(protocol) = 'UDP' AS matchProtocol,
+        direction = 'Inbound' AS isInbound,
+        sourceAddressPrefix IN ('*', '0.0.0.0', '<nw>/0', '/0', 'internet', 'any') AS matchPrefix,
+        CASE
+          WHEN 
+              53 BETWEEN start_dest_port AND end_dest_port
+              OR 123 BETWEEN start_dest_port AND end_dest_port
+              OR 161 BETWEEN start_dest_port AND end_dest_port
+              OR 389 BETWEEN start_dest_port AND end_dest_port
+              OR 1900 BETWEEN start_dest_port AND end_dest_port
+          THEN TRUE
+          ELSE FALSE
+        END AS inRange
+    FROM view_azure_nsg_dest_port_ranges
+),
+statuses_by_port_range AS (
+    SELECT
+        _cq_sync_time,
+        subscription_id,
+        id,
+        acceptAccess AND matchProtocol AND isInbound AND matchPrefix AND inRange AS failed
+    FROM conditions
+),
+statuses AS (
+    SELECT _cq_sync_time, subscription_id, id, BOOLOR_AGG(failed) AS failed
+    FROM statuses_by_port_range
+    GROUP BY _cq_sync_time, subscription_id, id
+)
 SELECT
-    '2023-07-27 10:30:00+00:00' As sync_time,
+    _cq_sync_time As sync_time,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that UDP Services are restricted from the Internet' AS title,
-    'subscription_id'                                             AS subscription_id,
-    'id'                                                          AS resource_id,
-    'pass' as status
+    subscription_id                                             AS subscription_id,
+    id                                                          AS resource_id,
+    CASE
+        WHEN failed
+        THEN 'fail'
+        ELSE 'pass'
+    END                                                         AS status
+FROM statuses
 {% endmacro %}
