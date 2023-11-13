@@ -1,0 +1,7 @@
+kind: source
+spec:
+  name: aws
+  path: cloudquery/gcp
+  version: "v9.9.1" # latest version of source aws plugin
+  destinations: ["dest"]
+  tables: ["*"]
