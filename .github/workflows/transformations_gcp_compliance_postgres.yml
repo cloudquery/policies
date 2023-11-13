@@ -3,7 +3,7 @@ name: "Test GCP Compliance Policies: Postgres"
 on:
   pull_request:
     paths:
-      - "transformations/aws_compliance/**"
+      - "transformations/gcp_compliance/**"
       - ".github/workflows/transformations_gcp_compliance_postgres.yml"
   push:
     branches:
