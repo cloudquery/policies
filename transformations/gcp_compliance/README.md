@@ -5,12 +5,13 @@
 ### Requirements
 
 - [dbt](https://docs.getdbt.com/docs/installation)
-- [PostgreSQL](https://www.postgresql.org/download/) or any other mutually supported destination
-- [CloudQuery](https://www.cloudquery.io/docs/quickstart) with [GCP](https://www.cloudquery.io/docs/plugins/sources/gcp/overview) and [PostgreSQL](https://www.cloudquery.io/docs/plugins/destinations/postgresql/overview)
+- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 
-[Quick guide](https://www.cloudquery.io/integrations/gcp/postgresql) for GCP-Postgres integration.
+One of the below databases
+- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
+- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/v3.3.3/docs)
 
-#### dbt Installation
+### What's in the pack
 
 - [DBT + Snowflake](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup)
 - [DBT + Postgres](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
@@ -20,54 +21,12 @@ An example of how to install dbt to work with the destination of your choice.
 
 First, install `dbt` for the destination of your choice:
 
-An example installation of dbt-postgres:
+The pack contains a free version and a full (paid) version. 
+The free version contains 10% of the full pack's queries.
 
-```bash
-pip install dbt-postgres
-```
+#### Models
 
-An example installation of dbt-snowflake:
-```bash
-pip install dbt-snowflake
-```
-
-These commands will also install install dbt-core and any other dependencies.
-
-
-Another option:
-
-Create the profile directory:
-
-```bash
-mkdir -p ~/.dbt
-```
-
-Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
-
-```yaml
-gcp_compliance: # This should match the name in your dbt_project.yml
-  target: dev
-  outputs:
-    dev:
-      type: postgres
-      host: 127.0.0.1
-      user: postgres
-      pass: pass
-      port: 5432
-      dbname: postgres
-      schema: public # default schema where dbt will build the models
-      threads: 1 # number of threads to use when running in parallel
-```
-
-Test the Connection:
-
-After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly:
-
-```bash
-dbt debug
-```
-
-This command will tell you if dbt can successfully connect to your destination database.
+- **gcp_compliance__cis_v1.2.0**: GCP CIS V1.2.0 benchmarks, available for PostgreSQL
 
 #### Running Your dbt Project
 

@@ -2,13 +2,13 @@
 
 ## Overview
 
+This package contains dbt models (views) that gives compliance insights from CloudQuery [Azure plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure) data.
+
 ### Requirements
 
+- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [CloudQuery Azure plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure)
 - [dbt](https://docs.getdbt.com/docs/installation)
-- [PostgreSQL](https://www.postgresql.org/download/) or any other mutually supported destination
-- [CloudQuery](https://www.cloudquery.io/docs/quickstart) with [Azure]([https://www.cloudquery.io/docs/plugins/sources/gcp/overview](https://hub.cloudquery.io/plugins/source/cloudquery/azure)) and [PostgreSQL](https://www.cloudquery.io/docs/plugins/destinations/postgresql/overview)
-
-[Quick guide](https://www.cloudquery.io/integrations/gcp/postgresql) for GCP-Postgres integration.
 
 #### dbt Installation
 
@@ -77,16 +77,17 @@ Before executing the `dbt run` command, it might be useful to check for any pote
 dbt compile
 ```
 
-If everything compiles without errors, you can then execute:
+One of the below databases
+- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
+- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/v3.3.3/docs)
 
-```bash
-dbt run
-```
+### What's in the pack
 
-This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
+The pack contains a free version and a full (paid) version.
 
-### Usage
+#### Models
 
-- Sync your data from Azure to destination (Postgres Example): `cloudquery sync azure.yml postgres.yml`
+- **azure_compliance__cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL.
+- **azure_compliance_hipaa_hitrust_v9_2.sql**: Azure Compliance HIPPA HITRUST V9.2, available for PostgreSQL.
 
-- Run dbt: `dbt run`
+The free version contains 10% of the full pack's queries.

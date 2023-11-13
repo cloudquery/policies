@@ -1,0 +1,1 @@
+Azure Compliance Pack V1.0.0
