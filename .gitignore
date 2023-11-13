@@ -162,3 +162,5 @@ cython_debug/
 .DS_Store
 transformations/aws_compliance/.user.yml
 transformations/aws_compliance/dbt_packages/utils
+examples
+build
