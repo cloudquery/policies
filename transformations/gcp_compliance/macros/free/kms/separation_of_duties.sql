@@ -69,7 +69,7 @@ with
         group by _cq_sync_time, member, project_id
     )
 select
-        member as resource_id,
+        member::text as resource_id,
         _cq_sync_time as sync_time,
         '{{framework}}' as framework,
         '{{check_id}}' as check_id,
@@ -78,8 +78,12 @@ select
         project_id as project_id,
         case
             when
-                member like ('user:%')
-                
+                member like 'user:%'
+                AND ARRAY_CONTAINS('roles/cloudkms.admin'::variant, roles)
+                AND ARRAYS_OVERLAP(roles, 
+                      array_construct('roles/cloudkms.cryptoKeyEncrypterDecrypter',
+                    'roles/cloudkms.cryptoKeyEncrypter',
+                    'roles/cloudkms.cryptoKeyDecrypter'))
             then 'fail'
             else 'pass'
         end as status

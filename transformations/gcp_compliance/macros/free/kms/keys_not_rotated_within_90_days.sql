@@ -38,7 +38,10 @@ select
         project_id as project_id,
         case
             when
-           
+            ((
+              DATEADD(SECOND, rotation_period / 1000000000.0, CURRENT_TIMESTAMP))
+            > DATEADD(DAY, 90, CURRENT_TIMESTAMP))
+           OR
            next_rotation_time IS NULL
             OR datediff(day, next_rotation_time::timestamp, current_date) > 90
         
