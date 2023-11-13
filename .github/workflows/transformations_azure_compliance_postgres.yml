@@ -3,7 +3,7 @@ name: "Test Azure Compliance Policies: Postgres"
 on:
   pull_request:
     paths:
-      - "transformations/aws_compliance/**"
+      - "transformations/azure_compliance/**"
       - ".github/workflows/transformations_azure_compliance_postgres.yml"
   push:
     branches:
