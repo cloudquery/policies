@@ -12,10 +12,15 @@ jobs:
   release-pr:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tier: [free, paid]
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
           command: manifest
           token: ${{ secrets.GH_CQ_BOT }}
+          manifest-file: .release-please-manifest-${{ matrix.tier }}.json
+          config-file: release-please-config-${{ matrix.tier }}.json
           default-branch: main
