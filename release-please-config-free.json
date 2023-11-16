@@ -2,11 +2,7 @@
   "packages": {
     "transformations/aws_compliance": {
       "component": "transformation-aws-compliance-free",
-      "changelog-path": "CHANGELOG.md"
-    },
-    "transformation-aws-compliance": {
-      "component": "transformation-aws-compliance-paid",
-      "changelog-path": "CHANGELOG-PREMIUM.md"
+      "changelog-path": "CHANGELOG-free.md"
     }
   },
   "pull-request-title-pattern": "chore${scope}: Release${component} v${version}",
