@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tier: [free, paid]
+        tier: [free, premium]
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
