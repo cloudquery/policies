@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "type": "addon",
+  "team_name": "cloudquery",
+  "addon_name": "aws-compliance",
+  "addon_type": "visualization",
+  "addon_format": "zip",
+  "message": "./CHANGELOG.md",
+  "doc": "./README.md",
+  "path": "./build/aws_compliance.zip",
+  "plugin_deps": ["cloudquery/source/aws@v22.19.0"],
+  "addon_deps": ["cloudquery/transformation/aws-compliance-free@v0.0.1"]
+}
