@@ -32,7 +32,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v3.28.0
+          version: v3.29.0
       - name: Migrate DB
         run: cloudquery migrate tests/aws.yml tests/snowflake.yml
         env:

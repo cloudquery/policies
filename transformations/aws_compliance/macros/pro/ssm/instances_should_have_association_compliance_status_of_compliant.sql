@@ -3,6 +3,15 @@
 {% endmacro %}
 
 {% macro snowflake__instances_should_have_association_compliance_status_of_compliant(framework, check_id) %}
+with association_compliance_status_groups as(
+    select
+        instance_arn,
+        status
+    from
+        aws_ssm_instance_compliance_items
+    where
+        compliance_type = 'Association'
+)
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
@@ -10,15 +19,23 @@ select
     aws_ssm_instances.account_id,
     aws_ssm_instances.arn,
     case when
-        aws_ssm_instance_compliance_items.compliance_type = 'Association'
-        and aws_ssm_instance_compliance_items.status is distinct from 'COMPLIANT'
-    then 'fail' else 'pass' end as status
-from
-    aws_ssm_instances
-inner join aws_ssm_instance_compliance_items on aws_ssm_instances.arn = aws_ssm_instance_compliance_items.instance_arn
+		association_compliance_status_groups.status is distinct from 'COMPLIANT'
+     then 'fail' else 'pass' end as status
+ from
+     aws_ssm_instances
+	 inner join association_compliance_status_groups on aws_ssm_instances.arn = association_compliance_status_groups.instance_arn
 {% endmacro %}
 
 {% macro postgres__instances_should_have_association_compliance_status_of_compliant(framework, check_id) %}
+with association_compliance_status_groups as(
+    select
+        instance_arn,
+        status
+    from
+        aws_ssm_instance_compliance_items
+    where
+        compliance_type = 'Association'
+)
 select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
@@ -26,10 +43,9 @@ select
     aws_ssm_instances.account_id,
     aws_ssm_instances.arn,
     case when
-        aws_ssm_instance_compliance_items.compliance_type = 'Association'
-        and aws_ssm_instance_compliance_items.status is distinct from 'COMPLIANT'
-    then 'fail' else 'pass' end as status
-from
-    aws_ssm_instances
-inner join aws_ssm_instance_compliance_items on aws_ssm_instances.arn = aws_ssm_instance_compliance_items.instance_arn
+		association_compliance_status_groups.status is distinct from 'COMPLIANT'
+     then 'fail' else 'pass' end as status
+ from
+     aws_ssm_instances
+	 inner join association_compliance_status_groups on aws_ssm_instances.arn = association_compliance_status_groups.instance_arn
 {% endmacro %}

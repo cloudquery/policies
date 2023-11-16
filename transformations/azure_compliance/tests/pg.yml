@@ -1,0 +1,8 @@
+kind: destination
+spec:
+  name: "dest"
+  path: "cloudquery/postgresql"
+  version: "v6.1.1"
+  spec:
+    batch_size: 10000
+    connection_string: ${CQ_DSN}
