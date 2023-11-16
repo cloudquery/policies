@@ -2,5 +2,6 @@
   "aws/foundational_security/snowflake": "1.8.0",
   "aws/foundational_security/snowflake+FILLER": "0.0.0",
   "aws/cost/postgresql": "1.1.0",
-  "aws/cost/postgresql+FILLER": "0.0.0"
+  "aws/cost/postgresql+FILLER": "0.0.0",
+  "transformations/aws_compliance": "1.0.0"
 }
