@@ -1,6 +1,6 @@
 {
   "packages": {
-    "transformation-aws-compliance": {
+    "transformations/aws_compliance": {
       "component": "transformation-aws-compliance-paid",
       "changelog-path": "CHANGELOG-paid.md"
     }
