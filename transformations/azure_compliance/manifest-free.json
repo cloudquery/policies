@@ -5,8 +5,8 @@
   "addon_name": "azure-compliance-free",
   "addon_type": "transformation",
   "addon_format": "zip",
-  "message": "./CHANGELOG.md",
-  "doc": "./README.md",
+  "message": "./changelog.md",
+  "doc": "./README-free.md",
   "path": "./build/azure_compliance_free.zip",
   "plugin_deps": ["cloudquery/source/azure@v10.1.1"],
   "addon_deps": []

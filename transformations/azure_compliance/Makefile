@@ -10,8 +10,3 @@ build-free:
 	cp -r models/free ./build/azure_compliance_free/models/.
 	cp dbt_project.yml ./build/azure_compliance_free/
 	zip -r ./build/azure_compliance_free.zip ./build/azure_compliance_free
-
-.PHONY: publish-free
-publish-free: build-free
-	@echo "Publishing free tier compliance pack"
-	cloudquery addon publish ./manifest-free.json v1.0.1 --finalize
