@@ -5,7 +5,7 @@
   "addon_name": "aws-data-resilience",
   "addon_type": "transformation",
   "addon_format": "zip",
-  "message": "./CHANGELOG.md",
+  "message": "@./changelog.md",
   "doc": "./README.md",
   "path": "./build/aws_data_resilience.zip",
   "plugin_deps": ["cloudquery/source/aws@v22.19.0"],
