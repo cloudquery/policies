@@ -51,13 +51,8 @@ jobs:
               tag: context.ref.replace('refs/tags/', ''),
             });
             const releaseNotes = data.body;
-            const manifestPath = `transformations/${TRANSFORMATION_DIR}/manifest-free.json`;
-            const manifestFreeJson = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
-            const manifestFreeJsonWithReleaseNotes = {
-              ...manifestFreeJson,
-              message: releaseNotes,
-            };
-            await fs.writeFile(manifestPath, JSON.stringify(manifestFreeJsonWithReleaseNotes, null, 2));
+            const changelogPath = `transformations/${TRANSFORMATION_DIR}/changelog.md`;
+            await fs.writeFile(changelogPath, releaseNotes);
       - name: Run build
         run: |
           make build-free
