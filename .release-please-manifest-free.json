@@ -11,6 +11,6 @@
   "transformations/aws_data_resilience+FILLER": "0.0.0",
   "visualizations/aws/compliance": "1.0.0",
   "visualizations/aws/compliance+FILLER": "0.0.0",
-  "visualizations/aws/data_resilience": "1.0.0",
+  "visualizations/aws/data_resilience": "1.1.0",
   "visualizations/aws/data_resilience+FILLER": "0.0.0"
 }
