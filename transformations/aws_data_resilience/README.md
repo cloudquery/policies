@@ -4,9 +4,9 @@
 
 This pack contains set of dbt models to gain insight to AWS Backup posture.
 
-#### Models
+### Models
 
-- **aws_data_resilience__overview**: AWS Backup overview for `aws_dynamodb_tables`, `aws_ec2_instances` and `aws_s3_buckets`, available for PostgreSQL.
+- **aws_data_resilience\_\_overview**: AWS Backup overview for `aws_dynamodb_tables`, `aws_ec2_instances` and `aws_s3_buckets`, available for PostgreSQL.
 
 ### Requirements
 
@@ -18,11 +18,7 @@ This pack contains set of dbt models to gain insight to AWS Backup posture.
 
 ### Running
 
-#### Requirements
-
-Make sure to install all the requirements.
-
-#### Create a profile for dbt:
+#### Create a profile for dbt
 
 Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`) to configure dbt to which database it should connect (the same one you used to sync AWS/PostgreSQL plugin with CloudQuery):
 
@@ -51,6 +47,6 @@ dbt debug
 
 #### Run
 
-```dbt run```
+`dbt run`
 
 This command will run your `dbt` models and create tables/views in your PostgreSQL database as defined in your models.

@@ -1,1 +1,0 @@
-AWS Data Resilience V1.0.0

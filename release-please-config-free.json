@@ -15,6 +15,10 @@
     "transformations/k8s_compliance": {
       "component": "transformation-k8s-compliance-free",
       "changelog-path": "CHANGELOG-free.md"
+    },
+    "transformations/aws_data_resilience": {
+      "component": "transformation-aws-data-resilience",
+      "changelog-path": "CHANGELOG.md"
     }
   },
   "pull-request-title-pattern": "chore${scope}: Release${component} v${version}",
