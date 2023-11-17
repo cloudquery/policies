@@ -92,3 +92,5 @@ The pack contains the free version.
 - **azure_compliance_hipaa_hitrust_v9_2.sql**: Azure Compliance HIPPA HITRUST V9.2, available for PostgreSQL.
 
 The free version contains 10% of the full pack's queries.
+
+
