@@ -25,8 +25,9 @@ jobs:
               tag: context.ref.replace('refs/tags/', ''),
             });
             const releaseNotes = data.body;
+            const linksRemoved = releaseNotes.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
             const changelogPath = `visualization/aws/data_resilience/changelog.md`;
-            await fs.writeFile(changelogPath, releaseNotes);
+            await fs.writeFile(changelogPath, linksRemoved);
       - name: Run build
         run: |
           make build
