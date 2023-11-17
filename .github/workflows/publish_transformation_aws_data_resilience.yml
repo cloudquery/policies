@@ -41,4 +41,4 @@ jobs:
         run: |
           tag=${{ github.ref_name }}
           version=${tag#"transformation-aws-data-resilience-"}
-          cloudquery addon publish manifest-free.json $version -f
+          cloudquery addon publish manifest.json $version -f
