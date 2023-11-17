@@ -19,6 +19,14 @@
     "transformations/aws_data_resilience": {
       "component": "transformation-aws-data-resilience",
       "changelog-path": "CHANGELOG.md"
+    },
+    "visualization/aws/compliance": {
+      "component": "visualization-aws-compliance",
+      "changelog-path": "CHANGELOG.md"
+    },
+    "visualization/aws/data_resilience": {
+      "component": "visualization-aws-data-resilience",
+      "changelog-path": "CHANGELOG.md"
     }
   },
   "pull-request-title-pattern": "chore${scope}: Release${component} v${version}",
