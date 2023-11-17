@@ -1,6 +1,6 @@
 {
   "transformations/aws_compliance": "0.0.1",
   "transformations/azure_compliance": "0.0.1",
-  "transformations/gcp_compliance": "0.0.1",
+  "transformations/gcp_compliance": "0.1.0",
   "transformations/k8s_compliance": "0.0.1"
 }
