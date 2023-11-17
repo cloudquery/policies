@@ -5,8 +5,8 @@
   "addon_name": "gcp-compliance-free",
   "addon_type": "transformation",
   "addon_format": "zip",
-  "message": "./CHANGELOG.md",
-  "doc": "./README.md",
+  "message": "@./changelog.md",
+  "doc": "./README-free.md",
   "path": "./build/gcp_compliance_free.zip",
   "plugin_deps": ["cloudquery/source/gcp@v9.9.1"],
   "addon_deps": []

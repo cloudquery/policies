@@ -1,7 +1,7 @@
 kind: source
 spec:
-  name: aws
+  name: azure
   path: cloudquery/azure
-  version: "v10.1.1" # latest version of source aws plugin
+  version: "v10.2.0" # latest version of source azure plugin
   destinations: ["dest"]
   tables: ["*"]

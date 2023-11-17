@@ -1,5 +1,11 @@
 {% macro sql_sqlserver_external_scripts_enabled_flag_on(framework, check_id) %}
-    select
+  {{ return(adapter.dispatch('sql_sqlserver_external_scripts_enabled_flag_on')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__sql_sqlserver_external_scripts_enabled_flag_on(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__sql_sqlserver_external_scripts_enabled_flag_on(framework, check_id) %}
+ select
                 gsi.name                                                                    AS resource_id,
                 _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
@@ -15,4 +21,33 @@
                 ELSE 'pass'
                 END AS status
     FROM gcp_sql_instances gsi LEFT JOIN JSONB_ARRAY_ELEMENTS(gsi.settings->'databaseFlags') AS f ON f->>'name'='external scripts enabled'
+{% endmacro %}
+
+{% macro snowflake__sql_sqlserver_external_scripts_enabled_flag_on(framework, check_id) %}
+ WITH 
+    instance_flags as (
+    select
+        f.value as value             
+    FROM gcp_sql_instances gsi,
+    LATERAL FLATTEN(input => gsi.settings:databaseFlags) AS f
+    )
+
+select
+                gsi.name                                                                    AS resource_id,
+                _cq_sync_time As sync_time,
+                '{{framework}}' As framework,
+                '{{check_id}}' As check_id,                                                                         
+                'Ensure "external scripts enabled" database flag for Cloud SQL SQL Server instance is set to "off" (Automated)' AS title,
+                gsi.project_id                                                                AS project_id,
+                CASE
+                WHEN
+                            gsi.database_version LIKE 'SQLSERVER%'
+                        AND (f.value:value IS NULL
+                        OR f.value:value != 'off')
+                    THEN 'fail'
+                ELSE 'pass'
+                END AS status
+    FROM gcp_sql_instances gsi
+    LEFT JOIN 
+    instance_flags AS f ON f.value:name ='external scripts enabled'
 {% endmacro %}
