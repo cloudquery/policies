@@ -64,4 +64,4 @@ jobs:
         env:
           CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
         run: |
-          cloudquery addon publish build/manifest-free.json ${{ needs.prepare.outputs.transformation_version }}
+          cloudquery addon publish manifest-free.json ${{ needs.prepare.outputs.transformation_version }}
