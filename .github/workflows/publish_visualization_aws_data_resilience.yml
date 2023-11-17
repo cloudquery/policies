@@ -26,7 +26,7 @@ jobs:
             });
             const releaseNotes = data.body;
             const linksRemoved = releaseNotes.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-            const changelogPath = `visualization/aws/data_resilience/changelog.md`;
+            const changelogPath = `visualizations/aws/data_resilience/changelog.md`;
             await fs.writeFile(changelogPath, linksRemoved);
       - name: Run build
         run: |
