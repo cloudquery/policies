@@ -6,7 +6,7 @@
   "addon_type": "transformation",
   "addon_format": "zip",
   "message": "./changelog.md",
-  "doc": "./README.md",
+  "doc": "./README-free.md",
   "path": "./build/aws_compliance_free.zip",
   "plugin_deps": ["cloudquery/source/aws@v22.18.0"],
   "addon_deps": []
