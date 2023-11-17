@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "type": "addon",
+  "team_name": "cloudquery",
+  "addon_name": "k8s-compliance-premium",
+  "addon_type": "transformation",
+  "addon_format": "zip",
+  "message": "@./changelog.md",
+  "doc": "./README-premium.md",
+  "path": "./build/k8s_compliance_premium.zip",
+  "plugin_deps": ["cloudquery/source/k8s@v5.2.1"],
+  "addon_deps": []
+}
