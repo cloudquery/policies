@@ -15,7 +15,7 @@ This package contains dbt models (views) that gives compliance insights from Clo
 - [DBT + Snowflake](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup)
 - [DBT + Postgres](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
 - [DBT + BigQuery](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)
-  
+
 An example of how to install dbt to work with the destination of your choice.
 
 First, install `dbt` for the destination of your choice:
@@ -27,12 +27,12 @@ pip install dbt-postgres
 ```
 
 An example installation of dbt-snowflake:
+
 ```bash
 pip install dbt-snowflake
 ```
 
 These commands will also install install dbt-core and any other dependencies.
-
 
 Create the profile directory:
 
@@ -78,16 +78,17 @@ dbt compile
 ```
 
 One of the below databases
+
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
 - [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/v3.3.3/docs)
 
 ### What's in the pack
 
-The pack contains a free version and a full (paid) version.
+The pack contains the free version.
 
 #### Models
 
-- **azure_compliance__cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL.
+- **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL.
 - **azure_compliance_hipaa_hitrust_v9_2.sql**: Azure Compliance HIPPA HITRUST V9.2, available for PostgreSQL.
 
 The free version contains 10% of the full pack's queries.
