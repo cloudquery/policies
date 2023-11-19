@@ -89,3 +89,7 @@ select
         end as status
     from member_with_roles
 {% endmacro %}
+
+{% macro bigquery__kms_separation_of_duties(framework, check_id) %}
+--
+{% endmacro %}
