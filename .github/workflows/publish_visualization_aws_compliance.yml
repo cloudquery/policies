@@ -1,16 +1,16 @@
-name: Publish AWS Data Resilience Transformation
+name: Publish AWS Compliance Visualization
 
 on:
   push:
     tags:
-      - "transformation-aws-data-resilience-v*.*.*"
+      - "visualization-aws-compliance-v*.*.*"
 
 jobs:
-  publish-transformation-aws-data-resilience:
+  publish-visualization-aws-compliance:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: transformations/aws_data_resilience
+        working-directory: visualizations/aws/compliance
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
             });
             const releaseNotes = data.body;
             const linksRemoved = releaseNotes.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-            const changelogPath = `transformations/aws_data_resilience/changelog.md`;
+            const changelogPath = `visualizations/aws/compliance/changelog.md`;
             await fs.writeFile(changelogPath, linksRemoved);
       - name: Run build
         run: |
@@ -35,10 +35,10 @@ jobs:
         uses: cloudquery/setup-cloudquery@v3
         with:
           version: v3.29.1
-      - name: Publish tranformation
+      - name: Publish visualization
         env:
           CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
         run: |
           tag=${{ github.ref_name }}
-          version=${tag#"transformation-aws-data-resilience-"}
+          version=${tag#"visualization-aws-compliance-"}
           cloudquery addon publish manifest.json $version -f

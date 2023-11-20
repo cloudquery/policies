@@ -1,9 +1,9 @@
-name: Publish transformation free
+name: Publish transformation premium
 
 on:
   push:
     tags:
-      - "transformation-*-free-v*.*.*"
+      - "transformation-*-premium-v*.*.*"
 
 jobs:
   prepare:
@@ -19,8 +19,8 @@ jobs:
           tag=${{ github.ref_name }}
           # Trim transformation- prefix
           transformation_dir=${tag#"transformation-"}
-          # Trim -free-v*.*.* suffix
-          transformation_dir=${transformation_dir%"-free"*}
+          # Trim -premium-v*.*.* suffix
+          transformation_dir=${transformation_dir%"-premium"*}
           # Replace - with _
           transformation_dir=${transformation_dir//-/_}
           transformation_tier=$(echo $tag | cut -d- -f4)
@@ -28,7 +28,7 @@ jobs:
           echo "transformation_dir=${transformation_dir}" >> $GITHUB_OUTPUT
           echo "transformation_tier=${transformation_tier}" >> $GITHUB_OUTPUT
           echo "transformation_version=${transformation_version}" >> $GITHUB_OUTPUT
-  publish-transformation-free:
+  publish-transformation-premium:
     needs: prepare
     runs-on: ubuntu-latest
     defaults:
@@ -56,7 +56,7 @@ jobs:
             await fs.writeFile(changelogPath, linksRemoved);
       - name: Run build
         run: |
-          make build-free
+          make build-premium
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
@@ -65,4 +65,4 @@ jobs:
         env:
           CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
         run: |
-          cloudquery addon publish manifest-free.json ${{ needs.prepare.outputs.transformation_version }} -f
+          cloudquery addon publish manifest-premium.json ${{ needs.prepare.outputs.transformation_version }}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "type": "addon",
+  "team_name": "cloudquery",
+  "addon_name": "azure-compliance-premium",
+  "addon_type": "transformation",
+  "addon_format": "zip",
+  "message": "@./changelog.md",
+  "doc": "./README-premium.md",
+  "path": "./build/azure_compliance_premium.zip",
+  "plugin_deps": ["cloudquery/source/azure@v10.1.1"],
+  "addon_deps": []
+}
