@@ -17,5 +17,6 @@ with
         ({{ config_enabled_all_regions('pci_dss_v3.2.1','config.1') }})   
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

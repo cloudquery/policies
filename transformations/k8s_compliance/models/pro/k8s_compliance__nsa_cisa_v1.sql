@@ -115,5 +115,6 @@ with
         ({{ service_account_token_disabled('nsa_cisa_v1',"service_account_token_disabled") }})
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

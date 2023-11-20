@@ -13,5 +13,6 @@ with
     ({{ password_policy_min_lowercase('cis_v1.2.0','1.6') }})
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

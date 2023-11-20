@@ -137,5 +137,8 @@ with
         ({{web_app_ftp_deployment_enabled('cis_v1.3.0','9.10')}})
 
  )
-select *
+select 
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated
+
