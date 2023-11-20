@@ -17,6 +17,7 @@ build-premium:
 	mkdir -p ./build/k8s_compliance_premium
 	mkdir ./build/k8s_compliance_premium/macros
 	mkdir ./build/k8s_compliance_premium/models
+	cp -r macros/free ./build/k8s_compliance_premium/macros/.
 	cp -r macros/pro ./build/k8s_compliance_premium/macros/.
 	cp -r models/pro ./build/k8s_compliance_premium/models/.
 	cp dbt_project.yml ./build/k8s_compliance_premium/
