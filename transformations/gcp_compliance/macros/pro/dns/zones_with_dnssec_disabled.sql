@@ -55,7 +55,7 @@ select
            WHEN
                visibility != 'private'
                and ((dnssec_config is null) 
-               or JSON_VALUE(dnssec_config, '$.state') = 'off')
+               or (JSON_VALUE(dnssec_config.state) = 'off'))
                 THEN 'fail'
            ELSE 'pass'
            END AS status
