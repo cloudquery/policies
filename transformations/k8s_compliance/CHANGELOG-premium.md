@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.0.1...transformation-k8s-compliance-premium-v0.1.0) (2023-11-20)
+## [0.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.0.1...transformation-k8s-compliance-premium-v0.1.0) (2023-11-21)
 
 
 ### Features
