@@ -65,4 +65,4 @@ jobs:
         env:
           CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
         run: |
-          cloudquery addon publish manifest-premium.json ${{ needs.prepare.outputs.transformation_version }}
+          cloudquery addon publish manifest-premium.json ${{ needs.prepare.outputs.transformation_version }} -f
