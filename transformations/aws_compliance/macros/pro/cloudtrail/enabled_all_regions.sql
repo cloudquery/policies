@@ -1,7 +1,13 @@
-{% macro cloudtrail_enabled_all_regions(framework, check_id) %}
+{% macro enabled_in_all_regions(framework, check_id) %}
+  {{ return(adapter.dispatch('enabled_in_all_regions')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__enabled_in_all_regions(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__enabled_in_all_regions(framework, check_id) %}
 select
-    '{{check_id}}' As check_id,
-    '{{framework}}' As framework,
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
     'Ensure CloudTrail is enabled in all regions' as title,
     aws_cloudtrail_trails.account_id,
     arn as resource_id,
