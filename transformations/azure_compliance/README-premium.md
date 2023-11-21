@@ -4,11 +4,18 @@
 
 This package contains dbt models (views) that gives compliance insights from CloudQuery [Azure plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure) data.
 
+
 ### Requirements
 
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [CloudQuery Azure plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure)
 - [dbt](https://docs.getdbt.com/docs/installation)
+ 
+One of the below databases:
+
+- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
+- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/v3.3.3/docs)
+
 
 #### dbt Installation
 
@@ -76,11 +83,25 @@ Before executing the `dbt run` command, it might be useful to check for any pote
 ```bash
 dbt compile
 ```
+If everything compiles without errors, you can then execute:
 
-One of the below databases
+```bash
+dbt run
+```
 
-- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
-- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/v3.3.3/docs)
+This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
+
+To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
+
+For a specific model and the models in the dependency graph:
+```bash
+dbt run --select +"<model_name>"
+```
+
+For a specific folder and the models in the dependency graph:
+```bash
+dbt run --models +pro
+```
 
 ### What's in the pack
 
