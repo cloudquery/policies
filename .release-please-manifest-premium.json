@@ -1,5 +1,5 @@
 {
-  "transformations/aws_compliance": "0.0.1",
+  "transformations/aws_compliance": "0.1.0",
   "transformations/aws_compliance+FILLER": "0.0.0",
   "transformations/azure_compliance": "0.0.1",
   "transformations/azure_compliance+FILLER": "0.0.0",
