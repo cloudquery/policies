@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.0.1...transformation-aws-compliance-premium-v0.1.0) (2023-11-20)
+
+
+### Features
+
+* Add execution time to all policies ([#191](https://github.com/cloudquery/policies-premium/issues/191)) ([0aa735e](https://github.com/cloudquery/policies-premium/commit/0aa735ee397a1f290a1226df378e25d4050289f9))
+
+
+### Bug Fixes
+
+* Pack free marcos and shared models ([#255](https://github.com/cloudquery/policies-premium/issues/255)) ([2c56aac](https://github.com/cloudquery/policies-premium/commit/2c56aac6e484872f50d0b27b57ff1407da5c5621))
+
 ## 0.0.1 (2023-11-20)
 
 
