@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-free-v1.2.0...transformation-azure-compliance-free-v1.2.1) (2023-11-22)
+
+
+### Bug Fixes
+
+* Pack shared models with paid version ([#257](https://github.com/cloudquery/policies-premium/issues/257)) ([56a8c44](https://github.com/cloudquery/policies-premium/commit/56a8c4402a5e26b21486b916b80e93ea9b712a84))
+* Updated view_azure_nsg_rules to align with Snowflake ([#260](https://github.com/cloudquery/policies-premium/issues/260)) ([0db5429](https://github.com/cloudquery/policies-premium/commit/0db5429909355a5d2dbe34b62526036f7705823f))
+
 ## [1.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-free-v1.1.0...transformation-azure-compliance-free-v1.2.0) (2023-11-20)
 
 
