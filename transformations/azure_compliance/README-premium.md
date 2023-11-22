@@ -109,7 +109,6 @@ The pack contains the premium version.
 
 #### Models
 
-- **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL.
-- **azure_compliance_hipaa_hitrust_v9_2.sql**: Azure Compliance HIPPA HITRUST V9.2, available for PostgreSQL.
+- **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL and Snowflake.
 
 The premium version contains all queries.
