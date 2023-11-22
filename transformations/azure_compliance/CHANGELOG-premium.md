@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.1.0...transformation-azure-compliance-premium-v0.1.1) (2023-11-22)
+
+
+### Bug Fixes
+
+* Updated view_azure_nsg_rules to align with Snowflake ([#260](https://github.com/cloudquery/policies-premium/issues/260)) ([0db5429](https://github.com/cloudquery/policies-premium/commit/0db5429909355a5d2dbe34b62526036f7705823f))
+
 ## [0.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.0.1...transformation-azure-compliance-premium-v0.1.0) (2023-11-20)
 
 
