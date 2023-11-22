@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-free-v1.1.0...transformation-k8s-compliance-free-v1.2.0) (2023-11-22)
+
+
+### Features
+
+* Add execution time to all policies ([#191](https://github.com/cloudquery/policies-premium/issues/191)) ([0aa735e](https://github.com/cloudquery/policies-premium/commit/0aa735ee397a1f290a1226df378e25d4050289f9))
+
+
+### Bug Fixes
+
+* Pack free marcos with paid version ([#258](https://github.com/cloudquery/policies-premium/issues/258)) ([0b3368e](https://github.com/cloudquery/policies-premium/commit/0b3368eca9dfb22f031fa943830560c014bf02e8))
+
 ## [1.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-free-v1.0.0...transformation-k8s-compliance-free-v1.1.0) (2023-11-17)
 
 
