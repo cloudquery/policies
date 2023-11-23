@@ -26,7 +26,7 @@ with
         UNION
     ({{ alarm_vpc_changes('cis_v1.2.0','3.14') }})
         UNION
-    ({{ enabled_in_all_regions('cis_v1.2.0','2.1') }})
+    ({{ cloudtrail_enabled_all_regions('cis_v1.2.0','2.1') }})
         UNION
     ({{ log_file_validation_enabled('cis_v1.2.0','2.2') }})
         UNION
@@ -77,5 +77,6 @@ with
     ({{ default_sg_no_access('cis_v1.2.0','4.3') }})
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

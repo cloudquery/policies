@@ -21,5 +21,7 @@ with
     union
     ({{cosmosdb_cosmos_db_should_use_a_virtual_network_service_endpoint('hipaa_hitrust_v9.2','0806.01m2Organizational.12356 - 01.m - 3')}})
  )
-select *
+select 
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

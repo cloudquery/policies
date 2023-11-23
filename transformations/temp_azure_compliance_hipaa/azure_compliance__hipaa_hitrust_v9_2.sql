@@ -175,5 +175,7 @@ union
 union
 ({{keyvault_not_recoverable('hipaa_hitrust_v9.2','1635.12b1Organizational.2 - 12.b - 2')}})
  )
-select *
+select 
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

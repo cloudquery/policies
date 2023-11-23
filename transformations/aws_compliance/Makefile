@@ -19,9 +19,11 @@ build-premium:
 	mkdir -p ./build/aws_compliance_premium
 	mkdir ./build/aws_compliance_premium/macros
 	mkdir ./build/aws_compliance_premium/models
+	cp -r macros/free ./build/aws_compliance_premium/macros/.
 	cp -r macros/pro ./build/aws_compliance_premium/macros/.
 	cp -r macros/shared ./build/aws_compliance_premium/macros/.
 	cp -r models/pro ./build/aws_compliance_premium/models/.
+	cp -r models/shared ./build/aws_compliance_premium/models/.
 	cp dbt_project.yml ./build/aws_compliance_premium/
 	cp requirements.txt ./build/aws_compliance_premium/
 	zip -r ./build/aws_compliance_premium.zip ./build/aws_compliance_premium

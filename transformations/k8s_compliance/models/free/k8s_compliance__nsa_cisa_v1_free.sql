@@ -15,5 +15,6 @@ with
         ({{ replicaset_cpu_limit('nsa_cisa_v1',"replicaset_cpu_limit") }})
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

@@ -17,6 +17,7 @@ build-premium:
 	mkdir -p ./build/gcp_compliance_premium
 	mkdir ./build/gcp_compliance_premium/macros
 	mkdir ./build/gcp_compliance_premium/models
+	cp -r macros/free ./build/gcp_compliance_premium/macros/.
 	cp -r macros/pro ./build/gcp_compliance_premium/macros/.
 	cp -r models/pro ./build/gcp_compliance_premium/models/.
 	cp dbt_project.yml ./build/gcp_compliance_premium/

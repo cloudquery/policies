@@ -1,10 +1,8 @@
-{% macro enabled_in_all_regions(framework, check_id) %}
-  {{ return(adapter.dispatch('enabled_in_all_regions')(framework, check_id)) }}
+{% macro cloudtrail_enabled_all_regions(framework, check_id) %}
+  {{ return(adapter.dispatch('cloudtrail_enabled_all_regions')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__enabled_in_all_regions(framework, check_id) %}{% endmacro %}
-
-{% macro postgres__enabled_in_all_regions(framework, check_id) %}
+{% macro default__cloudtrail_enabled_all_regions(framework, check_id) %}
 select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,

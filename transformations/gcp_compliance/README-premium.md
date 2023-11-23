@@ -47,6 +47,20 @@ dbt run
 
 This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
 
+To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
+
+For a specific model and the models in the dependency graph:
+```bash
+dbt run --select +"<model_name>"
+```
+
+For a specific folder and the models in the dependency graph:
+```bash
+dbt run --models +pro
+```
+
+More information can be found [here.](https://docs.getdbt.com/reference/node-selection/syntax)
+
 ### Usage
 
 - Sync your data from GCP to destination (Postgres Example): `cloudquery sync gcp.yml postgres.yml`

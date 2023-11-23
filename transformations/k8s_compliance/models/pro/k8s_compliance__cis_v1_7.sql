@@ -155,5 +155,6 @@ with
         ({{ pod_security_standards_5_4_2('Kubernetes CIS v1.7.0','pod_security_standards_5_4_2') }})
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated

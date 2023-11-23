@@ -4,7 +4,7 @@ with
         UNION
         ({{ logs_encrypted('pci_dss_v3.2.1','cloudtrail.1') }})
         UNION
-        ({{ enabled_in_all_regions('pci_dss_v3.2.1','cloudtrail.2') }})
+        ({{ cloudtrail_enabled_all_regions('pci_dss_v3.2.1','cloudtrail.2') }})
         UNION
         ({{ log_file_validation_enabled('pci_dss_v3.2.1','cloudtrail.3') }})
         UNION
@@ -17,5 +17,6 @@ with
         ({{ config_enabled_all_regions('pci_dss_v3.2.1','config.1') }})   
     )
 select 
-*
+        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        aggregated.*
 from aggregated
