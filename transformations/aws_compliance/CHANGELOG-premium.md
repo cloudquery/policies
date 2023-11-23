@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.1.0...transformation-aws-compliance-premium-v0.1.1) (2023-11-22)
+
+
+### Bug Fixes
+
+* Update `pro/enabled_all_regions.sql` ([#265](https://github.com/cloudquery/policies-premium/issues/265)) ([95bf4bd](https://github.com/cloudquery/policies-premium/commit/95bf4bdffcd1104343f3a632ee65e40af0b68c41))
+
 ## [0.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.0.1...transformation-aws-compliance-premium-v0.1.0) (2023-11-20)
 
 
