@@ -1,7 +1,7 @@
 k8s_compliance: # This should match the name in your dbt_project.yml
   target: dev
   outputs:
-    dev:
+    dev-pg:
       type: postgres
       host: 127.0.0.1
       user: postgres
