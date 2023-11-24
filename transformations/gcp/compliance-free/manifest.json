@@ -2,12 +2,12 @@
   "schema_version": 1,
   "type": "addon",
   "team_name": "cloudquery",
-  "addon_name": "gcp-compliance-premium",
+  "addon_name": "gcp-compliance-free",
   "addon_type": "transformation",
   "addon_format": "zip",
   "message": "@./changelog.md",
-  "doc": "./README-premium.md",
-  "path": "./build/gcp_compliance_premium.zip",
+  "doc": "./README.md",
+  "path": "./build/gcp_compliance_free.zip",
   "plugin_deps": ["cloudquery/source/gcp@v9.9.1"],
   "addon_deps": []
 }

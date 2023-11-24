@@ -20,4 +20,7 @@ node index.js dbt-pack --project-dir=../../transformations/azure/compliance-prem
 
 node index.js dbt-pack --project-dir=../../transformations/k8s/compliance-free
 node index.js dbt-pack --project-dir=../../transformations/k8s/compliance-premium
+
+node index.js dbt-pack --project-dir=../../transformations/gcp/compliance-free
+node index.js dbt-pack --project-dir=../../transformations/gcp/compliance-premium
 ```
