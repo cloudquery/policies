@@ -12,7 +12,7 @@ spec:
 ---
 kind: destination
 spec:
-  name: "dest"
+  name: "postgresql"
   path: "cloudquery/postgresql"
   registry: cloudquery
   version: "v7.1.0" # latest version of postgresql plugin
