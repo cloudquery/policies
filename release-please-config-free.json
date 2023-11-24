@@ -4,10 +4,6 @@
       "component": "transformation-aws-compliance-free",
       "changelog-path": "CHANGELOG-free.md"
     },
-    "transformations/gcp_compliance": {
-      "component": "transformation-gcp-compliance-free",
-      "changelog-path": "CHANGELOG-free.md"
-    },
     "transformations/aws_data_resilience": {
       "component": "transformation-aws-data-resilience",
       "changelog-path": "CHANGELOG.md"

@@ -3,10 +3,6 @@
     "transformations/aws_compliance": {
       "component": "transformation-aws-compliance-premium",
       "changelog-path": "CHANGELOG-premium.md"
-    },
-    "transformations/gcp_compliance": {
-      "component": "transformation-gcp-compliance-premium",
-      "changelog-path": "CHANGELOG-premium.md"
     }
   },
   "pull-request-title-pattern": "chore${scope}: Release${component} v${version}",
