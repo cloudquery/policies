@@ -1,0 +1,61 @@
+name: "Test Azure Compliance Premium Policies: Postgres"
+
+on:
+  pull_request:
+    paths:
+      - "transformations/azure/compliance-premium/**"
+      - ".github/workflows/transformations_azure_compliance_premium_postgres.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "transformations/azure/compliance-premium/**"
+      - ".github/workflows/transformations_azure_compliance_premium_postgres.yml"
+
+jobs:
+  transformations-azure-compliance-premium:
+    name: transformations/azure/compliance-premium
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./transformations/azure/compliance-premium
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_PASSWORD: pass
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+          cache: "pip"
+          cache-dependency-path: "./transformations/azure/compliance-premium/requirements.txt"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Setup CloudQuery
+        uses: cloudquery/setup-cloudquery@v3
+        with:
+          version: v3.29.1
+      - name: Migrate DB
+        run: cloudquery migrate tests/azure.yml tests/pg.yml
+        env:
+          CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
+      - name: DBT dependencies
+        run: |
+          dbt deps --target dev-pg --profiles-dir ./tests
+      - name: Run Policies
+        run: |
+          dbt run --target dev-pg --profiles-dir ./tests

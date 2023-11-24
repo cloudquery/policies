@@ -4,10 +4,6 @@
       "component": "transformation-aws-compliance-premium",
       "changelog-path": "CHANGELOG-premium.md"
     },
-    "transformations/azure_compliance": {
-      "component": "transformation-azure-compliance-premium",
-      "changelog-path": "CHANGELOG-premium.md"
-    },
     "transformations/gcp_compliance": {
       "component": "transformation-gcp-compliance-premium",
       "changelog-path": "CHANGELOG-premium.md"

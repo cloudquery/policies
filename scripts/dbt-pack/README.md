@@ -1,0 +1,20 @@
+# dbt-pack
+
+A utility to pack a dbt project into a single zip file.
+
+## Prerequisites
+
+- [Node.js LTS](https://nodejs.org/en/)
+
+## Setup
+
+```bash
+npm ci
+```
+
+## Usage
+
+```bash
+node index.js dbt-pack --project-dir=../../transformations/azure/compliance-free
+node index.js dbt-pack --project-dir=../../transformations/azure/compliance-premium
+```
