@@ -1,20 +1,18 @@
 kind: source
 spec:
-  # Source spec section
-  name: k8s
-  path: cloudquery/k8s
+  name: azure
+  path: cloudquery/azure
   registry: cloudquery
-  version: "v5.2.1"
-  tables: ["*"]
+  version: "v10.2.0" # latest version of source azure plugin
   destinations: ["postgresql"]
-  spec:
-    contexts: ["context"]
+  tables: ["*"]
 ---
 kind: destination
 spec:
   name: "postgresql"
   path: "cloudquery/postgresql"
-  version: "v6.1.1"
+  registry: cloudquery
+  version: "v7.1.0" # latest version of postgresql plugin
   spec:
     batch_size: 10000
     connection_string: ${CQ_DSN}

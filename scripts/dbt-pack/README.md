@@ -17,4 +17,7 @@ npm ci
 ```bash
 node index.js dbt-pack --project-dir=../../transformations/azure/compliance-free
 node index.js dbt-pack --project-dir=../../transformations/azure/compliance-premium
+
+node index.js dbt-pack --project-dir=../../transformations/k8s/compliance-free
+node index.js dbt-pack --project-dir=../../transformations/k8s/compliance-premium
 ```
