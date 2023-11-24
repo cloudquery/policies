@@ -52,9 +52,10 @@ const addDependencies = (node, allNodes, allMacros, filesToPack) => {
 };
 
 const analyzeManifestFile = async (dbtProjectDirectory) => {
-  console.log(`Reading manifest.json from ${dbtProjectDirectory}`);
+  const manifestFile = `${dbtProjectDirectory}/target/manifest.json`;
+  console.log(`Analyzing manifest file ${manifestFile}`);
   const manifest = JSON.parse(
-    await fs.readFile(`${dbtProjectDirectory}/target/manifest.json`, "utf8"),
+    await fs.readFile(manifestFile, "utf8"),
   );
   const { nodes: allNodes, macros: allMacros } = manifest;
 
@@ -114,6 +115,7 @@ const zipProject = async (dbtProjectDirectory, filesToPack, ) => {
       stdout: "inherit",
       stderr: "inherit",
     });
+    console.log(`Done packing to ${outputFile}`);
   });
 };
 
