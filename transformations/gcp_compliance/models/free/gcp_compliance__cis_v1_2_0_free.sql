@@ -17,6 +17,6 @@ with
         ({{ kms_separation_of_duties('cis_v1.2.0', '1.11') }})
     )
 select 
-        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        {{ gen_timestamp() }},
         aggregated.*
 from aggregated
