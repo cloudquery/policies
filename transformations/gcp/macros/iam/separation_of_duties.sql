@@ -71,3 +71,38 @@ select
         end as status
     from role_members
 {% endmacro %}
+
+{% macro bigquery__iam_separation_of_duties(framework, check_id) %}
+with
+    project_policy_roles as (
+        select _cq_sync_time, project_id, JSON_EXTRACT_ARRAY(bindings) as binding_array
+        from {{ full_table_name("gcp_resourcemanager_project_policies") }}
+    ),
+    role_members as (
+        select
+            _cq_sync_time,
+            project_id,
+            binding,
+            JSON_VALUE(binding, '$.role') as role,
+            JSON_EXTRACT_STRING_ARRAY(binding, '$.members') as member
+         from project_policy_roles,
+          UNNEST(binding_array) AS binding
+    )
+select
+        ARRAY_TO_STRING(member, ', ') resource_id,
+        _cq_sync_time as sync_time,
+        '{{framework}}' as framework,
+        '{{check_id}}' as check_id,
+        'Ensure that Separation of duties is enforced while assigning service account related roles to users (Automated)'
+        as title,
+        project_id as project_id,
+        case
+            when
+                "role"
+                in ('roles/iam.serviceAccountAdmin', 'roles/iam.serviceAccountUser')
+                and "member" like 'user:%'
+            then 'fail'
+            else 'pass'
+        end as status
+    from role_members
+{% endmacro %}
