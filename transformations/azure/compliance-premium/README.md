@@ -83,6 +83,7 @@ Before executing the `dbt run` command, it might be useful to check for any pote
 ```bash
 dbt compile
 ```
+
 If everything compiles without errors, you can then execute:
 
 ```bash
@@ -94,11 +95,13 @@ This command will run your `dbt` models and create tables/views in your destinat
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
 For a specific model and the models in the dependency graph:
+
 ```bash
 dbt run --select +"<model_name>"
 ```
 
 For a specific folder and the models in the dependency graph:
+
 ```bash
 dbt run --models +pro
 ```
