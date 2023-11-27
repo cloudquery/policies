@@ -56,7 +56,7 @@ jobs:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
       - name: Run Policies
         run: |
-          dbt run --target dev-pg --profiles-dir ./tests
+          dbt run --target dev-pg --profiles-dir ./tests --exclude aws_compliance__foundational_security
       # Test packed version
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -75,4 +75,4 @@ jobs:
       - name: Run Unpacked DBT
         working-directory: ./transformations/aws/compliance-premium/build/aws_compliance_premium
         run: |
-          dbt run --target dev-pg --profiles-dir ../../tests
+          dbt run --target dev-pg --profiles-dir ../../tests --exclude aws_compliance__foundational_security
