@@ -50,11 +50,13 @@ This command will run your `dbt` models and create tables/views in your destinat
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
 For a specific model and the models in the dependency graph:
+
 ```bash
 dbt run --select +"<model_name>"
 ```
 
 For a specific folder and the models in the dependency graph:
+
 ```bash
 dbt run --models +pro
 ```
