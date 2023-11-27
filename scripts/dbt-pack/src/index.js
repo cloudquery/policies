@@ -31,7 +31,7 @@ const validateProjectDirectory = async (dbtProjectDirectory) => {
 const compileDbtProject = async (dbtProjectDirectory) => {
   const fullProjectDirectory = path.resolve(dbtProjectDirectory);
   console.log(`Compiling dbt project in ${fullProjectDirectory}`);
-  await execa("dbt", ["compile"], {
+  await execa("dbt", ["compile", "--profiles-dir", "tests"], {
     cwd: fullProjectDirectory,
     stdout: "inherit",
     stderr: "inherit",
