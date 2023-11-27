@@ -51,7 +51,7 @@ jobs:
           version: v4.0.0
       # Test unpacked version
       - name: Migrate DB
-        run: cloudquery migrate tests/spec.yml
+        run: cloudquery migrate tests/postgres.yml
         env:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
       - name: Run Policies

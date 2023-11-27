@@ -1,13 +1,5 @@
 {
   "packages": {
-    "transformations/aws_compliance": {
-      "component": "transformation-aws-compliance-free",
-      "changelog-path": "CHANGELOG-free.md"
-    },
-    "transformations/aws_data_resilience": {
-      "component": "transformation-aws-data-resilience",
-      "changelog-path": "CHANGELOG.md"
-    },
     "visualizations/aws/compliance": {
       "component": "visualization-aws-compliance",
       "changelog-path": "CHANGELOG.md"

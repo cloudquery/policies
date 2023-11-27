@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "type": "addon",
+  "team_name": "cloudquery",
+  "addon_name": "aws-cost",
+  "addon_type": "transformation",
+  "addon_format": "zip",
+  "message": "@./changelog.md",
+  "doc": "./README.md",
+  "path": "./build/aws_cost.zip",
+  "plugin_deps": ["cloudquery/source/aws@v22.18.0"],
+  "addon_deps": []
+}

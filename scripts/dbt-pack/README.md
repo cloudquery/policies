@@ -23,4 +23,8 @@ node index.js dbt-pack --project-dir=../../transformations/k8s/compliance-premiu
 
 node index.js dbt-pack --project-dir=../../transformations/gcp/compliance-free
 node index.js dbt-pack --project-dir=../../transformations/gcp/compliance-premium
+
+node index.js dbt-pack --project-dir=../../transformations/aws/compliance-free
+node index.js dbt-pack --project-dir=../../transformations/aws/compliance-premium
+node index.js dbt-pack --project-dir=../../transformations/aws/data-resilience
 ```
