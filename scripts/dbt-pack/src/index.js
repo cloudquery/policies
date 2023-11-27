@@ -31,11 +31,15 @@ const validateProjectDirectory = async (dbtProjectDirectory) => {
 const compileDbtProject = async (dbtProjectDirectory) => {
   const fullProjectDirectory = path.resolve(dbtProjectDirectory);
   console.log(`Compiling dbt project in ${fullProjectDirectory}`);
-  await execa("dbt", ["compile"], {
-    cwd: fullProjectDirectory,
-    stdout: "inherit",
-    stderr: "inherit",
-  });
+  await execa(
+    "dbt",
+    ["compile", "--target", "dev-pg", "--profiles-dir", "tests"],
+    {
+      cwd: fullProjectDirectory,
+      stdout: "inherit",
+      stderr: "inherit",
+    },
+  );
   console.log(`Done compiling dbt project in ${fullProjectDirectory}`);
 };
 
@@ -54,9 +58,7 @@ const addDependencies = (node, allNodes, allMacros, filesToPack) => {
 const analyzeManifestFile = async (dbtProjectDirectory) => {
   const manifestFile = `${dbtProjectDirectory}/target/manifest.json`;
   console.log(`Analyzing manifest file ${manifestFile}`);
-  const manifest = JSON.parse(
-    await fs.readFile(manifestFile, "utf8"),
-  );
+  const manifest = JSON.parse(await fs.readFile(manifestFile, "utf8"));
   const { nodes: allNodes, macros: allMacros } = manifest;
 
   const filesToPack = new Set();
@@ -82,8 +84,10 @@ const updateProjectConfig = async (configFile) => {
   await fs.writeFile(configFile, stringify(config));
 };
 
-const zipProject = async (dbtProjectDirectory, filesToPack, ) => {
-  const projectManifest = JSON.parse(await fs.readFile(`${dbtProjectDirectory}/manifest.json`, "utf8"));
+const zipProject = async (dbtProjectDirectory, filesToPack) => {
+  const projectManifest = JSON.parse(
+    await fs.readFile(`${dbtProjectDirectory}/manifest.json`, "utf8"),
+  );
   const outputFile = path.resolve(dbtProjectDirectory, projectManifest.path);
   const withZipPaths = filesToPack.map((file) => {
     const copyFrom = path.resolve(dbtProjectDirectory, file);
