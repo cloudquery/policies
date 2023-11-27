@@ -1,0 +1,48 @@
+{
+  "packages": {
+    "transformations/aws/cost": {
+      "component": "transformation-aws-cost"
+    },
+    "transformations/aws/encryption": {
+      "component": "transformation-aws-encryption"
+    },
+    "transformations/aws/data-resilience": {
+      "component": "transformation-aws-data-resilience"
+    },
+    "transformations/aws/compliance-free": {
+      "component": "transformation-aws-compliance-free"
+    },
+    "transformations/aws/compliance-premium": {
+      "component": "transformation-aws-compliance-premium"
+    },
+    "transformations/azure/compliance-free": {
+      "component": "transformation-azure-compliance-free"
+    },
+    "transformations/azure/compliance-premium": {
+      "component": "transformation-azure-compliance-premium"
+    },
+    "transformations/gcp/compliance-free": {
+      "component": "transformation-gcp-compliance-free"
+    },
+    "transformations/gcp/compliance-premium": {
+      "component": "transformation-gcp-compliance-premium"
+    },
+    "transformations/k8s/compliance-free": {
+      "component": "transformation-k8s-compliance-free"
+    },
+    "transformations/k8s/compliance-premium": {
+      "component": "transformation-k8s-compliance-premium"
+    },
+    "visualizations/aws/compliance": {
+      "component": "visualization-aws-compliance"
+    },
+    "visualizations/aws/data_resilience": {
+      "component": "visualization-aws-data-resilience"
+    }
+  },
+  "pull-request-title-pattern": "chore${scope}: Release${component} v${version}",
+  "release-type": "simple",
+  "separate-pull-requests": true,
+  "sequential-calls": true,
+  "tag-separator": "-"
+}
