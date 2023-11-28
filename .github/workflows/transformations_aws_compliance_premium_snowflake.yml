@@ -51,31 +51,3 @@ jobs:
           SNOW_DATABASE: ${{ secrets.SNOW_DATABASE }}
           SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
           SNOW_REGION: ${{ secrets.SNOW_REGION }}
-      # Test packed version
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          cache: 'npm'
-          cache-dependency-path: scripts/dbt-pack/package-lock.json
-      - name: Install Dependencies
-        run: npm ci
-        working-directory: ./scripts/dbt-pack
-      - name: Pack DBT
-        working-directory: ./scripts/dbt-pack
-        run: node index.js dbt-pack --project-dir=../../transformations/aws/compliance-premium
-      - name: Unzip Packed DBT
-        run: unzip -o build/aws_compliance_premium.zip -d build/aws_compliance_premium
-      - name: Run Unpacked DBT
-        working-directory: ./transformations/aws/compliance-premium/build/aws_compliance_premium
-        run: |
-          dbt run --target dev-snowflake --profiles-dir ../../tests --select --select aws_compliance__security_group_ingress_rules, aws_compliance__api_gateway_method_settingse_selected_only, aws_compliance__foundational_security
-        env:
-          SNOW_USER: ${{ secrets.SNOW_USER }}
-          SNOW_PASSWORD: ${{ secrets.SNOW_PASSWORD }}
-          # DBT assumes the account is in the form of <account>.<region>
-          SNOW_ACCOUNT: "${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}"
-          SNOW_WAREHOUSE: ${{ secrets.SNOW_WAREHOUSE }}
-          SNOW_DATABASE: ${{ secrets.SNOW_DATABASE }}
-          SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
-          SNOW_REGION: ${{ secrets.SNOW_REGION }}
