@@ -1,5 +1,5 @@
 {
-  "transformations/aws/data-resilience": "1.1.0",
+  "transformations/aws/data-resilience": "1.1.1",
   "transformations/aws/data-resilience+FILLER": "0.0.0",
   "transformations/aws/compliance-free": "0.2.1",
   "transformations/aws/compliance-free+FILLER": "0.0.0",
@@ -20,5 +20,6 @@
   "visualizations/aws/compliance": "1.1.0",
   "visualizations/aws/compliance+FILLER": "0.0.0",
   "visualizations/aws/data_resilience": "1.1.0",
-  "visualizations/aws/data_resilience+FILLER": "0.0.0"
+  "visualizations/aws/data_resilience+FILLER": "0.0.0",
+  "transformations/aws/encryption": "1.0.0"
 }
