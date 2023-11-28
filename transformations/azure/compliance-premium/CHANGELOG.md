@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.1.2](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.1.1...transformation-azure-compliance-premium-v0.1.2) (2023-11-27)
+## [0.1.2](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.1.1...transformation-azure-compliance-premium-v0.1.2) (2023-11-28)
 
 
 ### Bug Fixes
