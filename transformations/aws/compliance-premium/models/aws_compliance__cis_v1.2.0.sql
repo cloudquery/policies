@@ -1,82 +1,82 @@
 with
     aggregated as (
     ({{ alarm_unauthorized_api('cis_v1.2.0','3.1') }})
-        UNION
+        {{ union() }}
     ({{ alarm_root_account('cis_v1.2.0','3.3') }})
-        UNION
+        {{ union() }}
     ({{ alarm_iam_policy_change('cis_v1.2.0','3.4') }})
-        UNION
+        {{ union() }}
     ({{ alarm_cloudtrail_config_changes('cis_v1.2.0','3.5') }})
-        UNION
+        {{ union() }}
     ({{ alarm_console_auth_failure('cis_v1.2.0','3.6') }})
-        UNION
+        {{ union() }}
     ({{ alarm_delete_customer_cmk('cis_v1.2.0','3.7') }})
-        UNION
+        {{ union() }}
     ({{ alarm_s3_bucket_policy_change('cis_v1.2.0','3.8') }})
-        UNION
+        {{ union() }}
     ({{ alarm_aws_config_changes('cis_v1.2.0','3.9') }})
-        UNION
+        {{ union() }}
     ({{ alarm_security_group_changes('cis_v1.2.0','3.10') }})
-        UNION
+        {{ union() }}
     ({{ alarm_nacl_changes('cis_v1.2.0','3.11') }})
-        UNION
+        {{ union() }}
     ({{ alarm_network_gateways('cis_v1.2.0','3.12') }})
-        UNION
+        {{ union() }}
     ({{ alarm_route_table_changes('cis_v1.2.0','3.13') }})
-        UNION
+        {{ union() }}
     ({{ alarm_vpc_changes('cis_v1.2.0','3.14') }})
-        UNION
+        {{ union() }}
     ({{ cloudtrail_enabled_all_regions('cis_v1.2.0','2.1') }})
-        UNION
+        {{ union() }}
     ({{ log_file_validation_enabled('cis_v1.2.0','2.2') }})
-        UNION
+        {{ union() }}
     ({{ integrated_with_cloudwatch_logs('cis_v1.2.0','2.4') }})
-        UNION
+        {{ union() }}
     ({{ bucket_access_logging('cis_v1.2.0','2.6') }})
-        UNION
+        {{ union() }}
     ({{ logs_encrypted('cis_v1.2.0','2.7') }})
-        UNION
+        {{ union() }}
     ({{ rotation_enabled_for_customer_key('cis_v1.2.0','2.8') }})
-        UNION
+        {{ union() }}
     ({{ flow_logs_enabled_in_all_vpcs('cis_v1.2.0','2.9') }})
-        UNION
+        {{ union() }}
     ({{ avoid_root_usage('cis_v1.2.0','1.1') }})
-        UNION
+        {{ union() }}
     ({{ mfa_enabled_for_console_access('cis_v1.2.0','1.2') }})
-        UNION
+        {{ union() }}
     ({{ unused_creds_disabled('cis_v1.2.0','1.3') }})
-        UNION
+        {{ union() }}
     ({{ old_access_keys('cis_v1.2.0','1.4') }})
-        UNION
+        {{ union() }}
     ({{ password_policy_min_uppercase('cis_v1.2.0','1.5') }})
-        UNION
+        {{ union() }}
     ({{ password_policy_min_lowercase('cis_v1.2.0','1.6') }})
-        UNION
+        {{ union() }}
     ({{ password_policy_min_one_symbol('cis_v1.2.0','1.7') }})
-        UNION
+        {{ union() }}
     ({{ password_policy_min_number('cis_v1.2.0','1.8') }})
-        UNION
+        {{ union() }}
     ({{ password_policy_min_length('cis_v1.2.0','1.9') }})
-        UNION
+        {{ union() }}
     ({{ password_policy_prevent_reuse('cis_v1.2.0','1.10') }})
-        UNION
+        {{ union() }}
     ({{ password_policy_expire_old_passwords('cis_v1.2.0','1.11') }})
-        UNION
+        {{ union() }}
     ({{ root_user_no_access_keys('cis_v1.2.0','1.12') }})
-        UNION
+        {{ union() }}
     ({{ mfa_enabled_for_root('cis_v1.2.0','1.13') }})
-        UNION
+        {{ union() }}
     ({{ hardware_mfa_enabled_for_root('cis_v1.2.0','1.14') }})
-        UNION
+        {{ union() }}
     ({{ policies_attached_to_groups_roles('cis_v1.2.0','1.16') }})
-        UNION
+        {{ union() }}
     ({{ no_broad_public_ingress_on_port_22('cis_v1.2.0','4.1') }})
-        UNION
+        {{ union() }}
     ({{ no_broad_public_ingress_on_port_3389('cis_v1.2.0','4.2') }})
-        UNION
+        {{ union() }}
     ({{ default_sg_no_access('cis_v1.2.0','4.3') }})
     )
 select 
-        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        {{ gen_timestamp() }},
         aggregated.*
 from aggregated

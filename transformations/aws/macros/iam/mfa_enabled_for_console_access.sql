@@ -32,7 +32,7 @@ select
 from aws_iam_credential_reports
 {% endmacro %}
 
-{% macro bigquery__(framework, check_id) %}
+{% macro bigquery__mfa_enabled_for_console_access(framework, check_id) %}
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,

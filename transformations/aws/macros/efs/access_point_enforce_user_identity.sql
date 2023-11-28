@@ -1,3 +1,5 @@
+{{ config(enabled=is_snowflake()) }} 
+
 {% macro access_point_enforce_user_identity(framework, check_id) %}
   {{ return(adapter.dispatch('access_point_enforce_user_identity')(framework, check_id)) }}
 {% endmacro %}
@@ -22,7 +24,7 @@ FROM
     aws_efs_access_points
 {% endmacro %}
 
-{% macro bigquery__(framework, check_id) %}
+{% macro bigquery__access_point_enforce_user_identity(framework, check_id) %}
 select 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
