@@ -1,0 +1,17 @@
+kind: source
+spec:
+  name: aws
+  path: cloudquery/aws
+  version: "v22.19.0" # latest version of source aws plugin
+  destinations: ["postgresql"]
+  tables: ["*"]
+---
+kind: destination
+spec:
+  name: "postgresql"
+  path: "cloudquery/postgresql"
+  registry: cloudquery
+  version: "v7.1.0" # latest version of postgresql plugin
+  spec:
+    batch_size: 10000
+    connection_string: ${CQ_DSN}
