@@ -40,3 +40,22 @@ select DISTINCT
 FROM gcp_sql_instances gsi,
 LATERAL FLATTEN(input => gsi.settings:ipConfiguration:authorizedNetworks) AS gsisican
 {% endmacro %}
+
+{% macro bigquery__sql_db_instance_publicly_accessible(framework, check_id) %}
+select DISTINCT
+                gsi.name                                                                    AS resource_id,
+                _cq_sync_time As sync_time,
+                '{{framework}}' As framework,
+                '{{check_id}}' As check_id,                                                                         
+                'Ensure that Cloud SQL database instances are not open to the world (Automated)' AS title,
+                gsi.project_id                                                                AS project_id,
+                CASE
+                    WHEN
+                                gsi.database_version LIKE 'SQLSERVER%'
+                            AND JSON_VALUE(gsisican.value) = '0.0.0.0/0'
+                        THEN 'fail'
+                    ELSE 'pass'
+                    END AS status
+FROM{{ full_table_name("gcp_sql_instances") }} gsi,
+UNNEST(JSON_QUERY_ARRAY(settings.ipConfiguration.authorizedNetworks)) AS gsisican
+{% endmacro %}
