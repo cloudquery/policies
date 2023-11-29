@@ -7,7 +7,6 @@
 {% macro postgres__logging_audit_config_changes_without_log_metric_filter_alerts(framework, check_id) %}
 select 
                 "filter"                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the log metric filter and alerts exist for Audit Configuration changes (Automated)' AS title,
@@ -26,7 +25,6 @@ select
 {% macro snowflake__logging_audit_config_changes_without_log_metric_filter_alerts(framework, check_id) %}
 select 
                 filter                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the log metric filter and alerts exist for Audit Configuration changes (Automated)' AS title,
@@ -45,7 +43,6 @@ select
 {% macro bigquery__logging_audit_config_changes_without_log_metric_filter_alerts(framework, check_id) %}
 select DISTINCT 
                 filter                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the log metric filter and alerts exist for Audit Configuration changes (Automated)' AS title,

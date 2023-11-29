@@ -7,7 +7,6 @@
 {% macro postgres__compute_ssl_proxy_with_weak_cipher(framework, check_id) %}
 select DISTINCT
                 gctsp.id::text                                                                   AS resource_id,
-                gctsp._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites (Manual)' AS title,
@@ -23,7 +22,6 @@ select DISTINCT
     UNION ALL
     select DISTINCT
                 gctsp.id::text                                                                 AS resource_id,
-                gctsp._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites (Manual)' AS title,
@@ -56,7 +54,6 @@ select DISTINCT
 {% macro snowflake__compute_ssl_proxy_with_weak_cipher(framework, check_id) %}
 select DISTINCT
                 gctsp.id::text                                                                   AS resource_id,
-                gctsp._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites (Manual)' AS title,
@@ -72,7 +69,6 @@ select DISTINCT
     UNION ALL
     select DISTINCT
                 gctsp.id::text                                                                 AS resource_id,
-                gctsp._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites (Manual)' AS title,
@@ -104,7 +100,6 @@ select DISTINCT
 {% macro bigquery__compute_ssl_proxy_with_weak_cipher(framework, check_id) %}
  select DISTINCT
                 CAST(gctsp.id AS STRING)                                                                   AS resource_id,
-                gctsp._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites (Manual)' AS title,
@@ -120,7 +115,6 @@ select DISTINCT
     UNION ALL
     select DISTINCT
                 CAST(gctsp.id AS STRING)                                                                 AS resource_id,
-                gctsp._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure no HTTPS or SSL proxy load balancers permit SSL policies with weak cipher suites (Manual)' AS title,

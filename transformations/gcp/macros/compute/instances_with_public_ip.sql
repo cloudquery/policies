@@ -8,7 +8,6 @@
 select
     DISTINCT 
                 gci.name                                                                    AS resource_id,
-                gci._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Compute instances do not have public IP addresses (Automated' AS title,
@@ -48,7 +47,6 @@ WITH
 select
     DISTINCT 
                 gci.name                                                                    AS resource_id,
-                gci._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Compute instances do not have public IP addresses (Automated' AS title,
@@ -88,7 +86,6 @@ WITH
 select
     DISTINCT 
                 gci.name                                                                    AS resource_id,
-                gci._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Compute instances do not have public IP addresses (Automated' AS title,

@@ -10,7 +10,6 @@ WITH combined AS (
 ),
 gcp_firewall_allowed_rules AS (
     SELECT
-    gcf._cq_sync_time,
     gcf.project_id,
     gcf."name",
     gcf.network,
@@ -44,8 +43,7 @@ FROM combined AS gcf
     ON gcf.project_id = pr.project_id AND gcf.id = pr.id
 )
 select
-                "name"                                                                   AS resource_id,
-                _cq_sync_time As sync_time, 
+                "name"                                                                   AS resource_id, 
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that SSH access is restricted from the internet (Automated)' AS title,
@@ -73,7 +71,6 @@ WITH combined AS (
 ),
 gcp_firewall_allowed_rules AS (
     SELECT
-    gcf._cq_sync_time,
     gcf.project_id,
     gcf.name,
     gcf.network,
@@ -110,8 +107,7 @@ FROM combined AS gcf
     ON gcf.project_id = pr.project_id AND gcf.id = pr.id
 )
 select
-                name                                                                   AS resource_id,
-                _cq_sync_time As sync_time, 
+                name                                                                   AS resource_id, 
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that SSH access is restricted from the internet (Automated)' AS title,
@@ -139,7 +135,6 @@ WITH combined AS (
 ),
 gcp_firewall_allowed_rules AS (
 SELECT 
-    gcf._cq_sync_time,
     gcf.project_id,
     gcf.name,
     gcf.network,
@@ -177,8 +172,7 @@ LEFT JOIN (
     ON gcf.project_id = pr.project_id AND gcf.id = pr.id
 )
 select distinct
-                name                                                                   AS resource_id,
-                _cq_sync_time As sync_time, 
+                name                                                                   AS resource_id, 
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that SSH access is restricted from the internet (Automated)' AS title,

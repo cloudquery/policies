@@ -7,7 +7,6 @@
 {% macro postgres__kms_keys_not_rotated_within_90_days(framework, check_id) %}
 select
         "name" as resource_id,
-        _cq_sync_time as sync_time,
         '{{framework}}' as framework,
         '{{check_id}}' as check_id,
         'Ensure KMS encryption keys are rotated within a period of 90 days (Automated)'
@@ -30,7 +29,6 @@ select
 {% macro snowflake__kms_keys_not_rotated_within_90_days(framework, check_id) %}
 select
         name as resource_id,
-        _cq_sync_time as sync_time,
         '{{framework}}' as framework,
         '{{check_id}}' as check_id,
         'Ensure KMS encryption keys are rotated within a period of 90 days (Automated)'
@@ -54,7 +52,6 @@ select
 {% macro bigquery__kms_keys_not_rotated_within_90_days(framework, check_id) %}
 select
         name as resource_id,
-        _cq_sync_time as sync_time,
         '{{framework}}' as framework,
         '{{check_id}}' as check_id,
         'Ensure KMS encryption keys are rotated within a period of 90 days (Automated)'

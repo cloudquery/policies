@@ -7,7 +7,6 @@
 {% macro postgres__compute_oslogin_disabled(framework, check_id) %}
 select 
                 "name"                                                                   AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure oslogin is enabled for a Project (Automated)' AS title,
@@ -34,7 +33,6 @@ WITH
 
 select 
                 name                                                                   AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure oslogin is enabled for a Project (Automated)' AS title,
@@ -62,7 +60,6 @@ WITH
 
 select 
                 name                                                                   AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure oslogin is enabled for a Project (Automated)' AS title,
