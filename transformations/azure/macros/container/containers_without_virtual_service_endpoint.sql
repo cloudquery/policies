@@ -1,12 +1,11 @@
 {% macro container_containers_without_virtual_service_endpoint(framework, check_id) %}
 
 SELECT
-  r._cq_sync_time As sync_time,
+  r.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   '[Preview]: Container Registry should use a virtual network service endpoint',
   r.subscription_id,
-  r.id,
   case
     when r.properties -> 'networkRuleSet'->>'defaultAction' IS DISTINCT FROM 'Deny'
       OR vrr->>'id' IS NULL

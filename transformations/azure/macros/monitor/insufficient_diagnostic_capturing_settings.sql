@@ -7,7 +7,6 @@
 {% macro postgres__monitor_insufficient_diagnostic_capturing_settings(framework, check_id) %}
 WITH diagnostic_settings AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         (logs->>'enabled')::boolean AS enabled,
@@ -22,12 +21,11 @@ required_settings AS (
     WHERE category IN ('Administrative', 'Alert', 'Policy', 'Security')
 )
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                          AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure Diagnostic Setting captures appropriate categories' AS title,
     subscription_id                                             AS subscription_id,
-    id                                                          AS resource_id,
     CASE
         WHEN COUNT(id) = 4
         THEN 'pass'
@@ -35,13 +33,12 @@ SELECT
     END                                                         AS status
 FROM required_settings
 WHERE enabled
-GROUP BY _cq_sync_time, subscription_id, id
+GROUP BY subscription_id, id
 {% endmacro %}
 
 {% macro snowflake__monitor_insufficient_diagnostic_capturing_settings(framework, check_id) %}
   WITH diagnostic_settings AS (
       SELECT
-          _cq_sync_time,
           subscription_id,
           id,
           (value:enabled)::boolean AS enabled,
@@ -55,12 +52,11 @@ GROUP BY _cq_sync_time, subscription_id, id
       WHERE category IN ('Administrative', 'Alert', 'Policy', 'Security')
   )
   SELECT
-      _cq_sync_time As sync_time,
+      id                                                          AS resource_id,
       '{{framework}}' As framework,
       '{{check_id}}' As check_id,
       'Ensure Diagnostic Setting captures appropriate categories' AS title,
       subscription_id                                             AS subscription_id,
-      id                                                          AS resource_id,
       CASE
           WHEN COUNT(id) = 4
           THEN 'pass'
@@ -68,5 +64,5 @@ GROUP BY _cq_sync_time, subscription_id, id
       END                                                         AS status
   FROM required_settings
   WHERE enabled
-  GROUP BY _cq_sync_time, subscription_id, id
+  GROUP BY subscription_id, id
 {% endmacro %}

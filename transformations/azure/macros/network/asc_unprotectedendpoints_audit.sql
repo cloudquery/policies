@@ -19,12 +19,11 @@ WITH network_security_groups AS (
 	)
 
 SELECT
-  _cq_sync_time As sync_time,
+	machines.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'All network ports should be restricted on network security groups associated to your virtual machine',
     subscription_id,
-	machines.id,
 	case
     when network_security_groups.security_group_name IS DISTINCT FROM NULL
     then 'fail' else 'pass'

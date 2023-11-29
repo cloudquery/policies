@@ -41,12 +41,11 @@ meets_actions AS (
     GROUP BY _cq_id
 )
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                             AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure That No Custom Subscription Administrator Roles Exist' AS title,
     subscription_id                                                AS subscription_id,
-    id                                                             AS resource_id,
     CASE
         WHEN has_wide_scope AND has_all_action
         THEN 'fail'
@@ -94,12 +93,11 @@ meets_actions AS (
     GROUP BY _cq_id
 )
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                             AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure That No Custom Subscription Administrator Roles Exist' AS title,
     subscription_id                                                AS subscription_id,
-    id                                                             AS resource_id,
     CASE
         WHEN has_wide_scope AND has_all_action
         THEN 'fail'

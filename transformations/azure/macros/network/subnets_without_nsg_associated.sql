@@ -4,12 +4,11 @@ WITH subs AS (
 )
 
 SELECT
-  sg._cq_sync_time As sync_time,
+  sg.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Subnets should be associated with a Network Security Group',
   sg.subscription_id,
-  sg.id,
   case
     when subs.subnet->>'id' IS NULL then 'fail' else 'pass'
   end

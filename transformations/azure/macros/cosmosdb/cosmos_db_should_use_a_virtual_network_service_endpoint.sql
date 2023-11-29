@@ -6,12 +6,11 @@ WITH valid_accounts AS (
 ) -- TODO check
 
 SELECT
-  a._cq_sync_time As sync_time,
+  a.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Cosmos DB should use a virtual network service endpoint',
   a.subscription_id,
-  a.id,
   case
     when v.id IS NULL then 'fail' else 'pass'
   end

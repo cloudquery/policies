@@ -1,12 +1,11 @@
 {% macro web_latest_tls_version_should_be_used_in_your_web_app(framework, check_id) %}
 
 SELECT
-  _cq_sync_time As sync_time,
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Latest TLS version should be used in your Web App',
   subscription_id,
-  id,
   case
     when kind LIKE 'app%'
       AND (properties -> 'siteConfig' -> 'minTlsVersion' IS NULL

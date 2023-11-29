@@ -6,8 +6,7 @@
 
 {% macro postgres__view_azure_nsg_dest_port_ranges() %}
 WITH security_rules AS (
-    SELECT
-    	_cq_sync_time,    
+    SELECT    
 		subscription_id,
         security_rules->>'id' AS id,
         security_rules->'properties'->>'access' AS access,
@@ -76,7 +75,6 @@ unified_port_ranges AS (
         destinationPortRange ~ '^[0-9]+-[0-9]+$'
 )
 SELECT
-    sr._cq_sync_time,
 	sr.id AS id,
     sr.subscription_id AS subscription_id,
     access,
@@ -93,8 +91,7 @@ FROM
 
 {% macro snowflake__view_azure_nsg_dest_port_ranges() %}
 WITH security_rules AS (
-    SELECT
-    	_cq_sync_time,    
+    SELECT    
 		subscription_id,
         security_rules.value:id AS id,
         security_rules.value:properties:access AS access,
@@ -165,7 +162,6 @@ unified_port_ranges AS (
         destinationPortRange REGEXP '^[0-9]+-[0-9]+$'
 )
 SELECT
-    sr._cq_sync_time,
 	sr.id AS id,
     sr.subscription_id AS subscription_id,
     access,

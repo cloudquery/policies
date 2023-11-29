@@ -6,14 +6,13 @@
 
 {% macro postgres__view_azure_nsg_rules() %}
 WITH tmp AS (
-    SELECT _cq_sync_time, subscription_id, id, name, rls FROM azure_network_security_groups, jsonb_array_elements(properties -> 'securityRules') AS rls
+    SELECT subscription_id, id, name, rls FROM azure_network_security_groups, jsonb_array_elements(properties -> 'securityRules') AS rls
 ),
 ansg AS (
     SELECT tmp.*, dprs FROM tmp, jsonb_array_elements_text(rls->'destinationPortRanges') AS dprs
 )
 (
 SELECT
-    ansg._cq_sync_time AS _cq_sync_time,
     ansg.subscription_id AS subscription_id,
     ansg.id AS nsg_id,
     ansg."name" AS nsg_name,
@@ -31,7 +30,6 @@ WHERE ansg.dprs ~ '^[0-9]+(-[0-9]+)$'
 UNION
 (
 SELECT
-    ansg._cq_sync_time AS _cq_sync_time,
     ansg.subscription_id AS subscription_id,
     ansg.id AS nsg_id,
     ansg."name" AS nsg_name,
@@ -49,7 +47,7 @@ WHERE ansg.dprs ~ '^[0-9]*$'
 
 {% macro snowflake__view_azure_nsg_rules() %}
 WITH tmp AS (
-    SELECT _cq_sync_time, subscription_id, id, name, rls.value as rls FROM azure_network_security_groups,
+    SELECT subscription_id, id, name, rls.value as rls FROM azure_network_security_groups,
   LATERAL FLATTEN(properties:securityRules) rls
 ),
 ansg AS (
@@ -58,7 +56,6 @@ ansg AS (
 )
 (
 SELECT
-    ansg._cq_sync_time AS _cq_sync_time,
     ansg.subscription_id AS subscription_id,
     ansg.id AS nsg_id,
     ansg.name AS nsg_name,
@@ -76,7 +73,6 @@ WHERE ansg.dprs REGEXP '^[0-9]+(-[0-9]+)$'
 UNION
 (
 SELECT
-    ansg._cq_sync_time AS _cq_sync_time,
     ansg.subscription_id AS subscription_id,
     ansg.id AS nsg_id,
     ansg.name AS nsg_name,
