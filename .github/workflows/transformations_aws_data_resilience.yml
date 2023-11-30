@@ -5,12 +5,18 @@ on:
     paths:
       - "transformations/aws/data-resilience/**"
       - ".github/workflows/transformations_aws_data_resilience_postgres.yml"
+      - "transformations/aws/macros/**"
+      - "transformations/aws/models/**"
+      - "transformations/macros/**"
   push:
     branches:
       - main
     paths:
       - "transformations/aws/data-resilience/**"
       - ".github/workflows/transformations_aws_data_resilience_postgres.yml"
+      - "transformations/aws/macros/**"
+      - "transformations/aws/models/**"
+      - "transformations/macros/**"
 
 jobs:
   transformations-aws-data-resilience:
