@@ -11,7 +11,6 @@ WITH expanded_firewalls AS (
 SELECT
         DISTINCT
         gcf.name AS resource_id,
-        gcf._cq_sync_time AS sync_time,
         '{{framework}}' AS framework,
         '{{check_id}}' AS check_id,
         'GCP CIS3.10 Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses (Manual)' AS title,
@@ -34,7 +33,6 @@ WITH expanded_firewalls AS (
 SELECT
         DISTINCT
         gcf.name AS resource_id,
-        gcf._cq_sync_time AS sync_time,
         '{{framework}}' AS framework,
         '{{check_id}}' AS check_id,
         'GCP CIS3.10 Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses (Manual)' AS title,
@@ -50,4 +48,27 @@ SELECT
         END AS status
     FROM expanded_firewalls AS gcf,
     LATERAL FLATTEN(gcf.value:ports) p
+{% endmacro %}
+
+{% macro bigquery__compute_allow_traffic_behind_iap(framework, check_id) %}
+WITH expanded_firewalls AS (
+    SELECT * FROM {{ full_table_name("gcp_compute_firewalls") }} gcf, 
+    UNNEST(JSON_QUERY_ARRAY(allowed)) AS a
+)
+SELECT
+        DISTINCT
+        gcf.name AS resource_id,
+        '{{framework}}' AS framework,
+        '{{check_id}}' AS check_id,
+        'GCP CIS3.10 Ensure Firewall Rules for instances behind Identity Aware Proxy (IAP) only allow the traffic from Google Cloud Loadbalancer (GCLB) Health Check and Proxy Addresses (Manual)' AS title,
+        gcf.project_id AS project_id,
+        CASE
+            WHEN
+                NOT ( '35.191.0.0/16' in UNNEST(gcf.source_ranges) AND '130.211.0.0/22' in UNNEST(gcf.source_ranges))
+                AND NOT (JSON_VALUE(gcf.a.I_p_protocol) = 'tcp'
+                AND IFNULL(CAST(JSON_VALUE(gcf.a.ports) AS INT64), 0) = 80)
+            THEN 'fail'
+            ELSE 'pass'
+        END AS status
+    FROM expanded_firewalls AS gcf
 {% endmacro %}

@@ -7,7 +7,6 @@
 {% macro postgres__bigquery_datasets_publicly_accessible(framework, check_id) %}
 select DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that BigQuery datasets are not anonymously or publicly accessible (Automated)' AS title,
@@ -25,7 +24,6 @@ FROM gcp_bigquery_datasets d, JSONB_ARRAY_ELEMENTS(d.access) AS a
 {% macro snowflake__bigquery_datasets_publicly_accessible(framework, check_id) %}
  select DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that BigQuery datasets are not anonymously or publicly accessible (Automated)' AS title,
@@ -39,4 +37,22 @@ FROM gcp_bigquery_datasets d, JSONB_ARRAY_ELEMENTS(d.access) AS a
                     END                                                                                AS status
 FROM gcp_bigquery_datasets d,
 LATERAL FLATTEN(input => d.access) AS a
+{% endmacro %}
+
+{% macro bigquery__bigquery_datasets_publicly_accessible(framework, check_id) %}
+ select DISTINCT 
+                d.id                                                                                   AS resource_id,
+                '{{framework}}' As framework,
+                '{{check_id}}' As check_id,                                                                         
+                'Ensure that BigQuery datasets are not anonymously or publicly accessible (Automated)' AS title,
+                d.project_id                                                                           AS project_id,
+                CASE
+                    WHEN
+                                JSON_VALUE(a.role) = 'allUsers'
+                            OR JSON_VALUE(a.role) = 'allAuthenticatedUsers'
+                        THEN 'fail'
+                    ELSE 'pass'
+                    END                                                                                AS status
+FROM {{ full_table_name("gcp_bigquery_datasets") }} d,
+UNNEST(JSON_QUERY_ARRAY(access)) AS a
 {% endmacro %}

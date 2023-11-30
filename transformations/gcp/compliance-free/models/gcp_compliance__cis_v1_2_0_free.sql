@@ -1,22 +1,22 @@
 with
     aggregated as (
         ({{ iam_managed_service_account_keys('cis_v1.2.0', '1.4') }})
-        union
+        {{ union() }}
         ({{ iam_service_account_admin_priv('cis_v1.2.0', '1.5') }})
-        union
+        {{ union() }}
         ({{ iam_users_with_service_account_token_creator_role('cis_v1.2.0', '1.6') }})
-        union
+        {{ union() }}
         ({{ iam_service_account_keys_not_rotated('cis_v1.2.0', '1.7') }})
-        union
+        {{ union() }}
         ({{ iam_separation_of_duties('cis_v1.2.0', '1.8') }})
-        union
+        {{ union() }}
         ({{ kms_publicly_accessible('cis_v1.2.0', '1.9') }})
-        union
+        {{ union() }}
         ({{ kms_keys_not_rotated_within_90_days('cis_v1.2.0', '1.10') }})
-        union
+        {{ union() }}
         ({{ kms_separation_of_duties('cis_v1.2.0', '1.11') }})
     )
 select 
-        ('{{ run_started_at }}')::timestamp as policy_execution_time,
+        {{ gen_timestamp() }},
         aggregated.*
 from aggregated
