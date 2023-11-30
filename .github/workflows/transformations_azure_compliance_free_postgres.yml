@@ -5,12 +5,18 @@ on:
     paths:
       - "transformations/azure/compliance-free/**"
       - ".github/workflows/transformations_azure_compliance_free_postgres.yml"
+      - "transformations/azure/macros/**"
+      - "transformations/azure/models/**"
+      - "transformations/macros/**"
   push:
     branches:
       - main
     paths:
       - "transformations/azure/compliance-free/**"
       - ".github/workflows/transformations_azure_compliance_free_postgres.yml"
+      - "transformations/azure/macros/**"
+      - "transformations/azure/models/**"
+      - "transformations/macros/**"
 
 jobs:
   transformations-azure-compliance-free:
