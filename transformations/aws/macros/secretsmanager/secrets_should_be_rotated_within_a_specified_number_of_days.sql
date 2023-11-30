@@ -29,3 +29,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_secretsmanager_secrets
 {% endmacro %}
+
+{% macro default__secrets_should_be_rotated_within_a_specified_number_of_days(framework, check_id) %}{% endmacro %}
+                    

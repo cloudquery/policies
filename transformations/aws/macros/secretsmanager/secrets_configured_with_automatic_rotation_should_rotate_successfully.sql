@@ -30,3 +30,6 @@ select
  from aws_secretsmanager_secrets
 
 {% endmacro %}
+
+{% macro default__secrets_configured_with_automatic_rotation_should_rotate_successfully(framework, check_id) %}{% endmacro %}
+                    

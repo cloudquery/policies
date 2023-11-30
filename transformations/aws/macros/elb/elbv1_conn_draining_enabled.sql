@@ -33,3 +33,6 @@ select
 from
     aws_elbv1_load_balancers
 {% endmacro %}
+
+{% macro default__elbv1_conn_draining_enabled(framework, check_id) %}{% endmacro %}
+                    

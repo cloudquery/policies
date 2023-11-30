@@ -31,3 +31,6 @@ select
     end as status
 from aws_ec2_ebs_volumes
 {% endmacro %}
+
+{% macro default__unencrypted_ebs_volumes(framework, check_id) %}{% endmacro %}
+                    

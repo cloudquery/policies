@@ -31,3 +31,6 @@ SELECT
   end as status
 from aws_elasticbeanstalk_configuration_settings, jsonb_array_elements(aws_elasticbeanstalk_configuration_settings.option_settings) as s
 {% endmacro %}
+
+{% macro default__elastic_beanstalk_managed_updates_enabled(framework, check_id) %}{% endmacro %}
+                    

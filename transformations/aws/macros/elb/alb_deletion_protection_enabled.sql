@@ -37,3 +37,6 @@ from aws_elbv2_load_balancers lb
      aws_elbv2_load_balancer_attributes a on
                  a.load_balancer_arn = lb.arn AND a.key='deletion_protection.enabled'
 {% endmacro %}
+
+{% macro default__alb_deletion_protection_enabled(framework, check_id) %}{% endmacro %}
+                    

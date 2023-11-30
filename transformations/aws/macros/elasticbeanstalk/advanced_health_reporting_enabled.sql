@@ -34,3 +34,6 @@ select
     end as status
 from aws_elasticbeanstalk_environments
 {% endmacro %}
+
+{% macro default__advanced_health_reporting_enabled(framework, check_id) %}{% endmacro %}
+                    

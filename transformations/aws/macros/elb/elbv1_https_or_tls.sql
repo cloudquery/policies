@@ -31,3 +31,6 @@ select
   end as status
 from aws_elbv1_load_balancers lb, jsonb_array_elements(lb.listener_descriptions) as li
 {% endmacro %}
+
+{% macro default__elbv1_https_or_tls(framework, check_id) %}{% endmacro %}
+                    

@@ -33,3 +33,6 @@ select
   end as status
 from aws_efs_filesystems
 {% endmacro %}
+
+{% macro default__unencrypted_efs_filesystems(framework, check_id) %}{% endmacro %}
+                    

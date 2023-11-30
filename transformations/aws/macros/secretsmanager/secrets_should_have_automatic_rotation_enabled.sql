@@ -27,3 +27,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_secretsmanager_secrets
 {% endmacro %}
+
+{% macro default__secrets_should_have_automatic_rotation_enabled(framework, check_id) %}{% endmacro %}
+                    

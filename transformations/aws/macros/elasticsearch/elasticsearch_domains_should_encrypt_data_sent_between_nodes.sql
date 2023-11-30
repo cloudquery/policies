@@ -31,3 +31,6 @@ select
   end as status
 from aws_elasticsearch_domains
 {% endmacro %}
+
+{% macro default__elasticsearch_domains_should_encrypt_data_sent_between_nodes(framework, check_id) %}{% endmacro %}
+                    

@@ -23,3 +23,6 @@ select
     case when publicly_accessible is TRUE then 'fail' else 'pass' end as status
 from aws_redshift_clusters
 {% endmacro %}
+
+{% macro default__cluster_publicly_accessible(framework, check_id) %}{% endmacro %}
+                    

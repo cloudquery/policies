@@ -27,3 +27,6 @@ from aws_rds_clusters
 where
     engine in ('aurora', 'aurora-mysql', 'mysql')
 {% endmacro %}
+
+{% macro default__amazon_aurora_clusters_should_have_backtracking_enabled(framework, check_id) %}{% endmacro %}
+                    

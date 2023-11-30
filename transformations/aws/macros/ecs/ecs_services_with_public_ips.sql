@@ -31,3 +31,6 @@ select
   end as status
 from aws_ecs_cluster_services
 {% endmacro %}
+
+{% macro default__ecs_services_with_public_ips(framework, check_id) %}{% endmacro %}
+                    

@@ -75,3 +75,6 @@ from aws_guardduty_detectors
 where
     status = 'ENABLED'
 {% endmacro %}
+
+{% macro default__detector_enabled(framework, check_id) %}{% endmacro %}
+                    
