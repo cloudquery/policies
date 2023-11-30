@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.1.2...transformation-aws-compliance-premium-v0.2.0) (2023-11-30)
+
+
+### Features
+
+* Added AWS Bigquery dbt - cis v1.2.0 ([#299](https://github.com/cloudquery/policies-premium/issues/299)) ([ecc5fde](https://github.com/cloudquery/policies-premium/commit/ecc5fdec4cac7056ceeee412f303cbfcf695483e))
+
+
+### Bug Fixes
+
+* Updated aws_fsbp ([#310](https://github.com/cloudquery/policies-premium/issues/310)) ([2377baa](https://github.com/cloudquery/policies-premium/commit/2377baabb3d515bdf5564f4ae08b151d57938ed3))
+
 ## [0.1.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.1.1...transformation-aws-compliance-premium-v0.1.2) (2023-11-28)
 
 
