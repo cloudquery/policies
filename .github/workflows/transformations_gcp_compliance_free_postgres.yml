@@ -5,12 +5,18 @@ on:
     paths:
       - "transformations/gcp/compliance-free/**"
       - ".github/workflows/transformations_gcp_compliance_free_postgres.yml"
+      - "transformations/gcp/macros/**"
+      - "transformations/gcp/models/**"
+      - "transformations/macros/**"
   push:
     branches:
       - main
     paths:
       - "transformations/gcp/compliance-free/**"
       - ".github/workflows/transformations_gcp_compliance_free_postgres.yml"
+      - "transformations/gcp/macros/**"
+      - "transformations/gcp/models/**"
+      - "transformations/macros/**"
 
 jobs:
   transformations-gcp-compliance-free:

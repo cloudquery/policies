@@ -5,12 +5,18 @@ on:
     paths:
       - "transformations/k8s/compliance-premium/**"
       - ".github/workflows/transformations_k8s_compliance_premium_postgres.yml"
+      - "transformations/k8s/macros/**"
+      - "transformations/k8s/models/**"
+      - "transformations/macros/**"
   push:
     branches:
       - main
     paths:
       - "transformations/k8s/compliance-premium/**"
       - ".github/workflows/transformations_k8s_compliance_premium_postgres.yml"
+      - "transformations/k8s/macros/**"
+      - "transformations/k8s/models/**"
+      - "transformations/macros/**"
 
 jobs:
   transformations-k8s-compliance-premium:
