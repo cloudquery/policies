@@ -7,7 +7,6 @@
 {% macro postgres__iam_managed_service_account_keys(framework, check_id) %}
 select distinct
         gisa.name as resource_id,
-        gisa._cq_sync_time as sync_time,
         '{{ framework }}' as framework,
         '{{ check_id }}' as check_id,
         'Ensure that there are only GCP-managed service account keys for each service account (Automated)'
@@ -30,7 +29,6 @@ select distinct
 {% macro snowflake__iam_managed_service_account_keys(framework, check_id) %}
 select distinct
         gisa.name as resource_id,
-        gisa._cq_sync_time as sync_time,
         '{{ framework }}' as framework,
         '{{ check_id }}' as check_id,
         'Ensure that there are only GCP-managed service account keys for each service account (Automated)'
@@ -53,7 +51,6 @@ select distinct
 {% macro bigquery__iam_managed_service_account_keys(framework, check_id) %}
 select distinct
         gisa.name as resource_id,
-        gisa._cq_sync_time as sync_time,
         '{{ framework }}' as framework,
         '{{ check_id }}' as check_id,
         'Ensure that there are only GCP-managed service account keys for each service account (Automated)'

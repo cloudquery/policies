@@ -7,7 +7,6 @@
 {% macro postgres__logging_dns_logging_disabled(framework, check_id) %}
 select DISTINCT 
                 gcn.name                                                                    AS resource_id,
-                gcn._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud DNS logging is enabled for all VPC networks (Automated)' AS title,
@@ -25,7 +24,6 @@ select DISTINCT
 {% macro snowflake__logging_dns_logging_disabled(framework, check_id) %}
 select DISTINCT 
                 gcn.name                                                                    AS resource_id,
-                gcn._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud DNS logging is enabled for all VPC networks (Automated)' AS title,
@@ -44,7 +42,6 @@ select DISTINCT
 {% macro bigquery__logging_dns_logging_disabled(framework, check_id) %}
 select DISTINCT 
                 gcn.name                                                                    AS resource_id,
-                gcn._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud DNS logging is enabled for all VPC networks (Automated)' AS title,

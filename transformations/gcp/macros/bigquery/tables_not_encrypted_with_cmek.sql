@@ -8,7 +8,6 @@
  select
     DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that a Default Customer-managed encryption key (CMEK) is specified for all BigQuery Data Sets (Automated)' AS title,
@@ -29,7 +28,6 @@
  select
     DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that a Default Customer-managed encryption key (CMEK) is specified for all BigQuery Data Sets (Automated)' AS title,
@@ -50,7 +48,6 @@
   select
     DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that a Default Customer-managed encryption key (CMEK) is specified for all BigQuery Data Sets (Automated)' AS title,
