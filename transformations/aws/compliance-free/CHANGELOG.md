@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.3.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.3.0...transformation-aws-compliance-free-v0.3.1) (2023-12-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.3 ([#313](https://github.com/cloudquery/policies-premium/issues/313)) ([caaa770](https://github.com/cloudquery/policies-premium/commit/caaa770ed3ea2b4285a2d4af851bb05f1449e9b0))
+* **deps:** Update dependency dbt-snowflake to v1.7.0 ([#314](https://github.com/cloudquery/policies-premium/issues/314)) ([f25f666](https://github.com/cloudquery/policies-premium/commit/f25f666163dc65cd7ba1ed067a531b48fff3a729))
+
+## [0.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.2.1...transformation-aws-compliance-free-v0.3.0) (2023-11-30)
+
+
+### Features
+
+* Added AWS Bigquery dbt - cis v1.2.0 ([#299](https://github.com/cloudquery/policies-premium/issues/299)) ([ecc5fde](https://github.com/cloudquery/policies-premium/commit/ecc5fdec4cac7056ceeee412f303cbfcf695483e))
+
 ## [0.2.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.2.0...transformation-aws-compliance-free-v0.2.1) (2023-11-28)
 
 
