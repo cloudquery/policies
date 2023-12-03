@@ -35,3 +35,6 @@ select
     end as status
 from aws_ecs_task_definitions, jsonb_array_elements(aws_ecs_task_definitions.container_definitions) as c
 {% endmacro %}
+
+{% macro default__task_definitions_secure_networking(framework, check_id) %}{% endmacro %}
+                    

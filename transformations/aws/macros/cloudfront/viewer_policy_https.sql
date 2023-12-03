@@ -45,3 +45,6 @@ select
     arn as resource_id,
     'fail' as status
 from cachebeviors{% endmacro %}
+
+{% macro default__viewer_policy_https(framework, check_id) %}{% endmacro %}
+                    

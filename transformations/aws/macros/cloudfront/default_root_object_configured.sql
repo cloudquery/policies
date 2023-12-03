@@ -29,3 +29,6 @@ select
     end as status
 from aws_cloudfront_distributions
 {% endmacro %}
+
+{% macro default__default_root_object_configured(framework, check_id) %}{% endmacro %}
+                    

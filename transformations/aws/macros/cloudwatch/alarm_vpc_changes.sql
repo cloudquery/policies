@@ -29,7 +29,7 @@ select
 from {{ ref('aws_compliance__log_metric_filter_and_alarm') }}
 {% endmacro %}
 
-{% macro postgres__bigquery(framework, check_id) %}
+{% macro bigquery__alarm_vpc_changes(framework, check_id) %}
 select
   '{{framework}}' as framework,
   '{{check_id}}' as check_id,

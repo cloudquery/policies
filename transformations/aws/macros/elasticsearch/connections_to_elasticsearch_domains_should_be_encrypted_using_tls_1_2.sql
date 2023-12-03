@@ -31,3 +31,6 @@ select
   end as status
 from aws_elasticsearch_domains
 {% endmacro %}
+
+{% macro default__connections_to_elasticsearch_domains_should_be_encrypted_using_tls_1_2(framework, check_id) %}{% endmacro %}
+                    

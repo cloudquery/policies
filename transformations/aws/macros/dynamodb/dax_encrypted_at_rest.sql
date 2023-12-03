@@ -31,3 +31,6 @@ select
   end as status
 from aws_dax_clusters
 {% endmacro %}
+
+{% macro default__dax_encrypted_at_rest(framework, check_id) %}{% endmacro %}
+                    

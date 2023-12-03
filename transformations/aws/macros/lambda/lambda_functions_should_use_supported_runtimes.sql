@@ -29,3 +29,6 @@ from aws_lambda_functions f
 left join aws_lambda_runtimes r on r.name=f.configuration->>'Runtime'
 where f.configuration->>'PackageType' != 'Image'
 {% endmacro %}
+
+{% macro default__lambda_functions_should_use_supported_runtimes(framework, check_id) %}{% endmacro %}
+                    

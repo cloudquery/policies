@@ -28,3 +28,6 @@ select
     end as status
 from aws_iam_user_access_keys
 {% endmacro %}
+
+{% macro default__iam_access_keys_unused_more_than_90_days(framework, check_id) %}{% endmacro %}
+                    

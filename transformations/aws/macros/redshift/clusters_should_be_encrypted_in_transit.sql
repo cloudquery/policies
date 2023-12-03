@@ -59,3 +59,6 @@ where exists(select 1
                 and parameter_name = 'require_ssl'))
 )
 {% endmacro %}
+
+{% macro default__clusters_should_be_encrypted_in_transit(framework, check_id) %}{% endmacro %}
+                    

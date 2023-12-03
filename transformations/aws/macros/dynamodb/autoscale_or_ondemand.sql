@@ -57,3 +57,6 @@ FROM
       AND pw.scalable_dimension = 'dynamodb:table:WriteCapacityUnits'
 group by t.account_id, t.arn, status
 {% endmacro %}
+
+{% macro default__autoscale_or_ondemand(framework, check_id) %}{% endmacro %}
+                    

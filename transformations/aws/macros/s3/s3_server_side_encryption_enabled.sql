@@ -33,3 +33,6 @@ left join aws_s3_bucket_encryption_rules on aws_s3_bucket_encryption_rules.bucke
 
 -- Note: This query doesn't validate if a bucket policy requires encryption for `put-object` requests
 {% endmacro %}
+
+{% macro default__s3_server_side_encryption_enabled(framework, check_id) %}{% endmacro %}
+                    

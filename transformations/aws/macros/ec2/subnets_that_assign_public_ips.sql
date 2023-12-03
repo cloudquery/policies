@@ -31,3 +31,6 @@ select
     end
 from aws_ec2_subnets
 {% endmacro %}
+
+{% macro default__subnets_that_assign_public_ips(framework, check_id) %}{% endmacro %}
+                    

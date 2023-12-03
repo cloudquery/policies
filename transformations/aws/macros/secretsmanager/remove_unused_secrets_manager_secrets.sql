@@ -29,3 +29,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_secretsmanager_secrets
 {% endmacro %}
+
+{% macro default__remove_unused_secrets_manager_secrets(framework, check_id) %}{% endmacro %}
+                    

@@ -46,3 +46,6 @@ select
     status
 from results
 {% endmacro %}
+
+{% macro default__unused_acls(framework, check_id) %}{% endmacro %}
+                    

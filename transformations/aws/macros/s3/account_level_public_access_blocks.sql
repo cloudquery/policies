@@ -43,3 +43,6 @@ left join
     aws_s3_accounts on
         aws_iam_accounts.account_id = aws_s3_accounts.account_id
 {% endmacro %}
+
+{% macro default__account_level_public_access_blocks(framework, check_id) %}{% endmacro %}
+                    

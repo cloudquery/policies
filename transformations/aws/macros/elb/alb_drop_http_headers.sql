@@ -37,3 +37,6 @@ inner join
     aws_elbv2_load_balancer_attributes a on
         a.load_balancer_arn = lb.arn and a.key='routing.http.drop_invalid_header_fields.enabled'
 {% endmacro %}
+
+{% macro default__alb_drop_http_headers(framework, check_id) %}{% endmacro %}
+                    

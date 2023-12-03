@@ -33,3 +33,6 @@ select
     case when cnt > 1 then 'fail' else 'pass' end as status
 from data
 {% endmacro %}
+
+{% macro default__instances_with_more_than_2_network_interfaces(framework, check_id) %}{% endmacro %}
+                    

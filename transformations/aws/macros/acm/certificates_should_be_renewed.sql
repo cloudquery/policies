@@ -31,3 +31,6 @@ select
   end as status
 FROM aws_acm_certificates
 {% endmacro %}
+
+{% macro default__certificates_should_be_renewed(framework, check_id) %}{% endmacro %}
+                    

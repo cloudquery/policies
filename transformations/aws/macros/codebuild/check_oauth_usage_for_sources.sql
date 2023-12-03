@@ -37,3 +37,6 @@ select
     end as status
 from aws_codebuild_projects
 {% endmacro %}
+
+{% macro default__check_oauth_usage_for_sources(framework, check_id) %}{% endmacro %}
+                    

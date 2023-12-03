@@ -31,3 +31,6 @@ select
   end as status
 from aws_elasticsearch_domains
 {% endmacro %}
+
+{% macro default__elasticsearch_domains_should_be_in_vpc(framework, check_id) %}{% endmacro %}
+                    

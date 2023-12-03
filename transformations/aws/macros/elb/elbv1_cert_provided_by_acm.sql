@@ -46,3 +46,6 @@ left join
     aws_acm_certificates on
         aws_acm_certificates.arn = li->'Listener'->>'SSLCertificateId'
 {% endmacro %}
+
+{% macro default__elbv1_cert_provided_by_acm(framework, check_id) %}{% endmacro %}
+                    
