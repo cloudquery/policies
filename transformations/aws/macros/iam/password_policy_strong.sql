@@ -45,3 +45,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_iam_password_policies
 {% endmacro %}
+
+{% macro default__password_policy_strong(framework, check_id) %}{% endmacro %}
+                    

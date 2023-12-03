@@ -31,3 +31,6 @@ select
     end as status
 from aws_dms_replication_instances
 {% endmacro %}
+
+{% macro default__replication_not_public(framework, check_id) %}{% endmacro %}
+                    

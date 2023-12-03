@@ -35,3 +35,6 @@ select
   end as status
 from aws_elasticsearch_domains
 {% endmacro %}
+
+{% macro default__elasticsearch_domains_should_be_configured_with_at_least_three_dedicated_master_nodes(framework, check_id) %}{% endmacro %}
+                    

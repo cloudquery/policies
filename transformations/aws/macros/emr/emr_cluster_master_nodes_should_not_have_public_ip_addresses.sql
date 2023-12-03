@@ -31,3 +31,6 @@ from
 left outer join aws_ec2_subnets
     on aws_emr_clusters.ec2_instance_attributes->>'Ec2SubnetId' = aws_ec2_subnets.subnet_id
 {% endmacro %}
+
+{% macro default__emr_cluster_master_nodes_should_not_have_public_ip_addresses(framework, check_id) %}{% endmacro %}
+                    

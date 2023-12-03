@@ -33,3 +33,6 @@ select
 FROM aws_dynamodb_tables t
   LEFT JOIN aws_dynamodb_table_continuous_backups b ON b.table_arn = t.arn
 {% endmacro %}
+
+{% macro default__point_in_time_recovery(framework, check_id) %}{% endmacro %}
+                    

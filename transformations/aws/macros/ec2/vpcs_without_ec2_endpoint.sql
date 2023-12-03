@@ -53,3 +53,6 @@ from aws_ec2_vpcs
 left join endpoints
     on aws_ec2_vpcs.vpc_id = endpoints.vpc_endpoint_id
 {% endmacro %}
+
+{% macro default__vpcs_without_ec2_endpoint(framework, check_id) %}{% endmacro %}
+                    

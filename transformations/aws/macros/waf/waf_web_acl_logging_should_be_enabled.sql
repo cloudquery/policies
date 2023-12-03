@@ -28,3 +28,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_waf_web_acls
 {% endmacro %}
+
+{% macro default__waf_web_acl_logging_should_be_enabled(framework, check_id) %}{% endmacro %}
+                    

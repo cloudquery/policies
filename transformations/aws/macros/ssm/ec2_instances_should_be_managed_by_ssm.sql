@@ -31,3 +31,6 @@ from
     aws_ec2_instances
 left outer join aws_ssm_instances on aws_ec2_instances.instance_id = aws_ssm_instances.instance_id
 {% endmacro %}
+
+{% macro default__ec2_instances_should_be_managed_by_ssm(framework, check_id) %}{% endmacro %}
+                    

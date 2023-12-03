@@ -31,3 +31,6 @@ select
   end as status
 from aws_efs_filesystems
 {% endmacro %}
+
+{% macro default__efs_filesystems_with_disabled_backups(framework, check_id) %}{% endmacro %}
+                    

@@ -33,3 +33,6 @@ select
   end
 from aws_ec2_instances
 {% endmacro %}
+
+{% macro default__stopped_more_than_30_days_ago_instances(framework, check_id) %}{% endmacro %}
+                    

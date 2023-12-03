@@ -58,3 +58,6 @@ SELECT
   GROUP BY account_id, resource_id
 
 {% endmacro %}
+
+{% macro default__security_groups_with_access_to_unauthorized_ports(framework, check_id) %}{% endmacro %}
+                    

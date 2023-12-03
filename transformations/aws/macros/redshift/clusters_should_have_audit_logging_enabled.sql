@@ -31,3 +31,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_redshift_clusters
 {% endmacro %}
+
+{% macro default__clusters_should_have_audit_logging_enabled(framework, check_id) %}{% endmacro %}
+                    

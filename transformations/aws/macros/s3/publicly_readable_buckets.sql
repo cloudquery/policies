@@ -131,3 +131,6 @@ where
         and policy_allow_public.statement_count > 0
     )
 {% endmacro %}
+
+{% macro default__publicly_readable_buckets(framework, check_id) %}{% endmacro %}
+                    

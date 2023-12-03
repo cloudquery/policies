@@ -56,3 +56,6 @@ SELECT
       ELSE 'pass'
     END as status
 FROM violations v{% endmacro %}
+
+{% macro default__elbv1_https_predefined_policy(framework, check_id) %}{% endmacro %}
+                    

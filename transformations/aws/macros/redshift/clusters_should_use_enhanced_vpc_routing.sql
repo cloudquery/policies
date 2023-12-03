@@ -27,3 +27,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_redshift_clusters
 {% endmacro %}
+
+{% macro default__clusters_should_use_enhanced_vpc_routing(framework, check_id) %}{% endmacro %}
+                    

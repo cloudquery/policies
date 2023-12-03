@@ -27,3 +27,6 @@ select
 from aws_ssm_documents, jsonb_array_elements(aws_ssm_documents.permissions) p
 where owner in (select account_id from aws_iam_accounts)
 {% endmacro %}
+
+{% macro default__documents_should_not_be_public(framework, check_id) %}{% endmacro %}
+                    

@@ -27,3 +27,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_redshift_clusters
 {% endmacro %}
+
+{% macro default__clusters_should_have_automatic_upgrades_to_major_versions_enabled(framework, check_id) %}{% endmacro %}
+                    

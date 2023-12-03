@@ -53,3 +53,6 @@ SELECT DISTINCT
   end as status
 FROM snapshot_access_groups
 {% endmacro %}
+
+{% macro default__ebs_snapshot_permissions_check(framework, check_id) %}{% endmacro %}
+                    

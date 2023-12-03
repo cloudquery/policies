@@ -36,3 +36,6 @@ select
 FROM
     aws_config_configuration_recorders
 {% endmacro %}
+
+{% macro default__config_enabled_all_regions(framework, check_id) %}{% endmacro %}
+                    

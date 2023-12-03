@@ -121,3 +121,6 @@ WHERE
 -- This will flag ALL users that have been deleted as NOT COMPLIANT
 -- This will not catch if an explicit deny supercedes the statement
 {% endmacro %}
+
+{% macro default__restrict_cross_account_actions(framework, check_id) %}{% endmacro %}
+                    
