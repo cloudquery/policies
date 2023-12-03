@@ -32,7 +32,25 @@ select
       OR jsonb_array_length(ip_permissions_egress) > 0)
       then 'fail'
       else 'pass'
-  end
+  end as status
 from
     aws_ec2_security_groups
+{% endmacro %}
+
+{% macro bigquery__default_sg_no_access(framework, check_id) %}
+select
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
+  'The VPC default security group should not allow inbound and outbound traffic' as title,
+  account_id,
+  arn,
+  CASE
+    WHEN group_name = 'default'
+         AND ARRAY_LENGTH(JSON_EXTRACT_ARRAY(ip_permissions)) > 0
+         OR ARRAY_LENGTH(JSON_EXTRACT_ARRAY(ip_permissions_egress)) > 0
+    THEN 'fail'
+    ELSE 'pass'
+  END AS status
+from
+    {{ full_table_name("aws_ec2_security_groups") }}
 {% endmacro %}

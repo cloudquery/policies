@@ -7,7 +7,6 @@
 {% macro postgres__logging_project_ownership_changes_without_log_metric_filter_alerts(framework, check_id) %}
 select DISTINCT 
                 "filter"                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure log metric filter and alerts exist for project ownership assignments/changes (Automated)' AS title,
@@ -26,7 +25,6 @@ select DISTINCT
 {% macro snowflake__logging_project_ownership_changes_without_log_metric_filter_alerts(framework, check_id) %}
 select DISTINCT 
                 filter                                                                   AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure log metric filter and alerts exist for project ownership assignments/changes (Automated)' AS title,
@@ -45,7 +43,6 @@ select DISTINCT
 {% macro bigquery__logging_project_ownership_changes_without_log_metric_filter_alerts(framework, check_id) %}
 select DISTINCT 
                 filter                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure log metric filter and alerts exist for project ownership assignments/changes (Automated)' AS title,

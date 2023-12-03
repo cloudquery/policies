@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.1.1...transformation-gcp-compliance-premium-v0.2.0) (2023-11-29)
+
+
+### Features
+
+* Added GCP Bigquery dbt - cis v1.2.0 ([#276](https://github.com/cloudquery/policies-premium/issues/276)) ([b3a6e4e](https://github.com/cloudquery/policies-premium/commit/b3a6e4ed2ee147523785211a1e6f797b51727b88))
+
 ## [0.1.1](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.1.0...transformation-gcp-compliance-premium-v0.1.1) (2023-11-28)
 
 

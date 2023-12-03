@@ -7,7 +7,6 @@
 {% macro postgres__sql_postgresql_log_error_verbosity_flag_not_strict(framework, check_id) %}
 select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure "log_error_verbosity" database flag for Cloud SQL PostgreSQL instance is set to "DEFAULT" or stricter (Manual)' AS title,
@@ -33,7 +32,6 @@ WITH
     )
 select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure "log_error_verbosity" database flag for Cloud SQL PostgreSQL instance is set to "DEFAULT" or stricter (Manual)' AS title,
@@ -62,7 +60,6 @@ WITH
 
 select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure "log_error_verbosity" database flag for Cloud SQL PostgreSQL instance is set to "DEFAULT" or stricter (Manual)' AS title,

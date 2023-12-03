@@ -7,7 +7,6 @@
 {% macro postgres__sql_mysql_local_inline_flag_on(framework, check_id) %}
 select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the "local_infile" database flag for a Cloud SQL Mysql instance is set to "off" (Automated)' AS title,
@@ -35,7 +34,6 @@ WITH
 
 select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the "local_infile" database flag for a Cloud SQL Mysql instance is set to "off" (Automated)' AS title,
@@ -64,7 +62,6 @@ WITH
 
 select
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that the "local_infile" database flag for a Cloud SQL Mysql instance is set to "off" (Automated)' AS title,

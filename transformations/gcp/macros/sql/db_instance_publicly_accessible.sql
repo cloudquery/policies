@@ -7,7 +7,6 @@
 {% macro postgres__sql_db_instance_publicly_accessible(framework, check_id) %}
 select DISTINCT
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud SQL database instances are not open to the world (Automated)' AS title,
@@ -25,7 +24,6 @@ FROM gcp_sql_instances gsi, JSONB_ARRAY_ELEMENTS(gsi.settings->'ipConfiguration'
 {% macro snowflake__sql_db_instance_publicly_accessible(framework, check_id) %}
 select DISTINCT
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud SQL database instances are not open to the world (Automated)' AS title,
@@ -44,7 +42,6 @@ LATERAL FLATTEN(input => gsi.settings:ipConfiguration:authorizedNetworks) AS gsi
 {% macro bigquery__sql_db_instance_publicly_accessible(framework, check_id) %}
 select DISTINCT
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud SQL database instances are not open to the world (Automated)' AS title,

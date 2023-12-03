@@ -1,6 +1,6 @@
 with
     aggregated as (
-        {{ access_logs_enabled('foundational_security','cloudfront.5') }}
+        ({{ access_logs_enabled('foundational_security','cloudfront.5') }})
         union
         ({{ access_point_enforce_user_identity('foundational_security','efs.4') }})
         union
@@ -437,6 +437,7 @@ with
         ({{ waf_web_acl_logging_should_be_enabled('foundational_security','waf.1') }})
         union
         ({{ wafv2_webacl_not_empty('foundational_security','waf.10') }})
+       
     )
 select 
         ('{{ run_started_at }}')::timestamp as policy_execution_time,

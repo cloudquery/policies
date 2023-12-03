@@ -8,7 +8,6 @@
 select
     DISTINCT 
                 gdmz.id::text                                                                                   AS resource_id,
-                gdmz._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that DNSSEC is enabled for Cloud DNS (Automated)' AS title,
@@ -27,7 +26,6 @@ select
 select
     DISTINCT 
                 gdmz.id::text                                                                                   AS resource_id,
-                gdmz._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that DNSSEC is enabled for Cloud DNS (Automated)' AS title,
@@ -47,7 +45,6 @@ select
 select
     DISTINCT 
                 CAST(gdmz.id AS STRING)                                                                           AS resource_id,
-                gdmz._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that DNSSEC is enabled for Cloud DNS (Automated)' AS title,

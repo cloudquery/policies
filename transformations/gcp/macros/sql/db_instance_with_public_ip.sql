@@ -7,7 +7,6 @@
 {% macro postgres__sql_db_instance_with_public_ip(framework, check_id) %}
 select DISTINCT
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud SQL database instances do not have public IPs (Automated)' AS title,
@@ -25,7 +24,6 @@ select DISTINCT
 {% macro snowflake__sql_db_instance_with_public_ip(framework, check_id) %}
 select DISTINCT
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud SQL database instances do not have public IPs (Automated)' AS title,
@@ -44,7 +42,6 @@ select DISTINCT
 {% macro bigquery__sql_db_instance_with_public_ip(framework, check_id) %}
 select DISTINCT
                 gsi.name                                                                    AS resource_id,
-                _cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that Cloud SQL database instances do not have public IPs (Automated)' AS title,

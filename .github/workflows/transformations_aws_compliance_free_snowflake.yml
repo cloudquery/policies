@@ -5,12 +5,18 @@ on:
     paths:
       - "transformations/aws/compliance-free/**"
       - ".github/workflows/transformations_aws_compliance_free_snowflake.yml"
+      - "transformations/aws/macros/**"
+      - "transformations/aws/models/**"
+      - "transformations/macros/**"
   push:
     branches:
       - main
     paths:
       - "transformations/aws/compliance-free/**"
       - ".github/workflows/transformations_aws_compliance_free_snowflake.yml"
+      - "transformations/aws/macros/**"
+      - "transformations/aws/models/**"
+      - "transformations/macros/**"
 
 jobs:
   transformations-aws-compliance-free:

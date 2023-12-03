@@ -7,7 +7,6 @@
 {% macro postgres__bigquery_datasets_publicly_accessible(framework, check_id) %}
 select DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that BigQuery datasets are not anonymously or publicly accessible (Automated)' AS title,
@@ -25,7 +24,6 @@ FROM gcp_bigquery_datasets d, JSONB_ARRAY_ELEMENTS(d.access) AS a
 {% macro snowflake__bigquery_datasets_publicly_accessible(framework, check_id) %}
  select DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that BigQuery datasets are not anonymously or publicly accessible (Automated)' AS title,
@@ -44,7 +42,6 @@ LATERAL FLATTEN(input => d.access) AS a
 {% macro bigquery__bigquery_datasets_publicly_accessible(framework, check_id) %}
  select DISTINCT 
                 d.id                                                                                   AS resource_id,
-                d._cq_sync_time As sync_time,
                 '{{framework}}' As framework,
                 '{{check_id}}' As check_id,                                                                         
                 'Ensure that BigQuery datasets are not anonymously or publicly accessible (Automated)' AS title,

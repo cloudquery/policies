@@ -5,12 +5,18 @@ on:
     paths:
       - "transformations/gcp/compliance-premium/**"
       - ".github/workflows/transformations_gcp_compliance_premium_postgres.yml"
+      - "transformations/gcp/macros/**"
+      - "transformations/gcp/models/**"
+      - "transformations/macros/**"
   push:
     branches:
       - main
     paths:
       - "transformations/gcp/compliance-premium/**"
       - ".github/workflows/transformations_gcp_compliance_premium_postgres.yml"
+      - "transformations/gcp/macros/**"
+      - "transformations/gcp/models/**"
+      - "transformations/macros/**"
 
 jobs:
   transformations-gcp-compliance-premium:
