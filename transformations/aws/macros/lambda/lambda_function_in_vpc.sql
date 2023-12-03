@@ -16,8 +16,8 @@ from aws_lambda_functions
 {% endmacro %}
 {% macro snowflake__lambda_function_in_vpc(framework, check_id) %}
 SELECT
-    'pci_dss_v3.2.1' AS framework,
-    'lambda.2' AS check_id,
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
     'Lambda functions should be in a VPC' AS title,
     account_id,
     arn AS resource_id,
@@ -28,4 +28,15 @@ SELECT
         ELSE 'pass'
     END AS status
 FROM aws_lambda_functions
+{% endmacro %}
+
+{% macro bigquery__lambda_function_in_vpc(framework, check_id) %}
+select
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Lambda functions should be in a VPC' AS title,
+    account_id,
+    arn as resource_id,
+    case when configuration.VpcConfig.VpcId is null or JSON_VALUE(configuration.VpcConfig.VpcId) = '' then 'fail' else 'pass' end as status
+from {{ full_table_name("aws_lambda_functions") }}
 {% endmacro %}
