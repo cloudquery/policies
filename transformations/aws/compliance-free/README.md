@@ -48,4 +48,7 @@ dbt run --models +<model_name>
 - **aws_compliance_pci_dss_v3.2.1**: AWS PCI DSS V3.2.1 benchmark.
 - **aws_compliance\_\_foundational_security**: AWS Foundational Security benchmark, available only for Snowflake
 
-The free version contains 10% of the full pack's queries.
+The free version contains 10% of the full pack's checks.
+
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
