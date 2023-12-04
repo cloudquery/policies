@@ -72,7 +72,14 @@ select
     account_id,
     arn as resource_id,
     'fail' as status -- TODO FIXME
-from {{ full_table_name("aws_lambda_functions") }}
-where 1 = 0
+from {{ full_table_name("aws_lambda_functions") }},
+        UNNEST(JSON_QUERY_ARRAY(policy_document.Statement)) AS statement
+where   JSON_VALUE(statement.Effect) = 'Allow'
+        and (
+            JSON_VALUE(statement.Principal) = '*'
+            or JSON_VALUE(statement.Principal.AWS) = '*'
+            
+            or ( '*' IN UNNEST(JSON_EXTRACT_STRING_ARRAY(statement.Principal.AWS)) )
+        )
 {% endmacro %}
 >>>>>>> 093192f (feat: Added queries for bigquery pci_dss)

@@ -130,7 +130,6 @@ where
 {% endmacro %}
 
 {% macro default__publicly_readable_buckets(framework, check_id) %}{% endmacro %}
-
 {% macro bigquery__publicly_readable_buckets(framework, check_id) %}
 with policy_allow_public as (
     select
