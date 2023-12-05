@@ -1,5 +1,10 @@
 {% macro aws_asset_resources(table_name) %}
+    {{ return(adapter.dispatch('aws_asset_resources')()) }}
+{% endmacro %}
 
+{% macro default__aws_asset_resources() %}{% endmacro %}
+
+{% macro postgres__aws_asset_resources() %}
     --Determine if Columns Exist for Table
     --`account_id`
     {% set account_id_exists_query %}
