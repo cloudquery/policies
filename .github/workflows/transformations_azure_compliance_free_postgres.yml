@@ -8,6 +8,7 @@ on:
       - "transformations/azure/macros/**"
       - "transformations/azure/models/**"
       - "transformations/macros/**"
+      - "scripts/dbt-pack/**"
   push:
     branches:
       - main
@@ -17,6 +18,7 @@ on:
       - "transformations/azure/macros/**"
       - "transformations/azure/models/**"
       - "transformations/macros/**"
+      - "scripts/dbt-pack/**"
 
 jobs:
   transformations-azure-compliance-free:
