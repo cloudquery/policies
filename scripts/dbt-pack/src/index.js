@@ -28,12 +28,12 @@ const validateProjectDirectory = async (dbtProjectDirectory) => {
   }
 };
 
-const compileDbtProject = async (dbtProjectDirectory) => {
+const compileDbtProject = async (dbtProjectDirectory, dbtArguments) => {
   const fullProjectDirectory = path.resolve(dbtProjectDirectory);
   console.log(`Compiling dbt project in ${fullProjectDirectory}`);
   await execa(
     "dbt",
-    ["compile", "--target", "dev-pg", "--profiles-dir", "tests"],
+    ["compile", "--target", "dev-pg", "--profiles-dir", "tests", ...dbtArguments],
     {
       cwd: fullProjectDirectory,
       stdout: "inherit",
@@ -123,9 +123,9 @@ const zipProject = async (dbtProjectDirectory, filesToPack) => {
   });
 };
 
-export const pack = async ({ projectDir }) => {
+export const pack = async ({ projectDir, dbtArgs }) => {
   await validateProjectDirectory(projectDir);
-  await compileDbtProject(projectDir);
+  await compileDbtProject(projectDir, dbtArgs);
   const filesToPack = await analyzeManifestFile(projectDir);
   await zipProject(projectDir, filesToPack);
 };

@@ -76,7 +76,8 @@ jobs:
         working-directory: ./scripts/dbt-pack
       - name: Pack DBT
         working-directory: ./scripts/dbt-pack
-        run: node index.js dbt-pack --project-dir=../../transformations/aws/cost
+        run: |
+          node index.js dbt-pack --project-dir=../../transformations/aws/cost --dbt-arg=--vars --dbt-arg='cost_usage_table: cost_check'
       - name: Unzip Packed DBT
         run: unzip -o build/aws_cost.zip -d build/aws_cost
       - name: Run Unpacked DBT
