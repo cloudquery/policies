@@ -79,6 +79,6 @@ jobs:
       - name: Unzip Packed DBT
         run: unzip -o build/aws_asset_inventory_free.zip -d build/aws_asset_inventory_free
       - name: Run Unpacked DBT
-        working-directory: ./transformations/aws/asset-inventory-free/build/asset_inventory_free
+        working-directory: ./transformations/aws/asset-inventory-free/build/aws_asset_inventory_free
         run: |
           dbt run --target dev-pg --profiles-dir ../../tests
