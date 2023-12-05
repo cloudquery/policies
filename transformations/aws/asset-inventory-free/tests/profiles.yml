@@ -1,4 +1,4 @@
-aws_encryption: # This should match the name in your dbt_project.yml
+aws_asset_inventory: # This should match the name in your dbt_project.yml
   target: dev
   outputs:
     dev-pg:
