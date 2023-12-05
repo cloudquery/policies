@@ -1,1 +1,1 @@
-# CloudQuery &times; dbt: AWS Encryption Package
+# CloudQuery &times; dbt: AWS Asset Inventory Package
