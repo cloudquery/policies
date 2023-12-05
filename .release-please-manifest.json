@@ -15,7 +15,7 @@
   "transformations/gcp/compliance-premium+FILLER": "0.0.0",
   "transformations/k8s/compliance-free": "1.2.1",
   "transformations/k8s/compliance-free+FILLER": "0.0.0",
-  "transformations/k8s/compliance-premium": "0.1.1",
+  "transformations/k8s/compliance-premium": "0.1.2",
   "transformations/k8s/compliance-premium+FILLER": "0.0.0",
   "visualizations/aws/compliance": "1.1.0",
   "visualizations/aws/compliance+FILLER": "0.0.0",
