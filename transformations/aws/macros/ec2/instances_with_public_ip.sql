@@ -31,3 +31,6 @@ select
     end as status
 from aws_ec2_instances
 {% endmacro %}
+
+{% macro default__instances_with_public_ip(framework, check_id) %}{% endmacro %}
+                    

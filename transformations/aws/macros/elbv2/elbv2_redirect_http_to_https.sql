@@ -32,3 +32,6 @@ select
   end as status
 from aws_elbv2_listeners, JSONB_ARRAY_ELEMENTS(default_actions) AS da
 {% endmacro %}
+
+{% macro default__elbv2_redirect_http_to_https(framework, check_id) %}{% endmacro %}
+                    

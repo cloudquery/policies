@@ -27,3 +27,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_sns_topics
 {% endmacro %}
+
+{% macro default__sns_topics_should_be_encrypted_at_rest_using_aws_kms(framework, check_id) %}{% endmacro %}
+                    

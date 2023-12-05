@@ -75,3 +75,6 @@ left join
     aws_apigatewayv2_apis a on s.api_arn = a.arn
 )
 {% endmacro %}
+
+{% macro default__api_gw_execution_logging_enabled(framework, check_id) %}{% endmacro %}
+                    

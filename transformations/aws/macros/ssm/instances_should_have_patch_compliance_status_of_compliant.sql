@@ -41,3 +41,6 @@ select
      aws_ssm_instances
 INNER join patch_compliance_status_groups 
     on aws_ssm_instances.arn = patch_compliance_status_groups.instance_arn{% endmacro %}
+
+{% macro default__instances_should_have_patch_compliance_status_of_compliant(framework, check_id) %}{% endmacro %}
+                    

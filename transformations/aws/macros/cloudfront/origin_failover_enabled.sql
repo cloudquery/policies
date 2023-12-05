@@ -51,3 +51,6 @@ select
     status
 from oids
 {% endmacro %}
+
+{% macro default__origin_failover_enabled(framework, check_id) %}{% endmacro %}
+                    

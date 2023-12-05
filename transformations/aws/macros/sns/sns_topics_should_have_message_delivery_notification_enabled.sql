@@ -34,3 +34,6 @@ select
         AND  unknown_fields->'SQSSuccessFeedbackRoleArn' is Null
     then 'fail' else 'pass' end as status
 from aws_sns_topics{% endmacro %}
+
+{% macro default__sns_topics_should_have_message_delivery_notification_enabled(framework, check_id) %}{% endmacro %}
+                    

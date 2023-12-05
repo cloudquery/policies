@@ -23,3 +23,6 @@ select
     case when iam_database_authentication_enabled is not TRUE then 'fail' else 'pass' end as status
 from aws_rds_clusters
 {% endmacro %}
+
+{% macro default__iam_authentication_should_be_configured_for_rds_clusters(framework, check_id) %}{% endmacro %}
+                    

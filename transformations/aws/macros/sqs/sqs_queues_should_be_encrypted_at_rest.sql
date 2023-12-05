@@ -27,3 +27,6 @@ select
     then 'fail' else 'pass' end as status
 from aws_sqs_queues
 {% endmacro %}
+
+{% macro default__sqs_queues_should_be_encrypted_at_rest(framework, check_id) %}{% endmacro %}
+                    

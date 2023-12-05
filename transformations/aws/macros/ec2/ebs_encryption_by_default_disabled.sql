@@ -31,3 +31,6 @@ select
   end as status
 from aws_ec2_regional_configs
 {% endmacro %}
+
+{% macro default__ebs_encryption_by_default_disabled(framework, check_id) %}{% endmacro %}
+                    

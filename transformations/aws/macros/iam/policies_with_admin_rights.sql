@@ -79,3 +79,6 @@ from aws_iam_policies
 left join
     allow_all_statements on aws_iam_policies.id = allow_all_statements.id
 {% endmacro %}
+
+{% macro default__policies_with_admin_rights(framework, check_id) %}{% endmacro %}
+                    

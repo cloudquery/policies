@@ -33,3 +33,6 @@ SELECT
   end as status
 FROM aws_elasticsearch_domains
 {% endmacro %}
+
+{% macro default__elasticsearch_domain_error_logging_to_cloudwatch_logs_should_be_enabled(framework, check_id) %}{% endmacro %}
+                    

@@ -39,3 +39,6 @@ LEFT JOIN (
 WHERE alternate_contact_type = 'SECURITY'
 ) as account_security_contacts
 ON aws_iam_accounts.account_id = account_security_contacts.account_id{% endmacro %}
+
+{% macro default__security_account_information_provided(framework, check_id) %}{% endmacro %}
+                    

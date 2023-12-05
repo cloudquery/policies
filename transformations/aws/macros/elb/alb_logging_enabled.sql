@@ -70,3 +70,6 @@ union
         aws_elbv1_load_balancers
 )
 {% endmacro %}
+
+{% macro default__alb_logging_enabled(framework, check_id) %}{% endmacro %}
+                    

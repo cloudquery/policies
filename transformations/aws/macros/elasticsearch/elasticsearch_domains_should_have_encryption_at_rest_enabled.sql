@@ -31,3 +31,6 @@ select
   end as status
 from aws_elasticsearch_domains
 {% endmacro %}
+
+{% macro default__elasticsearch_domains_should_have_encryption_at_rest_enabled(framework, check_id) %}{% endmacro %}
+                    

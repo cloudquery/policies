@@ -74,3 +74,6 @@ where
             and ssl::BOOL = FALSE
         )
 {% endmacro %}
+
+{% macro default__deny_http_requests(framework, check_id) %}{% endmacro %}
+                    
