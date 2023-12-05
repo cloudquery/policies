@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.2.1...transformation-aws-compliance-premium-v0.2.2) (2023-12-05)
+
+
+### Bug Fixes
+
+* Updated aws_dbt name of models ([#312](https://github.com/cloudquery/policies-premium/issues/312)) ([02359eb](https://github.com/cloudquery/policies-premium/commit/02359eb5a372f139970198f8975d29119c2a0e09))
+
 ## [0.2.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.2.0...transformation-aws-compliance-premium-v0.2.1) (2023-12-01)
 
 

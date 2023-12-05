@@ -10,7 +10,7 @@
       "component": "transformation-aws-data-resilience"
     },
     "transformations/aws/asset-inventory-free": {
-      "component": "transformation-asset-inventory-free"
+      "component": "transformation-aws-asset-inventory-free"
     },
     "transformations/aws/compliance-free": {
       "component": "transformation-aws-compliance-free"
