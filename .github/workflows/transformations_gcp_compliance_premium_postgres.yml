@@ -8,6 +8,7 @@ on:
       - "transformations/gcp/macros/**"
       - "transformations/gcp/models/**"
       - "transformations/macros/**"
+      - "scripts/dbt-pack/**"
   push:
     branches:
       - main
@@ -17,6 +18,7 @@ on:
       - "transformations/gcp/macros/**"
       - "transformations/gcp/models/**"
       - "transformations/macros/**"
+      - "scripts/dbt-pack/**"
 
 jobs:
   transformations-gcp-compliance-premium:
