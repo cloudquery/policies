@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: visualizations/aws/asset-inventory
+        working-directory: visualizations/aws/asset_inventory
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,7 +26,7 @@ jobs:
             });
             const releaseNotes = data.body;
             const linksRemoved = releaseNotes.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-            const changelogPath = `visualizations/aws/asset-inventory/changelog.md`;
+            const changelogPath = `visualizations/aws/asset_inventory/changelog.md`;
             await fs.writeFile(changelogPath, linksRemoved);
       - name: Run build
         run: |
