@@ -64,7 +64,8 @@ jobs:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
       - name: Run Policies
         run: |
-          dbt run --target dev-pg --profiles-dir ./tests
+          dbt seed --target dev-pg --profiles-dir ./tests
+          dbt run --target dev-pg --profiles-dir ./tests --vars 'cost_usage_table: cost_check'
       # Test packed version
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -77,10 +78,11 @@ jobs:
         working-directory: ./scripts/dbt-pack
       - name: Pack DBT
         working-directory: ./scripts/dbt-pack
-        run: node index.js dbt-pack --project-dir=../../transformations/aws/cost
+        run: |
+          node index.js dbt-pack --project-dir=../../transformations/aws/cost --dbt-arg=--vars --dbt-arg='cost_usage_table: cost_check'
       - name: Unzip Packed DBT
         run: unzip -o build/aws_cost.zip -d build/aws_cost
       - name: Run Unpacked DBT
         working-directory: ./transformations/aws/cost/build/aws_cost
         run: |
-          dbt run --target dev-pg --profiles-dir ../../tests
+          dbt run --target dev-pg --profiles-dir ../../tests --vars 'cost_usage_table: cost_check'

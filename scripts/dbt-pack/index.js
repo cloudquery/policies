@@ -9,9 +9,10 @@ yargs(hideBin(process.argv))
     "dbt-pack",
     "Package dbt project into a single zip",
     () => {},
-    async ({ projectDir }) => {
+    async ({ projectDir, dbtArg }) => {
       await pack({
         projectDir: path.resolve(projectDir),
+        dbtArgs: dbtArg || [],
       });
     },
   )
@@ -20,6 +21,10 @@ yargs(hideBin(process.argv))
     type: "string",
     description: "Path to dbt project directory",
     demandOption: true,
+  })
+  .option("dbt-arg", {
+    type: "array",
+    description: "Array of dbt arguments to pass to dbt compile command",
   })
   .demandCommand(1)
   .strict()
