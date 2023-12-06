@@ -15,7 +15,7 @@ This contains an AWS Asset Inventory Dashboard for Grafana on top of CloudQuery 
 
 ### Running
 
-1. Install the requirements
+1. Install the requirements listed above.
 2. Run `cloudquery sync` with the aws and postgresql plugins.
 3. Run `dbt run` to build the models.
 4. [Import](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#export-and-import-dashboards) the Grafana dashboard in this package.
