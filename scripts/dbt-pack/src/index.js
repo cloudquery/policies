@@ -44,6 +44,10 @@ const compileDbtProject = async (dbtProjectDirectory, dbtArguments) => {
 };
 
 const addDependencies = (node, allNodes, allMacros, filesToPack) => {
+  if (node.unique_id.startsWith("macro.dbt.")) {
+    // Skip dbt internal macros
+    return
+  }
   filesToPack.add(node.original_file_path);
   const dependsOnNodes = node.depends_on?.nodes ?? [];
   for (const dependency of dependsOnNodes) {
