@@ -41,6 +41,9 @@
     },
     "visualizations/aws/data_resilience": {
       "component": "visualization-aws-data-resilience"
+    },
+    "visualizations/aws/asset_inventory": {
+      "component": "visualization-aws-asset-inventory"
     }
   },
   "pull-request-title-pattern": "chore${scope}: Release${component} v${version}",
