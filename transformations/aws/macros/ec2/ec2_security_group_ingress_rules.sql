@@ -41,7 +41,7 @@
     lateral flatten(input => ip_permissions.value:Ipv6Ranges, OUTER => TRUE) as ip6_ranges
 {% endmacro %}
 
-{% macro biguery__ec2_security_group_ingress_rules() %}
+{% macro bigquery__ec2_security_group_ingress_rules() %}
     WITH 
     ip_permissions as (
       select
