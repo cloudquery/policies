@@ -85,4 +85,4 @@ jobs:
       - name: Run Unpacked DBT
         working-directory: ./transformations/aws/cost/build/aws_cost
         run: |
-          dbt run --target dev-pg --profiles-dir ./tests --vars 'cost_usage_table: cost_check'
+          dbt run --target dev-pg --profiles-dir ../../tests --vars 'cost_usage_table: cost_check'
