@@ -11,12 +11,11 @@ WITH installed AS (
 )
 
 SELECT
-  azure_compute_virtual_machines._cq_sync_time As sync_time,
+  azure_compute_virtual_machines.id AS resource_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Audit Windows machines on which the Log Analytics agent is not connected as expected',
   azure_compute_virtual_machines.subscription_id,
-  azure_compute_virtual_machines.id AS id,
   case
     when azure_compute_virtual_machines.properties -> 'storageProfile' -> 'osDisk' ->> 'osType' = 'Windows'
       AND installed._cq_id IS NULL

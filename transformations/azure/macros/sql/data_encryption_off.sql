@@ -6,12 +6,11 @@
 
 {% macro postgres__sql_data_encryption_off(framework, check_id) %}
 SELECT
-  s._cq_sync_time As sync_time,
+  asd.id AS database_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure that "Data encryption" is set to "On" on a SQL Database (Automated)' as title,
   s.subscription_id,
-  asd.id AS database_id,
   case
     when tde.properties->>'state' is distinct from 'Enabled'
     then 'fail'
@@ -27,12 +26,11 @@ WHERE asd.name != 'master'
 
 {% macro snowflake__sql_data_encryption_off(framework, check_id) %}
 SELECT
-  s._cq_sync_time As sync_time,
+  asd.id AS database_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure that "Data encryption" is set to "On" on a SQL Database (Automated)' as title,
   s.subscription_id,
-  asd.id AS database_id,
   CASE
     WHEN tde.properties:state IS DISTINCT FROM 'Enabled'
     THEN 'fail'

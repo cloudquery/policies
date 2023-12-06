@@ -26,11 +26,10 @@ WITH alert_condition AS (
 	)
 
 SELECT
-  sub._cq_sync_time As sync_time,
+  sub.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'An activity log alert should exist for specific Administrative operations',
-  sub.id,
   sub.id,
   'fail' as status
 FROM

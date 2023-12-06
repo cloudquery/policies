@@ -1,12 +1,11 @@
 {% macro sql_long_term_geo_redundant_backup_should_be_enabled_for_azure_sql_databases(framework, check_id) %}
 
 SELECT
-  s._cq_sync_time As sync_time,
+  rp.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Long-term geo-redundant backup should be enabled for Azure SQL Databases' as title,
   s.subscription_id,
-  rp.id,
   case
     when rp.id IS NULL OR (rp.properties ->> 'weeklyRetention' IS NOT DISTINCT FROM 'PT0S'
       AND rp.properties ->> 'monthlyRetention' IS NOT DISTINCT FROM 'PT0S'

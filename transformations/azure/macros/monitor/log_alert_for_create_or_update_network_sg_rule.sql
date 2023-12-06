@@ -7,7 +7,6 @@
 {% macro postgres__monitor_log_alert_for_create_or_update_network_sg_rule(framework, check_id) %}
 WITH fields AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         location,
@@ -18,7 +17,6 @@ WITH fields AS (
 ),
 scopes AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         scope
@@ -26,7 +24,6 @@ scopes AS (
 ),
 conditions AS (
     SELECT
-        fields._cq_sync_time,
         fields.subscription_id AS subscription_id,
         fields.id AS id,
         scopes.scope AS scope,
@@ -39,21 +36,19 @@ conditions AS (
     WHERE field = 'operationName'
 )
 SELECT
-    _cq_sync_time As sync_time,
+    scope                                                                                    AS resrouce_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule' AS title,
     subscription_id                                                                          AS subscription_id,
-    scope                                                                                    AS resrouce_id,
     bool_or(condition)::text                                                                       AS status
 FROM conditions
-GROUP BY _cq_sync_time, subscription_id, scope
+GROUP BY subscription_id, scope
 {% endmacro %}
 
 {% macro snowflake__monitor_log_alert_for_create_or_update_network_sg_rule(framework, check_id) %}
 WITH fields AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         location,
@@ -65,7 +60,6 @@ WITH fields AS (
 ),
 scopes AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         value as scope
@@ -74,7 +68,6 @@ scopes AS (
 ),
 conditions AS (
     SELECT
-        fields._cq_sync_time,
         fields.subscription_id AS subscription_id,
         fields.id AS id,
         scopes.scope AS scope,
@@ -87,13 +80,12 @@ conditions AS (
     WHERE field = 'operationName'
 )
 SELECT
-    _cq_sync_time As sync_time,
+    scope                                                                                    AS resrouce_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule' AS title,
     subscription_id                                                                          AS subscription_id,
-    scope                                                                                    AS resrouce_id,
     CASE WHEN MAX(CASE WHEN condition THEN 1 ELSE 0 END) = 1 THEN 'pass' ELSE 'fail' END AS status
 FROM conditions
-GROUP BY _cq_sync_time, subscription_id, scope
+GROUP BY subscription_id, scope
 {% endmacro %}

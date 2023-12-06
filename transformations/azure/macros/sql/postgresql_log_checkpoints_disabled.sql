@@ -14,12 +14,11 @@ WITH value_check AS (
 )
 
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id AS server_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure server parameter "log_checkpoints" is set to "ON" for PostgreSQL Database Server (Automated)' as title,
   s.subscription_id,
-  s.id AS server_id,
   case
     when v.value IS NULL OR v.value != 'on'
       then 'fail' else 'pass'
@@ -39,12 +38,11 @@ WITH value_check AS (
 )
 
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id AS server_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure server parameter "log_checkpoints" is set to "ON" for PostgreSQL Database Server (Automated)' as title,
   s.subscription_id,
-  s.id AS server_id,
   case
     when v.value IS NULL OR v.value != 'on'
       then 'fail' else 'pass'

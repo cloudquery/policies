@@ -6,12 +6,11 @@
 
 {% macro postgres__monitor_no_diagnostic_setting(framework, check_id) %}
 SELECT 
-    amr._cq_sync_time As sync_time,
+    amr.id                                         AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that a ''Diagnostics Setting'' exists' AS title,
     amr.subscription_id                            AS subscription_id,
-    amr.id                                         AS resource_id,
     CASE
         WHEN amds.properties IS NULL
         THEN 'fail'
@@ -25,12 +24,11 @@ FROM
 
 {% macro snowflake__monitor_no_diagnostic_setting(framework, check_id) %}
 SELECT 
-    amr._cq_sync_time As sync_time,
+    amr.id                                         AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that a ''Diagnostics Setting'' exists' AS title,
     amr.subscription_id                            AS subscription_id,
-    amr.id                                         AS resource_id,
     CASE
         WHEN amds.properties IS NULL
         THEN 'fail'

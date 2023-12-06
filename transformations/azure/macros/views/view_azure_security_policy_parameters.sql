@@ -6,7 +6,6 @@
 
 {% macro postgres__view_azure_security_policy_parameters() %}
 SELECT
-    _cq_sync_time,
     id,
     azure_policy_assignments.subscription_id,
     azure_policy_assignments."name",
@@ -20,7 +19,6 @@ WHERE azure_policy_assignments."name" = 'SecurityCenterBuiltIn'
 
 {% macro snowflake__view_azure_security_policy_parameters() %}
 SELECT
-    _cq_sync_time,
     id,
     azure_policy_assignments.subscription_id,
     azure_policy_assignments.name,

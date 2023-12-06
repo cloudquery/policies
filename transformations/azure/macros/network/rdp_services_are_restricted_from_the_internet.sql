@@ -7,7 +7,6 @@
 {% macro postgres__network_rdp_services_are_restricted_from_the_internet(framework, check_id) %}
 WITH conditions AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         access = 'Allow' AS acceptAccess,
@@ -19,24 +18,22 @@ WITH conditions AS (
 ),
 statuses_by_port_range AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         acceptAccess AND matchProtocol AND isInbound AND matchPrefix AND inRange AS failed
     FROM conditions
 ),
 statuses AS (
-    SELECT _cq_sync_time, subscription_id, id, bool_or(failed) AS failed
+    SELECT subscription_id, id, bool_or(failed) AS failed
     FROM statuses_by_port_range
-    GROUP BY _cq_sync_time, subscription_id, id
+    GROUP BY subscription_id, id
 )
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                       AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that RDP access is restricted from the Internet' AS title,
     subscription_id                                          AS subscription_id,
-    id                                                       AS resource_id,
     CASE
         WHEN failed
         THEN 'fail'
@@ -48,7 +45,6 @@ FROM statuses
 {% macro snowflake__network_rdp_services_are_restricted_from_the_internet(framework, check_id) %}
 WITH conditions AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         access = 'Allow' AS acceptAccess,
@@ -60,24 +56,22 @@ WITH conditions AS (
 ),
 statuses_by_port_range AS (
     SELECT
-        _cq_sync_time,
         subscription_id,
         id,
         acceptAccess AND matchProtocol AND isInbound AND matchPrefix AND inRange AS failed
     FROM conditions
 ),
 statuses AS (
-    SELECT _cq_sync_time, subscription_id, id, BOOLOR_AGG(failed) AS failed
+    SELECT subscription_id, id, BOOLOR_AGG(failed) AS failed
     FROM statuses_by_port_range
-    GROUP BY _cq_sync_time, subscription_id, id
+    GROUP BY subscription_id, id
 )
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                       AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that RDP access is restricted from the Internet' AS title,
     subscription_id                                          AS subscription_id,
-    id                                                       AS resource_id,
     CASE
         WHEN failed
         THEN 'fail'

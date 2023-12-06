@@ -1,12 +1,11 @@
 {% macro security_asc_automatic_provisioning_log_analytics_monitoring_agent(framework, check_id) %}
 
 SELECT
-  azure_subscription_subscriptions._cq_sync_time As sync_time,
+	azure_security_auto_provisioning_settings.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Auto provisioning of the Log Analytics agent should be enabled on your subscription' as title,
   azure_subscription_subscriptions.id AS subscription_id,
-	azure_security_auto_provisioning_settings.id,
   case
     when properties->>'autoProvision' IS DISTINCT FROM 'On'
     then 'fail' else 'pass'

@@ -1,12 +1,11 @@
 {% macro web_latest_tls_version_should_be_used_in_your_api_app(framework, check_id) %}
 
 SELECT
-  _cq_sync_time As sync_time,
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Latest TLS version should be used in your API App',
   subscription_id,
-  id,
   'fail' as status
 FROM azure_appservice_web_apps
 WHERE
