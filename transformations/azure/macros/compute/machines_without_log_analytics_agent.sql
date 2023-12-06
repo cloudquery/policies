@@ -7,12 +7,11 @@ WITH secured_vms AS (SELECT _cq_id
                        AND res->'settings'->>'workspaceId' IS NOT NULL) -- TODO check
 
 SELECT
-  vms._cq_sync_time As sync_time,
+  vms.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Virtual machines should have the Log Analytics extension installed',
   vms.subscription_id,
-  vms.id,
   case
     when s._cq_id IS NULL then 'fail' else 'pass'
   end

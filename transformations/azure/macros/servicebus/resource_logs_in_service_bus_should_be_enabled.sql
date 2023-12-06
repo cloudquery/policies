@@ -10,13 +10,12 @@ WITH logging_enabled AS (
     AND (s.properties -> 'storageAccountId' as properties ->> 'storageAccountId' as storage_account_id IS NOT NULL OR s.storage_account_id IS DISTINCT FROM '')
     AND retention_policy_enabled = TRUE
 )
-SELECT 
-  _cq_sync_time As sync_time,
+SELECT
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   '',
   subscription_id,
-  id,
   case
     when e.cq_id IS NULL then 'fail' else 'pass'
   end

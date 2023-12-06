@@ -1,11 +1,10 @@
 {% macro monitor_azure_monitor_should_collect_activity_logs_from_all_regions(framework, check_id) %}
 
 SELECT 
-  s._cq_sync_time As sync_time,
+  s.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Azure Monitor should collect activity logs from all regions',
-  s.id,
   s.id,
   'fail' as status
 FROM

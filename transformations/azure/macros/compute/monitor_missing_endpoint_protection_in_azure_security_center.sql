@@ -1,11 +1,10 @@
 {% macro compute_monitor_missing_endpoint_protection_in_azure_security_center(framework, check_id) %}
 SELECT
-  _cq_sync_time As sync_time,
+  vm.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   '',
   vm.subscription_id,
-  vm.id,
   case
     when a.name IS NULL OR (
       a.properties -> 'status' ->>'code' IS DISTINCT FROM 'NotApplicable'

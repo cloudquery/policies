@@ -14,12 +14,11 @@ WITH
 )
 
 SELECT
-  _cq_sync_time As sync_time,
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Resource logs in Search services should be enabled',
   subscription_id,
-  id,
   case
     when e._cq_id is null then 'fail' else 'pass'
   end

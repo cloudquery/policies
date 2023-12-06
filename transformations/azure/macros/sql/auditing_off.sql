@@ -6,12 +6,11 @@
 
 {% macro postgres__sql_auditing_off(framework, check_id) %}
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id AS server_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure that "Auditing" is set to "On" (Automated)' as title,
   s.subscription_id,
-  s.id AS server_id,
   case
     when assdbap.properties->>'state' != 'Enabled'
       then 'fail'
@@ -26,12 +25,11 @@ FROM azure_sql_servers s
 
 {% macro snowflake__sql_auditing_off(framework, check_id) %}
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id AS server_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure that "Auditing" is set to "On" (Automated)' as title,
   s.subscription_id,
-  s.id AS server_id,
   case
     when assdbap.properties:state != 'Enabled'
       then 'fail'

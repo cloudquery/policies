@@ -15,12 +15,11 @@ WITH
 -- TODO check
 
 SELECT
-  _cq_sync_time As sync_time,
+	workflows.id AS logic_app_workflow_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Resource logs in Logic Apps should be enabled',
 	subscription_id,
-	workflows.id AS logic_app_workflow_id,
   case
     when l.workflow_id IS NULL
       then 'fail' else 'pass'
