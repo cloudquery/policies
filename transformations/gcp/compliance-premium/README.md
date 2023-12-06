@@ -68,3 +68,5 @@ More information can be found [here.](https://docs.getdbt.com/reference/node-sel
 - Sync your data from GCP to destination (Postgres Example): `cloudquery sync gcp.yml postgres.yml`
 
 - Run dbt: `dbt run`
+
+
