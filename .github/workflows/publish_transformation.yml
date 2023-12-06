@@ -71,6 +71,15 @@ jobs:
       - name: Install dependencies
         working-directory: transformations/${{ needs.prepare.outputs.transformation_dir }}
         run: pip install -r requirements.txt
+      - name: Setup CloudQuery
+        uses: cloudquery/setup-cloudquery@v3
+        with:
+          version: v4.0.0
+      - name: Migrate DB
+        run: cloudquery migrate tests/postgres.yml
+        working-directory: transformations/${{ needs.prepare.outputs.transformation_dir }}
+        env:
+          CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
