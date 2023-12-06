@@ -7,7 +7,6 @@
 {% macro postgres__monitor_logging_key_valut_is_enabled(framework, check_id) %}
 WITH diagnosis_logs AS (
     SELECT
-        amr._cq_sync_time,
         amds.subscription_id,
         amds.id || '/' || (coalesce(logs->>'category', logs->>'categoryGroup'))::text AS id,
         logs->>'category' IS DISTINCT FROM NULL AS hasCategory,
@@ -18,12 +17,11 @@ WITH diagnosis_logs AS (
     WHERE amr.type = 'Microsoft.KeyVault/vaults'
 )
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                       AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that logging for Azure Key Vault is ''Enabled''' AS title,
     subscription_id                                          AS subscription_id,
-    id                                                       AS resource_id,
     CASE
         WHEN hasCategory AND satisfyRetentionDays
         THEN 'pass'
@@ -35,7 +33,6 @@ FROM diagnosis_logs
 {% macro snowflake__monitor_logging_key_valut_is_enabled(framework, check_id) %}
 WITH diagnosis_logs AS (
        SELECT
-        amr._cq_sync_time,
         amds.subscription_id,
         amds.id || '/' || (coalesce(value:category, value:categoryGroup))::text AS id,
         value:category IS DISTINCT FROM NULL AS hasCategory,
@@ -46,12 +43,11 @@ WITH diagnosis_logs AS (
     WHERE amr.type = 'Microsoft.KeyVault/vaults'
 )
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                       AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that logging for Azure Key Vault is ''Enabled''' AS title,
     subscription_id                                          AS subscription_id,
-    id                                                       AS resource_id,
     CASE
         WHEN hasCategory AND satisfyRetentionDays
         THEN 'pass'

@@ -13,12 +13,11 @@ WITH ad_admins_count AS ( SELECT ass._cq_id, count(*) AS admins_count
 )
 
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure that Azure Active Directory Admin is configured (Automated)' as title,
   s.subscription_id,
-  s.id,
   case
     when a.admins_count IS NULL
       OR a.admins_count = 0
@@ -38,12 +37,11 @@ WITH ad_admins_count AS ( SELECT ass._cq_id, count(*) AS admins_count
 )
 
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure that Azure Active Directory Admin is configured (Automated)' as title,
   s.subscription_id,
-  s.id,
   case
     when a.admins_count IS NULL
       OR a.admins_count = 0

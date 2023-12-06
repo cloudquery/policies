@@ -14,9 +14,10 @@ WHERE (s.logs->>'enabled')::boolean IS TRUE
   AND (s.logs->'retentionPolicy'->>'enabled')::boolean IS TRUE
     )
 
-SELECT _cq_sync_time As sync_time, '{{framework}}' As framework, '{{check_id}}' As check_id, 'Resource logs in Batch accounts should be enabled',
+SELECT 
+        id AS resource_id,
+        '{{framework}}' As framework, '{{check_id}}' As check_id, 'Resource logs in Batch accounts should be enabled',
        subscription_id,
-       id,
        case
            when e._cq_id is null then 'fail'
            else 'pass'

@@ -6,12 +6,11 @@
 
 {% macro postgres__monitor_diagnostic_logs_for_all_services(framework, check_id) %}
 SELECT
-    amr._cq_sync_time As sync_time,
+    amr.id                                                                       AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that Diagnostic Logs are enabled for all services which support it.' AS title,
     amr.subscription_id                                                          AS subscription_id,
-    amr.id                                                                       AS resource_id,
     CASE
         WHEN amds.id IS DISTINCT FROM NULL
         THEN 'pass'
@@ -24,12 +23,11 @@ FROM azure_monitor_resources AS amr
 
 {% macro snowflake__monitor_diagnostic_logs_for_all_services(framework, check_id) %}
 SELECT
-    amr._cq_sync_time As sync_time,
+    amr.id                                                                       AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that Diagnostic Logs are enabled for all services which support it.' AS title,
     amr.subscription_id                                                          AS subscription_id,
-    amr.id                                                                       AS resource_id,
     CASE
         WHEN amds.id IS DISTINCT FROM NULL
         THEN 'pass'

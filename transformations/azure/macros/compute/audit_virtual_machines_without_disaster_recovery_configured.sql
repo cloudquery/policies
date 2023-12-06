@@ -5,13 +5,13 @@ WITH asr_protect AS (
     WHERE name LIKE 'ASR-Protect-%'
 )
 
-SELECT 
-  _cq_sync_time As sync_time,
+SELECT
+    id As resource_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Audit virtual machines without disaster recovery configured.',
   subscription_id,
-  id,
+  
   case
     when p.source_id is null then 'fail' else 'pass'
   end

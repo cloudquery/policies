@@ -1,12 +1,11 @@
 {% macro compute_endpoint_protection_solution_should_be_installed_on_virtual_machine_scale_sets(framework, check_id) %}
 
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id As resource_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Endpoint protection solution should be installed on virtual machine scale sets',
   s.subscription_id,
-  s.id,
   case
     when a.name IS NULL
       OR (

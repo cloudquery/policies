@@ -13,12 +13,11 @@ secured_vaults AS (SELECT v._cq_id, nvr->>'id' AS subnet_id
 -- TODO check
 
 SELECT
-  _cq_sync_time As sync_time,
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Key Vault should use a virtual network service endpoint',
   subscription_id,
-  id,
   case
     when sv._cq_id IS NULL then 'fail' else 'pass'
   end
