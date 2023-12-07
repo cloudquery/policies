@@ -8,7 +8,6 @@ on:
       - "transformations/k8s/macros/**"
       - "transformations/k8s/models/**"
       - "transformations/macros/**"
-      - "scripts/dbt-pack/**"
   push:
     branches:
       - main
@@ -18,7 +17,6 @@ on:
       - "transformations/k8s/macros/**"
       - "transformations/k8s/models/**"
       - "transformations/macros/**"
-      - "scripts/dbt-pack/**"
 
 jobs:
   transformations-k8s-compliance-premium:
