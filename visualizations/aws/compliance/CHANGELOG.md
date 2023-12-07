@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.0](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v1.2.0...visualization-aws-compliance-v1.3.0) (2023-12-07)
+
+
+### Features
+
+* Trigger AWS Compliance Vis Build ([44583c6](https://github.com/cloudquery/policies-premium/commit/44583c61f618ba13ac02b8c7c7d087440243ec25))
+* Trigger AWS Compliance Vis Build ([#379](https://github.com/cloudquery/policies-premium/issues/379)) ([44583c6](https://github.com/cloudquery/policies-premium/commit/44583c61f618ba13ac02b8c7c7d087440243ec25))
+
 ## [1.2.0](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v1.1.0...visualization-aws-compliance-v1.2.0) (2023-12-07)
 
 
