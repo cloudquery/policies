@@ -11,6 +11,7 @@ One of the below databases
 
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
 - [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/v3.3.3/docs)
+- [BigQuery](https://hub.cloudquery.io/plugins/destination/cloudquery/bigquery)
 
 ### What's in the pack
 
