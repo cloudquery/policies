@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.2.2...transformation-aws-compliance-premium-v0.3.0) (2023-12-07)
+
+
+### Features
+
+* Update Readme and requirements for AWS Compliance to include BigQuery ([#377](https://github.com/cloudquery/policies-premium/issues/377)) ([0609eca](https://github.com/cloudquery/policies-premium/commit/0609eca392f6e6c33e99d8963ef43a55b1ea502c))
+* Update Readme and requirements for AWS Compliance to include BigQuery ([#377](https://github.com/cloudquery/policies-premium/issues/377)) ([0609eca](https://github.com/cloudquery/policies-premium/commit/0609eca392f6e6c33e99d8963ef43a55b1ea502c))
+
 ## [0.2.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.2.1...transformation-aws-compliance-premium-v0.2.2) (2023-12-05)
 
 
