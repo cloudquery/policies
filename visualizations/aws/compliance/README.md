@@ -19,3 +19,4 @@ This contains an AWS Compliance Dashboard for Grafana on top of CloudQuery [AWS 
 2. Run `cloudquery sync` with the aws and postgresql or snowflake plugins.
 3. Run `dbt run` to build the models.
 4. [Import](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#export-and-import-dashboards) the Grafana dashboard in this package.
+5. Update Grafana variables as needed for Data Source and Frameworks.
