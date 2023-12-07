@@ -83,7 +83,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v4.0.0
+          version: v4.3.1
       - name: Migrate DB
         run: cloudquery migrate tests/postgres.yml
         working-directory: transformations/${{ needs.prepare.outputs.transformation_dir }}
@@ -104,7 +104,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v4.0.0
+          version: v4.3.1
       - name: Publish tranformation
         working-directory: transformations/${{ needs.prepare.outputs.transformation_dir }}
         env:
