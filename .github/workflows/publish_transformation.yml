@@ -42,7 +42,7 @@ jobs:
               fs.access(`${transformation_dir}/tests/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
             ]);
             return {
-              transformation_dir: `${topLevelDir}/${rest.join('-')}`,
+              transformation_dir,
               transformation_version: version,
               postgres,
               snowflake,
