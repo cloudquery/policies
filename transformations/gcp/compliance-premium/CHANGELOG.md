@@ -1,12 +1,5 @@
 # Changelog
 
-## [0.2.3](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.2.2...transformation-gcp-compliance-premium-v0.2.3) (2023-12-07)
-
-
-### Bug Fixes
-
-* Update README.md ([#361](https://github.com/cloudquery/policies-premium/issues/361)) ([a829d47](https://github.com/cloudquery/policies-premium/commit/a829d47a089b0ae3a7e4671311f86dcce60fe44c))
-
 ## [0.2.2](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.2.1...transformation-gcp-compliance-premium-v0.2.2) (2023-12-06)
 
 
