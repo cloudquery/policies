@@ -134,7 +134,7 @@ jobs:
         working-directory: ./scripts/dbt-pack
       - name: Pack DBT
         working-directory: ./scripts/dbt-pack
-        run: node index.js dbt-pack --project-dir=../../transformations/${{ needs.prepare.outputs.transformation_dir }}
+        run: node index.js dbt-pack --project-dir=../../${{ needs.prepare.outputs.transformation_dir }}
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
