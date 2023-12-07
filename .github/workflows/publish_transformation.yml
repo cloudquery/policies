@@ -72,7 +72,7 @@ jobs:
             const linksRemoved = releaseNotes.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
             const changelogPath = `transformations/${TRANSFORMATION_DIR}/changelog.md`;
             await fs.writeFile(changelogPath, linksRemoved);
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
           cache: "pip"
