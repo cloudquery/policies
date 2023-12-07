@@ -5,6 +5,15 @@ on:
     tags:
       - "transformation-*-v*.*.*"
 
+env:
+  SNOW_USER: ${{ secrets.SNOW_USER }}
+  SNOW_PASSWORD: ${{ secrets.SNOW_PASSWORD }}
+  # DBT assumes the account is in the form of <account>.<region>
+  SNOW_ACCOUNT: "${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}"
+  SNOW_WAREHOUSE: ${{ secrets.SNOW_WAREHOUSE }}
+  SNOW_DATABASE: ${{ secrets.SNOW_DATABASE }}
+  SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
+  SNOW_REGION: ${{ secrets.SNOW_REGION }}
 jobs:
   prepare:
     runs-on: ubuntu-latest

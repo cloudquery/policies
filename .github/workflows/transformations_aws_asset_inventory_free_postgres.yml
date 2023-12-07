@@ -57,7 +57,6 @@ jobs:
         uses: cloudquery/setup-cloudquery@v3
         with:
           version: v4.0.0
-      # Test unpacked version
       - name: Migrate DB
         run: cloudquery migrate tests/postgres.yml
         env:
@@ -65,22 +64,3 @@ jobs:
       - name: Run Policies
         run: |
           dbt run --target dev-pg --profiles-dir ./tests
-      # Test packed version
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          cache: 'npm'
-          cache-dependency-path: scripts/dbt-pack/package-lock.json
-      - name: Install Dependencies
-        run: npm ci
-        working-directory: ./scripts/dbt-pack
-      - name: Pack DBT
-        working-directory: ./scripts/dbt-pack
-        run: node index.js dbt-pack --project-dir=../../transformations/aws/asset-inventory-free
-      - name: Unzip Packed DBT
-        run: unzip -o build/aws_asset_inventory_free.zip -d build/aws_asset_inventory_free
-      - name: Run Unpacked DBT
-        working-directory: ./transformations/aws/asset-inventory-free/build/aws_asset_inventory_free
-        run: |
-          dbt run --target dev-pg --profiles-dir ../../tests
