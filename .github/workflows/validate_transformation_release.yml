@@ -1,9 +1,9 @@
-name: Publish transformation
+name: Validate Transformation
 
 on:
-  push:
-    tags:
-      - "transformation-*-v*.*.*"
+  pull_request:
+    branches:
+      - main
 
 env:
   SNOW_USER: ${{ secrets.SNOW_USER }}
@@ -17,38 +17,43 @@ env:
 jobs:
   prepare:
     runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release-please--branches--main--components--transformation-')
     outputs:
       transformation_dir: ${{ fromJson(steps.set-result.outputs.result).transformation_dir }}
-      transformation_version: ${{ fromJson(steps.set-result.outputs.result).transformation_version }}
       zipPath: ${{ fromJson(steps.set-result.outputs.result).zipPath }}
       postgres: ${{ fromJson(steps.set-result.outputs.result).postgres }}
       snowflake: ${{ fromJson(steps.set-result.outputs.result).snowflake }}
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - uses: actions/github-script@v7
         id: set-result
         env:
-          TRANSFORMATION_TAG: ${{ github.ref_name }}
+          PR_BRANCH: ${{ github.head_ref }}
         with:
           script: |
+            const path = require('path');
             const fs = require('fs/promises');
-            const { TRANSFORMATION_TAG } = process.env;
-            const [_, topLevelDir, ...rest] = TRANSFORMATION_TAG.split('-');
-            const version = rest.pop();
+            const { PR_BRANCH } = process.env;
+            const cleanBranch = PR_BRANCH.replace('release-please--branches--main--components--transformation-', '');
+            const [topLevelDir, ...rest] = cleanBranch.split('-');
             const transformation_dir = `transformations/${topLevelDir}/${rest.join('-')}`;
+            const manifestFile = `${transformation_dir}/manifest.json`;
+            const zipPath = JSON.parse(await fs.readFile(manifestFile)).path;
             const [postgres, snowflake, bigquery] = await Promise.all([
               fs.access(`${transformation_dir}/tests/postgres.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
             ]);
             return {
-              transformation_dir: `${topLevelDir}/${rest.join('-')}`,
-              transformation_version: version,
+              transformation_dir,
+              zipPath: path.resolve(transformation_dir, zipPath),
               postgres,
               snowflake,
               bigquery,
             };
-  publish-transformation:
+  validate-transformation:
     permissions:
       id-token: 'write'
       contents: 'read'
@@ -78,24 +83,7 @@ jobs:
         with:
           workload_identity_provider: 'projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider'
           service_account: 'integration-service-account@cq-integration-tests.iam.gserviceaccount.com'
-      - name: Update Release Notes
-        uses: actions/github-script@v7
-        env:
-          TRANSFORMATION_DIR: ${{ needs.prepare.outputs.transformation_dir }}
-        with:
-          script: |
-            const fs = require('fs/promises');
-            const { TRANSFORMATION_DIR } = process.env;
-            const { data } = await github.rest.repos.getReleaseByTag({
-              owner: "cloudquery",
-              repo: context.repo.repo,
-              tag: context.ref.replace('refs/tags/', ''),
-            });
-            const releaseNotes = data.body;
-            const linksRemoved = releaseNotes.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
-            const changelogPath = `${TRANSFORMATION_DIR}/changelog.md`;
-            await fs.writeFile(changelogPath, linksRemoved);
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v4
         with:
           python-version: "3.9"
           cache: "pip"
@@ -106,7 +94,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v4.3.1
+          version: v4.0.0
       - name: Migrate DB Postgres
         if: needs.prepare.outputs.postgres == 'true'
         run: cloudquery migrate tests/postgres.yml
@@ -134,14 +122,23 @@ jobs:
         working-directory: ./scripts/dbt-pack
       - name: Pack DBT
         working-directory: ./scripts/dbt-pack
-        run: node index.js dbt-pack --project-dir=../../transformations/${{ needs.prepare.outputs.transformation_dir }}
-      - name: Setup CloudQuery
-        uses: cloudquery/setup-cloudquery@v3
-        with:
-          version: v4.3.1
-      - name: Publish tranformation
-        working-directory: ${{ needs.prepare.outputs.transformation_dir }}
-        env:
-          CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
+        run: node index.js dbt-pack --project-dir=../../${{ needs.prepare.outputs.transformation_dir }}
+      - name: Unzip Packed DBT
         run: |
-          cloudquery addon publish manifest.json ${{ needs.prepare.outputs.transformation_version }} -f
+          mkdir -p temp/build
+          unzip -o ${{ needs.prepare.outputs.zipPath }} -d temp/build
+      - name: Run Unpacked DBT Postgres
+        if: needs.prepare.outputs.postgres == 'true'
+        working-directory: ./temp/build
+        run: |
+          dbt run --target dev-pg --profiles-dir ../../${{ needs.prepare.outputs.transformation_dir }}/tests
+      - name: Run Unpacked DBT Snowflake
+        if: needs.prepare.outputs.snowflake == 'true'
+        working-directory: ./temp/build
+        run: |
+          dbt run --target dev-snowflake --profiles-dir ../../${{ needs.prepare.outputs.transformation_dir }}/tests
+      - name: Run Unpacked DBT BigQuery
+        if: needs.prepare.outputs.bigquery == 'true'
+        working-directory: ./temp/build
+        run: |
+          dbt run --target dev-bigquery --profiles-dir ../../${{ needs.prepare.outputs.transformation_dir }}/tests
