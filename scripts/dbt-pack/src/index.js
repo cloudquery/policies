@@ -176,23 +176,23 @@ const getModels = async (dbtProjectDirectory) => {
 };
 
 const getChecksByFramework = async (models) => {
-  const pattern = /\({{ .*?\('(.*?)','(.*?)'\) }}\)/g;
+  const pattern = /\({{ (.*?)\('(.*?)','(.*?)'\) }}\)/g;
   const queries = models.flatMap((model) => {
     const matches = [...model.matchAll(pattern)];
     if (matches.length > 0) {
       return matches.map((match) => {
-        const [, framework, checkId] = match;
-        return { framework, checkId };
+        const [, checkName, framework, checkId] = match;
+        return { checkName, framework, checkId };
       }).sort((a, b) => a.checkId.localeCompare(b.checkId, undefined, { numeric: true }));
     }
     return [];
   });
   // eslint-disable-next-line unicorn/no-array-reduce
-  return queries.reduce((accumulator, { framework, checkId }) => {
+  return queries.reduce((accumulator, { checkName, framework, checkId }) => {
     if (!accumulator[framework]) {
       accumulator[framework] = [];
     }
-    accumulator[framework].push(checkId);
+    accumulator[framework].push({ checkName, checkId });
     return accumulator;
   }, {});
 }
@@ -201,8 +201,8 @@ const updateReadme = async (dbtProjectDirectory, checksByFramework) => {
   const readmeFile = `${dbtProjectDirectory}/README.md`;
   const readme = await fs.readFile(readmeFile, "utf8");
   const pattern = /<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->[\S\s]*<!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->/;
-  const includedChecks = Object.entries(checksByFramework).map(([framework, checkIds]) => {
-    const listItems = checkIds.map((checkId) => `- ✅ \`${checkId}\``).join("\n");
+  const includedChecks = Object.entries(checksByFramework).map(([framework, checks]) => {
+    const listItems = checks.map(({ checkName, checkId}) => `- ✅ \`${checkId}\`: \`${checkName}\``).join("\n");
     return `\n\n##### \`${framework}\`\n\n${listItems}`;
   }).join("");
   const updatedReadme = readme.replace(pattern, `<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
