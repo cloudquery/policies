@@ -42,7 +42,6 @@ jobs:
         uses: cloudquery/setup-cloudquery@v3
         with:
           version: v4.0.0
-      # Test unpacked version
       - name: Migrate DB
         run: cloudquery migrate tests/snowflake.yml
         env:
