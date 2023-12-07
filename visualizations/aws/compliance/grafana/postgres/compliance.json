@@ -964,19 +964,19 @@
             "type": "postgres",
             "uid": "${DS_POSTGRESQL}"
           },
-          "definition": " select table_name from INFORMATION_SCHEMA.views WHERE table_schema = ANY (current_schemas(false)) AND \ntable_name != 'aws_resources' and table_name != 'aws_tables'\nAND table_name != 'aws_compliance__log_metric_filter_and_alarm'\nAND table_name NOT LIKE 'aws_compliance__security_group%'\nAND table_name NOT LIKE 'aws_compliance__network%'\nAND table_name NOT LIKE 'aws_compliance__api%'\nAND table_name NOT LIKE 'aws_encryption%'\nAND table_name != 'aws_data_resilience'",
-          "hide": 0,
-          "includeAll": false,
-          "label": "Compliance Frameworks",
-          "multi": false,
-          "name": "frameworks",
-          "options": [],
-          "query": " select table_name from INFORMATION_SCHEMA.views WHERE table_schema = ANY (current_schemas(false)) AND \ntable_name != 'aws_resources' and table_name != 'aws_tables'\nAND table_name != 'aws_compliance__log_metric_filter_and_alarm'\nAND table_name NOT LIKE 'aws_compliance__security_group%'\nAND table_name NOT LIKE 'aws_compliance__network%'\nAND table_name NOT LIKE 'aws_compliance__api%'\nAND table_name NOT LIKE 'aws_encryption%'\nAND table_name != 'aws_data_resilience'",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
+            "definition": " select table_name from INFORMATION_SCHEMA.views WHERE table_schema = ANY (current_schemas(false)) \nAND table_name LIKE 'aws_compliance_%'\nAND table_name != 'aws_compliance__log_metric_filter_and_alarm'\nAND table_name NOT LIKE 'aws_compliance__security_group%'\nAND table_name NOT LIKE 'aws_compliance__network%'\nAND table_name NOT LIKE 'aws_compliance__api%'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Compliance Frameworks",
+        "multi": false,
+        "name": "frameworks",
+        "options": [],
+        "query": " select table_name from INFORMATION_SCHEMA.views WHERE table_schema = ANY (current_schemas(false)) \nAND table_name LIKE 'aws_compliance_%'\nAND table_name != 'aws_compliance__log_metric_filter_and_alarm'\nAND table_name NOT LIKE 'aws_compliance__security_group%'\nAND table_name NOT LIKE 'aws_compliance__network%'\nAND table_name NOT LIKE 'aws_compliance__api%'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
         }
       ]
     },
