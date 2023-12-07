@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v1.1.0...visualization-aws-compliance-v1.2.0) (2023-12-07)
+
+
+### Features
+
+* Add compliance dashboard ([92a00be](https://github.com/cloudquery/policies-premium/commit/92a00be220c002062d88fd88d64ca34c0387bebd))
+
 ## [1.1.0](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v1.0.0...visualization-aws-compliance-v1.1.0) (2023-11-17)
 
 
