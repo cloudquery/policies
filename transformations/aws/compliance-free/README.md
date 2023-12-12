@@ -16,6 +16,38 @@ One of the below databases
 
 The pack contains the free version.
 
+#### Running Your dbt Project
+
+Navigate to your dbt project directory, where your `dbt_project.yml` resides.
+
+Before executing the `dbt run` command, it might be useful to check for any potential issues:
+
+```bash
+dbt compile
+```
+
+If everything compiles without errors, you can then execute:
+
+```bash
+dbt run
+```
+
+This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
+
+To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
+
+For a specific model and the models in the dependency graph:
+
+```bash
+dbt run --select +<model_name>
+```
+
+For a specific folder and the models in the dependency graph:
+
+```bash
+dbt run --models +<model_name>
+```
+
 #### Models
 
 - **aws_compliance\_\_cis_v1.2.0**: AWS CIS V1.2.0 benchmarks, available for PostgreSQL
