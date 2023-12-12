@@ -107,7 +107,7 @@ jobs:
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
-          dbt run --target dev-pg --profiles-dir ./tests --select aws_compliance__foundational_security_free
+          dbt run --target dev-pg --profiles-dir ./tests
         if: needs.prepare.outputs.postgres == 'true'
         env:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
@@ -122,4 +122,4 @@ jobs:
         if: needs.prepare.outputs.bigquery == 'true'
         run: |
           cloudquery migrate tests/bigquery.yml
-          dbt run --target dev-bigquery --profiles-dir ./tests --select aws_compliance__foundational_security_free
+          dbt run --target dev-bigquery --profiles-dir ./tests
