@@ -1,3 +1,5 @@
+{{ config(enabled=is_snowflake()) }}
+
 with
     aggregated as (
         ({{ access_logs_enabled('foundational_security','cloudfront.5') }})

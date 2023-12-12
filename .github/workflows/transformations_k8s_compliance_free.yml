@@ -1,21 +1,21 @@
-name: "Test AWS Data Resilience Policies"
+name: "Test K8S Compliance Free Policies"
 
 on:
   pull_request:
     paths:
-      - "transformations/aws/data-resilience/**"
-      - ".github/workflows/transformations_aws_data_resilience.yml"
-      - "transformations/aws/macros/**"
-      - "transformations/aws/models/**"
+      - "transformations/k8s/compliance-free/**"
+      - ".github/workflows/transformations_k8s_compliance_free.yml"
+      - "transformations/k8s/macros/**"
+      - "transformations/k8s/models/**"
       - "transformations/macros/**"
   push:
     branches:
       - main
     paths:
-      - "transformations/aws/data-resilience/**"
-      - ".github/workflows/transformations_aws_data_resilience.yml"
-      - "transformations/aws/macros/**"
-      - "transformations/aws/models/**"
+      - "transformations/k8s/compliance-free/**"
+      - ".github/workflows/transformations_k8s_compliance_free.yml"
+      - "transformations/k8s/macros/**"
+      - "transformations/k8s/models/**"
       - "transformations/macros/**"
 
 env:
@@ -42,7 +42,7 @@ jobs:
       - uses: actions/github-script@v7
         id: set-result
         env:
-          TRANSFORMATION_DIR: transformations/aws/data-resilience
+          TRANSFORMATION_DIR: transformations/k8s/compliance-free
         with:
           script: |
             const fs = require('fs/promises');
@@ -58,7 +58,7 @@ jobs:
               snowflake,
               bigquery,
             };
-  transformations-aws-data-resilience:
+  transformations-k8s-compliance-free:
     permissions:
       id-token: 'write'
       contents: 'read'
