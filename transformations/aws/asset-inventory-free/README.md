@@ -12,7 +12,7 @@ This package contains dbt models (views) that aggregates AWS Resources for AWS A
  
 One of the below databases:
 
-- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
+- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 
 #### dbt Installation
 
