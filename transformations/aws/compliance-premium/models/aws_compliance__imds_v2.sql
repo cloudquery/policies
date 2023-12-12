@@ -1,3 +1,5 @@
+{{ config(enabled=block_bigquery() and block_snowflake()) }}
+
 with
     aggregated as (
         ({{ ec2_not_imdsv2_instances('imds_v2','EC2-IMDSv2') }})
