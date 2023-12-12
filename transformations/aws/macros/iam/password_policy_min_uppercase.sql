@@ -35,3 +35,19 @@ select
 from
     {{ full_table_name("aws_iam_password_policies") }}
 {% endmacro %}
+
+{% macro snowflake__password_policy_min_uppercase(framework, check_id) %}
+select
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
+  'Ensure IAM password policy requires at least one uppercase letter' as title,
+  account_id,
+  account_id,
+  case when
+    not require_uppercase_characters or not policy_exists
+    then 'fail'
+    else 'pass'
+  end
+from
+    aws_iam_password_policies
+{% endmacro %}

@@ -1,0 +1,1 @@
+{{ api_gateway_method_settings() }}
