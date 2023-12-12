@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v1.1.0...transformation-aws-asset-inventory-free-v1.1.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* Update README.md for asset inventory ([#414](https://github.com/cloudquery/policies-premium/issues/414)) ([ac97568](https://github.com/cloudquery/policies-premium/commit/ac97568bdd13b26fa4ce863162890d22d6917dbe))
+* Update README.md for asset inventory to clarify PostgreSQL only. ([ac97568](https://github.com/cloudquery/policies-premium/commit/ac97568bdd13b26fa4ce863162890d22d6917dbe))
+
 ## [1.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v1.0.0...transformation-aws-asset-inventory-free-v1.1.0) (2023-12-07)
 
 
