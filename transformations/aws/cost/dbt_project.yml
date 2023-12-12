@@ -23,9 +23,12 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+vars:
+  cost_usage_table: cost_usage_table
+
 seeds:
   aws_cost: # you must include the project name
-    cost_check:
+    cost_usage_table:
       +column_types:
         bill_billing_period_end_date: TIMESTAMP WITHOUT TIME ZONE
         reservation_amortized_upfront_cost_for_usage: DOUBLE PRECISION

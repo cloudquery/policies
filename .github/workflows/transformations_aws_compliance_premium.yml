@@ -1,10 +1,10 @@
-name: "Test AWS Data Resilience Policies"
+name: "Test AWS Compliance Premium Policies"
 
 on:
   pull_request:
     paths:
-      - "transformations/aws/data-resilience/**"
-      - ".github/workflows/transformations_aws_data_resilience.yml"
+      - "transformations/aws/compliance-premium/**"
+      - ".github/workflows/transformations_aws_compliance_premium.yml"
       - "transformations/aws/macros/**"
       - "transformations/aws/models/**"
       - "transformations/macros/**"
@@ -12,8 +12,8 @@ on:
     branches:
       - main
     paths:
-      - "transformations/aws/data-resilience/**"
-      - ".github/workflows/transformations_aws_data_resilience.yml"
+      - "transformations/aws/compliance-premium/**"
+      - ".github/workflows/transformations_aws_compliance_premium.yml"
       - "transformations/aws/macros/**"
       - "transformations/aws/models/**"
       - "transformations/macros/**"
@@ -42,7 +42,7 @@ jobs:
       - uses: actions/github-script@v7
         id: set-result
         env:
-          TRANSFORMATION_DIR: transformations/aws/data-resilience
+          TRANSFORMATION_DIR: transformations/aws/compliance-premium
         with:
           script: |
             const fs = require('fs/promises');
@@ -58,7 +58,7 @@ jobs:
               snowflake,
               bigquery,
             };
-  transformations-aws-data-resilience:
+  transformations-aws-compliance-premium:
     permissions:
       id-token: 'write'
       contents: 'read'
@@ -107,14 +107,14 @@ jobs:
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
-          dbt run --target dev-pg --profiles-dir ./tests
+          dbt run --target dev-pg --profiles-dir ./tests --select aws_compliance__foundational_security
         if: needs.prepare.outputs.postgres == 'true'
         env:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
       - name: Test Snowflake
         run: |
           cloudquery migrate tests/snowflake.yml
-          dbt run --target dev-snowflake --profiles-dir ./tests
+          dbt run --target dev-snowflake --profiles-dir ./tests --select aws_compliance__foundational_security
         if: needs.prepare.outputs.snowflake == 'true'
         env:
           SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}:${{ secrets.SNOW_PASSWORD }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
@@ -122,4 +122,4 @@ jobs:
         if: needs.prepare.outputs.bigquery == 'true'
         run: |
           cloudquery migrate tests/bigquery.yml
-          dbt run --target dev-bigquery --profiles-dir ./tests
+          dbt run --target dev-bigquery --profiles-dir ./tests --select aws_compliance__foundational_security
