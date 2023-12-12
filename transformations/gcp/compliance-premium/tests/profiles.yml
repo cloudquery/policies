@@ -24,6 +24,6 @@ gcp_compliance: # This should match the name in your dbt_project.yml
     dev-bigquery:
       type: bigquery
       method: oauth
-      project: cq-playground
-      dataset: bigquery-test # You can also use "schema" here
+      project: cq-integration-tests
+      dataset: policies_premium_ci_test # You can also use "schema" here
       threads: 4 # Must be a value of 1 or greater 
