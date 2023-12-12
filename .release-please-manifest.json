@@ -24,5 +24,6 @@
   "transformations/aws/encryption": "1.1.0",
   "transformations/aws/encryption+FILLER": "0.0.0",
   "transformations/aws/asset-inventory-free": "1.1.0",
-  "visualizations/aws/asset_inventory": "1.0.0"
+  "visualizations/aws/asset_inventory": "1.0.0",
+  "transformations/aws/cost": "1.0.0"
 }
