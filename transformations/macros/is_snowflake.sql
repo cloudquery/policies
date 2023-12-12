@@ -1,5 +1,5 @@
 {% macro is_snowflake() %}
-  {% if target.database == 'snowflake' %}
+  {% if target.type == 'snowflake' %}
     {{ return(true) }}
   {% else %}
     {{ return(false) }}
