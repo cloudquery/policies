@@ -1,21 +1,21 @@
-name: "Test AWS Data Resilience Policies"
+name: "Test Azure Compliance Premium Policies"
 
 on:
   pull_request:
     paths:
-      - "transformations/aws/data-resilience/**"
-      - ".github/workflows/transformations_aws_data_resilience.yml"
-      - "transformations/aws/macros/**"
-      - "transformations/aws/models/**"
+      - "transformations/azure/compliance-premium/**"
+      - ".github/workflows/transformations_azure_compliance_premium.yml"
+      - "transformations/azure/macros/**"
+      - "transformations/azure/models/**"
       - "transformations/macros/**"
   push:
     branches:
       - main
     paths:
-      - "transformations/aws/data-resilience/**"
-      - ".github/workflows/transformations_aws_data_resilience.yml"
-      - "transformations/aws/macros/**"
-      - "transformations/aws/models/**"
+      - "transformations/azure/compliance-premium/**"
+      - ".github/workflows/transformations_azure_compliance_premium.yml"
+      - "transformations/azure/macros/**"
+      - "transformations/azure/models/**"
       - "transformations/macros/**"
 
 env:
@@ -42,7 +42,7 @@ jobs:
       - uses: actions/github-script@v7
         id: set-result
         env:
-          TRANSFORMATION_DIR: transformations/aws/data-resilience
+          TRANSFORMATION_DIR: transformations/azure/compliance-premium
         with:
           script: |
             const fs = require('fs/promises');
@@ -58,7 +58,7 @@ jobs:
               snowflake,
               bigquery,
             };
-  transformations-aws-data-resilience:
+  transformations-azure-compliance-premium:
     permissions:
       id-token: 'write'
       contents: 'read'
