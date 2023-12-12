@@ -1,9 +1,22 @@
-name: Validate Transformation
+name: "Test K8S Compliance Premium Policies"
 
 on:
   pull_request:
+    paths:
+      - "transformations/k8s/compliance-premium/**"
+      - ".github/workflows/transformations_k8s_compliance_premium.yml"
+      - "transformations/k8s/macros/**"
+      - "transformations/k8s/models/**"
+      - "transformations/macros/**"
+  push:
     branches:
       - main
+    paths:
+      - "transformations/k8s/compliance-premium/**"
+      - ".github/workflows/transformations_k8s_compliance_premium.yml"
+      - "transformations/k8s/macros/**"
+      - "transformations/k8s/models/**"
+      - "transformations/macros/**"
 
 env:
   SNOW_USER: ${{ secrets.SNOW_USER }}
@@ -14,13 +27,12 @@ env:
   SNOW_DATABASE: ${{ secrets.SNOW_DATABASE }}
   SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
   SNOW_REGION: ${{ secrets.SNOW_REGION }}
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'release-please--branches--main--components--transformation-')
     outputs:
       transformation_dir: ${{ fromJson(steps.set-result.outputs.result).transformation_dir }}
-      zipPath: ${{ fromJson(steps.set-result.outputs.result).zipPath }}
       postgres: ${{ fromJson(steps.set-result.outputs.result).postgres }}
       snowflake: ${{ fromJson(steps.set-result.outputs.result).snowflake }}
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
@@ -30,17 +42,11 @@ jobs:
       - uses: actions/github-script@v7
         id: set-result
         env:
-          PR_BRANCH: ${{ github.head_ref }}
+          TRANSFORMATION_DIR: transformations/k8s/compliance-premium
         with:
           script: |
-            const path = require('path');
             const fs = require('fs/promises');
-            const { PR_BRANCH } = process.env;
-            const cleanBranch = PR_BRANCH.replace('release-please--branches--main--components--transformation-', '');
-            const [topLevelDir, ...rest] = cleanBranch.split('-');
-            const transformation_dir = `transformations/${topLevelDir}/${rest.join('-')}`;
-            const manifestFile = `${transformation_dir}/manifest.json`;
-            const zipPath = JSON.parse(await fs.readFile(manifestFile)).path;
+            const { TRANSFORMATION_DIR: transformation_dir } = process.env;
             const [postgres, snowflake, bigquery] = await Promise.all([
               fs.access(`${transformation_dir}/tests/postgres.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
@@ -48,17 +54,21 @@ jobs:
             ]);
             return {
               transformation_dir,
-              zipPath: path.resolve(transformation_dir, zipPath),
               postgres,
               snowflake,
               bigquery,
             };
-  validate-transformation:
+  transformations-k8s-compliance-premium:
     permissions:
       id-token: 'write'
       contents: 'read'
+    name: ${{ needs.prepare.outputs.transformation_dir }}
     needs: prepare
+    timeout-minutes: 30
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ needs.prepare.outputs.transformation_dir }}
     services:
       postgres:
         image: postgres:11
@@ -77,68 +87,39 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Required for BigQuery targets
       - name: Authenticate to Google Cloud
         uses: 'google-github-actions/auth@v1'
+        if: needs.prepare.outputs.bigquery == 'true'
         with:
           workload_identity_provider: 'projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider'
           service_account: 'integration-service-account@cq-integration-tests.iam.gserviceaccount.com'
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
           cache: "pip"
-          cache-dependency-path: "./${{ needs.prepare.outputs.transformation_dir }}/requirements.txt"
+          cache-dependency-path: "${{ needs.prepare.outputs.transformation_dir }}/requirements.txt"
       - name: Install dependencies
-        working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         run: pip install -r requirements.txt
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
           version: v4.3.2
-      - name: Migrate DB Postgres
+      - name: Test Postgres
+        run: |
+          cloudquery migrate tests/postgres.yml
+          dbt run --target dev-pg --profiles-dir ./tests
         if: needs.prepare.outputs.postgres == 'true'
-        run: cloudquery migrate tests/postgres.yml
-        working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
-      - name: Migrate DB Snowflake
+      - name: Test Snowflake
+        run: |
+          cloudquery migrate tests/snowflake.yml
+          dbt run --target dev-snowflake --profiles-dir ./tests
         if: needs.prepare.outputs.snowflake == 'true'
-        run: cloudquery migrate tests/snowflake.yml
-        working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
           SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}:${{ secrets.SNOW_PASSWORD }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
-      - name: Migrate DB BigQuery
+      - name: Test BigQuery
         if: needs.prepare.outputs.bigquery == 'true'
-        run: cloudquery migrate tests/bigquery.yml
-        working-directory: ${{ needs.prepare.outputs.transformation_dir }}
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          cache: 'npm'
-          cache-dependency-path: scripts/dbt-pack/package-lock.json
-      - name: Install Dependencies
-        run: npm ci
-        working-directory: ./scripts/dbt-pack
-      - name: Pack DBT
-        working-directory: ./scripts/dbt-pack
-        run: node index.js dbt-pack --project-dir=../../${{ needs.prepare.outputs.transformation_dir }}
-      - name: Unzip Packed DBT
         run: |
-          mkdir -p temp/build
-          unzip -o ${{ needs.prepare.outputs.zipPath }} -d temp/build
-      - name: Run Unpacked DBT Postgres
-        if: needs.prepare.outputs.postgres == 'true'
-        working-directory: ./temp/build
-        run: |
-          dbt run --target dev-pg --profiles-dir ../../${{ needs.prepare.outputs.transformation_dir }}/tests
-      - name: Run Unpacked DBT Snowflake
-        if: needs.prepare.outputs.snowflake == 'true'
-        working-directory: ./temp/build
-        run: |
-          dbt run --target dev-snowflake --profiles-dir ../../${{ needs.prepare.outputs.transformation_dir }}/tests
-      - name: Run Unpacked DBT BigQuery
-        if: needs.prepare.outputs.bigquery == 'true'
-        working-directory: ./temp/build
-        run: |
-          dbt run --target dev-bigquery --profiles-dir ../../${{ needs.prepare.outputs.transformation_dir }}/tests
+          cloudquery migrate tests/bigquery.yml
+          dbt run --target dev-bigquery --profiles-dir ./tests
