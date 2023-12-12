@@ -86,13 +86,13 @@ To run specific models and the models in the dependency graph, the following `db
 For a specific model and the models in the dependency graph:
 
 ```bash
-dbt run --select +"<model_name>"
+dbt run --select +<model_name>
 ```
 
 For a specific folder and the models in the dependency graph:
 
 ```bash
-dbt run --models +pro
+dbt run --models +<model_name>
 ```
 
 #### Models
