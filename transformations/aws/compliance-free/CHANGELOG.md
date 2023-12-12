@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.5.0...transformation-aws-compliance-free-v0.6.0) (2023-12-12)
+
+
+### Features
+
+* Added queries for free AWS Compliance - Snowflake ([#410](https://github.com/cloudquery/policies-premium/issues/410)) ([90a1f26](https://github.com/cloudquery/policies-premium/commit/90a1f266e6a19290d32f241e6bd40646957c9961))
+* Update AWS Free and Premium Compliance readmes ([a54c7db](https://github.com/cloudquery/policies-premium/commit/a54c7dbedca502bc6d11baccef51dbb3af5662ea))
+* Update AWS Free and Premium Compliance readmes ([#420](https://github.com/cloudquery/policies-premium/issues/420)) ([a54c7db](https://github.com/cloudquery/policies-premium/commit/a54c7dbedca502bc6d11baccef51dbb3af5662ea))
+
 ## [0.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.4.0...transformation-aws-compliance-free-v0.5.0) (2023-12-07)
 
 
