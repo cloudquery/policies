@@ -1,7 +1,7 @@
 # CloudQuery &times; dbt: AWS Asset Inventory Package
 ## Overview
 
-This package contains dbt models (views) that aggregates AWS Resources for AWS Asset Inventory.  This currently only supports PostgreSQL.
+This package contains dbt models (views) that aggregates AWS Resources for AWS Asset Inventory.  This currently only supports PostgreSQL as a destination.
 
 
 ### Requirements
@@ -39,7 +39,7 @@ mkdir -p ~/.dbt
 Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
 
 ```yaml
-azure_compliance: # This should match the name in your dbt_project.yml
+aws_asset_inventory: # This should match the name in your dbt_project.yml
   target: dev
   outputs:
     dev:
@@ -48,7 +48,7 @@ azure_compliance: # This should match the name in your dbt_project.yml
       user: postgres
       pass: pass
       port: 5432
-      dbname: azure
+      dbname: aws
       schema: public # default schema where dbt will build the models
       threads: 1 # number of threads to use when running in parallel
 ```
@@ -97,4 +97,4 @@ dbt run --models +pro
 
 #### Models
 
-- **aws\aws_asset_inventory\aws_resources.sql**: AWS Resources View, available for PostgreSQL.
+- **aws\_\_\aws_resources.sql**: AWS Resources View, available for PostgreSQL.
