@@ -137,7 +137,7 @@ jobs:
         if: needs.prepare.outputs.snowflake == 'true'
         working-directory: ./temp/build
         run: |
-          dbt seed --target dev-snowflake --profiles-dir ./tests
+          dbt seed --target dev-snowflake --profiles-dir ../../${{ needs.prepare.outputs.transformation_dir }}/tests
           dbt run --target dev-snowflake --profiles-dir ../../${{ needs.prepare.outputs.transformation_dir }}/tests
       - name: Run Unpacked DBT BigQuery
         if: needs.prepare.outputs.bigquery == 'true'
