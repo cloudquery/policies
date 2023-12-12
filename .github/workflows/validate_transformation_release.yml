@@ -94,7 +94,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v4.3.1
+          version: v4.3.2
       - name: Migrate DB Postgres
         if: needs.prepare.outputs.postgres == 'true'
         run: cloudquery migrate tests/postgres.yml
