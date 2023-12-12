@@ -20,19 +20,13 @@ The pack contains the free version.
 
 Navigate to your dbt project directory, where your `dbt_project.yml` resides.
 
-Before executing the `dbt run` command, it might be useful to check for any potential issues:
-
-```bash
-dbt compile
-```
-
 If everything compiles without errors, you can then execute:
 
 ```bash
 dbt run
 ```
 
-This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
+This command will run all your `dbt` models and create tables/views in your destination database as defined in your models.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
