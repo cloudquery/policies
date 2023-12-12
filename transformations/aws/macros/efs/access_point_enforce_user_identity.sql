@@ -1,5 +1,3 @@
-{{ config(enabled=is_snowflake()) }} 
-
 {% macro access_point_enforce_user_identity(framework, check_id) %}
   {{ return(adapter.dispatch('access_point_enforce_user_identity')(framework, check_id)) }}
 {% endmacro %}
