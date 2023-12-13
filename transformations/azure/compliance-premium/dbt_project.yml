@@ -2,7 +2,7 @@
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
 name: "azure_compliance"
-version: "1.0.0"
+version: "1.0.0" # x-release-please-version
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
