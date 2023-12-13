@@ -28,6 +28,7 @@ select
   '{{check_id}}' as check_id,
   'Security contact information should be provided for an AWS account' as title,
   aws_iam_accounts.account_id,
+  aws_iam_accounts.account_id as resource_id,
   case when
     alternate_contact_type is null
     then 'fail'
