@@ -1,4 +1,4 @@
-{{ config(enabled=block_bigquery() and block_postgres()) }}
+{{ config(enabled=block_bigquery()) }}
 
 with
     aggregated as (
