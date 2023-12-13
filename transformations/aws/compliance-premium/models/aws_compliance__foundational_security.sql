@@ -1,4 +1,4 @@
-{{ config(enabled=block_bigquery() and block_postgres()) }}
+{{ config(enabled=block_bigquery()) }}
 
 with
     aggregated as (
@@ -390,7 +390,7 @@ with
         union
         ({{ security_account_information_provided('foundational_security','account.1') }})
         union
-         ({{ security_groups_not_associated('foundational_security','ec2.22') }})
+        ({{ security_groups_not_associated('foundational_security','ec2.22') }})
         union 
         ({{ security_groups_with_access_to_unauthorized_ports('foundational_security','ec2.18') }})
         union
