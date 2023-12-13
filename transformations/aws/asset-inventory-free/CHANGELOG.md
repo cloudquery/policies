@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v1.1.1...transformation-aws-asset-inventory-free-v1.1.2) (2023-12-13)
+
+
+### Bug Fixes
+
+* Link to latest versions in README ([#428](https://github.com/cloudquery/policies-premium/issues/428)) ([44901a2](https://github.com/cloudquery/policies-premium/commit/44901a2be3ada54606fc928010ae9a15aaff7173))
+
 ## [1.1.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v1.1.0...transformation-aws-asset-inventory-free-v1.1.1) (2023-12-12)
 
 
