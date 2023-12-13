@@ -13,8 +13,8 @@ This package contains dbt models (views) that gives compliance insights from Clo
  
 One of the below databases:
 
-- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
-- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/v3.3.3/docs)
+- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
+- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
 
 
 #### dbt Installation

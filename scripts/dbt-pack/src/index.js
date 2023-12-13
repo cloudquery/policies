@@ -70,6 +70,9 @@ const addDependencies = (node, allNodes, allMacros, filesToPack) => {
     // Skip dbt internal macros
     return;
   }
+  if (node.resource_type !== "model" && node.resource_type !== "macro") {
+    return;
+  }
   filesToPack.add(node.original_file_path);
   const dependsOnNodes = node.depends_on?.nodes ?? [];
   for (const dependency of dependsOnNodes) {
