@@ -127,6 +127,7 @@ jobs:
         run: |
           mkdir -p temp/build
           unzip -o ${{ needs.prepare.outputs.zipPath }} -d temp/build
+          cp -r ${{ needs.prepare.outputs.transformation_dir }}/seeds/ temp/build
       - name: Run Unpacked DBT Postgres
         if: needs.prepare.outputs.postgres == 'true'
         working-directory: ./temp/build
