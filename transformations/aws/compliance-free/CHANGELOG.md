@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.6.0...transformation-aws-compliance-free-v0.6.1) (2023-12-13)
+
+
+### Bug Fixes
+
+* Link to latest versions in README ([#428](https://github.com/cloudquery/policies-premium/issues/428)) ([44901a2](https://github.com/cloudquery/policies-premium/commit/44901a2be3ada54606fc928010ae9a15aaff7173))
+* Updated dbt_run without specifying the model ([#422](https://github.com/cloudquery/policies-premium/issues/422)) ([b7ff919](https://github.com/cloudquery/policies-premium/commit/b7ff91978bd67ef1b859d6aaa012beef1ea84181))
+
 ## [0.6.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.5.0...transformation-aws-compliance-free-v0.6.0) (2023-12-12)
 
 
