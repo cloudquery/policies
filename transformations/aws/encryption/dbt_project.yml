@@ -3,7 +3,7 @@
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
 name: 'aws_encryption'
-version: '1.0.0' # x-release-please-version
+version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
