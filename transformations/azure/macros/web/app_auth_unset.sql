@@ -37,3 +37,20 @@ FROM azure_appservice_web_apps awa
          LEFT JOIN azure_appservice_web_app_auth_settings awaas ON
     awa._cq_id = awaas._cq_parent_id
 {% endmacro %}
+
+{% macro bigquery__web_app_auth_unset(framework, check_id) %}
+SELECT
+       awa.id                                                                      AS resource_id,
+       '{{framework}}' As framework,
+       '{{check_id}}' As check_id,
+       'Ensure App Service Authentication is set on Azure App Service (Automated)' AS title,
+       awa.subscription_id                                                         AS subscription_id,
+       CASE
+           WHEN CAST( JSON_VALUE(awaas.properties.enabled) AS BOOL) is distinct from TRUE
+               THEN 'fail'
+           ELSE 'pass'
+           END                                                                     AS status
+FROM {{ full_table_name("azure_appservice_web_apps") }} awa
+         LEFT JOIN {{ full_table_name("azure_appservice_web_app_auth_settings") }} awaas ON
+    awa._cq_id = awaas._cq_parent_id
+{% endmacro %}

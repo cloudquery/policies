@@ -33,3 +33,18 @@ SELECT
     END                                                                      AS status
 FROM azure_containerservice_managed_clusters
 {% endmacro %}
+
+{% macro bigquery__container_aks_rbac_disabled(framework, check_id) %}
+SELECT
+    id                                                                       AS resource_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Role-Based Access Control (RBAC) should be used on Kubernetes Services' AS title,
+    subscription_id                                                          AS subscription_id,
+    CASE
+        WHEN CAST( JSON_VALUE(properties.enableRBAC) AS BOOL) IS distinct from TRUE
+        THEN 'fail'
+        ELSE 'pass'
+    END                                                                      AS status
+FROM {{ full_table_name("azure_containerservice_managed_clusters") }}
+{% endmacro %}
