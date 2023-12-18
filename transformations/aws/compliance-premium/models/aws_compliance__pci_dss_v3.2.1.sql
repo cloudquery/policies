@@ -1,3 +1,5 @@
+{{ config(enabled=block_bigquery() and block_snowflake()) }}
+
 with
     aggregated as (
         ({{ autoscaling_groups_elb_check('pci_dss_v3.2.1','autoscaling.1') }})

@@ -1,0 +1,723 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "datasource",
+            "uid": "grafana"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "target": {
+            "limit": 100,
+            "matchAny": false,
+            "tags": [],
+            "type": "dashboard"
+          },
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 6,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": "${DS_POSTGRESQL}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 7,
+          "x": 0,
+          "y": 0
+        },
+        "id": 6,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.2",
+        "targets": [
+          {
+            "datasource": {
+              "0": "$",
+              "1": "{",
+              "2": "D",
+              "3": "S",
+              "4": "_",
+              "5": "P",
+              "6": "O",
+              "7": "S",
+              "8": "T",
+              "9": "G",
+              "10": "R",
+              "11": "E",
+              "12": "S",
+              "13": "Q",
+              "14": "L",
+              "15": "}"
+            },
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select count(*) from aws_resources where account_id in (${account_ids}) and region in (${regions}) and _cq_table in (${cq_tables}) ;",
+            "refId": "A"
+          }
+        ],
+        "title": "Total Resources",
+        "type": "stat"
+      },
+      {
+        "datasource": "${DS_POSTGRESQL}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": []
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 8,
+          "x": 7,
+          "y": 0
+        },
+        "id": 8,
+        "options": {
+          "displayLabels": [
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "pieType": "pie",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": true
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "0": "$",
+              "1": "{",
+              "2": "D",
+              "3": "S",
+              "4": "_",
+              "5": "P",
+              "6": "O",
+              "7": "S",
+              "8": "T",
+              "9": "G",
+              "10": "R",
+              "11": "E",
+              "12": "S",
+              "13": "Q",
+              "14": "L",
+              "15": "}"
+            },
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select account_id, count(*) from aws_resources where region in (${regions}) and _cq_table in (${cq_tables}) group by account_id order by count desc;",
+            "refId": "A"
+          }
+        ],
+        "title": "Total Resource by Account",
+        "type": "piechart"
+      },
+      {
+        "datasource": "${DS_POSTGRESQL}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "continuous-BlYlRd"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "axisSoftMin": 0,
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 9,
+          "x": 15,
+          "y": 0
+        },
+        "id": 11,
+        "options": {
+          "barRadius": 0,
+          "barWidth": 0.97,
+          "fullHighlight": false,
+          "groupWidth": 0.7,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "orientation": "auto",
+          "showValue": "auto",
+          "stacking": "none",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "xTickLabelRotation": -90,
+          "xTickLabelSpacing": 0
+        },
+        "pluginVersion": "8.4.7",
+        "targets": [
+          {
+            "datasource": {
+              "0": "$",
+              "1": "{",
+              "2": "D",
+              "3": "S",
+              "4": "_",
+              "5": "P",
+              "6": "O",
+              "7": "S",
+              "8": "T",
+              "9": "G",
+              "10": "R",
+              "11": "E",
+              "12": "S",
+              "13": "Q",
+              "14": "L",
+              "15": "}"
+            },
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select region, count(*) from aws_resources where account_id in (${account_ids}) group by region order by count desc;",
+            "refId": "A"
+          }
+        ],
+        "title": "Resources by Region",
+        "type": "barchart"
+      },
+      {
+        "datasource": {
+          "type": "postgres",
+          "uid": "${DS_POSTGRESQL}"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "cq_meta"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 392
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "cq_table"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 326
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "account_id"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 188
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "region"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 164
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "_cq_sync_time"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 270
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "_cq_id"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 293
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 24,
+          "x": 0,
+          "y": 9
+        },
+        "id": 2,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.0.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "postgres",
+              "uid": "${DS_POSTGRESQL}"
+            },
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select _cq_id, _cq_table, account_id, region, arn, _cq_sync_time from aws_resources where account_id in (${account_ids}) and region in (${regions}) and _cq_table in (${cq_tables}) ;",
+            "refId": "A"
+          }
+        ],
+        "title": "AWS Resources",
+        "type": "table"
+      },
+      {
+        "datasource": "${DS_POSTGRESQL}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 6,
+          "x": 0,
+          "y": 21
+        },
+        "id": 4,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "10.0.2",
+        "targets": [
+          {
+            "datasource": {
+              "0": "$",
+              "1": "{",
+              "2": "D",
+              "3": "S",
+              "4": "_",
+              "5": "P",
+              "6": "O",
+              "7": "S",
+              "8": "T",
+              "9": "G",
+              "10": "R",
+              "11": "E",
+              "12": "S",
+              "13": "Q",
+              "14": "L",
+              "15": "}"
+            },
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select _cq_table, count(*) from aws_resources where account_id in (${account_ids}) and region in (${regions}) group by _cq_table order by count desc;",
+            "refId": "A"
+          }
+        ],
+        "title": "Count by Resource Type",
+        "type": "table"
+      },
+      {
+        "datasource": "${DS_POSTGRESQL}",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "region"
+              },
+              "properties": [
+                {
+                  "id": "custom.width",
+                  "value": 207
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "count"
+              },
+              "properties": [
+                {
+                  "id": "custom.width"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 7,
+          "x": 6,
+          "y": 21
+        },
+        "id": 10,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": []
+        },
+        "pluginVersion": "10.0.2",
+        "targets": [
+          {
+            "datasource": {
+              "0": "$",
+              "1": "{",
+              "2": "D",
+              "3": "S",
+              "4": "_",
+              "5": "P",
+              "6": "O",
+              "7": "S",
+              "8": "T",
+              "9": "G",
+              "10": "R",
+              "11": "E",
+              "12": "S",
+              "13": "Q",
+              "14": "L",
+              "15": "}"
+            },
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select region, count(*) from aws_resources where account_id in (${account_ids}) group by region order by count desc;",
+            "refId": "A"
+          }
+        ],
+        "title": "Resources by Region",
+        "type": "table"
+      }
+    ],
+    "refresh": "",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_POSTGRESQL}"
+          },
+          "definition": "select distinct(account_id) from aws_resources",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "account_ids",
+          "options": [],
+          "query": "select distinct(account_id) from aws_resources",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "postgres",
+            "uid": "${DS_POSTGRESQL}"
+          },
+          "definition": "select distinct(region) from aws_resources;",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "regions",
+          "options": [],
+          "query": "select distinct(region) from aws_resources;",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "uid": "${DS_POSTGRESQL}"
+          },
+          "definition": "select distinct(_cq_table) from aws_resources;",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "cq_tables",
+          "options": [],
+          "query": "select distinct(_cq_table) from aws_resources;",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "CQPostgres"
+            ],
+            "value": [
+              "CQPostgres"
+            ]
+          },
+          "description": "Dashboard Data Source Variable (PostgreSQL)",
+          "hide": 0,
+          "includeAll": false,
+          "multi": true,
+          "name": "DS_POSTGRESQL",
+          "options": [],
+          "query": "postgres",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "type": "datasource"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "AWS Asset Inventory",
+    "uid": "aws_asset_inventory",
+    "version": 2,
+    "weekStart": ""
+  }

@@ -1,4 +1,4 @@
-{{ config(enabled=is_snowflake()) }}
+{{ config(enabled=block_bigquery()) }}
 
 with
     aggregated as (

@@ -1,3 +1,5 @@
+{{ config(enabled=block_bigquery() and block_postgres()) }}
+
 with
     aggregated as (
         ({{ access_logs_enabled('foundational_security','cloudfront.5') }})

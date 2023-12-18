@@ -1,3 +1,5 @@
+{{ config(enabled=block_bigquery() and block_snowflake()) }}
+
 with
     aggregated as (
         ({{ public_egress_sg_and_routing_instances('public_egress','ec2-all-instances-with-routes-and-security-groups') }})

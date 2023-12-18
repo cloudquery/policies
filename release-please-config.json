@@ -1,46 +1,133 @@
 {
   "packages": {
     "transformations/aws/cost": {
-      "component": "transformation-aws-cost"
+      "component": "transformation-aws-cost",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/aws/encryption": {
-      "component": "transformation-aws-encryption"
+      "component": "transformation-aws-encryption",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/aws/data-resilience": {
-      "component": "transformation-aws-data-resilience"
+      "component": "transformation-aws-data-resilience",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/aws/asset-inventory-free": {
-      "component": "transformation-aws-asset-inventory-free"
+      "component": "transformation-aws-asset-inventory-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/aws/compliance-free": {
-      "component": "transformation-aws-compliance-free"
+      "component": "transformation-aws-compliance-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/aws/compliance-premium": {
-      "component": "transformation-aws-compliance-premium"
+      "component": "transformation-aws-compliance-premium",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/azure/compliance-free": {
-      "component": "transformation-azure-compliance-free"
+      "component": "transformation-azure-compliance-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/azure/compliance-premium": {
-      "component": "transformation-azure-compliance-premium"
+      "component": "transformation-azure-compliance-premium",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/gcp/compliance-free": {
-      "component": "transformation-gcp-compliance-free"
+      "component": "transformation-gcp-compliance-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/gcp/compliance-premium": {
-      "component": "transformation-gcp-compliance-premium"
+      "component": "transformation-gcp-compliance-premium",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/k8s/compliance-free": {
-      "component": "transformation-k8s-compliance-free"
+      "component": "transformation-k8s-compliance-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "transformations/k8s/compliance-premium": {
-      "component": "transformation-k8s-compliance-premium"
+      "component": "transformation-k8s-compliance-premium",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
     },
     "visualizations/aws/compliance": {
       "component": "visualization-aws-compliance"
     },
     "visualizations/aws/data_resilience": {
       "component": "visualization-aws-data-resilience"
+    },
+    "visualizations/aws/asset_inventory": {
+      "component": "visualization-aws-asset-inventory"
     }
   },
   "pull-request-title-pattern": "chore${scope}: Release${component} v${version}",
