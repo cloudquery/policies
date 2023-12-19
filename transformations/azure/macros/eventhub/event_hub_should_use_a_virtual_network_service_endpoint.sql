@@ -7,12 +7,11 @@ WITH valid_namespaces AS (
 )
 
 SELECT
-  n._cq_sync_time As sync_time,
+  n.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Event Hub should use a virtual network service endpoint',
   n.subscription_id,
-  n.id,
   case
     when v.id IS NULL then 'fail' else 'pass'
   end

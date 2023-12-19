@@ -1,5 +1,5 @@
 {% macro compute_vms_without_approved_networks(framework, check_id) %}
-WITH vms_with_interfaces AS (SELECT _cq_sync_time,
+WITH vms_with_interfaces AS (SELECT
                                     subscription_id,
                                     id,
                                     jsonb_array_elements(properties->'networkProfile'->'networkInterfaces') AS nics
@@ -10,12 +10,11 @@ nics_with_subnets AS (
 -- TODO check
 
 SELECT
-  v._cq_sync_time As sync_time,
+  v.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Virtual machines should be connected to an approved virtual network',
   v.subscription_id,
-  v.id,
   case
     when i.ip_config->>'subnet_id' IS NULL then 'fail' else 'pass'
   end

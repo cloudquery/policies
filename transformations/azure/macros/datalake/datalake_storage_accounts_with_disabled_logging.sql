@@ -10,12 +10,11 @@ accounts_with_logging_enabled AS (SELECT DISTINCT d._cq_id
 )
 
 SELECT
-  _cq_sync_time As sync_time,
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Resource logs in Azure Data Lake Store should be enabled',
   subscription_id,
-  id,
   case
     when e._cq_id IS NULL then 'fail' else 'pass'
   end

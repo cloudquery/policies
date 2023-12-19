@@ -9,12 +9,11 @@ WITH sets_with_logs AS (
       )
 
 SELECT 
-  s._cq_sync_time As sync_time,
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'The Log Analytics extension should be installed on Virtual Machine Scale Sets',
   s.subscription_id,
-  id,
   case
     when ss.compute_virtual_machine_id IS NULL then 'fail' else 'pass'
   end

@@ -1,0 +1,13 @@
+{
+    "schema_version": 1,
+    "type": "addon",
+    "team_name": "cloudquery",
+    "addon_name": "aws-asset-inventory",
+    "addon_type": "visualization",
+    "addon_format": "zip",
+    "message": "@./changelog.md",
+    "doc": "./README.md",
+    "path": "./build/aws_asset_inventory.zip",
+    "plugin_deps": ["cloudquery/source/aws@v22.19.0"],
+    "addon_deps": ["cloudquery/transformation/aws-asset-inventory@v1.0.0"]
+  }

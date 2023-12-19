@@ -1,0 +1,44 @@
+name: Publish AWS Asset Inventory Visualization
+
+on:
+  push:
+    tags:
+      - "visualization-aws-asset-inventory-v*.*.*"
+
+jobs:
+  publish-visualization-aws-asset-inventory:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: visualizations/aws/asset_inventory
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Update Release Notes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs/promises');
+            const { data } = await github.rest.repos.getReleaseByTag({
+              owner: "cloudquery",
+              repo: context.repo.repo,
+              tag: context.ref.replace('refs/tags/', ''),
+            });
+            const releaseNotes = data.body;
+            const linksRemoved = releaseNotes.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+            const changelogPath = `visualizations/aws/asset_inventory/changelog.md`;
+            await fs.writeFile(changelogPath, linksRemoved);
+      - name: Run build
+        run: |
+          make build
+      - name: Setup CloudQuery
+        uses: cloudquery/setup-cloudquery@v3
+        with:
+          version: v4.3.4
+      - name: Publish visualization
+        env:
+          CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
+        run: |
+          tag=${{ github.ref_name }}
+          version=${tag#"visualization-aws-asset-inventory-"}
+          cloudquery addon publish manifest.json $version -f

@@ -28,22 +28,51 @@ const validateProjectDirectory = async (dbtProjectDirectory) => {
   }
 };
 
-const compileDbtProject = async (dbtProjectDirectory) => {
+const compileDbtProject = async (dbtProjectDirectory, dbtArguments) => {
+  const profilesFile = `${dbtProjectDirectory}/tests/profiles.yml`;
+  const profiles = parse(await fs.readFile(profilesFile, "utf8"));
+  const profileName = Object.keys(profiles)[0];
+  const targets = Object.keys(profiles[profileName].outputs);
   const fullProjectDirectory = path.resolve(dbtProjectDirectory);
-  console.log(`Compiling dbt project in ${fullProjectDirectory}`);
-  await execa(
-    "dbt",
-    ["compile", "--target", "dev-pg", "--profiles-dir", "tests"],
-    {
-      cwd: fullProjectDirectory,
-      stdout: "inherit",
-      stderr: "inherit",
-    },
+  for (const target of targets) {
+    console.log(
+      `Compiling dbt project in ${fullProjectDirectory} with target: '${target}'`,
+    );
+    await execa(
+      "dbt",
+      [
+        "compile",
+        "--target",
+        target,
+        "--profiles-dir",
+        "tests",
+        "--target-path",
+        `target/${target}`,
+        ...dbtArguments,
+      ],
+      {
+        cwd: fullProjectDirectory,
+        stdout: "inherit",
+        stderr: "inherit",
+      },
+    );
+    console.log(`Done compiling dbt project in ${fullProjectDirectory}`);
+  }
+
+  const targetDirectories = targets.map(
+    (target) => `${fullProjectDirectory}/target/${target}`,
   );
-  console.log(`Done compiling dbt project in ${fullProjectDirectory}`);
+  return targetDirectories;
 };
 
 const addDependencies = (node, allNodes, allMacros, filesToPack) => {
+  if (node.unique_id.startsWith("macro.dbt.")) {
+    // Skip dbt internal macros
+    return;
+  }
+  if (node.resource_type !== "model" && node.resource_type !== "macro") {
+    return;
+  }
   filesToPack.add(node.original_file_path);
   const dependsOnNodes = node.depends_on?.nodes ?? [];
   for (const dependency of dependsOnNodes) {
@@ -55,16 +84,19 @@ const addDependencies = (node, allNodes, allMacros, filesToPack) => {
   }
 };
 
-const analyzeManifestFile = async (dbtProjectDirectory) => {
-  const manifestFile = `${dbtProjectDirectory}/target/manifest.json`;
-  console.log(`Analyzing manifest file ${manifestFile}`);
-  const manifest = JSON.parse(await fs.readFile(manifestFile, "utf8"));
-  const { nodes: allNodes, macros: allMacros } = manifest;
-
+const analyzeManifestFiles = async (targetDirectories) => {
   const filesToPack = new Set();
-  for (const node of Object.values(allNodes)) {
-    addDependencies(node, allNodes, allMacros, filesToPack);
+  for (const targetDirectory of targetDirectories) {
+    const manifestFile = `${targetDirectory}/manifest.json`;
+    console.log(`Analyzing manifest file ${manifestFile}`);
+    const manifest = JSON.parse(await fs.readFile(manifestFile, "utf8"));
+    const { nodes: allNodes, macros: allMacros } = manifest;
+
+    for (const node of Object.values(allNodes)) {
+      addDependencies(node, allNodes, allMacros, filesToPack);
+    }
   }
+
   return [...filesToPack];
 };
 
@@ -123,9 +155,9 @@ const zipProject = async (dbtProjectDirectory, filesToPack) => {
   });
 };
 
-export const pack = async ({ projectDir }) => {
+export const pack = async ({ projectDir, dbtArgs }) => {
   await validateProjectDirectory(projectDir);
-  await compileDbtProject(projectDir);
-  const filesToPack = await analyzeManifestFile(projectDir);
+  const targetDirectories = await compileDbtProject(projectDir, dbtArgs);
+  const filesToPack = await analyzeManifestFiles(targetDirectories);
   await zipProject(projectDir, filesToPack);
 };

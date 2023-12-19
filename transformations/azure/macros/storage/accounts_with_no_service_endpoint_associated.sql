@@ -6,12 +6,11 @@ WITH secured_accounts AS (SELECT a._cq_id
                             AND vnet->>'state' = 'succeeded')
 
 SELECT
-  _cq_sync_time As sync_time,
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Storage Accounts should use a virtual network service endpoint',
   subscription_id,
-  id,
   case
     when s._cq_id IS NULL
       then 'fail' else 'pass'

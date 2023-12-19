@@ -6,12 +6,11 @@
 
 {% macro postgres__storage_encrypt_with_cmk(framework, check_id) %}
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                                         AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure storage for critical data are encrypted with Customer Managed Key' AS title,
     subscription_id                                                            AS subscription_id,
-    id                                                                         AS resource_id,
     CASE
         WHEN properties->'encryption'->>'keySource' = 'Microsoft.Keyvault'
          AND properties->'encryption'->'keyvaultproperties' IS DISTINCT FROM NULL
@@ -23,12 +22,11 @@ FROM azure_storage_accounts
 
 {% macro snowflake__storage_encrypt_with_cmk(framework, check_id) %}
 SELECT
-    _cq_sync_time As sync_time,
+    id                                                                         AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure storage for critical data are encrypted with Customer Managed Key' AS title,
     subscription_id                                                            AS subscription_id,
-    id                                                                         AS resource_id,
     CASE
         WHEN properties:encryption:keySource = 'Microsoft.Keyvault'
          AND properties:encryption:keyvaultproperties IS DISTINCT FROM NULL

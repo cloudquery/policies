@@ -32,12 +32,12 @@ WITH azure_nsg_rules as (SELECT ansg.id     AS nsg_id,
 
 
 
-SELECT _cq_sync_time As sync_time,
+SELECT
+       id                                                       AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Management ports should be closed on your virtual machines' AS title,
        subscription_id                                          AS subscription_id,
-       id                                                       AS resource_id,
        CASE
            WHEN source_address_prefix in ('0.0.0.0', '0.0.0.0/0', 'any', 'internet', '<nw>/0', '/0', '*')
                AND ((single_port = '3389' OR 3389 BETWEEN range_start AND range_end) or

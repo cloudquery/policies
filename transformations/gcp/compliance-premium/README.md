@@ -9,8 +9,9 @@
 
 One of the below databases
 
-- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql/v6.1.3/docs)
-- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/v3.3.3/docs)
+- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
+- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
+- [BigQuery](https://hub.cloudquery.io/plugins/destination/cloudquery/bigquery)
 
 ### What's in the pack
 
@@ -68,3 +69,5 @@ More information can be found [here.](https://docs.getdbt.com/reference/node-sel
 - Sync your data from GCP to destination (Postgres Example): `cloudquery sync gcp.yml postgres.yml`
 
 - Run dbt: `dbt run`
+
+

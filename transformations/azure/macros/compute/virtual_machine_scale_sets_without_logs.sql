@@ -8,12 +8,11 @@ WITH sets_with_logs AS (
            ex.properties ->> 'type' = 'LinuxDiagnostic'))
 
 SELECT
-  _cq_sync_time As sync_time,
+  id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Resource logs in Virtual Machine Scale Sets should be enabled',
   subscription_id,
-  id,
   case
     when ss.compute_virtual_machine_id IS NULL
     then 'fail' else 'pass'

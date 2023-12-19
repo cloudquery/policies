@@ -6,12 +6,11 @@
 
 {% macro postgres__web_app_ftp_deployment_enabled(framework, check_id) %}
 SELECT
-    aawac._cq_sync_time As sync_time,
+    aawac.id                                          AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure FTP deployments are disabled (Automated)' AS title,
     aawac.subscription_id                             AS subscription_id,
-    aawac.id                                          AS resource_id,
     CASE
         WHEN aawac.properties->>'ftpsState' = 'AllAllowed'
         THEN 'fail'
@@ -24,12 +23,11 @@ FROM azure_appservice_web_apps as aawa
 
 {% macro snowflake__web_app_ftp_deployment_enabled(framework, check_id) %}
 SELECT
-    aawac._cq_sync_time As sync_time,
+    aawac.id                                          AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure FTP deployments are disabled (Automated)' AS title,
     aawac.subscription_id                             AS subscription_id,
-    aawac.id                                          AS resource_id,
     CASE
         WHEN aawac.properties:ftpsState = 'AllAllowed'
         THEN 'fail'

@@ -20,12 +20,11 @@ emails_count AS (
 )
 
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id AS server_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure that VA setting Send scan reports to is configured for a SQL server (Automated)' as title,
   s.subscription_id,
-  s.id AS server_id,
   case
     when c.emails_number = 0 OR c.emails_number IS NULL
       then 'fail' else 'pass'
@@ -54,12 +53,11 @@ emails_count AS (
     GROUP BY id
 )
 SELECT
-  s._cq_sync_time As sync_time,
+  s.id AS server_id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'Ensure that VA setting Send scan reports to is configured for a SQL server (Automated)' as title,
   s.subscription_id,
-  s.id AS server_id,
   case
     when c.emails_number = 0 OR c.emails_number IS NULL
       then 'fail' else 'pass'

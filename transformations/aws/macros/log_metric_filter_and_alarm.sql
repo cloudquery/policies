@@ -55,3 +55,41 @@ where t.is_multi_region_trail = TRUE
     and tes.read_write_type = 'All'
     and ss.arn like 'aws:arn:%'
 {% endmacro %}
+
+{% macro snowflake__log_metric_filter_and_alarm() %}
+WITH af AS (
+  SELECT DISTINCT
+    a.arn,
+    a.actions_enabled,
+    a.alarm_actions,
+    m.value:MetricStat:Metric:MetricName AS metric_name
+  FROM aws_cloudwatch_alarms a,
+  LATERAL FLATTEN(input => a.metrics) AS m
+)
+
+SELECT
+  t.account_id,
+  t.region,
+  t.cloud_watch_logs_log_group_arn,
+  mf.filter_pattern AS pattern
+FROM
+  aws_cloudtrail_trails t
+INNER JOIN
+  aws_cloudtrail_trail_event_selectors tes ON t.arn = tes.trail_arn
+INNER JOIN
+  aws_cloudwatchlogs_metric_filters mf ON mf.log_group_name = t.cloudwatch_logs_log_group_name
+INNER JOIN
+  af ON mf.filter_name = af.metric_name
+INNER JOIN LATERAL (
+  SELECT arn, topic_arn
+  FROM aws_sns_subscriptions ss
+  WHERE ARRAY_CONTAINS(ss.topic_arn::variant, af.alarm_actions)
+  LIMIT 1
+) ss ON TRUE  
+WHERE
+  t.is_multi_region_trail = TRUE
+  AND (t.status:IsLogging)::BOOLEAN = TRUE
+  AND tes.include_management_events = TRUE
+  AND tes.read_write_type = 'All'
+  AND ss.arn LIKE 'aws:arn:%'
+{% endmacro %}

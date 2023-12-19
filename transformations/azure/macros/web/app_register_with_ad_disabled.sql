@@ -5,12 +5,12 @@
 {% macro default__web_app_register_with_ad_disabled(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__web_app_register_with_ad_disabled(framework, check_id) %}
-SELECT _cq_sync_time As sync_time,
+SELECT
+       id                                                                                   AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Ensure that Register with Azure Active Directory is enabled on App Service (Automated)' AS title,
        subscription_id                                                                      AS subscription_id,
-       id                                                                                   AS resource_id,
        CASE
            WHEN identity->>'principalId' IS NULL OR identity->>'principalId' = ''
                THEN 'fail'
@@ -20,12 +20,12 @@ FROM azure_appservice_web_apps
 {% endmacro %}
 
 {% macro snowflake__web_app_register_with_ad_disabled(framework, check_id) %}
-SELECT _cq_sync_time As sync_time,
+SELECT
+       id                                                                                   AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Ensure that Register with Azure Active Directory is enabled on App Service (Automated)' AS title,
        subscription_id                                                                      AS subscription_id,
-       id                                                                                   AS resource_id,
        CASE
            WHEN identity:principalId IS NULL OR identity:principalId = ''
                THEN 'fail'
