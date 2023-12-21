@@ -41,7 +41,7 @@ where
 
 {% macro postgres__detector_enabled(framework, check_id) %}
 with enabled_detector_regions as (
-    select account_id, region
+    select request_account_id as account_id, request_region as region
     from aws_guardduty_detectors
     where status = 'ENABLED'
 )
