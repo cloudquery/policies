@@ -69,21 +69,13 @@ with policy_allow_public as (
     from
         (
             select
-                aws_s3_buckets.arn,
-                statements -> 'Principal' as principals
+                b.arn,
+                bp.policy_json -> 'Statement' -> 'Principal' as principals
             from
-                aws_s3_buckets,
-                jsonb_array_elements(
-                    case jsonb_typeof(policy::jsonb -> 'Statement')
-                        when
-                            'string' then jsonb_build_array(
-                                policy::jsonb ->> 'Statement'
-                            )
-                        when 'array' then policy::jsonb -> 'Statement'
-                    end
-                ) as statements
+                aws_s3_buckets b
+                inner join aws_s3_bucket_policies bp on b.arn = bp.bucket_arn
             where
-                statements -> 'Effect' = '"Allow"'
+                bp.policy_json -> 'Statement' -> 'Effect' = '"Allow"'
         ) as foo
     where
         principals = '"*"'
