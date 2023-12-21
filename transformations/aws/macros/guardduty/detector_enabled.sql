@@ -4,7 +4,7 @@
 
 {% macro snowflake__detector_enabled(framework, check_id) %}
 with enabled_detector_regions as (
-    select account_id, region
+    select request_account_id as account_id, request_region as region
     from aws_guardduty_detectors
     where status = 'ENABLED'
 )
@@ -19,7 +19,7 @@ select
         enabled = TRUE and e.region is null
     then 'fail' else 'pass' end AS status
 from aws_regions r
-left join enabled_detector_regions e on e.region = r.region AND e.account_id = r.account_id
+left join enabled_detector_regions e on e.region = r.region AND e.request_account_id = r.account_id
 union
 -- Add any detector that is enabled but all data sources are disabled
 select
