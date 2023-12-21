@@ -6,8 +6,8 @@
 
 {% macro postgres__unused_directconntect_connections(framework, check_id) %}
 select 
-       dc.account_id,
-       dc.arn                                          as resource_id,
+       dc.request_account_id as account_id,
+       dc.arn                as resource_id,
        rbc.cost
 from aws_directconnect_connections dc
 JOIN {{ ref('aws_cost__by_resources') }} rbc ON dc.arn = rbc.line_item_resource_id 
