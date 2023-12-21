@@ -14,7 +14,6 @@ spec:
   registry: cloudquery
   version: "v3.3.9"
   write_mode: "append"
-  migrate_mode: forced # to be removed after tests pass
   spec:
     project_id: cq-integration-tests
     dataset_id: policies_premium_ci_test
