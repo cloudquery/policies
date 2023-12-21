@@ -11,11 +11,10 @@ SELECT
 
 FROM
     aws_iam_policies p
-    , lateral flatten(input => p.POLICY_VERSION_LIST) as f
-    , lateral flatten(input => parse_json(f.value:Document):Statement) as s
-where f.value:IsDefaultVersion = 'true' AND s.value:Effect = 'Allow'
-  
-  )
+    INNER JOIN aws_iam_policy_versions pv ON p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    , lateral flatten(input => pv.document_json -> 'Statement') as s
+where pv.is_default_version = true AND s ->> 'Effect' = 'Allow'
+)
 select DISTINCT
       '{{framework}}' As framework,
       '{{check_id}}' As check_id,

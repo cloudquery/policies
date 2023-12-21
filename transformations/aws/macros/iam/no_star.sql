@@ -7,7 +7,11 @@
 {% macro postgres__no_star(framework, check_id) %}
 
 with pvs as (
-    select id, (v->>'Document')::jsonb as document from aws_iam_policies, jsonb_array_elements(aws_iam_policies.policy_version_list) AS v
+    select
+        p.id,
+        pv.document_json as document
+    from aws_iam_policies p
+    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
 ), violations as (
     select
         id,

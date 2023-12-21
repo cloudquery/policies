@@ -2,19 +2,19 @@
 wITH policy_with_decrypt AS (
     SELECT DISTINCT arn
     FROM aws_iam_policies p
-    ,lateral flatten(input => p.POLICY_VERSION_LIST) as f
-    ,lateral flatten(input => parse_json(f.value:Document):Statement) as s
-    WHERE 
-        s.value:Effect = 'Allow'
+    INNER JOIN aws_iam_policy_versions pv ON p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    , lateral flatten(input => pv.document_json -> 'Statement') as s
+    WHERE
+        s ->> 'Effect' = 'Allow'
         AND
-        (s.value:Resource = '*' OR
-        s.value:Resource LIKE '%kms%') 
+        (s ->> 'Resource' = '*' OR
+        s ->> 'Resource' LIKE '%kms%')
         AND 
-        (s.value:Action = '*' 
-         OR s.value:Action ILIKE '%kms:*%' 
-         OR s.value:Action ILIKE '%kms:decrypt%' 
-         OR s.value:Action ILIKE '%kms:reencryptfrom%'
-         OR s.value:Action ILIKE '%kms:reencrypt*%')
+        (s ->> 'Action' = '*'
+         OR s ->> 'Action' ILIKE '%kms:*%'
+         OR s ->> 'Action' ILIKE '%kms:decrypt%'
+         OR s ->> 'Action' ILIKE '%kms:reencryptfrom%'
+         OR s ->> 'Action' ILIKE '%kms:reencrypt*%')
 )
 SELECT
   '{{framework}}' As framework,

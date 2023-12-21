@@ -8,11 +8,12 @@
 
 with iam_policies as (
     select
-        (v->>'Document')::jsonb AS document,
-        account_id,
-        arn,
-        id
-    from aws_iam_policies, jsonb_array_elements(aws_iam_policies.policy_version_list) AS v
+        pv.document_json as document,
+        p.account_id,
+        p.arn,
+        p.id
+    from aws_iam_policies p
+    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
 ),
 
 violations as (
