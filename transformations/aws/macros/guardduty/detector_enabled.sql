@@ -26,8 +26,8 @@ select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'GuardDuty should be enabled (detectors)' AS title,
-    account_id,
-    region AS resource_id,
+    request_account_id as account_id,
+    request_region AS resource_id,
     case when
         data_sources:S3Logs:Status != 'ENABLED' AND
         data_sources:DNSLogs:Status != 'ENABLED' AND
@@ -63,8 +63,8 @@ select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
     'GuardDuty should be enabled (detectors)' AS title,
-    account_id,
-    region AS resource_id,
+    request_account_id as account_id,
+    request_region AS resource_id,
     case when
         data_sources->'S3Logs'->>'Status' != 'ENABLED' AND
         data_sources->'DNSLogs'->>'Status' != 'ENABLED' AND
