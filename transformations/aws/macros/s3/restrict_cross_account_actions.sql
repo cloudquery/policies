@@ -97,10 +97,11 @@ FROM (
             WHEN
                 JSONB_TYPEOF(statements -> 'Action') = 'array' THEN
                 statements -> 'Action' END AS actions
-    FROM aws_s3_buckets,
+    FROM aws_s3_buckets
+        INNER JOIN aws_s3_bucket_policies ON aws_s3_buckets.arn = aws_s3_bucket_policies.bucket_arn,
         jsonb_array_elements(
-            CASE JSONB_TYPEOF(policy -> 'Statement')
-                WHEN 'string' THEN JSONB_BUILD_ARRAY(policy ->> 'Statement')
+            CASE JSONB_TYPEOF(aws_s3_bucket_policies.policy_json -> 'Statement')
+                WHEN 'string' THEN JSONB_BUILD_ARRAY(aws_s3_bucket_policies.policy_json ->> 'Statement')
                 WHEN 'array' THEN policy -> 'Statement'
             END
         ) AS statements
