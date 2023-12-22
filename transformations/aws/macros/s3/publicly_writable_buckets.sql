@@ -47,16 +47,18 @@ LEFT JOIN
         aws_s3_buckets.arn = aws_s3_bucket_grants.bucket_arn
 LEFT JOIN policy_allow_public ON
         aws_s3_buckets.arn = policy_allow_public.arn
+LEFT JOIN aws_s3_bucket_public_access_blocks ON
+        aws_s3_buckets.arn = aws_s3_bucket_public_access_blocks.bucket_arn
 WHERE
     (
-        aws_s3_buckets.block_public_acls != TRUE
+        (aws_s3_bucket_public_access_blocks.public_access_block_configuration -> 'BlockPublicAcls')::boolean != TRUE
         AND (
             aws_s3_bucket_grants.grantee:URI::STRING = 'http://acs.amazonaws.com/groups/global/AllUsers'
             AND aws_s3_bucket_grants.permission IN ('WRITE_ACP', 'FULL_CONTROL')
         )
     )
     OR (
-        aws_s3_buckets.block_public_policy != TRUE
+        (aws_s3_bucket_public_access_blocks.public_access_block_configuration -> 'BlockPublicPolicy')::boolean != TRUE
         AND policy_allow_public.statement_count > 0
     )
 {% endmacro %}
@@ -110,16 +112,18 @@ left join
 --       Principal = "*"
 left join policy_allow_public on
         aws_s3_buckets.arn = policy_allow_public.arn
+left join aws_s3_bucket_public_access_blocks on
+        aws_s3_buckets.arn = aws_s3_bucket_public_access_blocks.bucket_arn
 where
     (
-        aws_s3_buckets.block_public_acls != TRUE
+        (aws_s3_bucket_public_access_blocks.public_access_block_configuration -> 'BlockPublicAcls')::boolean != TRUE
         and (
             grantee->>'URI' = 'http://acs.amazonaws.com/groups/global/AllUsers'
             and permission in ('WRITE_ACP', 'FULL_CONTROL')
         )
     )
     or (
-        aws_s3_buckets.block_public_policy != TRUE
+        (aws_s3_bucket_public_access_blocks.public_access_block_configuration -> 'BlockPublicPolicy')::boolean != TRUE
         and policy_allow_public.statement_count > 0
     )
 {% endmacro %}
