@@ -49,8 +49,8 @@ select
     t.arn as resource_id,
     case
         when l.logging_enabled is null then 'fail'
-        when l.logging_enabled -> 'TargetBucket' is null then 'fail'
-        when l.logging_enabled -> 'TargetPrefix' is null then 'fail'
+        when l.logging_enabled:TargetBucket is null then 'fail'
+        when l.logging_enabled:TargetPrefix is null then 'fail'
         else 'pass'
     end as status
 from aws_cloudtrail_trails t
