@@ -61,6 +61,12 @@ inner join
 {% endmacro %}
 
 {% macro snowflake__cloudtrail_enabled_all_regions(framework, check_id) %}
+with aes as
+(
+  select *
+  from aws_cloudtrail_trail_event_selectors,
+  LATERAL FLATTEN (advanced_event_selectors) as aes
+)
 select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
@@ -70,14 +76,17 @@ select
     case
         when aws_cloudtrail_trails.is_multi_region_trail = FALSE then 'fail'
         when exists(select *
-                    from jsonb_array_elements(aws_cloudtrail_trail_event_selectors.event_selectors) as es
-                    where es:ReadWriteType != 'All' or (es:IncludeManagementEvents)::boolean = FALSE)
+                    from aws_cloudtrail_trail_event_selectors,
+                    LATERAL FLATTEN(event_selectors) as es
+                    where es.value:ReadWriteType != 'All' or (es.value:IncludeManagementEvents)::boolean = FALSE
+                    )
             then 'fail'
-        when exists(select *
-                    from jsonb_array_elements(aws_cloudtrail_trail_event_selectors.advanced_event_selectors) as aes
-                    where exists(select *
-                                 from jsonb_array_elements(aes:FieldSelectors) as aes_fs
-                                 where aes_fs:Field = 'readOnly'))
+        when exists(
+                    select *
+                   from aes,
+                  LATERAL FLATTEN (value:FieldSelectors) as aes_fs
+                    where aes_fs.value:Field = 'readOnly'
+                   )
             then 'fail'
         else 'pass'
     end as status
