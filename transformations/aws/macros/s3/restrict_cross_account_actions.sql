@@ -13,9 +13,9 @@ select
 FROM (
     SELECT
         aws_s3_buckets.arn,
-        account_id,
-        name,
-        region,
+        aws_s3_buckets.account_id,
+        aws_s3_buckets.name,
+        aws_s3_buckets.region,
         -- For each Statement return an array containing the principals
         CASE
             WHEN
@@ -38,11 +38,12 @@ FROM (
                 statements.VALUE:Action
         END AS actions
     FROM
-        aws_s3_buckets,
+        aws_s3_buckets
+    inner join aws_s3_bucket_policies bp on aws_s3_buckets.arn = bp.bucket_arn,
         LATERAL FLATTEN(
             INPUT => CASE
-                WHEN TYPEOF(policy:Statement) = 'STRING' THEN TO_ARRAY(policy:Statement)
-                WHEN TYPEOF(policy:Statement) = 'ARRAY' THEN policy:Statement
+                WHEN TYPEOF(bp.policy_json:Statement) = 'STRING' THEN TO_ARRAY(bp.policy_json:Statement)
+                WHEN TYPEOF(bp.policy_json:Statement) = 'ARRAY' THEN bp.policy_json:Statement
             END
         ) statements
     WHERE
@@ -74,10 +75,10 @@ select
     arn as resource_id,
     'fail' as status -- TODO FIXME
 FROM (
-    SELECT aws_s3_buckets.arn,
-        account_id,
-		name,
-		region,
+    SELECT b.arn,
+        b.account_id,
+		b.name,
+		b.region,
         -- For each Statement return an array containing the principals
         CASE
             WHEN
@@ -97,12 +98,12 @@ FROM (
             WHEN
                 JSONB_TYPEOF(statements -> 'Action') = 'array' THEN
                 statements -> 'Action' END AS actions
-    FROM aws_s3_buckets
-        INNER JOIN aws_s3_bucket_policies ON aws_s3_buckets.arn = aws_s3_bucket_policies.bucket_arn,
+    FROM aws_s3_buckets b
+        INNER JOIN aws_s3_bucket_policies ON b.arn = aws_s3_bucket_policies.bucket_arn,
         jsonb_array_elements(
             CASE JSONB_TYPEOF(aws_s3_bucket_policies.policy_json -> 'Statement')
                 WHEN 'string' THEN JSONB_BUILD_ARRAY(aws_s3_bucket_policies.policy_json ->> 'Statement')
-                WHEN 'array' THEN policy -> 'Statement'
+                WHEN 'array' THEN aws_s3_bucket_policies.policy_json -> 'Statement'
             END
         ) AS statements
     WHERE statements -> 'Effect' = '"Allow"') AS flatten_statements,

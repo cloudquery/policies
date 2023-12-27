@@ -9,12 +9,11 @@ SELECT
 FROM
     aws_iam_policies p
     INNER JOIN aws_iam_policy_versions pv ON p.account_id = pv.account_id AND p.arn = pv.policy_arn
-    , lateral flatten(input => pv.document_json -> 'Statement') as s
-where pv.is_default_version = 'true' AND s ->> 'Effect' = 'Allow'
-where pv.is_default_version = true
-    and s ->> 'Effect' = 'Allow'
-            and (s ->> 'Action' = '*' or s ->> 'Action' = '*:*')
-            and s ->> 'Resource' = '*'
+    , lateral flatten(input => pv.document_json:Statement) as s
+where pv.is_default_version = 'true' AND s.value:Effect = 'Allow'
+    and s.value:Effect = 'Allow'
+            and (s.value:Action = '*' or s.value:Action = '*:*')
+            and s.value:Resource = '*'
 )
 select
     '{{framework}}' As framework,
@@ -34,11 +33,10 @@ WHERE p.arn REGEXP '.*\d{12}.*'
 {% endmacro %}
 
 {% macro postgres__policies_with_admin_rights(framework, check_id) %}
-
 with iam_policies as (
     select
-        p.id,
-        v.document
+        p.id as id,
+        pv.document_json as document
     from aws_iam_policies p
     inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
     where pv.is_default_version = true and p.arn not like 'arn:aws:iam::aws:policy%'
