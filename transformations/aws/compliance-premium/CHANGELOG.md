@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.4.0...transformation-aws-compliance-premium-v0.5.0) (2023-12-27)
+
+
+### Features
+
+* Trigger GCP Free Build Transformations ([5c68bae](https://github.com/cloudquery/policies-premium/commit/5c68bae0f30e4e57db5774300488d4b6ddd42c3b))
+* Trigger GCP Free Build Transformations ([#385](https://github.com/cloudquery/policies-premium/issues/385)) ([5c68bae](https://github.com/cloudquery/policies-premium/commit/5c68bae0f30e4e57db5774300488d4b6ddd42c3b))
+* Update AWS Free and Premium Compliance readmes ([a54c7db](https://github.com/cloudquery/policies-premium/commit/a54c7dbedca502bc6d11baccef51dbb3af5662ea))
+* Update AWS Free and Premium Compliance readmes ([#420](https://github.com/cloudquery/policies-premium/issues/420)) ([a54c7db](https://github.com/cloudquery/policies-premium/commit/a54c7dbedca502bc6d11baccef51dbb3af5662ea))
+
+
+### Bug Fixes
+
+* Link to latest versions in README ([#428](https://github.com/cloudquery/policies-premium/issues/428)) ([44901a2](https://github.com/cloudquery/policies-premium/commit/44901a2be3ada54606fc928010ae9a15aaff7173))
+* Updated dbt_run without specifying the model ([#422](https://github.com/cloudquery/policies-premium/issues/422)) ([b7ff919](https://github.com/cloudquery/policies-premium/commit/b7ff91978bd67ef1b859d6aaa012beef1ea84181))
+
 ## [0.4.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.3.0...transformation-aws-compliance-premium-v0.4.0) (2023-12-07)
 
 
