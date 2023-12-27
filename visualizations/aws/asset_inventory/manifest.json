@@ -8,6 +8,6 @@
     "message": "@./changelog.md",
     "doc": "./README.md",
     "path": "./build/aws_asset_inventory.zip",
-    "plugin_deps": ["cloudquery/source/aws@v23.2.0"],
+    "plugin_deps": ["cloudquery/source/aws@v23.3.0"],
     "addon_deps": ["cloudquery/transformation/aws-asset-inventory@v1.0.0"]
   }
