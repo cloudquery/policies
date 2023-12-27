@@ -87,6 +87,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_CQ_BOT }}
       - name: Authenticate to Google Cloud
         uses: 'google-github-actions/auth@v1'
         if: needs.prepare.outputs.bigquery == 'true'
@@ -103,7 +105,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v4.3.4
+          version: v4.3.5
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
@@ -123,3 +125,19 @@ jobs:
         run: |
           cloudquery migrate tests/bigquery.yml
           dbt run --target dev-bigquery --profiles-dir ./tests
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+          cache-dependency-path: scripts/dbt-pack/package-lock.json
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: ./scripts/dbt-pack
+      - name: Gen docs
+        run: |
+          make gen-docs
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: Update readme"
+          file_pattern: 'transformations/aws/compliance-free/README.md'
