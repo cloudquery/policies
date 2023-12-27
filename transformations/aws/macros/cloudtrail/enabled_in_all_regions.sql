@@ -41,14 +41,15 @@ select
     case
         when aws_cloudtrail_trails.is_multi_region_trail = FALSE then 'fail'
         when exists(select *
-                    from jsonb_array_elements(aws_cloudtrail_trail_event_selectors.event_selectors) as es
-                    where es ->>'ReadWriteType' != 'All' or (es->>'IncludeManagementEvents')::boolean = FALSE)
+                    from UNNEST(JSON_QUERY_ARRAY(aws_cloudtrail_trail_event_selectors.event_selectors)) AS es
+                    where JSON_VALUE(es.ReadWriteType) != 'All' or (CAST( JSON_VALUE(es.IncludeManagementEvents) AS BOOL)= FALSE )
+        )
             then 'fail'
         when exists(select *
-                    from jsonb_array_elements(aws_cloudtrail_trail_event_selectors.advanced_event_selectors) as aes
+                    from UNNEST(JSON_QUERY_ARRAY(aws_cloudtrail_trail_event_selectors.advanced_event_selectors)) AS aes
                     where exists(select *
-                                 from jsonb_array_elements(aes ->'FieldSelectors') as aes_fs
-                                 where aes_fs ->>'Field' = 'readOnly'))
+                                 from UNNEST(JSON_QUERY_ARRAY(aes.FieldSelectors)) as aes_fs
+                                 where JSON_VALUE(aes_fs.Field) = 'readOnly'))
             then 'fail'
         else 'pass'
     end as status
