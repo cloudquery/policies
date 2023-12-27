@@ -2,7 +2,7 @@
 
 ## Overview
 
-This contains an AWS Compliance Dashboard for Grafana on top of CloudQuery [AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws/v22.19.0/docs) and [AWS Compliance pack](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-compliance-free/v0.0.1/docs).
+This contains an AWS Compliance Dashboard for Grafana on top of CloudQuery [AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws/v23.2.0/docs) and [AWS Compliance pack](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-compliance-free/v0.0.1/docs).
 
 ## Requirements
 
