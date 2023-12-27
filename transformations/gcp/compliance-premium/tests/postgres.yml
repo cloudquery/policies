@@ -10,7 +10,6 @@ kind: destination
 spec:
   name: "postgresql"
   path: "cloudquery/postgresql"
-  registry: cloudquery
   version: "v7.1.2" # latest version of postgresql plugin
   spec:
     batch_size: 10000

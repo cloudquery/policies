@@ -2,7 +2,6 @@ kind: source
 spec:
   name: azure
   path: cloudquery/azure
-  registry: cloudquery
   version: "v10.3.0" # latest version of source azure plugin
   destinations: ["snowflake"]
   tables: ["*"]
@@ -11,7 +10,6 @@ kind: destination
 spec:
   name: snowflake
   path: cloudquery/snowflake
-  registry: github
   version: "v3.3.5" # latest version of destination snowflake plugin
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}

@@ -10,7 +10,6 @@ kind: destination
 spec:
   name: bigquery
   path: cloudquery/bigquery
-  registry: cloudquery
   version: "v3.3.9"
   write_mode: "append"
   spec:
