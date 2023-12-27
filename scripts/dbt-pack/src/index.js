@@ -11,20 +11,18 @@ const validateProjectDirectory = async (dbtProjectDirectory) => {
       `dbt project directory '${dbtProjectDirectory}' does not exist`,
     );
   }
-  if (!(await pathExists(`${dbtProjectDirectory}/dbt_project.yml`))) {
-    throw new Error(
-      `dbt project directory '${dbtProjectDirectory}' does not contain a dbt_project.yml file`,
-    );
-  }
-  if (!(await pathExists(`${dbtProjectDirectory}/requirements.txt`))) {
-    throw new Error(
-      `dbt project directory '${dbtProjectDirectory}' does not contain a requirements.txt file`,
-    );
-  }
-  if (!(await pathExists(`${dbtProjectDirectory}/manifest.json`))) {
-    throw new Error(
-      `dbt project directory '${dbtProjectDirectory}' does not contain a manifest.json file`,
-    );
+  const requiredFiles = [
+    "dbt_project.yml",
+    "requirements.txt",
+    "manifest.json",
+    "README.md",
+  ];
+  for (const requiredFile of requiredFiles) {
+    if (!(await pathExists(`${dbtProjectDirectory}/${requiredFile}`))) {
+      throw new Error(
+        `dbt project directory '${dbtProjectDirectory}' does not contain a ${requiredFile} file`,
+      );
+    }
   }
 };
 
@@ -160,4 +158,62 @@ export const pack = async ({ projectDir, dbtArgs }) => {
   const targetDirectories = await compileDbtProject(projectDir, dbtArgs);
   const filesToPack = await analyzeManifestFiles(targetDirectories);
   await zipProject(projectDir, filesToPack);
+};
+
+const getModels = async (dbtProjectDirectory) => {
+  const dirents = await fs.readdir(`${dbtProjectDirectory}/models`, {
+    withFileTypes: true,
+  });
+  const models = dirents
+    .filter((dirent) => dirent.isFile() && dirent.name.endsWith(".sql"))
+    .map((dirent) => dirent.name);
+  const withContent = await Promise.all(
+    models.map(async (model) =>
+      fs.readFile(`${dbtProjectDirectory}/models/${model}`, "utf8"),
+    ),
+  );
+  return withContent;
+};
+
+const getChecksByFramework = async (models) => {
+  const pattern = /\({{ (.*?)\('(.*?)','(.*?)'\) }}\)/g;
+  const queries = models.flatMap((model) => {
+    const matches = [...model.matchAll(pattern)];
+    if (matches.length > 0) {
+      return matches.map((match) => {
+        const [, checkName, framework, checkId] = match;
+        return { checkName, framework, checkId };
+      }).sort((a, b) => a.checkId.localeCompare(b.checkId, undefined, { numeric: true }));
+    }
+    return [];
+  });
+  // eslint-disable-next-line unicorn/no-array-reduce
+  return queries.reduce((accumulator, { checkName, framework, checkId }) => {
+    if (!accumulator[framework]) {
+      accumulator[framework] = [];
+    }
+    accumulator[framework].push({ checkName, checkId });
+    return accumulator;
+  }, {});
+}
+
+const updateReadme = async (dbtProjectDirectory, checksByFramework) => {
+  const readmeFile = `${dbtProjectDirectory}/README.md`;
+  const readme = await fs.readFile(readmeFile, "utf8");
+  const pattern = /<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->[\S\s]*<!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->/;
+  const includedChecks = Object.entries(checksByFramework).map(([framework, checks]) => {
+    const listItems = checks.map(({ checkName, checkId}) => `- ✅ \`${checkId}\`: \`${checkName}\``).join("\n");
+    return `\n\n##### \`${framework}\`\n\n${listItems}`;
+  }).join("");
+  const updatedReadme = readme.replace(pattern, `<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
+#### Included Checks${includedChecks}
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->`);
+  await fs.writeFile(readmeFile, updatedReadme);
+}
+
+export const appendQueries = async ({ projectDir }) => {
+  await validateProjectDirectory(projectDir);
+  const models = await getModels(projectDir);
+  const checksByFramework = await getChecksByFramework(models);
+  await updateReadme(projectDir, checksByFramework);
 };
