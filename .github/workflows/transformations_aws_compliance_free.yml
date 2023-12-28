@@ -105,7 +105,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v4.3.5
+          version: v4.3.6
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
@@ -140,4 +140,4 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: Update readme"
-          file_pattern: 'transformations/aws/compliance-free/README.md'
+          file_pattern: '${{ needs.prepare.outputs.transformation_dir }}/README.md'

@@ -53,3 +53,18 @@ This command will run your `dbt` models and create tables/views in your destinat
 - Sync your data from GCP to destination (Postgres Example): `cloudquery sync gcp.yml postgres.yml`
 
 - Run dbt: `dbt run`
+
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
+#### Included Checks
+
+##### `cis_v1.2.0`
+
+- ✅ `1.4`: `iam_managed_service_account_keys`
+- ✅ `1.5`: `iam_service_account_admin_priv`
+- ✅ `1.6`: `iam_users_with_service_account_token_creator_role`
+- ✅ `1.7`: `iam_service_account_keys_not_rotated`
+- ✅ `1.8`: `iam_separation_of_duties`
+- ✅ `1.9`: `kms_publicly_accessible`
+- ✅ `1.10`: `kms_keys_not_rotated_within_90_days`
+- ✅ `1.11`: `kms_separation_of_duties`
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
