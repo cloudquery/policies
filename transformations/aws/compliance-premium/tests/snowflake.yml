@@ -4,7 +4,7 @@ spec:
   path: cloudquery/aws
   registry: cloudquery
   version: "v23.3.1" # latest version of source aws plugin
-  migrate-mode: forced # tmp
+  migrate_mode: forced # tmp
   destinations: ["snowflake"]
   tables: ["*"]
 ---
