@@ -76,7 +76,7 @@ where t.is_multi_region_trail = TRUE
     and ss.arn like 'aws:arn:%'
 {% endmacro %}
 
-{% macro snowflake__log_metric_filter_and_alarm(framework, check_id) %}
+{% macro snowflake__log_metric_filter_and_alarm() %}
 with af as (
   select distinct a.arn, a.actions_enabled, a.alarm_actions, m.value:MetricStat:Metric:MetricName as metric_name -- TODO check
   from aws_cloudwatch_alarms a,
