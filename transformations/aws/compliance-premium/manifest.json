@@ -8,6 +8,6 @@
   "message": "@./changelog.md",
   "doc": "./README.md",
   "path": "./build/aws_compliance_premium.zip",
-  "plugin_deps": ["cloudquery/source/aws@v23.3.0"],
+  "plugin_deps": ["cloudquery/source/aws@v23.3.1"],
   "addon_deps": []
 }
