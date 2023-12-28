@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.1.2...transformation-k8s-compliance-premium-v0.2.0) (2023-12-28)
+
+
+### Features
+
+* Trigger GCP Free Build Transformations ([5c68bae](https://github.com/cloudquery/policies-premium/commit/5c68bae0f30e4e57db5774300488d4b6ddd42c3b))
+* Trigger GCP Free Build Transformations ([#385](https://github.com/cloudquery/policies-premium/issues/385)) ([5c68bae](https://github.com/cloudquery/policies-premium/commit/5c68bae0f30e4e57db5774300488d4b6ddd42c3b))
+
+
+### Bug Fixes
+
+* Link to latest versions in README ([#428](https://github.com/cloudquery/policies-premium/issues/428)) ([44901a2](https://github.com/cloudquery/policies-premium/commit/44901a2be3ada54606fc928010ae9a15aaff7173))
+* Update readme ([#470](https://github.com/cloudquery/policies-premium/issues/470)) ([318d23e](https://github.com/cloudquery/policies-premium/commit/318d23e43bae5439d08f5e9a2bc7812257cd3ab6))
+
 ## [0.1.2](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.1.1...transformation-k8s-compliance-premium-v0.1.2) (2023-12-05)
 
 
