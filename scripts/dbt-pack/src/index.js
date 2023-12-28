@@ -176,7 +176,7 @@ const getModels = async (dbtProjectDirectory) => {
 };
 
 const getChecksByFramework = async (models) => {
-  const pattern = /\({{ (.*?)\('(.*?)','(.*?)'\) }}\)/g;
+  const pattern = /\({{\s?(.*?)\('(.*?)'.+?'(.*?)'\)\s?}}\)/g;
   const queries = models.flatMap((model) => {
     const matches = [...model.matchAll(pattern)];
     if (matches.length > 0) {
