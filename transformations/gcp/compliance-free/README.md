@@ -53,3 +53,6 @@ This command will run your `dbt` models and create tables/views in your destinat
 - Sync your data from GCP to destination (Postgres Example): `cloudquery sync gcp.yml postgres.yml`
 
 - Run dbt: `dbt run`
+
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->

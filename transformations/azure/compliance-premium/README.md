@@ -115,3 +115,6 @@ The pack contains the premium version.
 - **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL and Snowflake.
 
 The premium version contains all queries.
+
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
