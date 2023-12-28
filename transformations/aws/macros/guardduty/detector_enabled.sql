@@ -4,7 +4,7 @@
 
 {% macro snowflake__detector_enabled(framework, check_id) %}
 with enabled_detector_regions as (
-    select account_id, region
+    select request_account_id as account_id, request_region as region
     from aws_guardduty_detectors
     where status = 'ENABLED'
 )
@@ -26,8 +26,8 @@ select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'GuardDuty should be enabled (detectors)' AS title,
-    account_id,
-    region AS resource_id,
+    request_account_id as account_id,
+    request_region AS resource_id,
     case when
         data_sources:S3Logs:Status != 'ENABLED' AND
         data_sources:DNSLogs:Status != 'ENABLED' AND
@@ -41,7 +41,7 @@ where
 
 {% macro postgres__detector_enabled(framework, check_id) %}
 with enabled_detector_regions as (
-    select account_id, region
+    select request_account_id as account_id, request_region as region
     from aws_guardduty_detectors
     where status = 'ENABLED'
 )
@@ -63,8 +63,8 @@ select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
     'GuardDuty should be enabled (detectors)' AS title,
-    account_id,
-    region AS resource_id,
+    request_account_id as account_id,
+    request_region AS resource_id,
     case when
         data_sources->'S3Logs'->>'Status' != 'ENABLED' AND
         data_sources->'DNSLogs'->>'Status' != 'ENABLED' AND

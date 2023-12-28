@@ -8,12 +8,12 @@ SELECT
     p.id
 FROM
     aws_iam_policies p
-    , lateral flatten(input => p.POLICY_VERSION_LIST) as f
-    , lateral flatten(input => parse_json(f.value:Document):Statement) as s
-where f.value:IsDefaultVersion = 'true'
+    INNER JOIN aws_iam_policy_versions pv ON p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    , lateral flatten(input => pv.document_json:Statement) as s
+where pv.is_default_version = 'true' AND s.value:Effect = 'Allow'
     and s.value:Effect = 'Allow'
             and (s.value:Action = '*' or s.value:Action = '*:*')
-            and s.value:Resource = '*' 
+            and s.value:Resource = '*'
 )
 select
     '{{framework}}' As framework,
@@ -33,23 +33,20 @@ WHERE p.arn REGEXP '.*\d{12}.*'
 {% endmacro %}
 
 {% macro postgres__policies_with_admin_rights(framework, check_id) %}
-
 with iam_policies as (
     select
-        id,
-        (v->>'Document')::jsonb AS document
-    from aws_iam_policies, jsonb_array_elements(aws_iam_policies.policy_version_list) AS v
-    where aws_iam_policies.default_version_id = v->>'VersionId' and arn not like 'arn:aws:iam::aws:policy%'
+        p.id as id,
+        pv.document_json as document
+    from aws_iam_policies p
+    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    where pv.is_default_version = true and p.arn not like 'arn:aws:iam::aws:policy%'
 ),
 policy_statements as (
     select
         id,
         JSONB_ARRAY_ELEMENTS(
             case JSONB_TYPEOF(document -> 'Statement')
-                when
-                    'string' then JSONB_BUILD_ARRAY(
-                        document ->> 'Statement'
-                    )
+                when 'string' then JSONB_BUILD_ARRAY(document ->> 'Statement')
                 when 'array' then document -> 'Statement' end
         ) as statement
     from

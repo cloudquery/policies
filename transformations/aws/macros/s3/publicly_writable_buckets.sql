@@ -13,10 +13,11 @@ WITH policy_allow_public AS (
                 aws_s3_buckets.arn,
                 statements.value:Principal AS principals
             FROM
-                aws_s3_buckets,
-                LATERAL FLATTEN(INPUT => IFF(TYPEOF(policy:Statement) = 'STRING', 
-                                              TO_ARRAY(policy:Statement), 
-                                              policy:Statement)) AS statements
+                aws_s3_buckets
+            inner join aws_s3_bucket_policies bp on aws_s3_buckets.arn = bp.bucket_arn,
+                LATERAL FLATTEN(INPUT => IFF(TYPEOF(bp.policy_json:Statement) = 'STRING', 
+                                              TO_ARRAY(bp.policy_json:Statement), 
+                                              bp.policy_json:Statement)) AS statements
             WHERE
                 statements.value:Effect::STRING = 'Allow'
         ) AS foo
@@ -47,16 +48,18 @@ LEFT JOIN
         aws_s3_buckets.arn = aws_s3_bucket_grants.bucket_arn
 LEFT JOIN policy_allow_public ON
         aws_s3_buckets.arn = policy_allow_public.arn
+LEFT JOIN aws_s3_bucket_public_access_blocks ON
+        aws_s3_buckets.arn = aws_s3_bucket_public_access_blocks.bucket_arn
 WHERE
     (
-        aws_s3_buckets.block_public_acls != TRUE
+        (aws_s3_bucket_public_access_blocks.public_access_block_configuration:BlockPublicAcls)::boolean != TRUE
         AND (
             aws_s3_bucket_grants.grantee:URI::STRING = 'http://acs.amazonaws.com/groups/global/AllUsers'
             AND aws_s3_bucket_grants.permission IN ('WRITE_ACP', 'FULL_CONTROL')
         )
     )
     OR (
-        aws_s3_buckets.block_public_policy != TRUE
+        (aws_s3_bucket_public_access_blocks.public_access_block_configuration:BlockPublicPolicy)::boolean != TRUE
         AND policy_allow_public.statement_count > 0
     )
 {% endmacro %}
@@ -69,21 +72,13 @@ with policy_allow_public as (
     from
         (
             select
-                aws_s3_buckets.arn,
-                statements -> 'Principal' as principals
+                b.arn,
+                bp.policy_json -> 'Statement' -> 'Principal' as principals
             from
-                aws_s3_buckets,
-                jsonb_array_elements(
-                    case jsonb_typeof(policy::jsonb -> 'Statement')
-                        when
-                            'string' then jsonb_build_array(
-                                policy::jsonb ->> 'Statement'
-                            )
-                        when 'array' then policy::jsonb -> 'Statement'
-                    end
-                ) as statements
+                aws_s3_buckets b
+                inner join aws_s3_bucket_policies bp on b.arn = bp.bucket_arn
             where
-                statements -> 'Effect' = '"Allow"'
+                bp.policy_json -> 'Statement' -> 'Effect' = '"Allow"'
         ) as foo
     where
         principals = '"*"'
@@ -118,16 +113,18 @@ left join
 --       Principal = "*"
 left join policy_allow_public on
         aws_s3_buckets.arn = policy_allow_public.arn
+left join aws_s3_bucket_public_access_blocks on
+        aws_s3_buckets.arn = aws_s3_bucket_public_access_blocks.bucket_arn
 where
     (
-        aws_s3_buckets.block_public_acls != TRUE
+        (aws_s3_bucket_public_access_blocks.public_access_block_configuration -> 'BlockPublicAcls')::boolean != TRUE
         and (
             grantee->>'URI' = 'http://acs.amazonaws.com/groups/global/AllUsers'
             and permission in ('WRITE_ACP', 'FULL_CONTROL')
         )
     )
     or (
-        aws_s3_buckets.block_public_policy != TRUE
+        (aws_s3_bucket_public_access_blocks.public_access_block_configuration -> 'BlockPublicPolicy')::boolean != TRUE
         and policy_allow_public.statement_count > 0
     )
 {% endmacro %}

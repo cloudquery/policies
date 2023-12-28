@@ -8,20 +8,19 @@
 
 with policy_statements as (
     select
-        aws_iam_policies.id,
+        p.id,
         JSONB_ARRAY_ELEMENTS(
-            case JSONB_TYPEOF(((v->>'Document')::jsonb) -> 'Statement')
+            case JSONB_TYPEOF(v.document_json -> 'Statement')
                 when
-                    'string' then JSONB_BUILD_ARRAY(
-                        ((v->>'Document')::jsonb) ->> 'Statement'
-                    )
+                    'string' then JSONB_BUILD_ARRAY(v.document_json ->> 'Statement')
                 when
-                    'array' then ((v->>'Document')::jsonb) -> 'Statement'
+                    'array' then v.document_json -> 'Statement'
             end
         ) as statement
     from
-        aws_iam_policies, jsonb_array_elements(aws_iam_policies.policy_version_list) AS v
-    where aws_iam_policies.arn not like 'arn:aws:iam::aws:policy%'
+        aws_iam_policies p
+        inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    where p.arn not like 'arn:aws:iam::aws:policy%'
 ),
 
 allow_all_statements as (

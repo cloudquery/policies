@@ -1,7 +1,7 @@
 {% macro elastic_beanstalk_stream_logs_to_cloudwatch(framework, check_id) %}
 with flat_configs as (
     select 
-        c.environment_id,
+        c.environment_arn,
         f.value:Namespace:Value::string as is_log_streaming
         
     from 
@@ -26,5 +26,5 @@ SELECT
     END as status
 FROM aws_elasticbeanstalk_environments e
 JOIN flat_configs as fc
-    ON e.environment_id = fc.environment_id
+    ON e.arn = fc.environment_arn
     {% endmacro %}

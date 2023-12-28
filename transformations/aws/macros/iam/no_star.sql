@@ -7,7 +7,11 @@
 {% macro postgres__no_star(framework, check_id) %}
 
 with pvs as (
-    select id, (v->>'Document')::jsonb as document from aws_iam_policies, jsonb_array_elements(aws_iam_policies.policy_version_list) AS v
+    select
+        p.id,
+        pv.document_json as document
+    from aws_iam_policies p
+    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
 ), violations as (
     select
         id,
@@ -31,6 +35,40 @@ with pvs as (
     where statement ->> 'Effect' = 'Allow'
           and resource = '*'
           and ( action = '*' or action = '*:*' )
+    group by id
+)
+
+select distinct
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'IAM policies should not allow full ''*'' administrative privileges' as title,
+    account_id,
+    arn AS resource_id,
+    case when
+        violations.id is not null AND violations.violations > 0
+    then 'fail' else 'pass' end as status
+from aws_iam_policies
+left join violations on violations.id = aws_iam_policies.id
+{% endmacro %}
+
+{% macro snowflake__no_star(framework, check_id) %}
+with pvs as (
+    select
+        p.id,
+        pv.document_json as document
+    from aws_iam_policies p
+    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
+), violations as (
+    select
+        id,
+        COUNT(*) as violations
+    from pvs,
+        LATERAL FLATTEN(document:Statement) as statement,
+        LATERAL FLATTEN(statement.value:Resource) as resource,
+        LATERAL FLATTEN(statement.value:Action) as action
+    where statement.value:Effect = 'Allow'
+          and resource.value = '*'
+          and ( action.value = '*' or action.value = '*:*' )
     group by id
 )
 

@@ -12,11 +12,14 @@ select
     t.account_id,
     t.arn as resource_id,
     case
-        when b.logging_target_bucket is null or b.logging_target_prefix is null then 'fail'
+        when l.logging_enabled is null then 'fail'
+        when l.logging_enabled -> 'TargetBucket' is null then 'fail'
+        when l.logging_enabled -> 'TargetPrefix' is null then 'fail'
         else 'pass'
     end as status
 from aws_cloudtrail_trails t
 inner join aws_s3_buckets b on t.s3_bucket_name = b.name
+inner join aws_s3_bucket_loggings l on b.arn = l.bucket_arn
 {% endmacro %}
 
 {% macro bigquery__bucket_access_logging(framework, check_id) %}
@@ -27,11 +30,14 @@ select
     t.account_id,
     t.arn as resource_id,
     case
-        when b.logging_target_bucket is null or b.logging_target_prefix is null then 'fail'
+        when l.logging_enabled is null then 'fail'
+        when l.logging_enabled.TargetBucket is null then 'fail'
+        when l.logging_enabled.TargetPrefix is null then 'fail'
         else 'pass'
     end as status
 from {{ full_table_name("aws_cloudtrail_trails") }} t
 inner join {{ full_table_name("aws_s3_buckets") }} b on t.s3_bucket_name = b.name
+inner join {{ full_table_name("aws_s3_bucket_loggings") }} l on b.arn = l.bucket_arn
 {% endmacro %}
 
 {% macro snowflake__bucket_access_logging(framework, check_id) %}
@@ -42,9 +48,12 @@ select
     t.account_id,
     t.arn as resource_id,
     case
-        when b.logging_target_bucket is null or b.logging_target_prefix is null then 'fail'
+        when l.logging_enabled is null then 'fail'
+        when l.logging_enabled:TargetBucket is null then 'fail'
+        when l.logging_enabled:TargetPrefix is null then 'fail'
         else 'pass'
     end as status
 from aws_cloudtrail_trails t
 inner join aws_s3_buckets b on t.s3_bucket_name = b.name
+inner join aws_s3_bucket_loggings l on b.arn = l.bucket_arn
 {% endmacro %}

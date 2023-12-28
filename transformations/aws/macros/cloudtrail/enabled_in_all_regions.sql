@@ -10,10 +10,17 @@ select
     aws_cloudtrail_trails.account_id,
     arn as resource_id,
     case
-        when is_multi_region_trail = FALSE or (
-                    is_multi_region_trail = TRUE and (
-                        read_write_type != 'All' or include_management_events = FALSE
-                )) then 'fail'
+        when aws_cloudtrail_trails.is_multi_region_trail = FALSE then 'fail'
+        when exists(select *
+                    from jsonb_array_elements(aws_cloudtrail_trail_event_selectors.event_selectors) as es
+                    where es ->>'ReadWriteType' != 'All' or (es->>'IncludeManagementEvents')::boolean = FALSE)
+            then 'fail'
+        when exists(select *
+                    from jsonb_array_elements(aws_cloudtrail_trail_event_selectors.advanced_event_selectors) as aes
+                    where exists(select *
+                                 from jsonb_array_elements(aes ->'FieldSelectors') as aes_fs
+                                 where aes_fs ->>'Field' = 'readOnly'))
+            then 'fail'
         else 'pass'
     end as status
 from aws_cloudtrail_trails
@@ -32,10 +39,18 @@ select
     aws_cloudtrail_trails.account_id,
     arn as resource_id,
     case
-        when is_multi_region_trail = FALSE or (
-                    is_multi_region_trail = TRUE and (
-                        read_write_type != 'All' or include_management_events = FALSE
-                )) then 'fail'
+        when aws_cloudtrail_trails.is_multi_region_trail = FALSE then 'fail'
+        when exists(select *
+                    from UNNEST(JSON_QUERY_ARRAY(aws_cloudtrail_trail_event_selectors.event_selectors)) AS es
+                    where JSON_VALUE(es.ReadWriteType) != 'All' or (CAST( JSON_VALUE(es.IncludeManagementEvents) AS BOOL)= FALSE )
+        )
+            then 'fail'
+        when exists(select *
+                    from UNNEST(JSON_QUERY_ARRAY(aws_cloudtrail_trail_event_selectors.advanced_event_selectors)) AS aes
+                    where exists(select *
+                                 from UNNEST(JSON_QUERY_ARRAY(aes.FieldSelectors)) as aes_fs
+                                 where JSON_VALUE(aes_fs.Field) = 'readOnly'))
+            then 'fail'
         else 'pass'
     end as status
 from {{ full_table_name("aws_cloudtrail_trails") }}
@@ -47,6 +62,12 @@ inner join
 {% endmacro %}
 
 {% macro snowflake__cloudtrail_enabled_all_regions(framework, check_id) %}
+with aes as
+(
+  select *
+  from aws_cloudtrail_trail_event_selectors,
+  LATERAL FLATTEN (advanced_event_selectors) as aes
+)
 select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
@@ -54,10 +75,20 @@ select
     aws_cloudtrail_trails.account_id,
     arn as resource_id,
     case
-        when is_multi_region_trail = FALSE or (
-                    is_multi_region_trail = TRUE and (
-                        read_write_type != 'All' or include_management_events = FALSE
-                )) then 'fail'
+        when aws_cloudtrail_trails.is_multi_region_trail = FALSE then 'fail'
+        when exists(select *
+                    from aws_cloudtrail_trail_event_selectors,
+                    LATERAL FLATTEN(event_selectors) as es
+                    where es.value:ReadWriteType != 'All' or (es.value:IncludeManagementEvents)::boolean = FALSE
+                    )
+            then 'fail'
+        when exists(
+                    select *
+                   from aes,
+                  LATERAL FLATTEN (value:FieldSelectors) as aes_fs
+                    where aes_fs.value:Field = 'readOnly'
+                   )
+            then 'fail'
         else 'pass'
     end as status
 from aws_cloudtrail_trails

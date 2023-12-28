@@ -20,8 +20,9 @@ WHERE
                 b.arn,
                 statements.value AS statement
             FROM
-                aws_s3_buckets AS b,
-                LATERAL FLATTEN(INPUT => IFF(TYPEOF(b.policy:Statement) = 'STRING', TO_ARRAY(b.policy:Statement), b.policy:Statement)) AS statements
+                aws_s3_buckets AS b
+            inner join aws_s3_bucket_policies on b.arn = aws_s3_bucket_policies.bucket_arn,
+                LATERAL FLATTEN(INPUT => IFF(TYPEOF(aws_s3_bucket_policies.policy_json:Statement) = 'STRING', TO_ARRAY(aws_s3_bucket_policies.policy_json:Statement), aws_s3_bucket_policies.policy_json:Statement)) AS statements
             WHERE
                 GET_PATH(statement, 'Effect')::STRING = 'Deny'
                 AND GET_PATH(statement, 'Condition.Bool.aws:SecureTransport')::STRING = 'false'
@@ -49,14 +50,15 @@ where
         from (select aws_s3_buckets.arn,
                      statements,
                      statements -> 'Principal' as principals
-              from aws_s3_buckets,
+              from aws_s3_buckets
+                   inner join aws_s3_bucket_policies on aws_s3_buckets.arn = aws_s3_bucket_policies.bucket_arn,
                    jsonb_array_elements(
-                           case jsonb_typeof(policy -> 'Statement')
+                           case jsonb_typeof(aws_s3_bucket_policies.policy_json -> 'Statement')
                                when
                                    'string' then jsonb_build_array(
-                                       policy ->> 'Statement'
+                                       aws_s3_bucket_policies.policy_json ->> 'Statement'
                                    )
-                               when 'array' then policy -> 'Statement'
+                               when 'array' then aws_s3_bucket_policies.policy_json -> 'Statement'
                                end
                        ) as statements
               where statements -> 'Effect' = '"Deny"') as foo,
