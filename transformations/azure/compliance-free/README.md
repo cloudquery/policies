@@ -91,3 +91,19 @@ The pack contains the premium version.
 - **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL and Snowflake.
 
 The free version contains 10% of the full pack's queries.
+
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
+#### Included Checks
+
+##### `cis_v1.3.0`
+
+- ✅ `1.21`: `iam_custom_subscription_owner_roles`
+- ✅ `2.1`: `security_defender_on_for_servers`
+- ✅ `2.2`: `security_defender_on_for_app_service`
+- ✅ `2.3`: `security_defender_on_for_sql_servers`
+- ✅ `2.4`: `security_defender_on_for_sql_servers_on_machines`
+- ✅ `2.5`: `security_defender_on_for_storage`
+- ✅ `2.6`: `security_defender_on_for_k8s`
+- ✅ `2.7`: `security_defender_on_for_container_registeries`
+- ✅ `2.8`: `security_defender_on_for_key_vault`
+<!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
