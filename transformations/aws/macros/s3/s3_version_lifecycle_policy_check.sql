@@ -12,8 +12,12 @@ select
 FROM
     aws_s3_buckets AS b
 LEFT JOIN
+    aws_s3_bucket_versionings AS bv
+    ON
+    b.arn = bv.bucket_arn
+LEFT JOIN
     aws_s3_bucket_lifecycles AS l
-ON
+    ON
     b.arn = l.bucket_arn
-where b.versioning_status = 'Enabled'
+where bv.status = 'Enabled'
 {% endmacro %}
