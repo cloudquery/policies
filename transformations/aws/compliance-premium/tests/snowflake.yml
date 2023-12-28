@@ -13,7 +13,6 @@ spec:
   path: cloudquery/snowflake
   registry: github
   version: "v3.3.6" # latest version of destination snowflake plugin
-  migrate_mode: forced # tmp
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
     migrate_concurrency: 50
