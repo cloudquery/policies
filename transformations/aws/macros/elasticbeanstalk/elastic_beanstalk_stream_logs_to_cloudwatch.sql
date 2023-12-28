@@ -26,5 +26,5 @@ SELECT
     END as status
 FROM aws_elasticbeanstalk_environments e
 JOIN flat_configs as fc
-    ON e.environment_id = fc.environment_arn
+    ON e.arn = fc.environment_arn
     {% endmacro %}
