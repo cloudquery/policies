@@ -43,9 +43,7 @@ with af as (
 tes as (
     select trail_arn from {{ full_table_name("aws_cloudtrail_trail_event_selectors") }}
     where exists(
-        select * from 
-      {{ full_table_name("aws_cloudtrail_trail_event_selectors") }},
-      UNNEST(JSON_QUERY_ARRAY(event_selectors)) as es
+        select * from UNNEST(JSON_QUERY_ARRAY(event_selectors)) as es
         where JSON_VALUE(es.ReadWriteType) = 'All' and CAST( JSON_VALUE(es.IncludeManagementEvents) AS BOOL) = TRUE
     ) 
     or exists(
