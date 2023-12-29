@@ -40,10 +40,6 @@ with af as (
   from {{ full_table_name("aws_cloudwatch_alarms") }} a,
   UNNEST(JSON_QUERY_ARRAY(metrics)) as m
 ),
-aes as (
-select * from {{ full_table_name("aws_cloudtrail_trail_event_selectors") }} ,
-  UNNEST(JSON_QUERY_ARRAY(advanced_event_selectors)) as aes
-),
 tes as (
     select trail_arn from {{ full_table_name("aws_cloudtrail_trail_event_selectors") }}
     where exists(
@@ -53,10 +49,9 @@ tes as (
         where JSON_VALUE(es.ReadWriteType) = 'All' and CAST( JSON_VALUE(es.IncludeManagementEvents) AS BOOL) = TRUE
     ) 
     or exists(
-        select * from aes
+        select * from UNNEST(JSON_QUERY_ARRAY(advanced_event_selectors)) as aes
         where not exists (
-        select * from aes,
-        UNNEST(JSON_QUERY_ARRAY(aes.aes.FieldSelectors)) as aes_fs
+        select * from UNNEST(JSON_QUERY_ARRAY(aes.FieldSelectors)) as aes_fs
           where JSON_VALUE(aes_fs.Field) = 'readOnly'
         )
       )
