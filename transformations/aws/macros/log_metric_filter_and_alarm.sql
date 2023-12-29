@@ -36,7 +36,7 @@ where t.is_multi_region_trail = TRUE
 
 {% macro bigquery__log_metric_filter_and_alarm() %}
 with af as (
-  select distinct a.arn, a.actions_enabled, ARRAY_TO_STRING(a.alarm_actions, ',') as alarm_actions,   JSON_VALUE(m.MetricStat.Metric.MetricName) as metric_name
+  select distinct a.arn, a.actions_enabled, ARRAY_TO_STRING(a.alarm_actions, ',') as alarm_actions, JSON_VALUE(m.MetricStat.Metric.MetricName) as metric_name
   from {{ full_table_name("aws_cloudwatch_alarms") }} a,
   UNNEST(JSON_QUERY_ARRAY(metrics)) as m
 ),
