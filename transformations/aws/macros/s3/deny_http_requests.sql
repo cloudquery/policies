@@ -22,7 +22,7 @@ WHERE
             FROM
                 aws_s3_buckets AS b
             inner join aws_s3_bucket_policies bp ON bp._cq_parent_id = b._cq_id,
-                LATERAL FLATTEN(INPUT => IFF(TYPEOF(bp.policy_json:Statement) = 'STRING', TO_ARRAY(aws_s3_bucket_policies.policy_json:Statement), aws_s3_bucket_policies.policy_json:Statement)) AS statements
+                LATERAL FLATTEN(INPUT => IFF(TYPEOF(bp.policy_json:Statement) = 'STRING', TO_ARRAY(bp.policy_json:Statement), bp.policy_json:Statement)) AS statements
             WHERE
                 GET_PATH(statement, 'Effect')::STRING = 'Deny'
                 AND GET_PATH(statement, 'Condition.Bool.aws:SecureTransport')::STRING = 'false'
@@ -50,7 +50,7 @@ where
         from (select aws_s3_buckets.arn,
                      statements,
                      statements -> 'Principal' as principals
-              from aws_s3_buckets
+              from aws_s3_buckets b
                    inner join aws_s3_bucket_policies bp ON bp._cq_parent_id = b._cq_id,
                    jsonb_array_elements(
                            case jsonb_typeof(bp.policy_json -> 'Statement')

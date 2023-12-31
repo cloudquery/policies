@@ -10,10 +10,10 @@ WITH policy_allow_public AS (
     FROM
         (
             SELECT
-                aws_s3_buckets.arn,
+                b.arn,
                 statements.value:Principal AS principals
             FROM
-                aws_s3_buckets
+                aws_s3_buckets b
             inner join aws_s3_bucket_policies bp ON bp._cq_parent_id = b._cq_id,
                 LATERAL FLATTEN(INPUT => IFF(TYPEOF(bp.policy_json:Statement) = 'STRING', 
                                               TO_ARRAY(bp.policy_json:Statement), 
@@ -97,12 +97,12 @@ select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
     'S3 buckets should prohibit public read access' as title,
-    aws_s3_buckets.account_id,
-    aws_s3_buckets.arn as resource_id,
+    b.account_id,
+    b.arn as resource_id,
     'fail' as status -- TODO FIXME
 from
     -- Find and join all bucket ACLS that givea public write access
-    aws_s3_buckets
+    aws_s3_buckets b
 left join
     aws_s3_bucket_grants bg
         ON bg._cq_parent_id = b._cq_id
@@ -112,7 +112,7 @@ left join
 --       Principal = {"AWS": ["arn:aws:iam::12345678910:root", "*"]}
 --       Principal = "*"
 left join policy_allow_public on
-        aws_s3_buckets.arn = policy_allow_public.arn
+        b.arn = policy_allow_public.arn
 left join aws_s3_bucket_public_access_blocks bpab
         ON bpab._cq_parent_id = b._cq_id
 where
