@@ -11,7 +11,7 @@ with pvs as (
         p.id,
         pv.document_json as document
     from aws_iam_policies p
-    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    inner join aws_iam_policy_versions pv on pv._cq_parent_id = p._cq_id
 ), violations as (
     select
         id,
@@ -57,7 +57,7 @@ with pvs as (
         p.id,
         pv.document_json as document
     from aws_iam_policies p
-    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    inner join aws_iam_policy_versions pv on pv._cq_parent_id = p._cq_id
 ), violations as (
     select
         id,

@@ -8,7 +8,7 @@ SELECT
     p.id
 FROM
     aws_iam_policies p
-    INNER JOIN aws_iam_policy_versions pv ON p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
     , lateral flatten(input => pv.document_json:Statement) as s
 where pv.is_default_version = 'true' AND s.value:Effect = 'Allow'
     and s.value:Effect = 'Allow'
@@ -38,7 +38,7 @@ with iam_policies as (
         p.id as id,
         pv.document_json as document
     from aws_iam_policies p
-    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    inner join aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
     where pv.is_default_version = true and p.arn not like 'arn:aws:iam::aws:policy%'
 ),
 policy_statements as (

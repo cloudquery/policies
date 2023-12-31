@@ -21,8 +21,8 @@ WHERE
                 statements.value AS statement
             FROM
                 aws_s3_buckets AS b
-            inner join aws_s3_bucket_policies on b.arn = aws_s3_bucket_policies.bucket_arn,
-                LATERAL FLATTEN(INPUT => IFF(TYPEOF(aws_s3_bucket_policies.policy_json:Statement) = 'STRING', TO_ARRAY(aws_s3_bucket_policies.policy_json:Statement), aws_s3_bucket_policies.policy_json:Statement)) AS statements
+            inner join aws_s3_bucket_policies bp ON bp._cq_parent_id = b._cq_id,
+                LATERAL FLATTEN(INPUT => IFF(TYPEOF(bp.policy_json:Statement) = 'STRING', TO_ARRAY(aws_s3_bucket_policies.policy_json:Statement), aws_s3_bucket_policies.policy_json:Statement)) AS statements
             WHERE
                 GET_PATH(statement, 'Effect')::STRING = 'Deny'
                 AND GET_PATH(statement, 'Condition.Bool.aws:SecureTransport')::STRING = 'false'
@@ -51,14 +51,14 @@ where
                      statements,
                      statements -> 'Principal' as principals
               from aws_s3_buckets
-                   inner join aws_s3_bucket_policies on aws_s3_buckets.arn = aws_s3_bucket_policies.bucket_arn,
+                   inner join aws_s3_bucket_policies bp ON bp._cq_parent_id = b._cq_id,
                    jsonb_array_elements(
-                           case jsonb_typeof(aws_s3_bucket_policies.policy_json -> 'Statement')
+                           case jsonb_typeof(bp.policy_json -> 'Statement')
                                when
                                    'string' then jsonb_build_array(
-                                       aws_s3_bucket_policies.policy_json ->> 'Statement'
+                                       bp.policy_json ->> 'Statement'
                                    )
-                               when 'array' then aws_s3_bucket_policies.policy_json -> 'Statement'
+                               when 'array' then bp.policy_json -> 'Statement'
                                end
                        ) as statements
               where statements -> 'Effect' = '"Deny"') as foo,
