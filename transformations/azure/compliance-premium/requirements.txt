@@ -1,2 +1,2 @@
 dbt-postgres==1.7.4
-dbt-snowflake==1.7.0
+dbt-snowflake==1.7.1
