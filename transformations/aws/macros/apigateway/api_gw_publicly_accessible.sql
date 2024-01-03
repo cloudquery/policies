@@ -33,3 +33,19 @@ select
 from
     {{ full_table_name("aws_apigateway_rest_apis") }}, UNNEST(JSON_QUERY_ARRAY(endpoint_configuration.Types)) AS t
 {% endmacro %}
+
+{% macro snowflake__api_gw_publicly_accessible(framework, check_id) %}
+select
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Find all API Gateway instances that are publicly accessible' AS title,
+    account_id,
+    arn as resource_id,
+    case
+        when NOT '{PRIVATE}' = t.value then 'fail'
+        else 'pass'
+        end as status
+from
+    aws_apigateway_rest_apis,
+     LATERAL FLATTEN(endpoint_configuration:Types) as t
+{% endmacro %}

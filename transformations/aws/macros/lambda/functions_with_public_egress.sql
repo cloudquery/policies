@@ -75,3 +75,40 @@ where configuration.VpcConfig.VpcId is null
 
 -- Note: We do not restrict the search to specific Runtimes
 {% endmacro %}
+
+{% macro snowflake__functions_with_public_egress(framework, check_id) %}
+select distinct
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Find all lambda functions that have unrestricted access to the internet' AS title,
+    account_id,
+    arn AS resource_id,
+    'fail' AS status -- TODO FIXME
+from aws_lambda_functions,
+        LATERAL FLATTEN(configuration:VpcConfig:SecurityGroupIds) as sgs,
+        LATERAL FLATTEN(configuration:VpcConfig:SubnetIds) as sns
+where sns.value in
+    --  Find all subnets that include a route table that inclues a catchall route
+    (select a.value:SubnetId
+        from aws_ec2_route_tables,
+        LATERAL FLATTEN(associations) a,
+        LATERAL FLATTEN(routes) r
+        where r.value:DestinationCidrBlock = '0.0.0.0/0' OR r.value:DestinationIpv6CidrBlock = '::/0'
+    )
+    and sgs.value in
+    -- 	Find all functions that have egress rule that allows access to all ip addresses
+    (select id from aws_compliance__security_group_egress_rules where ip = '0.0.0.0/0' or ip6 = '::/0')
+union
+-- Find all Lambda functions that do not run in a VPC
+select distinct
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Find all lambda functions that have unrestricted access to the internet' AS title,
+    account_id,
+    arn AS resource_id,
+    'fail' AS status -- TODO FIXME
+from aws_lambda_functions
+where configuration:VpcConfig:VpcId is null
+
+-- Note: We do not restrict the search to specific Runtimes
+{% endmacro %}
