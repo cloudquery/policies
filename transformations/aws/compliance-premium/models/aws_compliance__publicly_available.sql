@@ -1,5 +1,3 @@
-{{ config(enabled=block_bigquery() and block_snowflake()) }}
-
 with
     aggregated as (
         ({{ api_gw_publicly_accessible('publicly_available','API-Gateways') }})
