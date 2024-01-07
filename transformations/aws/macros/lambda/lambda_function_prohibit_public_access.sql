@@ -30,3 +30,34 @@ where statement ->> 'Effect' = 'Allow'
 	     end)::JSONB ? '*'
     )
 {% endmacro %}
+{% macro snowflake__lambda_function_prohibit_public_access(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Lambda functions should prohibit public access' AS title,
+    account_id,
+    arn AS resource_id,
+    'fail' AS status -- TODO FIXME
+FROM aws_lambda_functions,
+LATERAL FLATTEN(
+    CASE 
+        WHEN TYPEOF(PARSE_JSON(policy_document):Statement) = 'string'
+        THEN ARRAY_CONSTRUCT(PARSE_JSON(policy_document):Statement)
+        WHEN TYPEOF(PARSE_JSON(policy_document):Statement) = 'array'
+        THEN PARSE_JSON(policy_document):Statement
+    END
+) AS statement
+WHERE statement.value:Effect = 'Allow'
+    AND (
+        statement.value:Principal = '*'
+        OR statement.value:Principal:AWS = '*'
+        OR (
+            CASE
+                WHEN TYPEOF(statement.value:Principal:AWS) = 'string' 
+                THEN ARRAY_CONSTRUCT(statement.value:Principal:AWS)
+                WHEN TYPEOF(statement.value:Principal:AWS) = 'array'
+                THEN PARSE_JSON(statement.value:Principal:AWS)
+            END
+        )::VARIANT:AWS LIKE '%*%'
+    )
+{% endmacro %}
