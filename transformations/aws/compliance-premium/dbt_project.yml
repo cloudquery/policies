@@ -1,7 +1,7 @@
 name: aws_compliance
 version: 0.5.0
 config-version: 2
-profile: aws_compliance
+profile: aws_snowflake
 model-paths:
   - models
   - ../models
