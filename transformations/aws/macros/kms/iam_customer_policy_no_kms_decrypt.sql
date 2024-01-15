@@ -69,3 +69,37 @@ FROM
     aws_iam_policies i
 LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
 {% endmacro %}
+
+{% macro bigquery__iam_customer_policy_no_kms_decrypt(framework, check_id) %}
+WITH policy_with_decrypt AS (
+    SELECT DISTINCT arn
+    FROM {{ full_table_name("aws_iam_policies") }} p
+    INNER JOIN {{ full_table_name("aws_iam_policy_versions") }} pv 
+    ON pv._cq_parent_id = p._cq_id, 
+    UNNEST(JSON_QUERY_ARRAY(pv.document_json.Statement)) AS s
+    WHERE
+        JSON_VALUE(s.Effect) = 'Allow'
+        AND
+        (JSON_VALUE(s.Resource) = '*' OR
+        JSON_VALUE(s.Resource) LIKE '%kms%')
+        AND 
+        (JSON_VALUE(s.Action) = '*'
+         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:*%'
+         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:decrypt%'
+         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencryptfrom%'
+         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencrypt*%')
+)
+SELECT
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
+  i.account_id,
+    i.arn AS resource_id,
+    CASE 
+        WHEN d.arn IS NULL THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM    
+    {{ full_table_name("aws_iam_policies") }} i
+LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
+{% endmacro %}

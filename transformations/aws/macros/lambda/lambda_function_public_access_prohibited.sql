@@ -51,3 +51,27 @@ where
     statement.value:Principal:AWS = '*'
   )
 {% endmacro %}
+
+{% macro bigquery__lambda_function_public_access_prohibited(framework, check_id) %}
+select DISTINCT
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Lambda function policies should prohibit public access' AS title,
+    account_id,
+    arn AS resource_id,
+    'fail' AS status
+FROM (
+  SELECT
+    account_id,
+    arn
+  FROM
+  {{ full_table_name("aws_lambda_functions") }},
+UNNEST(JSON_QUERY_ARRAY(policy_document.Statement)) AS statement
+where
+  JSON_VALUE(statement.Effect) = 'Allow'
+  and
+    JSON_VALUE(statement.Principal) = '*'
+    or
+    JSON_VALUE(statement.Principal.AWS) = '*'
+  )
+{% endmacro %}

@@ -78,4 +78,34 @@ left join
 {% endmacro %}
 
 {% macro default__policies_with_admin_rights(framework, check_id) %}{% endmacro %}
-                    
+
+{% macro bigquery__policies_with_admin_rights(framework, check_id) %}
+with bad_statements as (
+SELECT
+    p.id
+FROM
+    {{ full_table_name("aws_iam_policies") }} p
+    INNER JOIN {{ full_table_name("aws_iam_policy_versions") }} pv 
+    ON pv._cq_parent_id = p._cq_id, 
+    UNNEST(JSON_QUERY_ARRAY(pv.document_json.Statement)) AS s
+where pv.is_default_version = true AND JSON_VALUE(s.Effect) = 'Allow'
+    and JSON_VALUE(s.Effect) = 'Allow'
+            and (JSON_VALUE(s.Action) = '*' or JSON_VALUE(s.Action) = '*:*')
+            and JSON_VALUE(s.Resource) = '*'
+)
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'IAM policies should not allow full * administrative privileges' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+        WHEN b.id is not null THEN 'fail'
+        ELSE 'pass'
+    END as status
+from
+    {{ full_table_name("aws_iam_policies") }} as p
+LEFT JOIN bad_statements as b
+    ON p.id = b.id
+WHERE REGEXP_CONTAINS(p.arn, r'.*\d{12}.*')
+{% endmacro %}
