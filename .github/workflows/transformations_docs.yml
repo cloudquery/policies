@@ -6,13 +6,11 @@ env:
 
 on:
   pull_request:
-    paths:
-      - "transformations/**"
+    branches:
+      - main
   push:
     branches:
       - main
-    paths:
-      - "transformations/**"
 
 jobs:
   generate-docs:
