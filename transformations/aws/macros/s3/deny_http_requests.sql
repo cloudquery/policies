@@ -78,6 +78,7 @@ where
 {% endmacro %}
 
 {% macro default__deny_http_requests(framework, check_id) %}{% endmacro %}
+
 {% macro bigquery__deny_http_requests(framework, check_id) %}
 select
     '{{framework}}' As framework,
@@ -109,4 +110,4 @@ WHERE
             OR
             CONTAINS_SUBSTR(CAST(JSON_VALUE(foo.statement.Principal) AS STRING), '*')
     )
-{% endmacro %}     
+{% endmacro %}
