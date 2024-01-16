@@ -1,0 +1,5 @@
+{
+    "rewrites": [
+      {"source": "/aws-compliance-free", "destination": "https://aws-compliance-free.vercel.app/"}
+    ]
+  }
