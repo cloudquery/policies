@@ -12,7 +12,7 @@ spec:
   name: snowflake
   path: cloudquery/snowflake
   registry: github
-  version: "v3.3.8" # latest version of destination snowflake plugin
+  version: "v3.3.9" # latest version of destination snowflake plugin
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
     migrate_concurrency: 50
