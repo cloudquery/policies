@@ -17,3 +17,19 @@ select
     then 'fail' else 'pass' end as status
 from aws_rds_cluster_snapshots, jsonb_array_elements(attributes) as attrs
 {% endmacro %}
+{% macro snowflake__snapshots_should_prohibit_public_access(framework, check_id) %}
+SELECT
+    'pci_dss_v3.2.1' AS framework,
+    'rds.1' AS check_id,
+    'RDS snapshots should be private' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE
+        WHEN PARSE_JSON(attrs.value):AttributeName IS NOT DISTINCT FROM 'restore'
+             AND ARRAY_CONTAINS(CAST('all' AS VARIANT), PARSE_JSON(attrs.value):AttributeValues)
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_rds_cluster_snapshots,
+LATERAL FLATTEN(INPUT => PARSE_JSON(attributes)) AS attrs
+{% endmacro %}
