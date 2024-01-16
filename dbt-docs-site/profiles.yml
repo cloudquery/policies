@@ -1,0 +1,96 @@
+aws_compliance:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
+aws_asset_inventory:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
+aws_cost:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
+aws_encryption:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
+aws_data_resilience:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
+azure_compliance:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
+gcp_compliance:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
+k8s_compliance:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public
+      threads: 1
