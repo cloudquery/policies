@@ -32,4 +32,17 @@ select
 {% endmacro %}
 
 {% macro default__secrets_configured_with_automatic_rotation_should_rotate_successfully(framework, check_id) %}{% endmacro %}
-                    
+
+{% macro bigquery__secrets_configured_with_automatic_rotation_should_rotate_successfully(framework, check_id) %}
+select
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Secrets Manager secrets configured with automatic rotation should rotate successfully' as title,
+     account_id,
+     arn as resource_id,
+     case when
+        (last_rotated_date is null and created_date <  TIMESTAMP_SUB(CURRENT_TIMESTAMP(), (INTERVAL 1*(CAST(JSON_VALUE(rotation_rules.AutomaticallyAfterDays) AS INT64)) DAY)  ))
+        or (last_rotated_date is not null and last_rotated_date <  TIMESTAMP_SUB(CURRENT_TIMESTAMP(), (INTERVAL 1*(CAST(JSON_VALUE(rotation_rules.AutomaticallyAfterDays) AS INT64)) DAY)  ))
+     then 'fail' else 'pass' end as status
+ from {{ full_table_name("aws_secretsmanager_secrets") }}
+{% endmacro %}
