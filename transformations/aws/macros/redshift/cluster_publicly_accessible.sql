@@ -25,7 +25,7 @@ from aws_redshift_clusters
 {% endmacro %}
 
 {% macro default__cluster_publicly_accessible(framework, check_id) %}{% endmacro %}
-
+         
 {% macro bigquery__cluster_publicly_accessible(framework, check_id) %}
 select
     '{{framework}}' as framework,

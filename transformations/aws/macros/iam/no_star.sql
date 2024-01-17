@@ -11,7 +11,7 @@ with pvs as (
         p.id,
         pv.document_json as document
     from aws_iam_policies p
-    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    inner join aws_iam_policy_versions pv on pv._cq_parent_id = p._cq_id
 ), violations as (
     select
         id,
@@ -51,13 +51,47 @@ from aws_iam_policies
 left join violations on violations.id = aws_iam_policies.id
 {% endmacro %}
 
+{% macro bigquery__no_star(framework, check_id) %}
+with pvs as (
+    select
+        p.id,
+        pv.document_json as document
+    from {{ full_table_name("aws_iam_policies") }} p
+    inner join {{ full_table_name("aws_iam_policy_versions") }} pv on pv._cq_parent_id = p._cq_id
+), violations as (
+    select
+        id,
+        COUNT(*) as violations
+    from pvs,
+    UNNEST(JSON_QUERY_ARRAY(document.Statement)) AS statement,
+    UNNEST(JSON_QUERY_ARRAY(statement.Resource)) AS resource,
+    UNNEST(JSON_QUERY_ARRAY(statement.Action)) AS action
+    where JSON_VALUE(statement.Effect) = 'Allow'
+          and JSON_VALUE(resource) = '*'
+          and ( JSON_VALUE(action.value) = '*' or JSON_VALUE(action.value) = '*:*' )
+    group by id
+)
+
+select distinct
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    CONCAT('IAM policies should not allow full ', '''*''', ' administrative privileges') AS title,
+    account_id,
+    arn AS resource_id,
+    case when
+        violations.id is not null AND violations.violations > 0
+    then 'fail' else 'pass' end as status
+from {{ full_table_name("aws_iam_policies") }}
+left join violations on violations.id = aws_iam_policies.id
+{% endmacro %}
+
 {% macro snowflake__no_star(framework, check_id) %}
 with pvs as (
     select
         p.id,
         pv.document_json as document
     from aws_iam_policies p
-    inner join aws_iam_policy_versions pv on p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    inner join aws_iam_policy_versions pv on pv._cq_parent_id = p._cq_id
 ), violations as (
     select
         id,

@@ -1,3 +1,5 @@
+{{ config(enabled=(block_bigquery() and block_snowflake())) }}
+
 with
     aggregated as (
         ({{ api_server_1_2_1('Kubernetes CIS v1.7.0','api_server_1_2_1') }})
