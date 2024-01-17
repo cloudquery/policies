@@ -88,7 +88,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Authenticate to Google Cloud
-        uses: 'google-github-actions/auth@v1'
+        uses: 'google-github-actions/auth@v2'
         if: needs.prepare.outputs.bigquery == 'true'
         with:
           workload_identity_provider: 'projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider'
@@ -103,7 +103,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v4.3.6
+          version: v5.0.1
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml

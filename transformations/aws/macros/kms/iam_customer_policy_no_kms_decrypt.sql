@@ -1,5 +1,4 @@
 {% macro iam_customer_policy_no_kms_decrypt(framework, check_id) %}
-wITH policy_with_decrypt AS (
   {{ return(adapter.dispatch('iam_customer_policy_no_kms_decrypt')(framework, check_id)) }}
 {% endmacro %}
 

@@ -1,4 +1,53 @@
 {% macro distribution_should_encrypt_traffic_to_custom_origins(framework, check_id) %}
+  {{ return(adapter.dispatch('distribution_should_encrypt_traffic_to_custom_origins')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__distribution_should_encrypt_traffic_to_custom_origins(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__distribution_should_encrypt_traffic_to_custom_origins(framework, check_id) %}
+with origins as (
+    select distinct
+        arn,
+        f -> 'CustomOriginConfig' ->> 'OriginProtocolPolicy' as policy
+    from
+        aws_cloudfront_distributions d,
+		JSONB_ARRAY_ELEMENTS(distribution_config -> 'Origins' -> 'Items') as f  
+    WHERE
+        f -> 'CustomOriginConfig' ->> 'OriginProtocolPolicy' = 'http-only'
+        or f -> 'CustomOriginConfig' ->> 'OriginProtocolPolicy' = 'match-viewer'   
+
+),
+cache_behaviors as (
+    select distinct 
+        arn
+    from
+        aws_cloudfront_distributions d,
+		JSONB_ARRAY_ELEMENTS(COALESCE(distribution_config -> 'CacheBehaviors' -> 'Items', '{}')) as f  
+    where
+        f ->> 'ViewerProtocolPolicy' = 'allow-all'
+)
+select distinct
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should encrypt traffic to custom origins' as title,
+    d.account_id,
+    d.arn as resource_id,
+    CASE
+        WHEN o.policy = 'http-only' THEN 'fail'
+        WHEN o.policy = 'match-viewer' and (cb.arn is not null 
+                                            or
+                                            distribution_config -> 'DefaultCacheBehavior' ->> 'ViewerProtocolPolicy' = 'allow-all') 
+                                            THEN 'fail'
+        ELSE 'pass'
+    END as status
+    
+from
+    aws_cloudfront_distributions d
+    LEFT JOIN origins as o on d.arn = o.arn
+    LEFT JOIN cache_behaviors as cb on d.arn = cb.arn  
+{% endmacro %}
+
+{% macro snowflake__distribution_should_encrypt_traffic_to_custom_origins(framework, check_id) %}
 with origins as (
     select distinct
         arn,

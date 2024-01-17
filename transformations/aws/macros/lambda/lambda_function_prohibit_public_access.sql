@@ -30,3 +30,56 @@ where statement ->> 'Effect' = 'Allow'
 	     end)::JSONB ? '*'
     )
 {% endmacro %}
+<<<<<<< HEAD
+{% macro snowflake__lambda_function_prohibit_public_access(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Lambda functions should prohibit public access' AS title,
+    account_id,
+    arn AS resource_id,
+    'fail' AS status -- TODO FIXME
+FROM aws_lambda_functions,
+LATERAL FLATTEN(
+    CASE 
+        WHEN TYPEOF(PARSE_JSON(policy_document):Statement) = 'string'
+        THEN ARRAY_CONSTRUCT(PARSE_JSON(policy_document):Statement)
+        WHEN TYPEOF(PARSE_JSON(policy_document):Statement) = 'array'
+        THEN PARSE_JSON(policy_document):Statement
+    END
+) AS statement
+WHERE statement.value:Effect = 'Allow'
+    AND (
+        statement.value:Principal = '*'
+        OR statement.value:Principal:AWS = '*'
+        OR (
+            CASE
+                WHEN TYPEOF(statement.value:Principal:AWS) = 'string' 
+                THEN ARRAY_CONSTRUCT(statement.value:Principal:AWS)
+                WHEN TYPEOF(statement.value:Principal:AWS) = 'array'
+                THEN PARSE_JSON(statement.value:Principal:AWS)
+            END
+        )::VARIANT:AWS LIKE '%*%'
+    )
+{% endmacro %}
+=======
+
+{% macro bigquery__lambda_function_prohibit_public_access(framework, check_id) %}
+select
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Lambda functions should prohibit public access' as title,
+    account_id,
+    arn as resource_id,
+    'fail' as status -- TODO FIXME
+from {{ full_table_name("aws_lambda_functions") }},
+        UNNEST(JSON_QUERY_ARRAY(policy_document.Statement)) AS statement
+where   JSON_VALUE(statement.Effect) = 'Allow'
+        and (
+            JSON_VALUE(statement.Principal) = '*'
+            or JSON_VALUE(statement.Principal.AWS) = '*'
+            
+            or ( '*' IN UNNEST(JSON_EXTRACT_STRING_ARRAY(statement.Principal.AWS)) )
+        )
+{% endmacro %}
+>>>>>>> 093192f (feat: Added queries for bigquery pci_dss)

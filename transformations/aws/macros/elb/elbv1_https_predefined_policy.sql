@@ -19,7 +19,6 @@ from aws_elbv1_load_balancers lb, lateral flatten(input => parse_json(lb.listene
 {% endmacro %}
 
 {% macro postgres__elbv1_https_predefined_policy(framework, check_id) %}
-INSERT INTO aws_policy_results
 WITH flat_listeners AS (
     SELECT
         arn,

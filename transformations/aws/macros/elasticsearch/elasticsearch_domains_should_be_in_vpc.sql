@@ -34,3 +34,17 @@ from aws_elasticsearch_domains
 
 {% macro default__elasticsearch_domains_should_be_in_vpc(framework, check_id) %}{% endmacro %}
                     
+{% macro bigquery__elasticsearch_domains_should_be_in_vpc(framework, check_id) %}
+select
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
+  'Elasticsearch domains should be in a VPC' as title,
+  account_id,
+  arn as resource_id,
+  case when
+    vpc_options.VPCId is null
+    then 'fail'
+    else 'pass'
+  end as status
+from {{ full_table_name("aws_elasticsearch_domains") }}
+{% endmacro %}                    
