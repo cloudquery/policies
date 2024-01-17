@@ -98,9 +98,9 @@ WHERE
                 statements AS statement
             FROM
                 {{ full_table_name("aws_s3_buckets") }} AS b
-            inner join {{ full_table_name("aws_s3_bucket_policies") }}
-            on b.arn = aws_s3_bucket_policies.bucket_arn,
-            UNNEST(JSON_QUERY_ARRAY(aws_s3_bucket_policies.policy_json.Statement)) AS statements
+            inner join {{ full_table_name("aws_s3_bucket_policies") }} bp
+            on bp._cq_parent_id = b._cq_id,
+            UNNEST(JSON_QUERY_ARRAY(bp.policy_json.Statement)) AS statements
             WHERE
                 CAST(JSON_VALUE(statements.Effect) AS STRING) = 'Deny'
                 AND CAST(JSON_VALUE(JSON_EXTRACT(statements, '$.Condition.Bool."aws:SecureTransport"')) AS STRING) = 'false'
