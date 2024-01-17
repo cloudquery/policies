@@ -35,3 +35,19 @@ SELECT
     END                                                                        AS status
 FROM azure_storage_accounts
 {% endmacro %}
+
+{% macro bigquery__storage_encrypt_with_cmk(framework, check_id) %}
+SELECT
+    id                                                                         AS resource_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Ensure storage for critical data are encrypted with Customer Managed Key' AS title,
+    subscription_id                                                            AS subscription_id,
+    CASE
+        WHEN JSON_VALUE(properties.encryption.keySource) = 'Microsoft.Keyvault'
+         AND JSON_VALUE(properties.encryption.keyvaultproperties) IS DISTINCT FROM NULL
+        THEN 'pass'
+        ELSE 'fail'
+    END                                                                        AS status
+FROM {{ full_table_name("azure_storage_accounts") }}
+{% endmacro %}

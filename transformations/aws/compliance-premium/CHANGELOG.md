@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.0.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.5.0...transformation-aws-compliance-premium-v1.0.0) (2024-01-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update `aws` to `v23.3.1` ([#264](https://github.com/cloudquery/policies-premium/issues/264))
+
+### Features
+
+* Added queries for AWS Foundational Security for Postgres - Premium ([#451](https://github.com/cloudquery/policies-premium/issues/451)) ([a2f23f0](https://github.com/cloudquery/policies-premium/commit/a2f23f0dd0e7e81d3e25fd0029999c6762c49faa))
+* Added queries for bigquery pci_dss ([#325](https://github.com/cloudquery/policies-premium/issues/325)) ([3a6a500](https://github.com/cloudquery/policies-premium/commit/3a6a5003aed9e082e709999f1bac2c766f6951a4))
+* Added queries for bigquery publicly_available, public_egress, i… ([#329](https://github.com/cloudquery/policies-premium/issues/329)) ([52458f7](https://github.com/cloudquery/policies-premium/commit/52458f7b272d8cd20c3c096d990b10098e8266e1))
+* Update `aws` to `v23.3.1` ([#264](https://github.com/cloudquery/policies-premium/issues/264)) ([d361f9b](https://github.com/cloudquery/policies-premium/commit/d361f9bad529167e093c0eca56fc9923adc72fca))
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.4 ([#473](https://github.com/cloudquery/policies-premium/issues/473)) ([a7f759a](https://github.com/cloudquery/policies-premium/commit/a7f759aaf50a0a9e308fd6be378811a0097925c2))
+* **deps:** Update dependency dbt-snowflake to v1.7.1 ([#474](https://github.com/cloudquery/policies-premium/issues/474)) ([d16c2f2](https://github.com/cloudquery/policies-premium/commit/d16c2f29a30e7be5c5d52b02f6fd041e75e0fa9e))
+
 ## [0.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v0.4.0...transformation-aws-compliance-premium-v0.5.0) (2023-12-27)
 
 
