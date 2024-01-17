@@ -8,7 +8,7 @@
 WITH policy_with_decrypt AS (
     SELECT DISTINCT arn
     FROM aws_iam_policies p
-    INNER JOIN aws_iam_policy_versions pv ON p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
     , JSONB_ARRAY_ELEMENTS(pv.document_json -> 'Statement') as s
     WHERE
         s ->> 'Effect' = 'Allow'
@@ -41,7 +41,7 @@ LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
 WITH policy_with_decrypt AS (
     SELECT DISTINCT arn
     FROM aws_iam_policies p
-    INNER JOIN aws_iam_policy_versions pv ON p.account_id = pv.account_id AND p.arn = pv.policy_arn
+    INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
     , lateral flatten(input => pv.document_json:Statement) as s
     WHERE
         s.value:Effect = 'Allow'
