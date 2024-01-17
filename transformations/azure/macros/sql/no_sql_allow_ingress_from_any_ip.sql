@@ -35,3 +35,19 @@ SELECT
     END                                                        AS status
 FROM azure_sql_server_firewall_rules
 {% endmacro %}
+
+{% macro bigquery__sql_no_sql_allow_ingress_from_any_ip(framework, check_id) %}
+SELECT
+    id                                                         AS resource_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Ensure no SQL Databases allow ingress 0.0.0.0/0 (ANY IP)' AS title,
+    subscription_id                                            AS subscription_id,
+    CASE
+        WHEN JSON_VALUE(properties.startIpAddress) = '0.0.0.0'
+                 AND (JSON_VALUE(properties.endIpAddress) = '0.0.0.0' OR JSON_VALUE(properties.endIpAddress) = '255.255.255.255')
+        THEN 'fail'
+        ELSE 'pass'
+    END                                                        AS status
+FROM {{ full_table_name("azure_sql_server_firewall_rules") }}
+{% endmacro %}

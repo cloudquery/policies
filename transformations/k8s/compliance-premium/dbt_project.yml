@@ -14,6 +14,7 @@ seed-paths:
 macro-paths:
   - macros
   - ../macros
+  - ../../macros
 snapshot-paths:
   - snapshots
 clean-targets:

@@ -89,3 +89,47 @@ SELECT
 FROM conditions
 GROUP BY subscription_id, scope
 {% endmacro %}
+
+{% macro bigquery__monitor_log_alert_for_create_or_update_network_sg_rule(framework, check_id) %}
+WITH fields AS (
+    SELECT
+        subscription_id,
+        id,
+        location,
+        CAST( JSON_VALUE(properties.enabled) AS BOOL) AS enabled,
+        JSON_VALUE(conditions.field) AS field,
+        JSON_VALUE(conditions.equals) AS equals
+    FROM {{ full_table_name("azure_monitor_activity_log_alerts") }},
+    UNNEST(JSON_QUERY_ARRAY(properties.condition.allOf)) AS conditions
+),
+scopes AS (
+    SELECT
+        subscription_id,
+        id,
+        scope
+    FROM {{ full_table_name("azure_monitor_activity_log_alerts") }},
+    UNNEST(JSON_QUERY_ARRAY(properties.scopes)) AS scope
+),
+conditions AS (
+    SELECT
+        fields.subscription_id AS subscription_id,
+        fields.id AS id,
+        JSON_VALUE(scopes.scope) AS scope,
+        location = 'global'
+            AND enabled
+            AND equals = 'Microsoft.Network/networkSecurityGroups/securityRules/write'
+           AND REGEXP_CONTAINS(JSON_VALUE(scopes.scope), r'^\/subscriptions\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')
+        AS condition
+    FROM fields JOIN scopes ON fields.id = scopes.id
+    WHERE field = 'operationName'
+)
+SELECT
+    scope                                                                AS resrouce_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Ensure that Activity Log Alert exists for Create or Update Network Security Group Rule' AS title,
+    subscription_id                                                      AS subscription_id,
+    CASE WHEN CAST( (LOGICAL_OR(condition)) AS BOOL) THEN 'pass' ELSE 'fail' END AS status
+FROM conditions
+GROUP BY subscription_id, scope
+{% endmacro %}
