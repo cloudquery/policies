@@ -1,9 +1,9 @@
 kind: source
 spec:
-  name: aws
-  path: cloudquery/aws
+  name: azure
+  path: cloudquery/azure
   registry: cloudquery
-  version: "v23.5.0" # latest version of source aws plugin
+  version: "v11.4.0" # latest version of source azure plugin
   destinations: ["bigquery"]
   tables: ["*"]
 ---
