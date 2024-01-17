@@ -31,3 +31,17 @@ SELECT
   end
 FROM azure_mysql_servers
 {% endmacro %}
+
+{% macro bigquery__sql_mysql_ssl_enforcment_disabled(framework, check_id) %}
+SELECT
+  id AS server_id,
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Ensure "Enforce SSL connection" is set to "ENABLED" for MySQL Database Server (Automated)' as title,
+  subscription_id,
+  case
+    when JSON_VALUE(properties.sslEnforcement) is distinct from 'Enabled'
+    then 'fail' else 'pass'
+  end
+FROM {{ full_table_name("azure_mysql_servers") }}
+{% endmacro %}

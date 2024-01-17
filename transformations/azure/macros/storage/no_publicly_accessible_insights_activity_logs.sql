@@ -38,3 +38,20 @@ WHERE
     name = 'insights-activity-logs'
 
 {% endmacro %}
+
+{% macro bigquery__storage_no_publicly_accessible_insights_activity_logs(framework, check_id) %}
+SELECT
+    id                                                                                  AS resource_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Ensure the storage container storing the activity logs is not publicly accessible' AS title,
+    subscription_id                                                                     AS subscription_id,
+    CASE
+        WHEN JSON_VALUE(properties.publicAccess) = 'None'
+        THEN 'pass'
+        ELSE 'fail'
+    END                                                                                 AS status
+FROM {{ full_table_name("azure_storage_containers") }}
+WHERE
+    name = 'insights-activity-logs'
+{% endmacro %}

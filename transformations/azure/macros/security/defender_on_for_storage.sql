@@ -33,3 +33,18 @@ SELECT
 FROM azure_security_pricings asp
 WHERE name = 'StorageAccounts'
 {% endmacro %}
+
+{% macro bigquery__security_defender_on_for_storage(framework, check_id) %}
+SELECT
+  id,
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Ensure that Azure Defender is set to On for Storage (Automatic)' as title,
+  subscription_id,
+  case
+    when JSON_VALUE(properties.pricingTier) = 'Standard'
+    then 'pass' else 'fail'
+  end
+FROM {{ full_table_name("azure_security_pricings") }} asp
+WHERE name = 'StorageAccounts'
+{% endmacro %}
