@@ -26,7 +26,6 @@ module.exports = async ({github, context}) => {
     }
 
     const testAll = files.includes("scripts/workflows/wait_for_required_workflows.js") || files.includes(".github/workflows/wait_for_required_workflows.yml")
-    console.log(fs.readdirSync("transformations", {withFileTypes: false, recursive: true}))
     const transformations = fs.readdirSync("transformations", {withFileTypes: true, recursive: true}).filter(dirent => dirent.isFile() && dirent.name === "dbt_project.yml").map(dirent => dirent.path)
     let actions = transformations.filter(action => testAll || matchesFile(action))
     if (actions.length === 0) {
