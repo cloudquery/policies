@@ -1,4 +1,10 @@
 {% macro controller_manager_1_3_6(framework, check_id) %}
+  {{ return(adapter.dispatch('controller_manager_1_3_6')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__controller_manager_1_3_6(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__controller_manager_1_3_6(framework, check_id) %}
 WITH
   pod_containers_commands
     AS (
@@ -36,8 +42,50 @@ SELECT
     AS status
 FROM
   k8s_core_pods
+{% endmacro %}
 
+{% macro snowflake__controller_manager_1_3_6(framework, check_id) %}
+WITH
+  pod_containers_commands
+    AS (
+      SELECT
+        uid,
+        container.value AS container,
+        command.value AS command
+      FROM
+        k8s_core_pods,
+       LATERAL FLATTEN(spec_containers) AS container,
+       LATERAL FLATTEN(container:command) AS command
+    )
+SELECT
+    uid                              AS resource_id,
+        '{{framework}}' As framework,
+        '{{check_id}}'  As check_id,
+    'Ensure that the RotateKubeletServerCertificate argument is set to true' AS title,
+    context                          AS context,
+    namespace                        AS namespace,
+    name                             AS resource_name,
+  CASE
+  WHEN labels:component <> '"kube-controller-manager"' THEN 'pass'
+  WHEN labels:component is null THEN 'pass'
+  WHEN (
+    SELECT
+      count(*)
+    FROM
+      pod_containers_commands
+    WHERE
+      pod_containers_commands.uid = k8s_core_pods.uid
+      AND command::text LIKE '%%RotateKubeletServerCertificate=true%%'
+  )
+  = 0
+  THEN 'fail'
+  ELSE 'pass'
+  END
+    AS status
+FROM
+  k8s_core_pods
+{% endmacro %}
 
--- 1.3.7
+{% macro bigquery__controller_manager_1_3_6(framework, check_id) %}
 
 {% endmacro %}

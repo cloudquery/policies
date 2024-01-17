@@ -1,5 +1,10 @@
 {% macro pod_security_standards_5_4_2(framework, check_id) %}
-                                 
+  {{ return(adapter.dispatch('pod_security_standards_5_4_2')(framework, check_id)) }}
+{% endmacro %}
+
+{% macro default__pod_security_standards_5_4_2(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__pod_security_standards_5_4_2(framework, check_id) %}
 WITH
   pod_containers
     AS (
@@ -33,4 +38,44 @@ SELECT
     AS status
 FROM
   k8s_core_pods
+{% endmacro %}
+
+{% macro snowflake__pod_security_standards_5_4_2(framework, check_id) %}
+WITH
+  pod_containers
+    AS (
+      SELECT
+        uid, volume.value AS volume
+      FROM
+       k8s_core_pods,
+      LATERAL FLATTEN(spec_volumes) AS volume
+    )
+SELECT
+    uid                              AS resource_id,
+        '{{framework}}' As framework,
+        '{{check_id}}'  As check_id,
+    'Consider external secret storage' AS title,
+    context                          AS context,
+    namespace                        AS namespace,
+    name                             AS resource_name,
+  CASE
+  WHEN (
+    SELECT
+      count(*)
+    FROM
+      pod_containers
+    WHERE
+      pod_containers.uid = k8s_core_pods.uid
+      AND volume:secret IS NOT NULL
+  )> 0
+  THEN 'fail'
+  ELSE 'pass'
+  END
+    AS status
+FROM
+  k8s_core_pods
+{% endmacro %}
+
+{% macro bigquery__pod_security_standards_5_4_2(framework, check_id) %}
+
 {% endmacro %}
