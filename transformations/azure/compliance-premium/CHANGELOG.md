@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.2.0...transformation-azure-compliance-premium-v0.3.0) (2024-01-17)
+
+
+### Features
+
+* Added queries for Azure CIS for BigQuery - Premuim ([#455](https://github.com/cloudquery/policies-premium/issues/455)) ([22517b8](https://github.com/cloudquery/policies-premium/commit/22517b83a0f66b8bfec03262545c3b395bddf44f))
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.4 ([#473](https://github.com/cloudquery/policies-premium/issues/473)) ([a7f759a](https://github.com/cloudquery/policies-premium/commit/a7f759aaf50a0a9e308fd6be378811a0097925c2))
+* **deps:** Update dependency dbt-snowflake to v1.7.1 ([#474](https://github.com/cloudquery/policies-premium/issues/474)) ([d16c2f2](https://github.com/cloudquery/policies-premium/commit/d16c2f29a30e7be5c5d52b02f6fd041e75e0fa9e))
+
 ## [0.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.1.3...transformation-azure-compliance-premium-v0.2.0) (2023-12-28)
 
 
