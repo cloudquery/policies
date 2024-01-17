@@ -55,3 +55,29 @@ SELECT
     END                                                      AS status
 FROM diagnosis_logs
 {% endmacro %}
+
+{% macro bigquery__monitor_logging_key_valut_is_enabled(framework, check_id) %}
+WITH diagnosis_logs AS (
+    SELECT
+        amds.subscription_id,
+        amds.id || '/' || CAST(coalesce(JSON_VALUE(logs.category), JSON_VALUE(logs.categoryGroup)) AS STRING) AS id,
+        JSON_VALUE(logs.category) IS DISTINCT FROM NULL AS hasCategory,
+        CAST(JSON_VALUE(logs.retentionPolicy.days) AS INT64) >= 180 AS satisfyRetentionDays
+    FROM {{ full_table_name("azure_monitor_resources") }} as amr
+        LEFT JOIN {{ full_table_name("azure_monitor_diagnostic_settings") }} as amds ON amr._cq_id = amds._cq_parent_id,
+        UNNEST(JSON_QUERY_ARRAY(amds.properties.logs)) AS logs
+    WHERE amr.type = 'Microsoft.KeyVault/vaults'
+)
+SELECT
+    id                                                       AS resource_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Ensure that logging for Azure Key Vault is "Enabled"' AS title,
+    subscription_id                                          AS subscription_id,
+    CASE
+        WHEN hasCategory AND satisfyRetentionDays
+        THEN 'pass'
+        ELSE 'fail'
+    END                                                      AS status
+FROM diagnosis_logs
+{% endmacro %}

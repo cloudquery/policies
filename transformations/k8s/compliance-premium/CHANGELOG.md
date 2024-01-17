@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.2.0...transformation-k8s-compliance-premium-v0.3.0) (2024-01-17)
+
+
+### Features
+
+* Added queries for K8 CIS for Snowflake - Premium ([#459](https://github.com/cloudquery/policies-premium/issues/459)) ([388e42e](https://github.com/cloudquery/policies-premium/commit/388e42e93d4007710c2c753c7105aaaa5948f112))
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.4 ([#473](https://github.com/cloudquery/policies-premium/issues/473)) ([a7f759a](https://github.com/cloudquery/policies-premium/commit/a7f759aaf50a0a9e308fd6be378811a0097925c2))
+
 ## [0.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.1.2...transformation-k8s-compliance-premium-v0.2.0) (2023-12-28)
 
 

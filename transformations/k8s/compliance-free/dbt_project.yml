@@ -1,5 +1,5 @@
 name: k8s_compliance
-version: 1.3.0
+version: 1.4.0
 config-version: 2
 profile: k8s_compliance
 model-paths:
@@ -14,6 +14,7 @@ seed-paths:
 macro-paths:
   - macros
   - ../macros
+  - ../../macros
 snapshot-paths:
   - snapshots
 clean-targets:
