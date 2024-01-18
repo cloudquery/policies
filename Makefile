@@ -1,41 +1,25 @@
 .PHONY: gen-site
 gen-site:
-	# AWS asset-inventory-free
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/aws/asset-inventory-free
-	cp transformations/aws/asset-inventory-free/target/static_index.html dbt-docs-site/aws-asset-inventory-free.html
-	# AWS compliance-free
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/aws/compliance-free
-	cp transformations/aws/compliance-free/target/static_index.html dbt-docs-site/aws-compliance-free.html
-	# AWS compliance-premium
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/aws/compliance-premium
-	cp transformations/aws/compliance-premium/target/static_index.html dbt-docs-site/aws-compliance-premium.html
-	# AWS cost
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/aws/cost
-	cp transformations/aws/cost/target/static_index.html dbt-docs-site/aws-cost.html
-	# AWS data-resilience
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/aws/data-resilience
-	cp transformations/aws/data-resilience/target/static_index.html dbt-docs-site/aws-data-resilience.html
-	# AWS encryption
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/aws/encryption
-	cp transformations/aws/encryption/target/static_index.html dbt-docs-site/aws-encryption.html
+	make plugin_dir=aws/asset-inventory-free output_file_name=aws-asset-inventory-free gen-single-site
+	make plugin_dir=aws/compliance-free output_file_name=aws-compliance-free gen-single-site
+	make plugin_dir=aws/compliance-premium output_file_name=aws-compliance-premium gen-single-site
+	make plugin_dir=aws/cost output_file_name=aws-cost gen-single-site
+	make plugin_dir=aws/data-resilience output_file_name=aws-data-resilience gen-single-site
+	make plugin_dir=aws/encryption output_file_name=aws-encryption gen-single-site
 
-	# Azure compliance-free
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/azure/compliance-free
-	cp transformations/azure/compliance-free/target/static_index.html dbt-docs-site/azure-compliance-free.html
-	# Azure compliance-premium
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/azure/compliance-premium
-	cp transformations/azure/compliance-premium/target/static_index.html dbt-docs-site/azure-compliance-premium.html
+	make plugin_dir=azure/compliance-free output_file_name=azure-compliance-free gen-single-site
+	make plugin_dir=azure/compliance-premium output_file_name=azure-compliance-premium gen-single-site
 
-	# GCP compliance-free
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/gcp/compliance-free
-	cp transformations/gcp/compliance-free/target/static_index.html dbt-docs-site/gcp-compliance-free.html
-	# GCP compliance-premium
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/gcp/compliance-premium
-	cp transformations/gcp/compliance-premium/target/static_index.html dbt-docs-site/gcp-compliance-premium.html
+	make plugin_dir=gcp/compliance-free output_file_name=gcp-compliance-free gen-single-site
+	make plugin_dir=gcp/compliance-premium output_file_name=gcp-compliance-premium gen-single-site
 
-	# Kubernetes compliance-free
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/k8s/compliance-free
-	cp transformations/k8s/compliance-free/target/static_index.html dbt-docs-site/k8s-compliance-free.html
-	# Kubernetes compliance-premium
-	dbt docs generate --static  --profiles-dir dbt-docs-site --project-dir transformations/k8s/compliance-premium
-	cp transformations/k8s/compliance-premium/target/static_index.html dbt-docs-site/k8s-compliance-premium.html
+	make plugin_dir=k8s/compliance-free output_file_name=k8s-compliance-free gen-single-site
+	make plugin_dir=k8s/compliance-premium output_file_name=k8s-compliance-premium gen-single-site
+
+.PHONY: gen-single-site
+gen-single-site:
+	cloudquery migrate transformations/$(plugin_dir)/tests/postgres.yml
+	dbt seed --target dev-pg --profiles-dir transformations/$(plugin_dir)/tests --project-dir transformations/$(plugin_dir)
+	dbt run --profiles-dir dbt-docs-site --project-dir transformations/$(plugin_dir)
+	dbt docs generate --static --profiles-dir dbt-docs-site --project-dir transformations/$(plugin_dir)
+	cp transformations/$(plugin_dir)/target/static_index.html dbt-docs-site/$(output_file_name).html

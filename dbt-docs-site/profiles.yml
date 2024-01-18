@@ -9,7 +9,7 @@ aws_compliance:
       port: 5432
       dbname: postgres
       schema: public
-      threads: 1
+      threads: 5
 aws_asset_inventory:
   target: dev
   outputs:
@@ -21,7 +21,7 @@ aws_asset_inventory:
       port: 5432
       dbname: postgres
       schema: public
-      threads: 1
+      threads: 5
 aws_cost:
   target: dev
   outputs:
@@ -33,7 +33,7 @@ aws_cost:
       port: 5432
       dbname: postgres
       schema: public
-      threads: 1
+      threads: 5
 aws_encryption:
   target: dev
   outputs:
@@ -45,7 +45,7 @@ aws_encryption:
       port: 5432
       dbname: postgres
       schema: public
-      threads: 1
+      threads: 5
 aws_data_resilience:
   target: dev
   outputs:
@@ -57,7 +57,7 @@ aws_data_resilience:
       port: 5432
       dbname: postgres
       schema: public
-      threads: 1
+      threads: 5
 azure_compliance:
   target: dev
   outputs:
@@ -69,7 +69,7 @@ azure_compliance:
       port: 5432
       dbname: postgres
       schema: public
-      threads: 1
+      threads: 5
 gcp_compliance:
   target: dev
   outputs:
@@ -81,7 +81,7 @@ gcp_compliance:
       port: 5432
       dbname: postgres
       schema: public
-      threads: 1
+      threads: 5
 k8s_compliance:
   target: dev
   outputs:
@@ -93,4 +93,4 @@ k8s_compliance:
       port: 5432
       dbname: postgres
       schema: public
-      threads: 1
+      threads: 5
