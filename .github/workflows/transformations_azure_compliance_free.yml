@@ -8,6 +8,8 @@ on:
       - "transformations/azure/macros/**"
       - "transformations/azure/models/**"
       - "transformations/macros/**"
+      - ".github/workflows/wait_for_required_workflows.yml"
+      - "scripts/workflows/wait_for_required_workflows.js"
   push:
     branches:
       - main
