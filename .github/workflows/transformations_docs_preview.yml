@@ -67,8 +67,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_CQ_BOT }}
       - name: Authenticate to Google Cloud
         uses: 'google-github-actions/auth@v2'
         if: needs.prepare.outputs.bigquery == 'true'
