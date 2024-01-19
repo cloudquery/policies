@@ -2,7 +2,6 @@ kind: source
 spec:
   name: gcp
   path: cloudquery/gcp
-  registry: cloudquery
   version: "v11.5.0" # latest version of source gcp plugin
   destinations: ["postgresql"]
   tables: ["*"]
@@ -11,7 +10,6 @@ kind: destination
 spec:
   name: "postgresql"
   path: "cloudquery/postgresql"
-  registry: cloudquery
   version: "v7.1.6" # latest version of postgresql plugin
   spec:
     batch_size: 10000
