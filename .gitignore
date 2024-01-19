@@ -160,7 +160,10 @@ cython_debug/
 .idea/
 
 .DS_Store
-transformations/aws_compliance/.user.yml
+.user.yml
 transformations/aws_compliance/dbt_packages/utils
 examples
 build
+dbt-docs-site/public
+dbt-docs-site/*.html
+.vercel
