@@ -65,7 +65,6 @@ jobs:
           pattern: docs-artifact-*
           path: actions-checkout-file-path
           merge-multiple: true
-      - run: ls -R
       - run: mv actions-checkout-file-path/*.html dbt-docs-site
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
