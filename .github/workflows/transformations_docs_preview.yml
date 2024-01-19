@@ -61,9 +61,8 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: docs-artifact
           pattern: docs-artifact-*
-      - run: ls -R docs-artifact
+      - run: ls -R
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
