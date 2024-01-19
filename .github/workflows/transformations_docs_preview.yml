@@ -62,6 +62,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: docs-artifact-*
+          merge-multiple: true
       - run: ls -R
       - uses: actions/checkout@v2
       - name: Install Vercel CLI
