@@ -58,14 +58,14 @@ jobs:
     needs: generate-docs
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: docs-artifact-*
           merge-multiple: true
-      - uses: actions/checkout@v4
       - run: ls -R
-      - run: cp *.html dbt-docs-site/
+      - run: mv *.html dbt-docs-site/
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Pull Vercel Environment Information
