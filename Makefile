@@ -46,4 +46,4 @@ gen-single-site:
 	dbt seed --target dev-pg --profiles-dir transformations/$(plugin_dir)/tests --project-dir transformations/$(plugin_dir)
 	dbt run --profiles-dir dbt-docs-site --project-dir transformations/$(plugin_dir)
 	dbt docs generate --static --profiles-dir dbt-docs-site --project-dir transformations/$(plugin_dir)
-	cp transformations/$(plugin_dir)/target/static_index.html dbt-docs-site/$(output_file_name).html
+	cp transformations/$(plugin_dir)/target/static_index.html $(output_file_name).html
