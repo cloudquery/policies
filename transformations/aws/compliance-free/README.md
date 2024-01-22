@@ -89,3 +89,4 @@ The free version contains 10% of the full pack's checks.
 - ✅ `codebuild.2`: `check_environment_variables`
 - ✅ `config.1`: `config_enabled_all_regions`
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
+

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v1.0.0...transformation-aws-compliance-free-v1.0.1) (2024-01-22)
+
+
+### Bug Fixes
+
+* Updated APIGateway Method Settings macro to handle multiple methods ([#511](https://github.com/cloudquery/policies-premium/issues/511)) ([fdeac11](https://github.com/cloudquery/policies-premium/commit/fdeac11a029078feb4990b72600ea39e628bca04))
+
 ## [1.0.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.6.1...transformation-aws-compliance-free-v1.0.0) (2024-01-17)
 
 
