@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v2.0.0...transformation-aws-data-resilience-v2.0.1) (2024-01-22)
+
+
+### Bug Fixes
+
+* Updated APIGateway Method Settings macro to handle multiple methods ([#511](https://github.com/cloudquery/policies-premium/issues/511)) ([fdeac11](https://github.com/cloudquery/policies-premium/commit/fdeac11a029078feb4990b72600ea39e628bca04))
+
 ## [2.0.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v1.2.0...transformation-aws-data-resilience-v2.0.0) (2024-01-17)
 
 
