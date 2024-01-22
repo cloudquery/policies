@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v1.0.0...transformation-aws-compliance-free-v1.1.0) (2024-01-22)
+
+
+### Features
+
+* Deploy dbt docs to Vercel ([#499](https://github.com/cloudquery/policies-premium/issues/499)) ([35f7c14](https://github.com/cloudquery/policies-premium/commit/35f7c14fccdeedddf17c0059ea509ffb07bb12c0))
+
 ## [1.0.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v0.6.1...transformation-aws-compliance-free-v1.0.0) (2024-01-17)
 
 
