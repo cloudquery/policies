@@ -116,7 +116,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n       sum(case when last_backup_time  is null then 1 else 0 end) as unprotectedresources,\n       sum(case when last_backup_time is not null then 1 else 0 end) as compliantresources\n  from aws_data_resilience\n  WHERE resource_type='DynamoDB'",
+          "rawSql": "SELECT \n       sum(case when last_backup_time  is null then 1 else 0 end) as unprotectedresources,\n       sum(case when last_backup_time is not null then 1 else 0 end) as compliantresources\n  from aws_data_resilience__overview\n  WHERE resource_type='DynamoDB'",
           "refId": "A",
           "sql": {
             "columns": [
@@ -233,7 +233,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n       sum(case when last_backup_time  is null then 1 else 0 end) as unprotectedresources,\n       sum(case when last_backup_time is not null then 1 else 0 end) as compliantresources\n  from aws_data_resilience\n  WHERE resource_type='EC2'",
+          "rawSql": "SELECT \n       sum(case when last_backup_time  is null then 1 else 0 end) as unprotectedresources,\n       sum(case when last_backup_time is not null then 1 else 0 end) as compliantresources\n  from aws_data_resilience__overview\n  WHERE resource_type='EC2'",
           "refId": "A",
           "sql": {
             "columns": [
@@ -380,7 +380,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n       sum(case when last_backup_time  is null then 1 else 0 end) as unprotectedresources,\n       sum(case when last_backup_time is not null then 1 else 0 end) as compliantresources\n  from aws_data_resilience\n  WHERE resource_type='S3'",
+          "rawSql": "SELECT \n       sum(case when last_backup_time  is null then 1 else 0 end) as unprotectedresources,\n       sum(case when last_backup_time is not null then 1 else 0 end) as compliantresources\n  from aws_data_resilience__overview\n  WHERE resource_type='S3'",
           "refId": "A",
           "sql": {
             "columns": [
