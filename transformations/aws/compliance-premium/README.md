@@ -19,7 +19,7 @@ The pack contains the premium version.
 
 #### Running Your dbt Project
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides.
+Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your snowflake connection and authentication information.
 
 If everything compiles without errors, you can then execute:
 
@@ -28,6 +28,8 @@ dbt run
 ```
 
 This command will run all your `dbt` models and create tables/views in your destination database as defined in your models.
+
+**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
