@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.0.1...transformation-aws-compliance-premium-v1.1.0) (2024-01-23)
+
+
+### Features
+
+* Add helpful dbt set up notes to aws free and premium readme ([#517](https://github.com/cloudquery/policies-premium/issues/517)) ([185e4b8](https://github.com/cloudquery/policies-premium/commit/185e4b89827693920c000a131152c843eed3b97b))
+
 ## [1.0.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.0.0...transformation-aws-compliance-premium-v1.0.1) (2024-01-22)
 
 
