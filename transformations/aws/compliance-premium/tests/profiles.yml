@@ -23,8 +23,7 @@ aws_compliance: # This should match the name in your dbt_project.yml
       threads: 1 # number of threads to use when running in parallel
     dev-bigquery:
       type: bigquery
-      method: service-account
-      keyfile: "{{ env_var('GOOGLE_APPLICATION_CREDENTIALS') }}"
+      method: oauth
       project: cq-integration-tests
       dataset: policies_premium_ci_test # You can also use "schema" here
       threads: 4 # Must be a value of 1 or greater 
