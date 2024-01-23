@@ -128,60 +128,37 @@ WHERE
 
 {% macro bigquery__restrict_cross_account_actions(framework, check_id) %}
 select
-    '{{framework}}' As framework,
-    '{{check_id}}' As check_id,
-    'Amazon S3 permissions granted to other AWS accounts in bucket policies should be restricted' AS title,
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Amazon S3 permissions granted to other AWS accounts in bucket policies should be restricted' as title,
     account_id,
-    arn AS resource_id,
-    'fail' AS status -- TODO FIXME
+    arn as resource_id,
+    'fail' as status -- TODO FIXME
 FROM (
-    SELECT
-        aws_s3_buckets.arn,
-        aws_s3_buckets.account_id,
-        aws_s3_buckets.name,
-        aws_s3_buckets.region,
-        -- For each Statement return an array containing the principals
-        CASE 
-            WHEN
-                bqutil.fn.typeof(statements.Principal) = 'STRING' THEN
-                JSON_QUERY_ARRAY(statements.Principal)
-            WHEN
-                bqutil.fn.typeof(statements.Principal.AWS) = 'STRING' THEN
-                JSON_QUERY_ARRAY(statements.Principal.AWS)
-            WHEN
-                bqutil.fn.typeof(statements.Principal.AWS) = 'ARRAY' THEN
-                JSON_QUERY_ARRAY(statements.Principal.AWS)
-        END AS principals,
-        -- For each Statement return an array containing the Actions
-        CASE
-            WHEN
-                bqutil.fn.typeof(statements.Action) = 'STRING' THEN
-                JSON_QUERY_ARRAY(statements.Action)
-            WHEN
-                bqutil.fn.typeof(statements.Action) = 'ARRAY' THEN
-                JSON_QUERY_ARRAY(statements.Action)
-        END AS actions
-    FROM
-        {{ full_table_name("aws_s3_buckets") }}
-    inner join {{ full_table_name("aws_s3_bucket_policies") }}
- bp on aws_s3_buckets.arn = bp.bucket_arn,
-      UNNEST(JSON_QUERY_ARRAY(bp.policy_json.Statement)) AS statements
-    WHERE
-        JSON_VALUE(statements.Effect) = 'Allow'
-) AS flatten_statements,
-      UNNEST(actions) AS a,
-      UNNEST(principals) AS p
+    SELECT b.arn,
+        b.account_id,
+        b.name,
+        b.region
+        principals,
+        actions
+    FROM {{ full_table_name("aws_s3_buckets") }} b
+        INNER JOIN {{ full_table_name("aws_s3_bucket_policies") }} ON b.arn = aws_s3_bucket_policies.bucket_arn,
+        UNNEST(JSON_QUERY_ARRAY(aws_s3_bucket_policies.policy_json.Statement)) AS statements,
+        UNNEST(JSON_QUERY_ARRAY(statements.Principal)) AS principals,
+        UNNEST(JSON_QUERY_ARRAY(statements.Action)) AS actions
+    WHERE JSON_VALUE(statements.Effect) = '"Allow"') AS flatten_statements
+
 WHERE
     -- Any cross account principals (or unknown principals) get flagged
     (
-        CAST(JSON_VALUE(p.VALUE) AS STRING) NOT LIKE 'arn:aws:iam::' || account_id || ':%'
-        OR CAST(JSON_VALUE(p.VALUE) AS STRING) = '*'
+        CAST(principals AS STRING) NOT LIKE '"arn:aws:iam::' || account_id || ':%"'
+        OR CAST(principals AS STRING) = '"*"'
     )
     -- Any broad permissions or Deletes get flagged
-    AND (CAST(JSON_VALUE(a.VALUE) AS STRING) LIKE 's3:%*'
-        OR CAST(JSON_VALUE(a.VALUE) AS STRING) LIKE 's3:DeleteObject')
+    AND (CAST(JSON_VALUE(actions) AS STRING) LIKE '"s3:%*"'
+        OR CAST(JSON_VALUE(actions) AS STRING) LIKE '"s3:DeleteObject"')
 
--- This will flag ALL canonical IDs as NOT COMPLIANT
+-- This will flag ALL canoninical IDs as NOT COMPLIANT
 -- This will flag ALL users that have been deleted as NOT COMPLIANT
 -- This will not catch if an explicit deny supercedes the statement
 {% endmacro %}
