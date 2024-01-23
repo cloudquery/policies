@@ -4,7 +4,6 @@ config-version: 2
 profile: aws_asset_inventory
 model-paths:
   - models
-  - ../models
 analysis-paths:
   - analyses
 test-paths:
@@ -13,7 +12,6 @@ seed-paths:
   - seeds
 macro-paths:
   - ../macros
-  - ../../macros
 snapshot-paths:
   - snapshots
 clean-targets:
