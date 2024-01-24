@@ -63,3 +63,33 @@ select
 from
     flat_containers
 {% endmacro %}
+
+{% macro bigquery__containers_limited_read_only_root_filesystems(framework, check_id) %}
+with flat_containers as (
+        SELECT
+            arn,
+            account_id,
+            CASE
+                WHEN CAST( JSON_VALUE(container_definition.readonlyRootFilesystem) AS BOOL) = FALSE
+                OR JSON_VALUE(container_definition.readonlyRootFilesystem) IS NULL THEN 1
+                ELSE 0
+            END AS status
+        FROM
+            {{ full_table_name("aws_ecs_task_definitions") }},
+            UNNEST(JSON_QUERY_ARRAY(container_definitions)) AS container_definition
+        WHERE
+            status = 'ACTIVE'
+    )
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'ECS containers should be limited to read-only access to root filesystems' as title,
+    arn,
+    account_id,
+    CASE
+        WHEN max(status) OVER (PARTITION BY arn) = 1 THEN 'fail'
+        ELSE 'pass'
+    END as status
+from
+    flat_containers
+{% endmacro %}

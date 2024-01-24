@@ -78,3 +78,40 @@ FROM aws_cloudfront_distributions d
     LEFT JOIN s3_origins_no_bucket o 
     ON d.arn = o.arn
 {% endmacro %}
+
+{% macro bigquery__distribution_should_not_point_to_non_existent_s3_origins(framework, check_id) %}
+WITH s3_origins AS (
+    SELECT DISTINCT
+        arn,
+        JSON_VALUE(o.DomainName) AS s3_domain_name
+    FROM
+        {{ full_table_name("aws_cloudfront_distributions") }},
+UNNEST(JSON_QUERY_ARRAY(distribution_config.Origins.Items)) AS o
+    WHERE
+        (o.S3OriginConfig IS NOT NULL OR JSON_VALUE(o.S3OriginConfig) <> 'null')
+        AND JSON_VALUE(o.DomainName) LIKE '%.s3.%'
+),
+s3_origins_no_bucket AS (
+SELECT DISTINCT
+    s.arn
+FROM
+    s3_origins s
+LEFT JOIN {{ full_table_name("aws_s3_buckets") }}
+ b ON SPLIT(s3_domain_name, '.')[OFFSET(0)] = b.name
+WHERE b.name is null
+ 
+ )
+SELECT DISTINCT
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should not point to non-existent S3 origins' as title,
+    d.account_id,
+    d.arn as resouce_id,
+    CASE
+        WHEN o.arn is null THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM {{ full_table_name("aws_cloudfront_distributions") }} d 
+LEFT JOIN s3_origins_no_bucket o 
+ON d.arn = o.arn
+{% endmacro %}

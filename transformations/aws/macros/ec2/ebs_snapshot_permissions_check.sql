@@ -55,7 +55,6 @@ FROM snapshot_access_groups
 {% endmacro %}
 
 {% macro default__ebs_snapshot_permissions_check(framework, check_id) %}{% endmacro %}
-
 {% macro bigquery__ebs_snapshot_permissions_check(framework, check_id) %}
 WITH snapshot_access_groups AS (
     SELECT account_id,
