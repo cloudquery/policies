@@ -60,8 +60,6 @@ with
                 union
         ({{ api_server_1_2_30('Kubernetes CIS v1.8.0','api_server_1_2_30') }})
                 union
-        ({{ api_server_1_2_31('Kubernetes CIS v1.8.0','api_server_1_2_31') }})
-                union
         ({{ controller_manager_1_3_1('Kubernetes CIS v1.8.0','controller_manager_1_3_1') }})
                 union
         ({{ controller_manager_1_3_2('Kubernetes CIS v1.8.0','controller_manager_1_3_2') }})
