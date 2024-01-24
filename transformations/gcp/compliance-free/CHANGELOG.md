@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-free-v1.4.2...transformation-gcp-compliance-free-v1.5.0) (2024-01-24)
+
+
+### Features
+
+* Added queries for Foundational Security compliance for bigquery ([#515](https://github.com/cloudquery/policies-premium/issues/515)) ([5209331](https://github.com/cloudquery/policies-premium/commit/52093318ffcce00471062a6e31a36d2ada6cae7b))
+
 ## [1.4.2](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-free-v1.4.1...transformation-gcp-compliance-free-v1.4.2) (2024-01-17)
 
 
