@@ -46,20 +46,20 @@ dbt run --models +<model_name>
 
 #### Models
 
-- **aws_compliance\_\_cis_v1_2_0_free**: AWS CIS V1.2.0 benchmarks, available for PostgreSQL
+- **aws_compliance\_\_cis_v1_2_0_free**: AWS CIS V1.2.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery
     - Required tables:
         - `aws_iam_credential_reports`
         - `aws_iam_password_policies`
         - `aws_iam_user_access_keys`
         - `aws_iam_users`
-- **aws_compliance\_\_pci_dss_v3_2_1_free**: AWS PCI DSS V3.2.1 benchmark.
+- **aws_compliance\_\_pci_dss_v3_2_1_free**: AWS PCI DSS V3.2.1 benchmark, PostgreSQL, Snowflake, and BigQuery
     - Required tables:
         - `aws_autoscaling_groups`
         - `aws_cloudtrail_trail_event_selectors`
         - `aws_cloudtrail_trails`
         - `aws_codebuild_projects`
         - `aws_config_configuration_recorders`   
-- **aws_compliance\_\_foundational_security_free**: AWS Foundational Security benchmark, available only for Snowflake
+- **aws_compliance\_\_foundational_security_free**: AWS Foundational Security benchmark, PostgreSQL, Snowflake, and BigQuery
     - Required tables:
         - `aws_apigateway_rest_api_stages`
         - `aws_apigateway_rest_apis`
