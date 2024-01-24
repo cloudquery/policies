@@ -48,9 +48,9 @@ dbt run --models +<model_name>
 
 #### Models
 
-- **aws_compliance\_\_cis_v1_2_0**: AWS CIS V1.2.0 benchmarks, available for PostgreSQL.
-- **aws_compliance\_\_foundational_security**: AWS Foundational Security benchmark, available only for Snowflake.
-- **aws_compliance\_\_pci_dss_v3_2_1**: AWS PCI DSS V3.2.1 benchmark.
+- **aws_compliance\_\_cis_v1_2_0**: AWS CIS V1.2.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
+- **aws_compliance\_\_foundational_security**: AWS Foundational Security benchmark, available PostgreSQL, Snowflake, and BigQuery.
+- **aws_compliance\_\_pci_dss_v3_2_1**: AWS PCI DSS V3.2.1 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
 - **aws_compliance\_\_imds_v2**: IMDSv2 compliance checks.
 - **aws_compliance\_\_public_egress**: Checks to find resources that can reach the public internet.
 - **aws_compliance\_\_publicly_available**: Checks to find publicly accessible resources.
