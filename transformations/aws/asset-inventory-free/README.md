@@ -97,4 +97,5 @@ dbt run --models +<model_name>
 
 #### Models
 
-- **aws\_\_\aws_resources.sql**: AWS Resources View, available for PostgreSQL.
+- **aws_resources**: AWS Resources View, available for PostgreSQL.
+  - Required tables: This model has no specific table dependencies, other than requiring a single CloudQuery table from the AWS plugin that has an ARN. 
