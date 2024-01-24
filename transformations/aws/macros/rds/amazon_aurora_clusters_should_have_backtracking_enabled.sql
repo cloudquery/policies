@@ -29,4 +29,16 @@ where
 {% endmacro %}
 
 {% macro default__amazon_aurora_clusters_should_have_backtracking_enabled(framework, check_id) %}{% endmacro %}
-                    
+
+{% macro bigquery__amazon_aurora_clusters_should_have_backtracking_enabled(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Amazon Aurora clusters should have backtracking enabled' as title,
+    account_id,
+    arn AS resource_id,
+    case when backtrack_window is null then 'fail' else 'pass' end as status
+from {{ full_table_name("aws_rds_clusters") }}
+where
+    engine in ('aurora', 'aurora-mysql', 'mysql')
+{% endmacro %}

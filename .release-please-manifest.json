@@ -1,9 +1,9 @@
 {
   "transformations/aws/data-resilience": "2.0.1",
   "transformations/aws/data-resilience+FILLER": "0.0.0",
-  "transformations/aws/compliance-free": "1.1.0",
+  "transformations/aws/compliance-free": "1.2.0",
   "transformations/aws/compliance-free+FILLER": "0.0.0",
-  "transformations/aws/compliance-premium": "1.1.0",
+  "transformations/aws/compliance-premium": "1.2.0",
   "transformations/aws/compliance-premium+FILLER": "0.0.0",
   "transformations/azure/compliance-free": "1.4.0",
   "transformations/azure/compliance-free+FILLER": "0.0.0",

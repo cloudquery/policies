@@ -43,7 +43,6 @@ from aws_codebuild_projects, JSONB_ARRAY_ELEMENTS(environment->'EnvironmentVaria
 {% endmacro %}
 
 {% macro default__check_environment_variables(framework, check_id) %}{% endmacro %}
-
 {% macro bigquery__check_environment_variables(framework, check_id) %}
 select distinct
     '{{framework}}' as framework,

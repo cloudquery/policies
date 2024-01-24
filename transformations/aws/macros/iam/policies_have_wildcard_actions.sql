@@ -66,3 +66,35 @@ select DISTINCT
 FROM
     bad_statements
 {% endmacro %}
+
+{% macro bigquery__policies_have_wildcard_actions(framework, check_id) %}
+with bad_statements as (
+SELECT
+    p.account_id,
+    p.arn as resource_id,
+    CASE
+        WHEN REGEXP_CONTAINS(JSON_VALUE(s.Action), r'^[a-zA-Z0-9]+:\*$')
+            OR JSON_VALUE(s.Action) = '*:*' THEN 1
+        ELSE 0
+    END as status
+
+FROM
+    {{ full_table_name("aws_iam_policies") }} p
+    INNER JOIN {{ full_table_name("aws_iam_policy_versions") }} pv
+     ON pv._cq_parent_id = p._cq_id, 
+    UNNEST(JSON_QUERY_ARRAY(pv.document_json.Statement)) AS s
+where pv.is_default_version = true AND JSON_VALUE(s.Effect) = 'Allow'
+)
+select DISTINCT
+      '{{framework}}' As framework,
+      '{{check_id}}' As check_id,
+      'IAM customer managed policies that you create should not allow wildcard actions for services' AS title,
+       account_id,
+       resource_id,
+       CASE
+           WHEN max(status) over(partition by resource_id) = 1 THEN 'fail'
+           ELSE 'pass'
+       END as status
+FROM
+    bad_statements
+{% endmacro %}
