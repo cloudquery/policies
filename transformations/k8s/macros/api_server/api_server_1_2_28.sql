@@ -8,13 +8,13 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --etcd-cafile argument is set as appropriate' AS title,
+        'Ensure that the --encryption-provider-config argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container ->> 'command' like '%etcd-cafile%'
+        container ->> 'command' like '%encryption-provider-config%'
       then 'pass'
       else 'fail'
     end as status
@@ -29,13 +29,13 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --etcd-cafile argument is set as appropriate' AS title,
+        'Ensure that the --encryption-provider-config argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container.value:command like '%etcd-cafile%'
+        container.value:command like '%encryption-provider-config%'
       then 'pass'
       else 'fail'
     end as status
@@ -44,9 +44,8 @@ from
   LATERAL FLATTEN(spec_containers) container
 where 
 	namespace = 'kube-system' and container.value:name = 'kube-apiserver'
-
 {% endmacro %}
 
-{% macro bigquery__(framework, check_id) %}
+{% macro bigquery__api_server_1_2_28(framework, check_id) %}
 
 {% endmacro %}

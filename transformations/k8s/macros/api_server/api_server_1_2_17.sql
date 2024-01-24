@@ -8,13 +8,13 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --profiling argument is set to false' AS title,
+        'Ensure that the --audit-log-path argument is set' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container ->> 'command' like '%profiling=false%'
+        container ->> 'command' like '%audit-log-path%'
       then 'pass'
       else 'fail'
     end as status
@@ -29,13 +29,13 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --profiling argument is set to false' AS title,
+        'Ensure that the --audit-log-path argument is set' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container.value:command like '%profiling=false%'
+        container.value:command like '%audit-log-path%'
       then 'pass'
       else 'fail'
     end as status

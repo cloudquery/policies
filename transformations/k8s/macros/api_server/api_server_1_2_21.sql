@@ -8,16 +8,15 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate' AS title,
+        'Ensure that the --request-timeout argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
-    case 
-      when 
-        container ->> 'command' like '%audit-log-maxsize%' and
-        CAST(REGEXP_REPLACE(container->>'command', '.*--audit-log-maxsize=(\d+).*', '\1') AS INTEGER) < 100
-      then 'fail'
-      else 'pass'
+    case
+        when 
+          container ->> 'command' not like '%request-timeout=0%'
+        then 'pass'
+        else 'fail'
     end as status
 from
   k8s_core_pods,
@@ -30,16 +29,15 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate' AS title,
+        'Ensure that the --request-timeout argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
-    case 
-      when 
-        container.value:command like '%audit-log-maxsize%' and
-        CAST(REGEXP_REPLACE(container.value:command, '.*--audit-log-maxsize=(\d+).*', '\\1') AS INTEGER) < 100
-      then 'fail'
-      else 'pass'
+    case
+        when 
+          container.value:command not like '%request-timeout=0%'
+        then 'pass'
+        else 'fail'
     end as status
 from
   k8s_core_pods,

@@ -8,13 +8,13 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --service-account-lookup argument is set to true' AS title,
+        'Ensure that the --service-account-key-file argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container ->> 'command' like '%service-account-lookup=true%'
+        container ->> 'command' like '%service-account-key-file%'
       then 'fail'
       else 'pass'
     end as status
@@ -29,13 +29,13 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --service-account-lookup argument is set to true' AS title,
+        'Ensure that the --service-account-key-file argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container.value:command like '%service-account-lookup=true%'
+        container.value:command like '%service-account-key-file%'
       then 'fail'
       else 'pass'
     end as status

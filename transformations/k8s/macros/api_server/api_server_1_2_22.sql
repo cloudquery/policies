@@ -8,15 +8,15 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --request-timeout argument is set as appropriate' AS title,
+        'Ensure that the --service-account-lookup argument is set to true' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
-        when 
-          container ->> 'command' not like '%request-timeout=0%'
-        then 'pass'
-        else 'fail'
+      when 
+        container ->> 'command' like '%service-account-lookup=true%'
+      then 'fail'
+      else 'pass'
     end as status
 from
   k8s_core_pods,
@@ -29,15 +29,15 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --request-timeout argument is set as appropriate' AS title,
+        'Ensure that the --service-account-lookup argument is set to true' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
-        when 
-          container.value:command not like '%request-timeout=0%'
-        then 'pass'
-        else 'fail'
+      when 
+        container.value:command like '%service-account-lookup=true%'
+      then 'fail'
+      else 'pass'
     end as status
 from
   k8s_core_pods,
