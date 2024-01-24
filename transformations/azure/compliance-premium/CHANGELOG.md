@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.3.0...transformation-azure-compliance-premium-v0.4.0) (2024-01-24)
+
+
+### Features
+
+* Added queries for Foundational Security compliance for bigquery ([#515](https://github.com/cloudquery/policies-premium/issues/515)) ([5209331](https://github.com/cloudquery/policies-premium/commit/52093318ffcce00471062a6e31a36d2ada6cae7b))
+
 ## [0.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.2.0...transformation-azure-compliance-premium-v0.3.0) (2024-01-17)
 
 
