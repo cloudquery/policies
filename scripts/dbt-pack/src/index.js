@@ -88,7 +88,7 @@ const analyzeManifestFiles = async (targetDirectories) => {
     const manifestFile = `${targetDirectory}/manifest.json`;
     console.log(`Analyzing manifest file ${manifestFile}`);
     const manifest = JSON.parse(await fs.readFile(manifestFile, "utf8"));
-    const { nodes: allNodes, macros: allMacros, parent_map: topDown } = manifest;
+    const { nodes: allNodes, macros: allMacros } = manifest;
     // List all nodes that have the type Model and that are top level nodes
     // Only grab shared models if they are referenced by a top level model
     let topLevelModels = Object.values(allNodes).filter(node => node.resource_type === "model" && node.original_file_path.startsWith("models/"))
