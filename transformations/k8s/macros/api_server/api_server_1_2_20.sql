@@ -1,10 +1,10 @@
-{% macro api_server_1_2_21(framework, check_id) %}
-  {{ return(adapter.dispatch('api_server_1_2_21')(framework, check_id)) }}
+{% macro api_server_1_2_20(framework, check_id) %}
+  {{ return(adapter.dispatch('api_server_1_2_20')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__api_server_1_2_21(framework, check_id) %}{% endmacro %}
+{% macro default__api_server_1_2_20(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__api_server_1_2_21(framework, check_id) %}
+{% macro postgres__api_server_1_2_20(framework, check_id) %}
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
@@ -26,7 +26,7 @@ where
 	namespace = 'kube-system' and container ->> 'name' = 'kube-apiserver'
 {% endmacro %}
 
-{% macro snowflake__api_server_1_2_21(framework, check_id) %}
+{% macro snowflake__api_server_1_2_20(framework, check_id) %}
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
@@ -48,6 +48,6 @@ where
 	namespace = 'kube-system' and container.value:name = 'kube-apiserver'
 {% endmacro %}
 
-{% macro bigquery__api_server_1_2_21(framework, check_id) %}
+{% macro bigquery__api_server_1_2_20(framework, check_id) %}
 
 {% endmacro %}
