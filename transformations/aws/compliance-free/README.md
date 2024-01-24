@@ -46,9 +46,35 @@ dbt run --models +<model_name>
 
 #### Models
 
-- **aws_compliance\_\_cis_v1.2.0**: AWS CIS V1.2.0 benchmarks, available for PostgreSQL
-- **aws_compliance_pci_dss_v3.2.1**: AWS PCI DSS V3.2.1 benchmark.
-- **aws_compliance\_\_foundational_security**: AWS Foundational Security benchmark, available only for Snowflake
+- **aws_compliance\_\_cis_v1_2_0_free**: AWS CIS V1.2.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery
+    - Required tables:
+        - `aws_iam_credential_reports`
+        - `aws_iam_password_policies`
+        - `aws_iam_user_access_keys`
+        - `aws_iam_users`
+- **aws_compliance\_\_pci_dss_v3_2_1_free**: AWS PCI DSS V3.2.1 benchmark, PostgreSQL, Snowflake, and BigQuery
+    - Required tables:
+        - `aws_autoscaling_groups`
+        - `aws_cloudtrail_trail_event_selectors`
+        - `aws_cloudtrail_trails`
+        - `aws_codebuild_projects`
+        - `aws_config_configuration_recorders`   
+- **aws_compliance\_\_foundational_security_free**: AWS Foundational Security benchmark, PostgreSQL, Snowflake, and BigQuery
+    - Required tables:
+        - `aws_apigateway_rest_api_stages`
+        - `aws_apigateway_rest_apis`
+        - `aws_apigatewayv2_api_routes`
+        - `aws_apigatewayv2_api_stages`
+        - `aws_apigatewayv2_apis`
+        - `aws_cloudfront_distributions`
+        - `aws_efs_access_points`
+        - `aws_elasticbeanstalk_environments`
+        - `aws_elbv1_load_balancers`
+        - `aws_elbv2_load_balancer_attributes`
+        - `aws_elbv2_load_balancers`
+        - `aws_iam_accounts`
+        - `aws_rds_clusters`
+        - `aws_s3_accounts`
 
 The free version contains 10% of the full pack's checks.
 
