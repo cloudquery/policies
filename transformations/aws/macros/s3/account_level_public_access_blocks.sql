@@ -45,7 +45,6 @@ left join
 {% endmacro %}
 
 {% macro default__account_level_public_access_blocks(framework, check_id) %}{% endmacro %}
-
 {% macro bigquery__account_level_public_access_blocks(framework, check_id) %}
 select
     '{{framework}}' as framework,

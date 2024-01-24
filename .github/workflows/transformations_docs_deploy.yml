@@ -1,10 +1,13 @@
-name: Deploy dbt docs to preview Vercel env
+name: Deploy dbt docs
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - main
@@ -17,7 +20,6 @@ jobs:
         shard: [
           1,  2,  3,  4,
           5,  6,  7,  8,
-          9, 10, 11, 12,
         ]
     timeout-minutes: 30
     services:
@@ -45,7 +47,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v5.0.2
+          version: v5.1.0
       - name: Generate the docs
         run: make shard=${{ matrix.shard }} gen-site
         env:
@@ -54,7 +56,29 @@ jobs:
         with:
           name: docs-artifact-${{ matrix.shard }}
           path: "*.html"
-  deploy:
+  deploy-preview:
+    if: github.event_name == 'pull_request'
+    needs: generate-docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: docs-artifact-*
+          path: actions-checkout-file-path
+          merge-multiple: true
+      - run: mv actions-checkout-file-path/*.html dbt-docs-site
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build Project Artifacts
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --no-wait --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+  deploy-prod:
+    if: github.event_name == 'push'
     needs: generate-docs
     runs-on: ubuntu-latest
     steps:

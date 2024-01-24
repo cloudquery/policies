@@ -41,3 +41,22 @@ FROM
     aws_rds_events
 where source_type = 'db-security-group'
 {% endmacro %}
+
+{% macro bigquery__rds_sg_event_notifications_configured(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'An RDS event notifications subscription should be configured for critical database security group events' as title,
+    account_id,
+    SOURCE_ARN AS resource_id,
+    CASE 
+        WHEN 
+            'configuration' IN UNNEST(EVENT_CATEGORIES) AND
+            'failure' IN UNNEST(EVENT_CATEGORIES)
+            THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM
+    {{ full_table_name("aws_rds_events") }}
+where source_type = 'db-security-group'
+{% endmacro %}

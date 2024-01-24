@@ -51,3 +51,27 @@ LEFT JOIN
     b.arn = l.bucket_arn
 where bv.status = 'Enabled'
 {% endmacro %}
+
+{% macro bigquery__s3_version_lifecycle_policy_check(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'S3 buckets with versioning enabled should have lifecycle policies configured' AS title,
+    b.account_id,
+    b.arn AS resource_id,
+    CASE
+        WHEN l.STATUS = 'Enabled' THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM
+    {{ full_table_name("aws_s3_buckets") }} AS b
+LEFT JOIN
+    {{ full_table_name("aws_s3_bucket_versionings") }} AS bv
+    ON
+    b.arn = bv.bucket_arn
+LEFT JOIN
+    {{ full_table_name("aws_s3_bucket_lifecycles") }} AS l
+    ON
+    b.arn = l.bucket_arn
+where bv.status = 'Enabled'
+{% endmacro %}

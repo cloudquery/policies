@@ -32,3 +32,19 @@ select
     END AS status
 from aws_cloudfront_distributions, LATERAL FLATTEN(input => distribution_config:Origins:Items) o
 {% endmacro %}
+
+{% macro bigquery__origin_access_identity_enabled(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should have origin access identity enabled' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+        WHEN CAST(JSON_VALUE(o.DomainName) AS STRING) LIKE '%s3.amazonaws.com' 
+        AND CAST(JSON_VALUE(o.S3OriginConfig.OriginAccessIdentity) AS STRING) = '' THEN 'fail'
+        ELSE 'pass'
+    END AS status
+from {{ full_table_name("aws_cloudfront_distributions") }},
+UNNEST(JSON_QUERY_ARRAY(distribution_config.Origins.Items)) AS o
+{% endmacro %}
