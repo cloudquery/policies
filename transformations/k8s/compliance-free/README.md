@@ -49,4 +49,15 @@ The free version contains 10% of the full pack's queries.
 - ✅ `namespace_limit_range_default_cpu_limit`: `namespace_limit_range_default_cpu_limit`
 - ✅ `namespace_resource_quota_cpu_limit`: `namespace_resource_quota_cpu_limit`
 - ✅ `replicaset_cpu_limit`: `replicaset_cpu_limit`
+
+##### `Kubernetes CIS v1.8.0`
+
+- ✅ `api_server_1_2_1`: `api_server_1_2_1`
+- ✅ `api_server_1_2_2`: `api_server_1_2_2`
+- ✅ `api_server_1_2_3`: `api_server_1_2_3`
+- ✅ `api_server_1_2_4`: `api_server_1_2_4`
+- ✅ `api_server_1_2_5`: `api_server_1_2_5`
+- ✅ `api_server_1_2_6`: `api_server_1_2_6`
+- ✅ `api_server_1_2_7`: `api_server_1_2_7`
+- ✅ `api_server_1_2_8`: `api_server_1_2_8`
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
