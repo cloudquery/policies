@@ -37,4 +37,20 @@ from aws_elasticsearch_domains
 {% endmacro %}
 
 {% macro default__elasticsearch_domains_should_have_at_least_three_data_nodes(framework, check_id) %}{% endmacro %}
-                    
+
+{% macro bigquery__elasticsearch_domains_should_have_at_least_three_data_nodes(framework, check_id) %}
+select
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Elasticsearch domains should have at least three data nodes' as title,
+  account_id,
+  arn as resource_id,
+  case when
+    not CAST( JSON_VALUE(elasticsearch_cluster_config.ZoneAwarenessEnabled) AS BOOL)
+    or CAST(JSON_VALUE(elasticsearch_cluster_config.InstanceCount) AS INT64) is null
+    or CAST(JSON_VALUE(elasticsearch_cluster_config.InstanceCount) AS INT64) < 3
+    then 'fail'
+    else 'pass'
+  end as status
+from {{ full_table_name("aws_elasticsearch_domains") }}
+{% endmacro %}  
