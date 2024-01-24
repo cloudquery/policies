@@ -1,5 +1,3 @@
-{{ config(enabled=block_bigquery()) }}
-
 with
     aggregated as (
         ({{ autoscaling_groups_elb_check('pci_dss_v3.2.1','autoscaling.1') }})
