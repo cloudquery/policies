@@ -121,7 +121,6 @@ jobs:
           dbt run --target dev-snowflake --profiles-dir ./tests
         if: needs.prepare.outputs.snowflake == 'true'
         env:
-          DISABLE_KWALLET: 1 # https://github.com/cloudquery/cloudquery-issues/issues/966
           SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}:${{ secrets.SNOW_PASSWORD }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
       - name: Test BigQuery
         if: needs.prepare.outputs.bigquery == 'true'

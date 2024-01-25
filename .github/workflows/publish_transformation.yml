@@ -120,7 +120,6 @@ jobs:
         run: cloudquery migrate tests/snowflake.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
-          DISABLE_KWALLET: 1 # https://github.com/cloudquery/cloudquery-issues/issues/966
           SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}:${{ secrets.SNOW_PASSWORD }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
       - name: Migrate DB BigQuery
         if: needs.prepare.outputs.bigquery == 'true'
