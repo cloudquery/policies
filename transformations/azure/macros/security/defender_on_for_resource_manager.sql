@@ -1,10 +1,10 @@
-{% macro security_defender_on_for_arm(framework, check_id) %}
-  {{ return(adapter.dispatch('security_defender_on_for_arm')(framework, check_id)) }}
+{% macro security_defender_on_for_resource_manager(framework, check_id) %}
+  {{ return(adapter.dispatch('security_defender_on_for_resource_manager')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__security_defender_on_for_arm(framework, check_id) %}{% endmacro %}
+{% macro default__security_defender_on_for_resource_manager(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__security_defender_on_for_arm(framework, check_id) %}
+{% macro postgres__security_defender_on_for_resource_manager(framework, check_id) %}
 SELECT
   id,
   '{{framework}}' As framework,
@@ -19,7 +19,7 @@ FROM azure_security_pricings asp
 WHERE "name" = 'Arm'
 {% endmacro %}
 
-{% macro snowflake__security_defender_on_for_arm(framework, check_id) %}
+{% macro snowflake__security_defender_on_for_resource_manager(framework, check_id) %}
 SELECT
   id,
   '{{framework}}' As framework,
@@ -34,7 +34,7 @@ FROM azure_security_pricings asp
 WHERE name = 'Arm'
 {% endmacro %}
 
-{% macro bigquery__security_defender_on_for_arm(framework, check_id) %}
+{% macro bigquery__security_defender_on_for_resource_manager(framework, check_id) %}
 SELECT
   id,
   '{{framework}}' As framework,

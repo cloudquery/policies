@@ -51,6 +51,8 @@ with
         {{ union() }}
         ({{sql_sqlserver_tde_not_encrypted_with_cmek('cis_v2.0.0','4.1.3')}})
         {{ union() }}
+        ({{sql_ad_admin_configured('cis_v2.0.0','4.1.4')}})
+        {{ union() }}
         ({{sql_data_encryption_off('cis_v2.0.0','4.1.5')}})
         {{ union() }}
         ({{sql_auditing_retention_less_than_90_days('cis_v2.0.0','4.1.6')}})

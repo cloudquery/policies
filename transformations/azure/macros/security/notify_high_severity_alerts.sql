@@ -1,3 +1,7 @@
+{% macro security_notify_high_severity_alerts(framework, check_id) %}
+  {{ return(adapter.dispatch('security_notify_high_severity_alerts')(framework, check_id)) }}
+{% endmacro %}
+
 {% macro default__security_notify_high_severity_alerts(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__security_notify_high_severity_alerts(framework, check_id) %}
@@ -11,8 +15,8 @@ SELECT
     when properties ->> 'alertNotifications' = 'On' and properties ->> 'email' is not null
     then 'pass' else 'fail'
   end
-FROM azure_security_contacts asc
-where "name" = "default1"
+FROM azure_security_contacts 
+where "name" = 'default1'
 {% endmacro %}
 
 {% macro snowflake__security_notify_high_severity_alerts(framework, check_id) %}
@@ -26,8 +30,8 @@ SELECT
     when properties:alertNotifications = 'On' and properties:email is not null
     then 'pass' else 'fail'
   end
-FROM azure_security_contacts asc
-where name = "default1"
+FROM azure_security_contacts 
+where name = 'default1'
 {% endmacro %}
 
 {% macro bigquery__security_notify_high_severity_alerts(framework, check_id) %}
@@ -41,6 +45,6 @@ SELECT
     when JSON_VALUE(properties.alertNotifications) = 'On' and (JSON_VALUE(properties.email) is not null or JSON_VALUE(properties.email) != "")
     then 'pass' else 'fail'
   end
-FROM {{ full_table_name("azure_security_contacts") }} asc
-where name = "default1"
+FROM {{ full_table_name("azure_security_contacts") }} 
+where name = 'default1'
 {% endmacro %}
