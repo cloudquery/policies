@@ -1,4 +1,6 @@
-{% macro security_security_email_configured(framework, check_id) %}
+{% macro security_additional_security_email_configured(framework, check_id) %}
+  {{ return(adapter.dispatch('security_additional_security_email_configured')(framework, check_id)) }}
+{% endmacro %}
 
 SELECT
   id,
