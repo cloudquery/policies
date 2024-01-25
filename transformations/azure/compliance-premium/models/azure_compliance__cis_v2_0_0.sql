@@ -47,9 +47,13 @@ with
         {{ union() }}
         ({{sql_auditing_off('cis_v2.0.0','4.1.1')}})
         {{ union() }}
-        ({{sql_data_encryption_off('cis_v2.0.0','4.1.2')}})
+        ({{sql_no_sql_allow_ingress_from_any_ip('cis_v2.0.0','4.1.2')}})
         {{ union() }}
-        ({{sql_auditing_retention_less_than_90_days('cis_v2.0.0','4.1.3')}})
+        ({{sql_sqlserver_tde_not_encrypted_with_cmek('cis_v2.0.0','4.1.3')}})
+        {{ union() }}
+        ({{sql_data_encryption_off('cis_v2.0.0','4.1.5')}})
+        {{ union() }}
+        ({{sql_auditing_retention_less_than_90_days('cis_v2.0.0','4.1.6')}})
         {{ union() }}
         ({{sql_atp_on_sql_server_disabled('cis_v2.0.0','4.2.1')}})
         {{ union() }}
