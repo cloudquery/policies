@@ -37,13 +37,13 @@ with
         {{ union() }}
         ({{storage_infrastructure_encryption_enabled('cis_v2.0.0','3.2')}})
         {{ union() }}
-        ({{storage_no_public_blob_container('cis_v2.0.0','3.5')}})
+        ({{storage_no_public_blob_container('cis_v2.0.0','3.7')}})
         {{ union() }}
-        ({{storage_default_network_access_rule_is_deny('cis_v2.0.0','3.6')}})
+        ({{storage_default_network_access_rule_is_deny('cis_v2.0.0','3.8')}})
         {{ union() }}
-        ({{storage_soft_delete_is_enabled('cis_v2.0.0','3.8')}})
+        ({{storage_soft_delete_is_enabled('cis_v2.0.0','3.11')}})
         {{ union() }}
-        ({{storage_encrypt_with_cmk('cis_v2.0.0','3.9')}})
+        ({{storage_encrypt_with_cmk('cis_v2.0.0','3.12')}})
         {{ union() }}
         ({{sql_auditing_off('cis_v2.0.0','4.1.1')}})
         {{ union() }}
