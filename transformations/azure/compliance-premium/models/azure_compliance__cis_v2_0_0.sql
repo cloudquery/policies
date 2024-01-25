@@ -29,9 +29,13 @@ with
         {{ union() }}
         ({{security_emails_on_for_owner_role('cis_v2.0.0','2.18')}})
         {{ union() }}
-        ({{security_security_email_configured('cis_v2.0.0','2.19')}})
+        ({{security_additional_security_email_configured('cis_v2.0.0','2.19')}})
+        {{ union() }}
+        ({{security_notify_high_severity_alerts('cis_v2.0.0','2.20')}})
         {{ union() }}
         ({{storage_secure_transfer_to_storage_accounts_should_be_enabled('cis_v2.0.0','3.1')}})
+        {{ union() }}
+        ({{storage_infrastructure_encryption_enabled('cis_v2.0.0','3.2')}})
         {{ union() }}
         ({{storage_no_public_blob_container('cis_v2.0.0','3.5')}})
         {{ union() }}
