@@ -81,9 +81,17 @@ with
         {{ union() }}
         ({{sql_postgresql_allow_access_to_azure_services_enabled('cis_v2.0.0','4.3.7')}})
         {{ union() }}
+        ({{sql_postgresql_infrastructure_double_encryption('cis_v2.0.0','4.3.8')}})
+        {{ union() }}
         ({{sql_ad_admin_configured('cis_v2.0.0','4.4')}})
         {{ union() }}
         ({{sql_mysql_ssl_enforcment_disabled('cis_v2.0.0','4.4.1')}})
+        {{ union() }}
+        ({{sql_mysql_tls_v_1_2_set('cis_v2.0.0','4.4.2')}})
+        {{ union() }}
+        ({{sql_mysql_audit_log_enabled('cis_v2.0.0','4.4.3')}})
+        {{ union() }}
+        ({{sql_mysql_audit_log_events_include_connection('cis_v2.0.0','4.4.4')}})
         {{ union() }}
         ({{sql_sqlserver_tde_not_encrypted_with_cmek('cis_v2.0.0','4.5')}})
         {{ union() }}
