@@ -57,7 +57,7 @@ with
         {{ union() }}
         ({{sql_auditing_retention_less_than_90_days('cis_v2.0.0','4.1.6')}})
         {{ union() }}
-        ({{sql_atp_on_sql_server_disabled('cis_v2.0.0','4.2.1')}})
+        ({{sql_atp_on_sql_server_disabled('cis_v2.0.0','4.2.1')}}) --atp is now windows defender
         {{ union() }}
         ({{sql_va_is_enabled_on_sql_server_by_storage_account('cis_v2.0.0','4.2.2')}})
         {{ union() }}
@@ -69,21 +69,21 @@ with
         {{ union() }}
         ({{sql_postgresql_ssl_enforcment_disabled('cis_v2.0.0','4.3.1')}})
         {{ union() }}
-        ({{sql_mysql_ssl_enforcment_disabled('cis_v2.0.0','4.3.2')}})
+        ({{sql_postgresql_log_checkpoints_disabled('cis_v2.0.0','4.3.2')}})
         {{ union() }}
-        ({{sql_postgresql_log_checkpoints_disabled('cis_v2.0.0','4.3.3')}})
+        ({{sql_postgresql_log_connections_disabled('cis_v2.0.0','4.3.3')}})
         {{ union() }}
-        ({{sql_postgresql_log_connections_disabled('cis_v2.0.0','4.3.4')}})
+        ({{sql_postgresql_log_disconnections_disabled('cis_v2.0.0','4.3.4')}})
         {{ union() }}
-        ({{sql_postgresql_log_disconnections_disabled('cis_v2.0.0','4.3.5')}})
+        ({{sql_postgresql_connection_throttling_disabled('cis_v2.0.0','4.3.5')}})
         {{ union() }}
-        ({{sql_postgresql_connection_throttling_disabled('cis_v2.0.0','4.3.6')}})
+        ({{sql_postgresql_log_retention_days_less_than_3_days('cis_v2.0.0','4.3.6')}})
         {{ union() }}
-        ({{sql_postgresql_log_retention_days_less_than_3_days('cis_v2.0.0','4.3.7')}})
-        {{ union() }}
-        ({{sql_postgresql_allow_access_to_azure_services_enabled('cis_v2.0.0','4.3.8')}})
+        ({{sql_postgresql_allow_access_to_azure_services_enabled('cis_v2.0.0','4.3.7')}})
         {{ union() }}
         ({{sql_ad_admin_configured('cis_v2.0.0','4.4')}})
+        {{ union() }}
+        ({{sql_mysql_ssl_enforcment_disabled('cis_v2.0.0','4.4.1')}})
         {{ union() }}
         ({{sql_sqlserver_tde_not_encrypted_with_cmek('cis_v2.0.0','4.5')}})
         {{ union() }}
