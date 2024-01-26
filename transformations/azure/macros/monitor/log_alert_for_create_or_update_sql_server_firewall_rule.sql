@@ -1,10 +1,10 @@
-{% macro monitor_log_alert_for_create_or_update_or_delete_sql_server_firewall_rule(framework, check_id) %}
-  {{ return(adapter.dispatch('monitor_log_alert_for_create_or_update_or_delete_sql_server_firewall_rule')(framework, check_id)) }}
+{% macro monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}
+  {{ return(adapter.dispatch('monitor_log_alert_for_create_or_update_sql_server_firewall_rule')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__monitor_log_alert_for_create_or_update_or_delete_sql_server_firewall_rule(framework, check_id) %}{% endmacro %}
+{% macro default__monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__monitor_log_alert_for_create_or_update_or_delete_sql_server_firewall_rule(framework, check_id) %}
+{% macro postgres__monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}
 WITH fields AS (
     SELECT
         subscription_id,
@@ -46,7 +46,7 @@ FROM conditions
 GROUP BY subscription_id, scope
 {% endmacro %}
 
-{% macro snowflake__monitor_log_alert_for_create_or_update_or_delete_sql_server_firewall_rule(framework, check_id) %}
+{% macro snowflake__monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}
 WITH fields AS (
     SELECT
         subscription_id,
@@ -90,7 +90,7 @@ FROM conditions
 GROUP BY subscription_id, scope
 {% endmacro %}
 
-{% macro bigquery__monitor_log_alert_for_create_or_update_or_delete_sql_server_firewall_rule(framework, check_id) %}
+{% macro bigquery__monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}
 WITH fields AS (
     SELECT
         subscription_id,

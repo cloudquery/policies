@@ -20,7 +20,7 @@ SELECT
   'Ensure server parameter "audit_log_enabled" is set to "ON" for MySQL Database Server (Manual)' as title,
   s.subscription_id,
   case
-    when lower(v.value) is not like '%connection%'
+    when lower(v.value) not like '%connection%'
       then 'fail' else 'pass'
   end
 FROM azure_mysql_servers s
@@ -44,7 +44,7 @@ SELECT
   'Ensure server parameter "audit_log_enabled" is set to "ON" for MySQL Database Server (Manual)' as title,
   s.subscription_id,
   case
-    when lower(v.value) is not like '%connection%'
+    when lower(v.value) not like '%connection%'
       then 'fail' else 'pass'
   end
 FROM azure_mysql_servers s
