@@ -96,6 +96,8 @@ with
                 union
         ({{ pod_security_standards_5_3_2('Kubernetes CIS v1.8.0','pod_security_standards_5_3_2') }})
                 union
+        ({{ pod_security_standards_5_2_1('Kubernetes CIS v1.8.0','pod_security_standards_5_2_1') }})
+                union
         ({{ pod_security_standards_5_2_2('Kubernetes CIS v1.8.0','pod_security_standards_5_2_2') }})
                 union
         ({{ pod_security_standards_5_2_3('Kubernetes CIS v1.8.0','pod_security_standards_5_2_3') }})
