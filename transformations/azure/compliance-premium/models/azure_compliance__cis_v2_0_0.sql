@@ -103,7 +103,7 @@ with
         {{ union() }}
         ({{storage_encrypt_with_cmk_for_activity_log('cis_v2.0.0','5.1.4')}})
         {{ union() }}
-        ({{monitor_logging_key_valut_is_enabled('cis_v2.0.0','5.1.5')}})
+        ({{monitor_logging_key_vault_is_enabled('cis_v2.0.0','5.1.5')}})
         {{ union() }}
         ({{monitor_log_alert_for_create_policy_assignment('cis_v2.0.0','5.2.1')}})
         {{ union() }}
