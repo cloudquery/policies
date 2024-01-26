@@ -75,6 +75,7 @@ The premium version contains all queries.
 - ✅ `etcd_2_5`: `etcd_2_5`
 - ✅ `etcd_2_6`: `etcd_2_6`
 - ✅ `logging_3_2_1`: `logging_3_2_1`
+- ✅ `pod_security_standards_5_2_1`: `pod_security_standards_5_2_1`
 - ✅ `pod_security_standards_5_2_2`: `pod_security_standards_5_2_2`
 - ✅ `pod_security_standards_5_2_3`: `pod_security_standards_5_2_3`
 - ✅ `pod_security_standards_5_2_4`: `pod_security_standards_5_2_4`
