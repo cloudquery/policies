@@ -113,15 +113,15 @@ with
         {{ union() }}
         ({{monitor_log_alert_for_delete_network_sg('cis_v2.0.0','5.2.4')}})
         {{ union() }}
-        ({{monitor_log_alert_for_create_or_update_network_sg_rule('cis_v2.0.0','5.2.5')}})
+        ({{monitor_log_alert_for_create_or_update_security_solution('cis_v2.0.0','5.2.5')}})
         {{ union() }}
-        ({{monitor_log_alert_for_delete_network_sg_rule('cis_v2.0.0','5.2.6')}})
+        ({{monitor_log_alert_for_delete_security_solution('cis_v2.0.0','5.2.6')}})
         {{ union() }}
-        ({{monitor_log_alert_for_create_or_update_security_solution('cis_v2.0.0','5.2.7')}})
+        ({{monitor_log_alert_for_create_or_update_sql_server_firewall_rule('cis_v2.0.0','5.2.7')}})
         {{ union() }}
-        ({{monitor_log_alert_for_delete_security_solution('cis_v2.0.0','5.2.8')}})
+        ({{monitor_log_alert_for_delete_sql_server_firewall_rule('cis_v2.0.0','5.2.8')}})
         {{ union() }}
-        ({{monitor_log_alert_for_create_or_update_or_delete_sql_server_firewall_rule('cis_v2.0.0','5.2.9')}})
+        ({{monitor_log_alert_for_create_or_update_public_ip_address_rule('cis_v2.0.0','5.2.9')}})
         {{ union() }}
         ({{monitor_diagnostic_logs_for_all_services('cis_v2.0.0','5.3')}})
         {{ union() }}
