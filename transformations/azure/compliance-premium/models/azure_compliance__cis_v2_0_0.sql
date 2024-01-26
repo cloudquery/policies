@@ -123,7 +123,11 @@ with
         {{ union() }}
         ({{monitor_log_alert_for_create_or_update_public_ip_address_rule('cis_v2.0.0','5.2.9')}})
         {{ union() }}
-        ({{monitor_diagnostic_logs_for_all_services('cis_v2.0.0','5.3')}})
+        ({{monitor_log_alert_for_delete_public_ip_address_rule('cis_v2.0.0','5.2.10')}})
+        {{ union() }}
+        ({{monitor_diagnostic_logs_for_all_services('cis_v2.0.0','5.4')}})
+        {{ union() }}
+        ({{monitor_basic_or_consumption_sku_not_used('cis_v2.0.0','5.5')}})
         {{ union() }}
         ({{network_rdp_services_are_restricted_from_the_internet('cis_v2.0.0','6.1')}})
         {{ union() }}
