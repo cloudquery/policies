@@ -12,11 +12,12 @@ SELECT
     'Ensure Application Insights are Configured (Automated)' AS title,
     subscription_id                                                          AS subscription_id,
     CASE
-        WHEN sku.name like '%Basic%' or sku.name like '%consumption%'
+        WHEN id is null
         THEN 'fail'
         ELSE 'pass'
     END                                                                          AS status
-FROM azure_monitor_resources 
+FROM azure_applicationinsights_components 
+where kind = 'web'
     
         
 {% endmacro %}
@@ -29,11 +30,12 @@ SELECT
     'Ensure Application Insights are Configured (Automated)' AS title,
     subscription_id                                                          AS subscription_id,
     CASE
-        WHEN sku.name like '%Basic%' or sku.name like '%consumption%'
+        WHEN id is null
         THEN 'fail'
         ELSE 'pass'
     END                                                                          AS status
-FROM azure_monitor_resources 
+FROM azure_applicationinsights_components 
+where kind = 'web'
     
         
 {% endmacro %}
@@ -46,9 +48,10 @@ SELECT
     'Ensure Application Insights are Configured (Automated)' AS title,
     subscription_id                                                          AS subscription_id,
     CASE
-        WHEN sku.name like '%Basic%' or sku.name like '%consumption%'
+        WHEN id is null
         THEN 'fail'
         ELSE 'pass'                                                                          AS status
-FROM {{ full_table_name("azure_monitor_resources") }} 
+FROM {{ full_table_name("azure_applicationinsights_components") }} 
+WHERE kind = 'web'
         
 {% endmacro %}
