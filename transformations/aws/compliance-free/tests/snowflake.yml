@@ -11,8 +11,8 @@ kind: destination
 spec:
   name: snowflake
   path: cloudquery/snowflake
-  registry: github
-  version: "v3.3.11" # latest version of destination snowflake plugin
+  registry: cloudquery
+  version: "v4.0.0-hub-dbg-no-cgo" # latest version of destination snowflake plugin
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
     migrate_concurrency: 50
