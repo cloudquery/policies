@@ -29,7 +29,7 @@ The premium version contains all queries.
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
 
-##### `Kubernetes CIS v1.7.0`
+##### `Kubernetes CIS v1.8.0`
 
 - ✅ `api_server_1_2_1`: `api_server_1_2_1`
 - ✅ `api_server_1_2_2`: `api_server_1_2_2`
@@ -61,7 +61,6 @@ The premium version contains all queries.
 - ✅ `api_server_1_2_28`: `api_server_1_2_28`
 - ✅ `api_server_1_2_29`: `api_server_1_2_29`
 - ✅ `api_server_1_2_30`: `api_server_1_2_30`
-- ✅ `api_server_1_2_31`: `api_server_1_2_31`
 - ✅ `controller_manager_1_3_1`: `controller_manager_1_3_1`
 - ✅ `controller_manager_1_3_2`: `controller_manager_1_3_2`
 - ✅ `controller_manager_1_3_3`: `controller_manager_1_3_3`
@@ -76,6 +75,7 @@ The premium version contains all queries.
 - ✅ `etcd_2_5`: `etcd_2_5`
 - ✅ `etcd_2_6`: `etcd_2_6`
 - ✅ `logging_3_2_1`: `logging_3_2_1`
+- ✅ `pod_security_standards_5_2_1`: `pod_security_standards_5_2_1`
 - ✅ `pod_security_standards_5_2_2`: `pod_security_standards_5_2_2`
 - ✅ `pod_security_standards_5_2_3`: `pod_security_standards_5_2_3`
 - ✅ `pod_security_standards_5_2_4`: `pod_security_standards_5_2_4`
@@ -108,6 +108,9 @@ The premium version contains all queries.
 - ✅ `rbac_and_service_accounts_5_1_13`: `rbac_and_service_accounts_5_1_13`
 - ✅ `scheduler_1_4_1`: `scheduler_1_4_1`
 - ✅ `scheduler_1_4_2`: `scheduler_1_4_2`
+
+##### `Kubernetes CIS v1.7.0`
+
 - ✅ `api_server_1_2_1`: `api_server_1_2_1`
 
 ##### `nsa_cisa_v1`

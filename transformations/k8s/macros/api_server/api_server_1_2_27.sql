@@ -8,13 +8,13 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --client-ca-file argument is set as appropriate' AS title,
+        'Ensure that the --etcd-cafile argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container ->> 'command' like '%client-ca-file%'
+        container ->> 'command' like '%etcd-cafile%'
       then 'pass'
       else 'fail'
     end as status
@@ -29,13 +29,13 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --client-ca-file argument is set as appropriate' AS title,
+        'Ensure that the --etcd-cafile argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container.value:command like '%client-ca-file%'
+        container.value:command like '%etcd-cafile%'
       then 'pass'
       else 'fail'
     end as status
@@ -44,6 +44,7 @@ from
   LATERAL FLATTEN(spec_containers) container
 where 
 	namespace = 'kube-system' and container.value:name = 'kube-apiserver'
+
 {% endmacro %}
 
 {% macro bigquery__api_server_1_2_27(framework, check_id) %}

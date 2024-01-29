@@ -8,14 +8,13 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate' AS title,
+        'Ensure that the --client-ca-file argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container ->> 'command' like '%tls-cert-file%' and
-        container ->> 'command' like '%tls-private-key-file%'
+        container ->> 'command' like '%client-ca-file%'
       then 'pass'
       else 'fail'
     end as status
@@ -30,14 +29,13 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --tls-cert-file and --tls-private-key-file arguments are set as appropriate' AS title,
+        'Ensure that the --client-ca-file argument is set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container.value:command like '%tls-cert-file%' and
-        container.value:command like '%tls-private-key-file%'
+        container.value:command like '%client-ca-file%'
       then 'pass'
       else 'fail'
     end as status

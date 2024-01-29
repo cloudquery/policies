@@ -8,14 +8,13 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate' AS title,
+        'Ensure that the --token-auth-file parameter is not set' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case 
         when 
-        container ->> 'command' like '%audit-log-maxsize%' and
-        CAST(REGEXP_REPLACE(container->>'command', '.*--audit-log-maxsize=(\d+).*', '\1') AS INTEGER) < 100
+        container ->> 'command' like '%--token-auth-file%'
         then 'fail'
         else 'pass'
     end as status
@@ -30,14 +29,13 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --audit-log-maxsize argument is set to 100 or as appropriate' AS title,
+        'Ensure that the --token-auth-file parameter is not set' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case 
         when 
-        container.value:command like '%audit-log-maxsize%' and
-        CAST(REGEXP_REPLACE(container.value:command, '.*--audit-log-maxsize=(\d+).*', '\1') AS INTEGER) < 100
+        container.value:command like '%--token-auth-file%'
         then 'fail'
         else 'pass'
     end as status
