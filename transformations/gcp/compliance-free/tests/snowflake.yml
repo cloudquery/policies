@@ -11,7 +11,7 @@ spec:
   name: snowflake
   path: cloudquery/snowflake
   registry: cloudquery
-  version: "v4.0.0-hub-dbg-no-cgo" # latest version of destination snowflake plugin
+  version: "v111.1.1-rc111" # latest version of destination snowflake plugin
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
     migrate_concurrency: 50
