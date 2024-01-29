@@ -8,15 +8,16 @@
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --service-account-key-file argument is set as appropriate' AS title,
+        'Ensure that the --etcd-certfile and --etcd-keyfile arguments are set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container ->> 'command' like '%service-account-key-file%'
-      then 'fail'
-      else 'pass'
+        container ->> 'command' like '%etcd-certfile%' and
+        container ->> 'command' like '%etcd-keyfile%'
+      then 'pass'
+      else 'fail'
     end as status
 from
   k8s_core_pods,
@@ -29,15 +30,16 @@ where
 select uid                              AS resource_id,
         '{{framework}}' As framework,
         '{{check_id}}'  As check_id,
-        'Ensure that the --service-account-key-file argument is set as appropriate' AS title,
+        'Ensure that the --etcd-certfile and --etcd-keyfile arguments are set as appropriate' AS title,
     context,
   	namespace,
   	name AS resource_name,
     case
       when 
-        container.value:command like '%service-account-key-file%'
-      then 'fail'
-      else 'pass'
+        container.value:command like '%etcd-certfile%' and
+        container.value:command like '%etcd-keyfile%'
+      then 'pass'
+      else 'fail'
     end as status
 from
   k8s_core_pods,
