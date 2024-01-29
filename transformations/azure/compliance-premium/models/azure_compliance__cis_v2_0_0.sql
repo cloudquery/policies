@@ -135,11 +135,13 @@ with
         {{ union() }}
         ({{network_ssh_services_are_restricted_from_the_internet('cis_v2.0.0','6.2')}})
         {{ union() }}
-        ({{sql_no_sql_allow_ingress_from_any_ip('cis_v2.0.0','6.3')}})
+        ({{network_udp_services_are_restricted_from_the_internet('cis_v2.0.0','6.3')}})
         {{ union() }}
-        ({{network_nsg_log_retention_period('cis_v2.0.0','6.4')}})
+        ({{network_https_access_restricted_from_the_internet('cis_v2.0.0','6.4')}})
         {{ union() }}
-        ({{network_udp_services_are_restricted_from_the_internet('cis_v2.0.0','6.6')}})
+        ({{network_nsg_log_retention_period('cis_v2.0.0','6.5')}})
+        {{ union() }}
+        ({{network_networkwatcher_enabled('cis_v2.0.0','6.6')}})
         {{ union() }}
         ({{compute_vms_utilizing_managed_disks('cis_v2.0.0','7.1')}})
         {{ union() }}
