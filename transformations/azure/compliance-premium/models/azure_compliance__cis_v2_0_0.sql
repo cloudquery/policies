@@ -143,13 +143,15 @@ with
         {{ union() }}
         ({{network_networkwatcher_enabled('cis_v2.0.0','6.6')}})
         {{ union() }}
-        ({{compute_vms_utilizing_managed_disks('cis_v2.0.0','7.1')}})
+        ({{compute_ensure_bastion_host_exists('cis_v2.0.0','7.1')}})
         {{ union() }}
-        ({{compute_os_and_data_disks_encrypted_with_cmk('cis_v2.0.0','7.2')}})
+        ({{compute_vms_utilizing_managed_disks('cis_v2.0.0','7.2')}})
         {{ union() }}
-        ({{compute_unattached_disks_are_encrypted_with_cmk('cis_v2.0.0','7.3')}})
+        ({{compute_os_and_data_disks_encrypted_with_cmk('cis_v2.0.0','7.3')}})
         {{ union() }}
-        ({{compute_vhds_not_encrypted('cis_v2.0.0','7.7')}})
+        ({{compute_unattached_disks_are_encrypted_with_cmk('cis_v2.0.0','7.4')}})
+        {{ union() }}
+        ({{compute_vhds_not_encrypted('cis_v2.0.0','7.7')}}) -- note: This is a legacy recommendation. Managed Disks are encrypted by default and recommended for all new VM implementations.
         {{ union() }}
         ({{keyvault_keys_without_expiration_date('cis_v2.0.0','8.1')}})
         {{ union() }}
