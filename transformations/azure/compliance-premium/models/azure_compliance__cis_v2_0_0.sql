@@ -153,13 +153,17 @@ with
         {{ union() }}
         ({{compute_vhds_not_encrypted('cis_v2.0.0','7.7')}}) -- note: This is a legacy recommendation. Managed Disks are encrypted by default and recommended for all new VM implementations.
         {{ union() }}
-        ({{keyvault_keys_without_expiration_date('cis_v2.0.0','8.1')}})
+        ({{keyvault_expiry_set_for_keys_in_rbac_key_vaults('cis_v2.0.0','8.1')}})
         {{ union() }}
-        ({{keyvault_secrets_without_expiration_date('cis_v2.0.0','8.2')}})
+        ({{keyvault_expiry_set_for_keys_in_non_rbac_key_vaults('cis_v2.0.0','8.2')}})
         {{ union() }}
-        ({{keyvault_not_recoverable('cis_v2.0.0','8.4')}})
+        ({{keyvault_expiry_set_for_secrets_in_rbac_key_vaults('cis_v2.0.0','8.3')}})
         {{ union() }}
-        ({{container_aks_rbac_disabled('cis_v2.0.0','8.5')}})
+        ({{keyvault_expiry_set_for_secrets_in_non_rbac_key_vaults('cis_v2.0.0','8.4')}})
+        {{ union() }}
+        ({{keyvault_not_recoverable('cis_v2.0.0','8.5')}})
+        {{ union() }}
+        ({{container_aks_rbac_disabled('cis_v2.0.0','8.6')}})
         {{ union() }}
         ({{web_app_auth_unset('cis_v2.0.0','9.1')}})
         {{ union() }}
