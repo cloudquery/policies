@@ -47,8 +47,8 @@ WHERE ansg.dprs ~ '^[0-9]*$'
 
 {% macro snowflake__view_azure_nsg_rules() %}
 WITH tmp AS (
-    SELECT "subscription_id", "id", "name", rls.value as rls FROM azure_network_security_groups,
-  LATERAL FLATTEN("properties":securityRules) rls
+    SELECT subscription_id, id, name, rls.value as rls FROM azure_network_security_groups,
+  LATERAL FLATTEN(properties:securityRules) rls
 ),
 ansg AS (
      SELECT tmp.*, dprs.value as dprs FROM tmp,
@@ -56,9 +56,9 @@ ansg AS (
 )
 (
 SELECT
-    ansg."subscription_id" AS subscription_id,
-    ansg."id" AS nsg_id,
-    ansg."name" AS nsg_name,
+    ansg.subscription_id AS subscription_id,
+    ansg.id AS nsg_id,
+    ansg.name AS nsg_name,
     ansg.rls:id AS rule_id,
     ansg.rls:access AS access,
     ansg.rls:direction AS direction,
@@ -73,9 +73,9 @@ WHERE ansg.dprs REGEXP '^[0-9]+(-[0-9]+)$'
 UNION
 (
 SELECT
-    ansg."subscription_id" AS subscription_id,
-    ansg."id" AS nsg_id,
-    ansg."name" AS nsg_name,
+    ansg.subscription_id AS subscription_id,
+    ansg.id AS nsg_id,
+    ansg.name AS nsg_name,
     ansg.rls:id AS rule_id,
     ansg.rls:access AS access,
     ansg.rls:direction AS direction,

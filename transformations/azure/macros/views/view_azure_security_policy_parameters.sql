@@ -19,15 +19,15 @@ WHERE azure_policy_assignments."name" = 'SecurityCenterBuiltIn'
 
 {% macro snowflake__view_azure_security_policy_parameters() %}
 SELECT
-    azure_policy_assignments."id",
-    azure_policy_assignments."subscription_id",
-    azure_policy_assignments."name",
+    id,
+    azure_policy_assignments.subscription_id,
+    azure_policy_assignments.name,
     parameters.key AS param,
     parameters.value AS value
 FROM
     azure_policy_assignments,
-    LATERAL FLATTEN(input => azure_policy_assignments."properties":parameters) AS parameters
-WHERE azure_policy_assignments."name" = 'SecurityCenterBuiltIn'
+    LATERAL FLATTEN(input => azure_policy_assignments.properties:parameters) AS parameters
+WHERE azure_policy_assignments.name = 'SecurityCenterBuiltIn'
 {% endmacro %}
 
 {% macro bigquery__view_azure_security_policy_parameters(framework, check_id) %}

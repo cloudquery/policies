@@ -26,7 +26,6 @@ SELECT
 {% macro snowflake__compute_ensure_bastion_host_exists(framework, check_id) %}
 
 SELECT
-	SELECT
     sub.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
