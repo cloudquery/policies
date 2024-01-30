@@ -50,7 +50,8 @@ SELECT
     CASE
         WHEN id is null
         THEN 'fail'
-        ELSE 'pass'                                                                          AS status
+        ELSE 'pass' 
+        END                                                                         AS status
 FROM {{ full_table_name("azure_applicationinsights_components") }} 
 WHERE kind = 'web'
         

@@ -54,8 +54,8 @@ SELECT
   sub.id AS subscription_id,
 	case
     when azure_network_watchers.location IS NULL
-	    OR LOWER ( split_part( azure_network_watchers.id, '/', 5 ) ) != 'networkwatcherrg'
-      and azure_network_watchers.properties.provisioningState != 'Succeeded'
+	    OR LOWER (azure_network_watchers.id) not like '%networkwatcherrg%'
+      and JSON_VALUE(azure_network_watchers.properties.provisioningState) != 'Succeeded'
     then 'fail' else 'pass'
   end as status
 FROM

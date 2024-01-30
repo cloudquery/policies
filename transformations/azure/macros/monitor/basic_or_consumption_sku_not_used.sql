@@ -46,9 +46,10 @@ SELECT
     'Ensure that SKU Basic/Consumption is not used on artifacts that need to be monitored (Particularly for Production Workloads) (Automated)' AS title,
     subscription_id                                                          AS subscription_id,
     CASE
-        WHEN sku.name like '%Basic%' or sku.name like '%consumption%'
+        WHEN JSON_VALUE(sku.name) like '%Basic%' or JSON_VALUE(sku.name) like '%consumption%'
         THEN 'fail'
-        ELSE 'pass'                                                                          AS status
+        ELSE 'pass'
+        END                                                                          AS status
 FROM {{ full_table_name("azure_monitor_resources") }} 
         
 {% endmacro %}
