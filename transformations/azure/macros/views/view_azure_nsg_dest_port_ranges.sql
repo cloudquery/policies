@@ -92,7 +92,7 @@ FROM
 {% macro snowflake__view_azure_nsg_dest_port_ranges() %}
 WITH security_rules AS (
     SELECT    
-		subscription_id,
+		ansg."subscription_id",
         security_rules.value:id AS id,
         security_rules.value:properties:access AS access,
         security_rules.value:properties:protocol AS protocol,
@@ -102,7 +102,7 @@ WITH security_rules AS (
         security_rules.value:properties:destinationPortRanges AS destinationPortRanges
     FROM
         azure_network_security_groups ansg,
-        LATERAL FLATTEN(input => ansg.properties:securityRules) AS security_rules
+        LATERAL FLATTEN(input => ansg."properties":securityRules) AS security_rules
 ),
 dest_port AS (
     SELECT
@@ -163,7 +163,7 @@ unified_port_ranges AS (
 )
 SELECT
 	sr.id AS id,
-    sr.subscription_id AS subscription_id,
+    sr."subscription_id" AS subscription_id,
     access,
     protocol,
     direction,

@@ -7,7 +7,7 @@ with
         {{ union() }}
         ({{security_defender_on_for_app_service('cis_v2.0.0','2.2')}})
         {{ union() }}
-        ({{security_defender_on_for_databases('cis_v2.0.0','2.3')}}) --note: this policy covers 2.1.6 and 2.1.9
+        ({{security_defender_on_for_databases('cis_v2.0.0','2.3')}})
         {{ union() }}
         ({{security_defender_on_for_sql_servers('cis_v2.0.0','2.4')}})
         {{ union() }}
@@ -57,7 +57,7 @@ with
         {{ union() }}
         ({{sql_auditing_retention_less_than_90_days('cis_v2.0.0','4.1.6')}})
         {{ union() }}
-        ({{sql_atp_on_sql_server_disabled('cis_v2.0.0','4.2.1')}}) --atp is now windows defender
+        ({{sql_atp_on_sql_server_disabled('cis_v2.0.0','4.2.1')}})
         {{ union() }}
         ({{sql_va_is_enabled_on_sql_server_by_storage_account('cis_v2.0.0','4.2.2')}})
         {{ union() }}
@@ -151,7 +151,7 @@ with
         {{ union() }}
         ({{compute_unattached_disks_are_encrypted_with_cmk('cis_v2.0.0','7.4')}})
         {{ union() }}
-        ({{compute_vhds_not_encrypted('cis_v2.0.0','7.7')}}) -- note: This is a legacy recommendation. Managed Disks are encrypted by default and recommended for all new VM implementations.
+        ({{compute_vhds_not_encrypted('cis_v2.0.0','7.7')}})
         {{ union() }}
         ({{keyvault_expiry_set_for_keys_in_rbac_key_vaults('cis_v2.0.0','8.1')}})
         {{ union() }}
