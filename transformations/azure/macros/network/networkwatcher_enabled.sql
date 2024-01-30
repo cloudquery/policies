@@ -35,7 +35,7 @@ SELECT
 	case
     when azure_network_watchers.location IS NULL
 	    OR LOWER ( split_part( azure_network_watchers.id, '/', 5 ) ) != 'networkwatcherrg'
-      and azure_network_watchers.properties.provisioningState != 'Succeeded'
+      and azure_network_watchers.properties:provisioningState != 'Succeeded'
     then 'fail' else 'pass'
   end as status
 FROM

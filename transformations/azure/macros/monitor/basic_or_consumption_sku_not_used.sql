@@ -29,7 +29,7 @@ SELECT
     'Ensure that SKU Basic/Consumption is not used on artifacts that need to be monitored (Particularly for Production Workloads) (Automated)' AS title,
     subscription_id                                                          AS subscription_id,
     CASE
-        WHEN sku.name like '%Basic%' or sku.name like '%consumption%'
+        WHEN sku:name like '%Basic%' or sku:name like '%consumption%'
         THEN 'fail'
         ELSE 'pass'
     END                                                                          AS status
