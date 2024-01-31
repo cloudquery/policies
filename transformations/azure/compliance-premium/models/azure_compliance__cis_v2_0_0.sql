@@ -3,35 +3,35 @@ with
     aggregated as (
         ({{iam_custom_subscription_owner_roles('cis_v2.0.0','1.23')}})
         {{ union() }}
-        ({{security_defender_on_for_servers('cis_v2.0.0','2.1')}})
+        ({{security_defender_on_for_servers('cis_v2.0.0','2.1.1')}})
         {{ union() }}
-        ({{security_defender_on_for_app_service('cis_v2.0.0','2.2')}})
+        ({{security_defender_on_for_app_service('cis_v2.0.0','2.1.2')}})
         {{ union() }}
-        ({{security_defender_on_for_databases('cis_v2.0.0','2.3')}})
+        ({{security_defender_on_for_databases('cis_v2.0.0','2.1.3')}})
         {{ union() }}
-        ({{security_defender_on_for_sql_servers('cis_v2.0.0','2.4')}})
+        ({{security_defender_on_for_sql_servers('cis_v2.0.0','2.1.4')}})
         {{ union() }}
-        ({{security_defender_on_for_sql_servers_on_machines('cis_v2.0.0','2.5')}})
+        ({{security_defender_on_for_sql_servers_on_machines('cis_v2.0.0','2.1.5')}})
         {{ union() }}
-        ({{security_defender_on_for_storage('cis_v2.0.0','2.7')}})
+        ({{security_defender_on_for_storage('cis_v2.0.0','2.1.7')}})
         {{ union() }}
-        ({{security_defender_on_for_container_registeries('cis_v2.0.0','2.8')}})
+        ({{security_defender_on_for_container_registeries('cis_v2.0.0','2.1.8')}})
         {{ union() }}
-        ({{security_defender_on_for_key_vault('cis_v2.0.0','2.10')}})
+        ({{security_defender_on_for_key_vault('cis_v2.0.0','2.1.10')}})
         {{ union() }}
-        ({{security_defender_on_for_dns('cis_v2.0.0','2.11')}})
+        ({{security_defender_on_for_dns('cis_v2.0.0','2.1.11')}})
         {{ union() }}
-        ({{security_defender_on_for_resource_manager('cis_v2.0.0','2.12')}})
+        ({{security_defender_on_for_resource_manager('cis_v2.0.0','2.1.12')}})
         {{ union() }}
-        ({{security_default_policy_disabled('cis_v2.0.0','2.14')}})
+        ({{security_default_policy_disabled('cis_v2.0.0','2.1.14')}})
         {{ union() }}
-        ({{security_auto_provisioning_monitoring_agent_enabled('cis_v2.0.0','2.15')}})
+        ({{security_auto_provisioning_monitoring_agent_enabled('cis_v2.0.0','2.1.15')}})
         {{ union() }}
-        ({{security_emails_on_for_owner_role('cis_v2.0.0','2.18')}})
+        ({{security_emails_on_for_owner_role('cis_v2.0.0','2.1.18')}})
         {{ union() }}
-        ({{security_additional_security_email_configured('cis_v2.0.0','2.19')}})
+        ({{security_additional_security_email_configured('cis_v2.0.0','2.1.19')}})
         {{ union() }}
-        ({{security_notify_high_severity_alerts('cis_v2.0.0','2.20')}})
+        ({{security_notify_high_severity_alerts('cis_v2.0.0','2.1.20')}})
         {{ union() }}
         ({{storage_secure_transfer_to_storage_accounts_should_be_enabled('cis_v2.0.0','3.1')}})
         {{ union() }}
