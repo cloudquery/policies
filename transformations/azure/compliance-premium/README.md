@@ -193,21 +193,21 @@ The premium version contains all queries.
 ##### `cis_v2.0.0`
 
 - ✅ `1.23`: `iam_custom_subscription_owner_roles`
-- ✅ `2.1`: `security_defender_on_for_servers`
-- ✅ `2.2`: `security_defender_on_for_app_service`
-- ✅ `2.3`: `security_defender_on_for_databases`
-- ✅ `2.4`: `security_defender_on_for_sql_servers`
-- ✅ `2.5`: `security_defender_on_for_sql_servers_on_machines`
-- ✅ `2.7`: `security_defender_on_for_storage`
-- ✅ `2.8`: `security_defender_on_for_container_registeries`
-- ✅ `2.10`: `security_defender_on_for_key_vault`
-- ✅ `2.11`: `security_defender_on_for_dns`
-- ✅ `2.12`: `security_defender_on_for_resource_manager`
-- ✅ `2.14`: `security_default_policy_disabled`
-- ✅ `2.15`: `security_auto_provisioning_monitoring_agent_enabled`
-- ✅ `2.18`: `security_emails_on_for_owner_role`
-- ✅ `2.19`: `security_additional_security_email_configured`
-- ✅ `2.20`: `security_notify_high_severity_alerts`
+- ✅ `2.1.1`: `security_defender_on_for_servers`
+- ✅ `2.1.2`: `security_defender_on_for_app_service`
+- ✅ `2.1.3`: `security_defender_on_for_databases`
+- ✅ `2.1.4`: `security_defender_on_for_sql_servers`
+- ✅ `2.1.5`: `security_defender_on_for_sql_servers_on_machines`
+- ✅ `2.1.7`: `security_defender_on_for_storage`
+- ✅ `2.1.8`: `security_defender_on_for_container_registeries`
+- ✅ `2.1.10`: `security_defender_on_for_key_vault`
+- ✅ `2.1.11`: `security_defender_on_for_dns`
+- ✅ `2.1.12`: `security_defender_on_for_resource_manager`
+- ✅ `2.1.14`: `security_default_policy_disabled`
+- ✅ `2.1.15`: `security_auto_provisioning_monitoring_agent_enabled`
+- ✅ `2.1.18`: `security_emails_on_for_owner_role`
+- ✅ `2.1.19`: `security_additional_security_email_configured`
+- ✅ `2.1.20`: `security_notify_high_severity_alerts`
 - ✅ `3.1`: `storage_secure_transfer_to_storage_accounts_should_be_enabled`
 - ✅ `3.2`: `storage_infrastructure_encryption_enabled`
 - ✅ `3.7`: `storage_no_public_blob_container`
