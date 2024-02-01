@@ -9,7 +9,7 @@ SELECT
   id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
-  'Ensure that "Automatic provisioning of monitoring agent" is set to "On" (Automated)' as title,
+  'Ensure that Auto provisioning of "Log Analytics agent for Azure VMs" is Set to "On" (Automated)' as title,
   subscription_id,
   case
     when properties->>'autoProvision' = 'On'
@@ -24,7 +24,7 @@ SELECT
   id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
-  'Ensure that "Automatic provisioning of monitoring agent" is set to "On" (Automated)' as title,
+  'Ensure that Auto provisioning of "Log Analytics agent for Azure VMs" is Set to "On" (Automated)' as title,
   subscription_id,
   case
     when properties:autoProvision = 'On'
@@ -39,7 +39,7 @@ SELECT
   id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
-  'Ensure that "Automatic provisioning of monitoring agent" is set to "On" (Automated)' as title,
+  'Ensure that Auto provisioning of "Log Analytics agent for Azure VMs" is Set to "On" (Automated)' as title,
   subscription_id,
   case
     when JSON_VALUE(properties.autoProvision) = 'On'

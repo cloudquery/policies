@@ -1,10 +1,10 @@
-{% macro monitor_logging_key_valut_is_enabled(framework, check_id) %}
-  {{ return(adapter.dispatch('monitor_logging_key_valut_is_enabled')(framework, check_id)) }}
+{% macro monitor_logging_key_vault_is_enabled(framework, check_id) %}
+  {{ return(adapter.dispatch('monitor_logging_key_vault_is_enabled')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__monitor_logging_key_valut_is_enabled(framework, check_id) %}{% endmacro %}
+{% macro default__monitor_logging_key_vault_is_enabled(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__monitor_logging_key_valut_is_enabled(framework, check_id) %}
+{% macro postgres__monitor_logging_key_vault_is_enabled(framework, check_id) %}
 WITH diagnosis_logs AS (
     SELECT
         amds.subscription_id,
@@ -30,7 +30,7 @@ SELECT
 FROM diagnosis_logs
 {% endmacro %}
 
-{% macro snowflake__monitor_logging_key_valut_is_enabled(framework, check_id) %}
+{% macro snowflake__monitor_logging_key_vault_is_enabled(framework, check_id) %}
 WITH diagnosis_logs AS (
        SELECT
         amds.subscription_id,
@@ -56,7 +56,7 @@ SELECT
 FROM diagnosis_logs
 {% endmacro %}
 
-{% macro bigquery__monitor_logging_key_valut_is_enabled(framework, check_id) %}
+{% macro bigquery__monitor_logging_key_vault_is_enabled(framework, check_id) %}
 WITH diagnosis_logs AS (
     SELECT
         amds.subscription_id,
