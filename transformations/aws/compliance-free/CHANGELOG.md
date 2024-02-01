@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.2.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v1.2.0...transformation-aws-compliance-free-v1.2.1) (2024-02-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.7.3 ([#555](https://github.com/cloudquery/policies-premium/issues/555)) ([e1ef22b](https://github.com/cloudquery/policies-premium/commit/e1ef22b09347ca7663ec3829aa730327a6c9e3f0))
+* **deps:** Update dependency dbt-postgres to v1.7.6 ([#556](https://github.com/cloudquery/policies-premium/issues/556)) ([01d83c3](https://github.com/cloudquery/policies-premium/commit/01d83c3589be42468fb3e93ac9aae1b270f60e25))
+* Update documentation ([#527](https://github.com/cloudquery/policies-premium/issues/527)) ([b009951](https://github.com/cloudquery/policies-premium/commit/b009951492cf9d1836110ad4bf8346b40a0ec1af))
+* Updated models to work on BigQuery ([#536](https://github.com/cloudquery/policies-premium/issues/536)) ([57d9158](https://github.com/cloudquery/policies-premium/commit/57d915838589c3c8e730e871497d43cb41b22da1))
+* Use `registry: cloudquery` for Snowflake tests ([#541](https://github.com/cloudquery/policies-premium/issues/541)) ([087a4ce](https://github.com/cloudquery/policies-premium/commit/087a4cecefdb28a1f29fe7c5d741b3c6ea19a27b))
+
 ## [1.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v1.1.0...transformation-aws-compliance-free-v1.2.0) (2024-01-24)
 
 
