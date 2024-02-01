@@ -9,7 +9,7 @@ SELECT
   a.id,
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
-  'Cosmos DB should use a virtual network service endpoint',
+  'Ensure That "Firewalls & Networks" Is Limited to Use Selected Networks Instead of All Networks (Automated)',
   a.subscription_id,
   case
     when v.id IS NULL then 'fail' else 'pass'

@@ -17,6 +17,7 @@ select
     else 'pass'
   end as status
 from aws_ec2_instances
+where metadata_options->>'httpEndpoint' = 'enabled'
 {% endmacro %}
 
 {% macro bigquery__ec2_not_imdsv2_instances(framework, check_id) %}
@@ -32,6 +33,7 @@ select
     else 'pass'
   end as status
 from {{ full_table_name("aws_ec2_instances") }}
+where JSON_VALUE(metadata_options.httpEndpoint) = 'enabled'
 {% endmacro %}
 
 {% macro snowflake__ec2_not_imdsv2_instances(framework, check_id) %}
@@ -47,4 +49,5 @@ select
     else 'pass'
   end as status
 from aws_ec2_instances
+where metadata_options:httpEndpoint = 'enabled'
 {% endmacro %}

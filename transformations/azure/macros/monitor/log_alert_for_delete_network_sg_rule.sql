@@ -36,7 +36,7 @@ conditions AS (
     WHERE field = 'operationName'
 )
 SELECT
-    scope                                                                          AS resrouce_id,
+    scope                                                                          AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that Activity Log Alert exists for Delete Network Security Group Rule' AS title,
@@ -80,7 +80,7 @@ conditions AS (
     WHERE field = 'operationName'
 )
 SELECT
-    scope                                                                          AS resrouce_id,
+    scope                                                                          AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that Activity Log Alert exists for Delete Network Security Group Rule' AS title,
@@ -124,7 +124,7 @@ conditions AS (
     WHERE field = 'operationName'
 )
 SELECT
-    scope                                                                AS resrouce_id,
+    scope                                                                AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that Activity Log Alert exists for Delete Network Security Group Rule' AS title,

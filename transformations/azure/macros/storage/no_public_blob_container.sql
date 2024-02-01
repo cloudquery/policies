@@ -6,7 +6,7 @@
 
 {% macro postgres__storage_no_public_blob_container(framework, check_id) %}
 SELECT
-    azsc.id                                                                     AS resrouce_id,
+    azsc.id                                                                     AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that ''Public access level'' is set to Private for blob containers' AS title,
@@ -23,7 +23,7 @@ FROM azure_storage_containers azsc
 
 {% macro snowflake__storage_no_public_blob_container(framework, check_id) %}
 SELECT
-    azsc.id                                                                     AS resrouce_id,
+    azsc.id                                                                     AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that ''Public access level'' is set to Private for blob containers' AS title,
@@ -40,7 +40,7 @@ FROM azure_storage_containers azsc
 
 {% macro bigquery__storage_no_public_blob_container(framework, check_id) %}
 SELECT
-    azsc.id                                                                     AS resrouce_id,
+    azsc.id                                                                     AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Ensure that "Public access level" is set to Private for blob containers' AS title,
