@@ -8,7 +8,7 @@
 select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
-    '' as title,
+    'Ensure management console sign-in without MFA is monitored' as title,
     account_id,
     cloud_watch_logs_log_group_arn as resource_id,
     case
@@ -24,7 +24,7 @@ from {{ ref('aws_compliance__log_metric_filter_and_alarm') }}
 select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
-    '' as title,
+    'Ensure management console sign-in without MFA is monitored' as title,
     account_id,
     cloud_watch_logs_log_group_arn as resource_id,
     case
@@ -40,7 +40,7 @@ from {{ ref('aws_compliance__log_metric_filter_and_alarm') }}
 select
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
-    '' as title,
+    'Ensure management console sign-in without MFA is monitored' as title,
     account_id,
     cloud_watch_logs_log_group_arn as resource_id,
     case

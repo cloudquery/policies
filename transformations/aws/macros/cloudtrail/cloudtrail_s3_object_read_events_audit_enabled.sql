@@ -23,7 +23,7 @@ jsonb_array_elements(es.event_selectors -> 'DataResources') as data_resource
 select 
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
-    'Ensure that Object-level logging for write events is enabled for S3 bucket' as title,
+    'Ensure that Object-level logging for read events is enabled for S3 bucket' as title,
 	c.account_id,
 	c.arn as resource_id,
 	case
@@ -54,7 +54,7 @@ UNNEST(JSON_QUERY_ARRAY(es.event_selectors.DataResources)) AS data_resource
 select 
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
-    'Ensure that Object-level logging for write events is enabled for S3 bucket' as title,
+    'Ensure that Object-level logging for read events is enabled for S3 bucket' as title,
 	c.account_id,
 	c.arn as resource_id,
 	case
@@ -85,7 +85,7 @@ join aws_cloudtrail_trail_event_selectors AS es ON c._cq_id = es._cq_parent_id,
 select 
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
-    'Ensure that Object-level logging for write events is enabled for S3 bucket' as title,
+    'Ensure that Object-level logging for read events is enabled for S3 bucket' as title,
 	c.account_id,
 	c.arn as resource_id,
 	case
