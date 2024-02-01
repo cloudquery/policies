@@ -1,10 +1,10 @@
-{% macro monitor_log_alert_for_create_or_update_security_solution(framework, check_id) %}
-  {{ return(adapter.dispatch('monitor_log_alert_for_create_or_update_security_solution')(framework, check_id)) }}
+{% macro monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}
+  {{ return(adapter.dispatch('monitor_log_alert_for_create_or_update_sql_server_firewall_rule')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__monitor_log_alert_for_create_or_update_security_solution(framework, check_id) %}{% endmacro %}
+{% macro default__monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__monitor_log_alert_for_create_or_update_security_solution(framework, check_id) %}
+{% macro postgres__monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}
 WITH fields AS (
     SELECT
         subscription_id,
@@ -29,24 +29,24 @@ conditions AS (
         scopes.scope AS scope,
         location = 'global'
             AND enabled
-            AND equals = 'Microsoft.Security/securitySolutions/write'
+            AND equals = 'Microsoft.Sql/servers/firewallRules/write'
             AND scopes.scope ~ '^\/subscriptions\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$'
         AS condition
     FROM fields JOIN scopes ON fields.id = scopes.id
     WHERE field = 'operationName'
 )
 SELECT
-    scope                                                                          AS resource_id,
+    scope                                                                                           AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
-    'Ensure that Activity Log Alert exists for Create or Update Security Solution' AS title,
-    subscription_id                                                                AS subscription_id,
-    bool_or(condition)::text                                                             AS status
+    'Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule' AS title,
+    subscription_id                                                                                 AS subscription_id,
+    bool_or(condition)::text                                                                              AS status
 FROM conditions
 GROUP BY subscription_id, scope
 {% endmacro %}
 
-{% macro snowflake__monitor_log_alert_for_create_or_update_security_solution(framework, check_id) %}
+{% macro snowflake__monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}
 WITH fields AS (
     SELECT
         subscription_id,
@@ -73,24 +73,24 @@ conditions AS (
         scopes.scope AS scope,
         location = 'global'
             AND enabled
-            AND equals = 'Microsoft.Security/securitySolutions/write'
+            AND equals = 'Microsoft.Sql/servers/firewallRules/write'
             AND scopes.scope REGEXP '^\/subscriptions\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$'
         AS condition
     FROM fields JOIN scopes ON fields.id = scopes.id
     WHERE field = 'operationName'
 )
 SELECT
-    scope                                                                          AS resource_id,
+    scope                                                                                           AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
-    'Ensure that Activity Log Alert exists for Create or Update Security Solution' AS title,
-    subscription_id                                                                AS subscription_id,
+    'Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule' AS title,
+    subscription_id                                                                                 AS subscription_id,
     CASE WHEN MAX(CASE WHEN condition THEN 1 ELSE 0 END) = 1 THEN 'pass' ELSE 'fail' END AS status
 FROM conditions
 GROUP BY subscription_id, scope
 {% endmacro %}
 
-{% macro bigquery__monitor_log_alert_for_create_or_update_security_solution(framework, check_id) %}
+{% macro bigquery__monitor_log_alert_for_create_or_update_sql_server_firewall_rule(framework, check_id) %}
 WITH fields AS (
     SELECT
         subscription_id,
@@ -117,7 +117,7 @@ conditions AS (
         JSON_VALUE(scopes.scope) AS scope,
         location = 'global'
             AND enabled
-            AND equals = 'Microsoft.Security/securitySolutions/write'
+            AND equals = 'Microsoft.Sql/servers/firewallRules/write'
            AND REGEXP_CONTAINS(JSON_VALUE(scopes.scope), r'^\/subscriptions\/[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')
         AS condition
     FROM fields JOIN scopes ON fields.id = scopes.id
@@ -127,7 +127,7 @@ SELECT
     scope                                                                AS resource_id,
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
-    'Ensure that Activity Log Alert exists for Create or Update Security Solution' AS title,
+    'Ensure that Activity Log Alert exists for Create or Update or Delete SQL Server Firewall Rule' AS title,
     subscription_id                                                      AS subscription_id,
     CASE WHEN CAST( (LOGICAL_OR(condition)) AS BOOL) THEN 'pass' ELSE 'fail' END AS status
 FROM conditions

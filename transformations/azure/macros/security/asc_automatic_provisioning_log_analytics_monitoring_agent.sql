@@ -15,4 +15,5 @@ FROM
 	RIGHT JOIN azure_subscription_subscriptions ON azure_security_auto_provisioning_settings.subscription_id = azure_subscription_subscriptions.id
 
 --TODO: Seems similar to auto_provisioning_monitoring_agent_enabled.sql where that setting is for Monitoring Agent.  This query should be checked for accuracy.
+-- confirmed this does the same as auto_provisioning_monitoring_agent_enabled.sql
 {% endmacro %}
