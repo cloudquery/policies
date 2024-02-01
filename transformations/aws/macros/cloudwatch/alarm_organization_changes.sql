@@ -5,6 +5,12 @@
 {% macro default__alarm_organization_changes(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__alarm_organization_changes(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Ensure a log metric filter and alarm exist for usage of "root" account (Score)' AS title,
+    account_id,
+    cloud_watch_logs_log_group_arn AS resource_id,
 CASE
         WHEN pattern NOT LIKE '%NOT%'
             AND pattern LIKE ANY (ARRAY[
