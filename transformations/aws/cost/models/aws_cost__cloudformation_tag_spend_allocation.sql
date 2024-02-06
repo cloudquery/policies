@@ -4,7 +4,7 @@ with all_costs as (
 	resource_tags_aws_cloudformation_stack_name as cloudformation_stack_name,
 	identity_time_interval,
 	sum(line_item_unblended_cost) as sum_line_item_unblended_cost
-	from kevin_cost_00001_snappy
+	from {{ var('cost_usage_table') }}
 	group by resource_tags_aws_cloudformation_logical_id, resource_tags_aws_cloudformation_stack_name, identity_time_interval
 ),
 cost_calcs as (
