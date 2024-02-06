@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-free-v1.5.0...transformation-azure-compliance-free-v1.6.0) (2024-02-06)
+
+
+### Features
+
+* Added model azure_compliance__hipaa_hitrust_v9_2 ([#567](https://github.com/cloudquery/policies-premium/issues/567)) ([339277c](https://github.com/cloudquery/policies-premium/commit/339277c7850aa0767255da28e16e2e33b1bf3e35))
+
 ## [1.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-free-v1.4.0...transformation-azure-compliance-free-v1.5.0) (2024-02-06)
 
 
