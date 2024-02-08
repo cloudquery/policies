@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v2.0.0...visualization-aws-compliance-v2.0.1) (2024-02-07)
+
+
+### Bug Fixes
+
+* Preselect `All` value for `account_id` ([#573](https://github.com/cloudquery/policies-premium/issues/573)) ([2fa4970](https://github.com/cloudquery/policies-premium/commit/2fa4970ffb483b47c266befe293b70620ea9fa73))
+
 ## [2.0.0](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v1.3.0...visualization-aws-compliance-v2.0.0) (2024-01-17)
 
 
