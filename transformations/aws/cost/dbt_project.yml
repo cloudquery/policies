@@ -179,6 +179,13 @@ seeds:
         product_size_flex: text
         product_alarm_type: text
         product_availability: text
+        resource_tags_aws_cloudformation_logical_id: text
+        resource_tags_aws_cloudformation_stack_name: text
+        resource_tags_aws_lambda_function_name: text
+        resource_tags_aws_ecs_cluster: text
+        resource_tags_aws_elasticbeanstalk_environment_id: text
+
+
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
