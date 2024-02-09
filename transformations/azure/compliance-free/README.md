@@ -117,4 +117,17 @@ The free version contains 10% of the full pack's queries.
 - ✅ `2.1.7`: `security_defender_on_for_storage`
 - ✅ `2.1.8`: `security_defender_on_for_container_registeries`
 - ✅ `2.1.10`: `security_defender_on_for_key_vault`
+
+##### `hipaa_hitrust_v9.2`
+
+- ✅ `0806.01m2Organizational.12356 - 01.m - 3`: `cosmosdb_cosmos_db_should_use_a_virtual_network_service_endpoint`
+- ✅ `0806.01m2Organizational.12356 - 01.m - 4`: `eventhub_event_hub_should_use_a_virtual_network_service_endpoint`
+- ✅ `0806.01m2Organizational.12356 - 01.m - 6`: `compute_internet_facing_virtual_machines_should_be_protected_with_network_security_groups`
+- ✅ `0806.01m2Organizational.12356 - 01.m - 7`: `keyvault_vaults_with_no_service_endpoint`
+- ✅ `0806.01m2Organizational.12356 - 01.m - 10`: `network_subnets_without_nsg_associated`
+- ✅ `0806.01m2Organizational.12356 - 01.m - 11`: `compute_vms_without_approved_networks`
+- ✅ `1116_01j1organizational_145_01_j`: `security_mfa_should_be_enabled_on_accounts_with_owner_permissions_on_your_subscription`
+- ✅ `1117_01j1organizational_23_01_j`: `security_mfa_should_be_enabled_accounts_with_write_permissions_on_your_subscription`
+- ✅ `1118_01j2organizational_124_01_j`: `security_mfa_should_be_enabled_on_accounts_with_read_permissions_on_your_subscription`
+- ✅ `1119_01j2organizational_3_01_j`: `compute_virtual_machines_without_jit_network_access_policy`
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
