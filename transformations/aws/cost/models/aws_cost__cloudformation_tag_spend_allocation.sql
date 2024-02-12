@@ -32,4 +32,3 @@ case when cloudformation_logical_id is not null and cloudformation_stack_name is
 then (percent_spend * untagged_spend)+sum_line_item_unblended_cost else 0 end as chargeback
 
 from cost_calcs
-;

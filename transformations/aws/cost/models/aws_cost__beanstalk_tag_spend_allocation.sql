@@ -31,4 +31,3 @@ case when elasticbeanstalk_environment_id is not null
 then (percent_spend * untagged_spend)+sum_line_item_unblended_cost else 0 end as chargeback
 
 from cost_calcs
-;
