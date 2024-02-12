@@ -12,12 +12,7 @@ SELECT account_id, service_arn as arn, service_recommendation_options as roption
 FROM aws_computeoptimizer_ecs_service_recommendations
 UNION
 SELECT account_id, auto_scaling_group_arn as arn,  recommendation_options as roptions
-from aws_computeoptimizer_autoscaling_group_recommendations),
-total_cost as (
-SELECT line_item_resource_id as arn, SUM(line_item_unblended_cost) as sum_cost
-FROM john_cost_00001_snappy
-GROUP BY line_item_resource_id
-)
+from aws_computeoptimizer_autoscaling_group_recommendations)
 SELECT computeoptimizer.*, rc.cost
 FROM computeoptimizer
 LEFT JOIN {{ ref('aws_cost__by_resources') }} rc

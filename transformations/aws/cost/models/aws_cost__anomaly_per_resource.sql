@@ -14,4 +14,4 @@ mean_cost,
 std_cost
 FROM {{ ref('aws_cost__by_resources') }}
 INNER JOIN product_stats using(line_item_product_code)
-WHERE sum_cost >= mean_cost + 2 * std_cost
+WHERE cost >= mean_cost + 2 * std_cost
