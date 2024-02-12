@@ -1,7 +1,6 @@
 SELECT 
   bill_payer_account_id,
   line_item_usage_account_id,
-  EXTRACT(day from line_item_usage_start_date) AS day_line_item_usage_start_date, 
   product_instance_type, 
   line_item_operation, 
   line_item_usage_type, 
@@ -14,7 +13,7 @@ SELECT
     WHEN line_item_line_item_type = 'Usage' THEN line_item_usage_amount
     ELSE 0 
   END) AS sum_line_item_usage_amount, 
-  SUM(line_item_unblended_cost) AS sum_line_item_unblended_cost, 
+  SUM(line_item_unblended_cost) AS sum_line_item_unblended_cost 
 FROM 
   {{ var('cost_usage_table') }} 
 WHERE  
@@ -22,7 +21,6 @@ WHERE
 GROUP BY 
   bill_payer_account_id,
   line_item_usage_account_id,
-  day_line_item_usage_start_date,
   product_instance_type, 
   line_item_operation, 
   line_item_usage_type, 
@@ -31,7 +29,4 @@ GROUP BY
   product_product_family, 
   line_item_resource_id,
   product_database_engine
-ORDER BY 
-  day_line_item_usage_start_date, 
-  sum_line_item_usage_amount, 
-  sum_amortized_cost; 
+
