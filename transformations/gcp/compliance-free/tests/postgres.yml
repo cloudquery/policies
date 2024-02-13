@@ -10,7 +10,7 @@ kind: destination
 spec:
   name: "postgresql"
   path: "cloudquery/postgresql"
-  version: "v7.3.2" # latest version of postgresql plugin
+  version: "v7.3.3" # latest version of postgresql plugin
   spec:
     batch_size: 10000
     connection_string: ${CQ_DSN}
