@@ -204,7 +204,7 @@ models:
       +enabled: true
     aws_cost__over_time:
       +enabled: true
-        aws_cost__cloudformation_tag_spend_allocation:
+    aws_cost__cloudformation_tag_spend_allocation:
       +enabled: false
     aws_cost__lambda_tag_spend_allocation:
       +enabled: false
