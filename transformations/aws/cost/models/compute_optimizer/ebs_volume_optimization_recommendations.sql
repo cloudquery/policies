@@ -12,6 +12,7 @@ SELECT
 		eev.fast_restored,
 		eev.availability_zone,
 		eev.region,
+		eev.state,
 		eev.snapshot_id,
 		eev.sse_type,
     current_performance_risk,
@@ -28,7 +29,8 @@ SELECT
     (volume_recommendation_options -> 'configuration' ->> 'volumeSize')::int AS recommended_volume_size,
     current_configuration ->> 'volumeType' AS current_volume_type,
     volume_recommendation_options -> 'configuration' ->> 'volumeType' AS recommended_volume_type,
-	cost_resources.cost
+		volume_recommendation_options ->> 'performanceRisk' as recommended_performance_risk,
+		cost_resources.cost as cost
 FROM 
     aws_computeoptimizer_ebs_volume_recommendations r
 LEFT JOIN

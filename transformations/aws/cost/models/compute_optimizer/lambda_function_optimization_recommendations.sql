@@ -1,3 +1,4 @@
+
 /*
 This query retrieves recommendations for Lambda function optimization from AWS Compute Optimizer.
  It includes information such as the function's account ID, ARN, name, version, code size,
@@ -8,12 +9,12 @@ SELECT
 	r.account_id,
 	function_arn,
 	configuration ->> 'FunctionName' as function_name,
+	region,
+	r.tags,
 	function_version,
 	configuration ->> 'CodeSize' as code_size,
-	region,
 	lookback_period_in_days,
 	number_of_invocations,
-	r.tags,
 	current_performance_risk,
 	finding,
 	finding_reason_codes,
