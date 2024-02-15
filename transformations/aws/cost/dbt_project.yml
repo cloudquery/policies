@@ -204,3 +204,19 @@ models:
       +enabled: true
     aws_cost__over_time:
       +enabled: true
+        aws_cost__cloudformation_tag_spend_allocation:
+      +enabled: false
+    aws_cost__lambda_tag_spend_allocation:
+      +enabled: false
+    aws_cost__ecs_tag_spend_allocation:
+      +enabled: false
+    aws_cost__beanstalk_tag_spend_allocation:
+      +enabled: false
+    aws_cost__by_beanstalk_tag:
+      +enabled: false
+    aws_cost__by_cloudformation_tag:
+      +enabled: false
+    aws_cost__by_ecs_tag:
+      +enabled: false
+    aws_cost__by_lambda_tag:
+      +enabled: false
