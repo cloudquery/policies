@@ -2,7 +2,7 @@ kind: source
 spec:
   name: gcp
   path: cloudquery/gcp
-  version: "v11.5.2" # latest version of source gcp plugin
+  version: "v11.6.0" # latest version of source gcp plugin
   destinations: ["postgresql"]
   tables: ["*"]
 ---
@@ -10,7 +10,7 @@ kind: destination
 spec:
   name: "postgresql"
   path: "cloudquery/postgresql"
-  version: "v7.2.0" # latest version of postgresql plugin
+  version: "v7.3.3" # latest version of postgresql plugin
   spec:
     batch_size: 10000
     connection_string: ${CQ_DSN}

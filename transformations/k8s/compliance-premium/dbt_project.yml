@@ -1,5 +1,5 @@
 name: k8s_compliance
-version: 0.3.0
+version: 0.4.0
 config-version: 2
 profile: k8s_compliance
 model-paths:

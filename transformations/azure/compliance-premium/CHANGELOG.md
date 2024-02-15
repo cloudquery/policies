@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.4.0...transformation-azure-compliance-premium-v0.5.0) (2024-02-06)
+
+
+### Features
+
+* Added model azure_compliance__hipaa_hitrust_v9_2 ([#567](https://github.com/cloudquery/policies-premium/issues/567)) ([339277c](https://github.com/cloudquery/policies-premium/commit/339277c7850aa0767255da28e16e2e33b1bf3e35))
+
+## [0.4.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.3.0...transformation-azure-compliance-premium-v0.4.0) (2024-02-05)
+
+
+### Features
+
+* Azure cis 2.0 update ([#550](https://github.com/cloudquery/policies-premium/issues/550)) ([f81d6f4](https://github.com/cloudquery/policies-premium/commit/f81d6f4c2180516dde64bd984a99496e674aed23))
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.7.3 ([#555](https://github.com/cloudquery/policies-premium/issues/555)) ([e1ef22b](https://github.com/cloudquery/policies-premium/commit/e1ef22b09347ca7663ec3829aa730327a6c9e3f0))
+* **deps:** Update dependency dbt-postgres to v1.7.6 ([#556](https://github.com/cloudquery/policies-premium/issues/556)) ([01d83c3](https://github.com/cloudquery/policies-premium/commit/01d83c3589be42468fb3e93ac9aae1b270f60e25))
+* Use `registry: cloudquery` for Snowflake tests ([#541](https://github.com/cloudquery/policies-premium/issues/541)) ([087a4ce](https://github.com/cloudquery/policies-premium/commit/087a4cecefdb28a1f29fe7c5d741b3c6ea19a27b))
+
 ## [0.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.2.0...transformation-azure-compliance-premium-v0.3.0) (2024-01-17)
 
 
