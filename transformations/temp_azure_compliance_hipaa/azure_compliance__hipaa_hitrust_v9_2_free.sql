@@ -1,5 +1,3 @@
-{{ config(enabled=block_bigquery() and block_snowflake()) }}
-
 with
     aggregated as (
     --User Authentication for External Connections  

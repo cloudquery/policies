@@ -3,7 +3,7 @@ spec:
   name: aws
   path: cloudquery/aws
   registry: cloudquery
-  version: "v24.1.0" # latest version of source aws plugin
+  version: "v23.7.0" # latest version of source aws plugin
   destinations: ["bigquery"]
   tables: ["*"]
 ---
