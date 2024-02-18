@@ -15,7 +15,7 @@ spec:
   name: "postgresql"
   path: "cloudquery/postgresql"
   registry: cloudquery
-  version: "v7.3.1" # latest version of postgresql plugin
+  version: "v7.3.2" # latest version of postgresql plugin
   spec:
     batch_size: 10000
     connection_string: ${CQ_DSN}
