@@ -90,16 +90,6 @@ The free version contains 10% of the full pack's checks.
 - ✅ `1.5`: `password_policy_min_uppercase`
 - ✅ `1.6`: `password_policy_min_lowercase`
 
-##### `cis_v2.0.0`
-
-- ✅ `1.2`: `security_account_information_provided`
-- ✅ `1.4`: `iam_root_user_no_access_keys`
-- ✅ `1.5`: `mfa_enabled_for_root`
-- ✅ `1.6`: `hardware_mfa_enabled_for_root`
-- ✅ `1.7`: `iam_root_last_used`
-- ✅ `1.8`: `password_policy_min_length`
-- ✅ `1.9`: `password_policy_prevent_reuse`
-
 ##### `foundational_security`
 
 - ✅ `apigateway.1`: `api_gw_execution_logging_enabled`

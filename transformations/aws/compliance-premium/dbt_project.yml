@@ -1,5 +1,5 @@
 name: aws_compliance
-version: 1.4.0
+version: 1.3.0
 config-version: 2
 profile: aws_compliance
 model-paths:

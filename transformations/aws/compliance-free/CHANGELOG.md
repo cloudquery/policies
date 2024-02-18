@@ -1,12 +1,5 @@
 # Changelog
 
-## [1.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v1.2.1...transformation-aws-compliance-free-v1.3.0) (2024-02-07)
-
-
-### Features
-
-* Added model aws_compliance__cis_v2_0_0_free ([#570](https://github.com/cloudquery/policies-premium/issues/570)) ([259582f](https://github.com/cloudquery/policies-premium/commit/259582f94404556d55e73954cbb9d7c671d12642))
-
 ## [1.2.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v1.2.0...transformation-aws-compliance-free-v1.2.1) (2024-02-01)
 
 
