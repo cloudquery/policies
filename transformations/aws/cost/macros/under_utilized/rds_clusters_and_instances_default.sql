@@ -1,8 +1,8 @@
-{ % macro under_utilized_rds_db_clusters_default() % } { { return(
-    adapter.dispatch('under_utilized_rds_db_clusters_default')()
+{ % macro under_utilized_rds_clusters_and_instances_default() % } { { return(
+    adapter.dispatch('under_utilized_rds_clusters_and_instances_default')()
 ) } } { % endmacro % }
-{ % macro default__under_utilized_rds_db_clusters_default() % } { % endmacro % } 
-{ % macro postgres__under_utilized_rds_db_clusters_default() % } with rds_cluster_resource_utilization AS (
+{ % macro default__under_utilized_rds_clusters_and_instances_default() % } { % endmacro % } 
+{ % macro postgres__under_utilized_rds_clusters_and_instances_default() % } with rds_cluster_resource_utilization AS (
     SELECT
         'arn:aws:rds:' || region :: text || ':' || account_id :: text || ':cluster:' || (
             SELECT
@@ -28,8 +28,8 @@
         aws_cloudwatch_metric_statistics cws
     WHERE
         cws.label = 'CPUUtilization'
-        AND cws.input_json ->> 'Namespace' = 'AWS/RDS' --AND
-        --cws.input_json::text LIKE '%%DBClusterIdentifier%%'
+        AND cws.input_json ->> 'Namespace' = 'AWS/RDS' 
+        AND cws.input_json::text LIKE '%DBClusterIdentifier%'
     GROUP BY
         1,
         2,
@@ -63,7 +63,7 @@ rds_instance_resource_utilization as (
     WHERE
         cws.label = 'CPUUtilization'
         AND cws.input_json ->> 'Namespace' = 'AWS/RDS'
-        AND cws.input_json :: text LIKE '%%DBInstanceIdentifier%%'
+        AND cws.input_json :: text LIKE '%DBInstanceIdentifier%'
     GROUP BY
         1,
         2,
