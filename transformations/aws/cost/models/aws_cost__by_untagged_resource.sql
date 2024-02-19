@@ -8,4 +8,4 @@ from
 {{ var('cost_usage_table') }}
 where resource_tags = '[]' or resource_tags is null
 group by account_id, resource_id, service, month
-having sum(line_item_unblended_cost) > 0;
+having sum(line_item_unblended_cost) > 0
