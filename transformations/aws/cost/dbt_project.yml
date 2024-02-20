@@ -184,6 +184,7 @@ seeds:
         resource_tags_aws_lambda_function_name: text
         resource_tags_aws_ecs_cluster: text
         resource_tags_aws_elasticbeanstalk_environment_id: text
+        resource_tags: text
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -219,4 +220,8 @@ models:
     aws_cost__by_ecs_tag:
       +enabled: false
     aws_cost__by_lambda_tag:
+      +enabled: false
+    aws_cost__by_tag:
+      +enabled: false
+    aws_cost__by_untagged_resource:
       +enabled: false
