@@ -4,7 +4,9 @@ SELECT
     checks.category,
     checks.id,
     checks.name,
-    checks.description
+    checks.description,
+	results.status,
+	results.timestamp
 FROM
     aws_support_trusted_advisor_checks AS checks
     LEFT JOIN aws_support_trusted_advisor_check_results AS results ON checks.id = results.check_id,
