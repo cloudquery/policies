@@ -8,7 +8,6 @@ SELECT
   pricing_term, 
   product_product_family, 
   line_item_resource_id,
-  product_database_engine,
   SUM(CASE WHEN line_item_line_item_type = 'DiscountedUsage' THEN line_item_usage_amount
     WHEN line_item_line_item_type = 'Usage' THEN line_item_usage_amount
     ELSE 0 
@@ -27,6 +26,5 @@ GROUP BY
   line_item_line_item_type,
   pricing_term, 
   product_product_family, 
-  line_item_resource_id,
-  product_database_engine
+  line_item_resource_id
 
