@@ -7,50 +7,52 @@ Welcome to AWS Cost Policy, a comprehensive solution designed to help you analyz
 Before you begin, ensure you have the following:
 - An active AWS account with cost and usage report activated.
 - CloudQuery and DBT installed and configured.
+- A CloudQuery account
 - AWS and Postgresql plugins installed.
 - Basic familiarity with YAML and SQL.
 
 
 ## To run the policy you need to complete the following steps
+### Login to CloudQuery
+because this policy uses premium features and tables you must login to your cloudquery account using
+`cloudquery login` in your terminal
+
 ### Syncing the Cost and Usage Report
-this step can be done in 2 different ways:
+1) Download you Cost and Usage Report from aws.
+2) Using the File Plugin and the Postgres Plugin sync the CUR file, you can use this exanple config yaml but make sure to fill the necessary values
+    ```yml
+    kind: source
+    spec:
+    name: file # The type of source, in this case, a file source.
+    path: cloudquery/file # The plugin path for handling file sources.
+    registry: cloudquery # The registry from which the plugin is sourced.
+    version: "v1.2.1" # The version of the file plugin.
+    tables: ["*"] # Specifies that all tables in the source should be considered.
+    destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
 
-a. downloading the report and syncing the file itself
-```yml
-kind: source
-spec:
-  name: file # The type of source, in this case, a file source.
-  path: cloudquery/file # The plugin path for handling file sources.
-  registry: cloudquery # The registry from which the plugin is sourced.
-  version: "v1.2.1" # The version of the file plugin.
-  tables: ["*"] # Specifies that all tables in the source should be considered.
-  destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+    spec:
+        files_dir: "/path/to/files-to-sync" # The directory where the files to be synced are located.
+        # concurrency: 50 # Optional. Defines the number of files to sync in parallel. Defaults to 50 if not set.
 
-  spec:
-    files_dir: "/path/to/files-to-sync" # The directory where the files to be synced are located.
-    # concurrency: 50 # Optional. Defines the number of files to sync in parallel. Defaults to 50 if not set.
+    ---
+    kind: destination
+    spec:
+    name: "postgresql" # The type of destination, in this case, PostgreSQL.
+    path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
+    registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
+    version: "v7.3.5" # The version of the PostgreSQL plugin.
 
----
-kind: destination
-spec:
-  name: "postgresql" # The type of destination, in this case, PostgreSQL.
-  path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
-  registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-  version: "v7.3.5" # The version of the PostgreSQL plugin.
+    spec:
+        connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+        # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
+        # You can also specify the connection string in DSN format, which allows for special characters in the password:
+        # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
 
-  spec:
-    connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
-    # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
-    # You can also specify the connection string in DSN format, which allows for special characters in the password:
-    # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
-
- ```
-
- b. syncing directly from s3 is coming soon, hit the get notified when published button on https://hub.cloudquery.io/plugins/source/cloudquery/s3-bucket
+    ```
 
 ### Syncing AWS data
 based on the models you are interested in running you need to sync the relevant tables
-this is an example sync for the relevant tables for all the policies
+this is an example sync for the relevant tables for all the models (views) in the policy
 
 *Do note* you will have to configure the cloudwatch spec to suit your data
 
@@ -61,8 +63,9 @@ spec:
   path: cloudquery/aws # The plugin path for handling AWS sources.
   registry: cloudquery # The registry from which the AWS plugin is sourced.
   version: "v24.3.2" # The version of the AWS plugin.
-  tables: ["*"] # Specifies that all tables in the source should be considered.
+  tables: ["aws_cloudwatch_metrics", "aws_cloudwatch_metric_statistics", "aws_ec2_instances", "aws_rds_instances", "aws_cloudhsmv2_backups", "aws_docdb_cluster_snapshots", "aws_dynamodb_backups", "aws_dynamodb_table_continuous_backups", "aws_ec2_ebs_snapshots", "aws_elasticache_snapshots", "aws_fsx_backups", "aws_fsx_snapshots", "aws_lightsail_database_snapshots", "aws_lightsail_disk_snapshots", "aws_lightsail_instance_snapshots", "aws_neptune_cluster_snapshots", "aws_rds_cluster_snapshots", "aws_rds_db_snapshots", "aws_redshift_snapshots", "aws_computeoptimizer_autoscaling_group_recommendations", "aws_autoscaling_groups", "aws_computeoptimizer_ebs_volume_recommendations", "aws_computeoptimizer_ec2_instance_recommendations", "aws_ec2_instances", "aws_computeoptimizer_ecs_service_recommendations", "aws_ecs_cluster_services", "aws_computeoptimizer_lambda_function_recommendations", "aws_lambda_functions", "aws_acm_certificates", "aws_backup_vaults", "aws_cloudfront_distributions", "aws_directconnect_connections", "aws_dynamodb_tables", "aws_ec2_ebs_volumes", "aws_ec2_eips", "aws_ec2_hosts", "aws_ec2_images", "aws_ec2_internet_gateways", "aws_ec2_network_acls", "aws_ec2_transit_gateways", "aws_ec2_transit_gateway_attachments", "aws_ecr_repositories", "aws_ecr_repository_images", "aws_efs_filesystems", "aws_lightsail_container_service_deployments", "aws_lightsail_container_services", "aws_lightsail_disks", "aws_lightsail_distributions", "aws_lightsail_load_balancers", "aws_lightsail_static_ips", "aws_elbv2_listeners", "aws_elbv2_target_groups", "aws_elbv2_load_balancers", "aws_route53_hosted_zones", "aws_sns_subscriptions", "aws_sns_topics", "aws_support_trusted_advisor_checks", "aws_support_trusted_advisor_check_results"]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+  use_paid_apis: true
   spec:
     table_options:
       aws_cloudwatch_metrics:
@@ -70,15 +73,15 @@ spec:
             namespace: AWS/RDS # Specifies the AWS service namespace for RDS metrics.
           get_metric_statistics:
             - period: 300 # The granularity, in seconds, of the returned data points.
-              start_time: 2024-02-01T00:00:01Z # The starting point for the data collection.
-              end_time: 2024-02-28T23:59:59Z # The ending point for the data collection.
+              start_time: <YOUR_START_TIME> # The starting point for the data collection. example: 2024-01-01T00:00:01Z
+              end_time: <YOUR END TIME> # The ending point for the data collection. example: 2024-01-30T23:59:59Z
               statistics: ["Average", "Maximum", "Minimum"] # The statistical values to retrieve.
         - list_metrics:
             namespace: AWS/EC2 # Specifies the AWS service namespace for EC2 metrics.
           get_metric_statistics:
             - period: 300 # The granularity, in seconds, of the returned data points.
-              start_time: 2024-01-01T00:00:01Z # The starting point for the data collection.
-              end_time: 2024-01-30T23:59:59Z # The ending point for the data collection.
+              start_time: <YOUR_START_TIME> # The starting point for the data collection. example: 2024-01-01T00:00:01Z
+              end_time: <YOUR END TIME> # The ending point for the data collection. example: 2024-01-30T23:59:59Z
               statistics: ["Average", "Maximum", "Minimum"] # The statistical values to retrieve.
 
 ---
@@ -100,7 +103,7 @@ spec:
 ### Running the Policy
 To run this policy you need to specify the name of the cost and usage report in your database
 ```
-dbt run --vars '{"cost_usage_table": "your_cost_and_usage_table"}'
+dbt run --vars '{"cost_usage_table": "<YOUR_COST_AND_USAGE_TABLE>"}'
 ```
 
 ## Usage Examples
@@ -154,6 +157,9 @@ ORDER BY account_id, arn;
 ```
 
 ## Data Dictionary
+In this section you can see all the available models (views) and their columns.
+cost will be in the same units as it is in the CUR file which are USD ($).
+line_item_resource_id is usually the resource ARN except in certain cases where it is a volume_id or instance_id of certain services.
 
 #### `aws_cost__by_under_utilized_resources`
 Identifies resources that are under-utilized based on specific metrics (e.g., CPUUtilization, storage usage), highlighting opportunities for cost optimization. Supported services include EC2 Instances, RDS Clusters, and DynamoDB.
@@ -162,7 +168,7 @@ Identifies resources that are under-utilized based on specific metrics (e.g., CP
 - `service` - The AWS service (e.g., EC2, RDS).
 - `instance_type` - The type of instance (e.g., t3.mini).
 - `metric` - The metric indicating under-utilization.
-- `value` - The value for the metric.
+- `value` - The value for the metric (Usually percentage %).
 - `cost` - The cost of the resource.
 
 #### `aws_cost__of_unused_resources`
@@ -404,12 +410,55 @@ This view aggregates data from AWS Trusted Advisor checks specifically related t
 - `name` - The name of the Trusted Advisor check. This provides a human-readable description of what the check is about, such as "Low Utilization Amazon EC2 Instances".
 - `description` - The description of the Trusted Advisor check. This field offers more detailed information about what the check entails and possibly how to address the advice given.
 
+### `aws_cost__anomaly_per_service`
+Identifies resources within an AWS service that have costs considered statistically anomalous compared to other resources in the same service.
+- `line_item_product_code` - The AWS service.
+- `line_item_resource_id` - The resource ARN.
+- `cost` - The total cost of the resource.
+- `mean_cost` - The average cost for the service (`product_code`).
+- `std_cost` - The standard deviation of the cost for the service (`product_code`).
 
-## Required Tables By Model
+### `aws_cost__by_account`
+Aggregates costs by account.
+- `line_item_usage_account_id` - The account that incurred the cost.
+- `cost` - The total cost for the account.
+
+### `aws_cost__by_region`
+Aggregates costs by region.
+- `product_location` - The region where the resource is located.
+- `cost` - The total cost for the region.
+
+### `aws_cost__by_resource`
+Aggregates costs by resource.
+- `line_item_resource_id` - The resource ARN.
+- `line_item_product_code` - The AWS service.
+- `cost` - The total cost of the resource.
+
+### `aws_cost__gp2_ebs_volumes`
+Details the cost of GP2 EBS volumes.
+- `line_item_resource_id` - The resource ID.
+- `cost` - The total cost of the resource.
+- `volume_type` - The volume type.
+- `attachments` - The number of attachments.
+- `arn` - The resource ARN.
+- `tags` - The tags associated with the volume.
+- `state` - The state of the volume.
+- `snapshot_id` - The snapshot ID.
+- `size` - The volume size.
+- `create_time` - The volume creation time.
+
+### `aws_cost__over_time`
+Aggregates cost by time period.
+- `line_item_usage_start_date` - The start date of the billing period.
+- `line_item_usage_end_date` - The end date of the billing period.
+- `cost` - The total cost in the time period.
+
+
+## Required Tables By Model (View)
 
 ### `aws_cost__by_under_utilized_resources`
 - `cost table`
-- `aws_cost__by_resource`
+- `aws_cloudwatch_metrics`
 - `aws_cloudwatch_metric_statistics`
 - `aws_ec2_instances`
 - `aws_rds_instances`
@@ -538,5 +587,24 @@ This view aggregates data from AWS Trusted Advisor checks specifically related t
 
 ### `aws_cost__trusted_advisor_by_arn`
 - `aws_support_trusted_advisor_checks`
-- `aws_support_trusted_advisor_check_results`
+- `aws_support_trusted_advisor_check_results`- `
 
+
+### `aws_cost__over_time`
+- `cost table`
+
+### `aws_cost__by_resource`
+- `cost table`
+
+### `aws_cost__by_region`
+- `cost table`
+
+### `aws_cost__by_account`
+- `cost table`
+
+### `aws_cost__anomaly_per_service`
+- `cost table`
+
+### `aws_cost__gcp2_ebs_volumes`
+- `cost table`
+- `aws_ec2_ebs_volumes`
