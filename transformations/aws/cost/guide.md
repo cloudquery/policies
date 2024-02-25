@@ -5,16 +5,19 @@ Welcome to AWS Cost Policy, a comprehensive solution designed to help you analyz
 ## Prerequisites
 
 Before you begin, ensure you have the following:
-- An active AWS account with cost and usage report activated.
+- An active AWS account with cost and usage report activated. 
+    - https://docs.aws.amazon.com/cur/latest/userguide/cur-create.html
 - CloudQuery and DBT installed and configured.
+    - https://docs.cloudquery.io/docs
 - A CloudQuery account
+    - https://www.cloudquery.io/auth/register?returnTo=%2F
 - AWS and Postgresql plugins installed.
 - Basic familiarity with YAML and SQL.
 
 
 ## To run the policy you need to complete the following steps
 ### Login to CloudQuery
-because this policy uses premium features and tables you must login to your cloudquery account using
+Because this policy uses premium features and tables you must login to your cloudquery account using
 `cloudquery login` in your terminal
 
 ### Syncing the Cost and Usage Report
@@ -51,7 +54,7 @@ because this policy uses premium features and tables you must login to your clou
     ```
 
 ### Syncing AWS data
-based on the models you are interested in running you need to sync the relevant tables
+Based on the models you are interested in running you need to sync the relevant tables
 this is an example sync for the relevant tables for all the models (views) in the policy
 
 *Do note* you will have to configure the cloudwatch spec to suit your data
@@ -101,10 +104,27 @@ spec:
  ```
 
 ### Running the Policy
-To run this policy you need to specify the name of the cost and usage report in your database
+To run this policy you need to specify the name of the cost and usage report in your database, if you used the file plugin to load the report the table name will be the same as the file name (without the file extension).
+Navigate to your dbt project directory, where your `dbt_project.yml` resides.
+
+Before executing the `dbt run` command, it might be useful to check for any potential issues:
+
+```bash
+dbt compile --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
 ```
-dbt run --vars '{"cost_usage_table": "<YOUR_COST_AND_USAGE_TABLE>"}'
+
+If everything compiles without errors, you can then execute:
+
+```bash
+dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
 ```
+
+To run specific models
+
+```bash
+dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
+```
+
 
 ## Usage Examples
 
@@ -157,7 +177,7 @@ ORDER BY account_id, arn;
 ```
 
 ## Data Dictionary
-In this section you can see all the available models (views) and their columns.
+In this section you can see all the models (views) that are included in the policy with an explantaion about the data inside and the columns available.
 cost will be in the same units as it is in the CUR file which are USD ($).
 line_item_resource_id is usually the resource ARN except in certain cases where it is a volume_id or instance_id of certain services.
 
