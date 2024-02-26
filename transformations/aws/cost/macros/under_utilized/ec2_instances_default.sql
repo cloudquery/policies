@@ -4,53 +4,37 @@
 
 { % macro default__under_utilized_ec2_instances_default() % } { % endmacro % }
 
-{ % macro postgres__under_utilized_ec2_instances_default() % } with ec2_instance_resource_utilization AS (
+{ % macro postgres__under_utilized_ec2_instances_default() % } 
+WITH ec2_instance_resource_utilization AS (
     SELECT
-        'arn:aws:ec2:' || region :: text || ':' || account_id :: text || ':instance/' || (
-            SELECT
-                value ->> 'Value'
-            FROM
-                jsonb_array_elements(cws.input_json -> 'Dimensions') AS elem
-            WHERE
-                elem ->> 'Name' = 'InstanceId'
-        ) :: text AS arn,
-        (
-            SELECT
-                value ->> 'Value'
-            FROM
-                jsonb_array_elements(cws.input_json -> 'Dimensions') AS elem
-            WHERE
-                elem ->> 'Name' = 'InstanceId'
-        ) AS instance_id,
+        'arn:aws:ec2:' || cws.region::text || ':' || cws.account_id::text || ':instance/' || (elem.value ->> 'Value')::text AS arn,
+        elem.value ->> 'Value' AS instance_id,
         cws.region,
         cws.label,
-        max(cws.maximum) as max_usage,
-        avg(cws.average) as mean_usage
+        MAX(cws.maximum) AS max_usage,
+        AVG(cws.average) AS mean_usage
     FROM
-        aws_cloudwatch_metric_statistics cws
+        aws_cloudwatch_metric_statistics cws,
+        jsonb_array_elements(cws.input_json -> 'Dimensions') AS elem
     WHERE
         cws.label = 'CPUUtilization'
         AND cws.input_json ->> 'Namespace' = 'AWS/EC2'
+        AND elem ->> 'Name' = 'InstanceId'
     GROUP BY
-        1,
-        2,
-        3,
-        4
+        1, 2, 3, 4
 ),
-cost_by_region_resource as (
+cost_by_region_resource AS (
     SELECT
         product_region,
         line_item_resource_id,
-        sum(line_item_blended_cost) AS cost
+        SUM(line_item_blended_cost) AS cost
     FROM
         {{ var('cost_usage_table') }}
     WHERE
         line_item_resource_id != ''
-        AND
-        line_item_product_code = 'AmazonEC2'
+        AND line_item_product_code = 'AmazonEC2'
     GROUP BY
-        1,
-        2
+        1, 2
     ORDER BY
         cost DESC
 )
