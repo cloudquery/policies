@@ -3,6 +3,7 @@ name: Deploy dbt docs
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
 
 on:
   push:
@@ -47,7 +48,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v5.6.0
+          version: v5.7.0
       - name: Generate the docs
         run: make shard=${{ matrix.shard }} gen-site
         env:
