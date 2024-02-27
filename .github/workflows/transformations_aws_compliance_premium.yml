@@ -29,6 +29,7 @@ env:
   SNOW_DATABASE: ${{ secrets.SNOW_DATABASE }}
   SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
   SNOW_REGION: ${{ secrets.SNOW_REGION }}
+  CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
 
 jobs:
   prepare:
