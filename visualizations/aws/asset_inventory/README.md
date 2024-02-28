@@ -8,7 +8,7 @@ This contains an AWS Asset Inventory Dashboard for Grafana on top of CloudQuery 
 
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
   - [AWS Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
-  - [PostgreSQL Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/postgresql)
+  - [PostgreSQL Plugin](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
   - [AWS Asset Inventory Pack](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-asset-inventory/)
 - [dbt](https://docs.getdbt.com/docs/core/pip-install)
   - [dbt + PostgreSQL](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
