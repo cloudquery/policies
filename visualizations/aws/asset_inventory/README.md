@@ -18,4 +18,12 @@ This contains an AWS Asset Inventory Dashboard for Grafana on top of CloudQuery 
 1. Install the requirements listed above.
 2. Run `cloudquery sync` with the aws and postgresql plugins.
 3. Run `dbt run` to build the models.
-4. [Import](https://grafana.com/docs/grafana/latest/dashboards/manage-dashboards/#export-and-import-dashboards) the Grafana dashboard in this package.
+4. [Import](https://grafana.com/grafana/dashboards/16347-aws-asset-inventory/) the Grafana dashboard in this package.
+    - Information about importing Grafana dashboards can be found [here](https://grafana.com/docs/grafana/latest/dashboards/build-dashboards/import-dashboards/)
+    - Note: If you have installed Postgres via Docker, ensure that Grafana is also installed via Docker. Once installed, you can use the IP address of your postgres container found by running `docker inspect container <container name>` along with the port as your host connection.
+
+### Example dashboard
+
+Once you have connected Grafana to your Postgres database and have imported the AWS Asset Inventory template, you will see a dashboard similar to this one:
+
+![AWS Asset Inventory](/images/image.png)
