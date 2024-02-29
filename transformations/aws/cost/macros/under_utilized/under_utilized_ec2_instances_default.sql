@@ -1,5 +1,5 @@
 { % macro under_utilized_ec2_instances_default() % } { { return(
-    adapter.dispatch('under_utilized_ec2_instances_default')()
+    {{ return(adapter.dispatch('under_utilized_ec2_instances_default')())}}
 ) } } { % endmacro % } 
 
 { % macro default__under_utilized_ec2_instances_default() % } { % endmacro % }

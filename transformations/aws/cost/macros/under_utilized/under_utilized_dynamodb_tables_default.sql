@@ -1,5 +1,5 @@
 { % macro under_utilized_dynamodb_tables_default() % } { { return(
-    adapter.dispatch('under_utilized_dynamodb_tables_default')()
+    {{ return(adapter.dispatch('under_utilized_dynamodb_tables_default')())}}
 ) } } { % endmacro % } 
 
 { % macro default__under_utilized_dynamodb_tables_default() % } { % endmacro % }
@@ -23,33 +23,38 @@ WITH dynamodb_tables_metrics AS (
         1, 2, 3, 4
 ),
 dynamodb_tables_utilization AS (
-SELECT cr.arn, cr.tablename, cr.region, 
-cr.mean_usage as mean_consumed_read, cr.max_usage as max_consumed_read,
-pr.mean_usage as mean_provisioned_read, pr.max_usage as max_provisioned_read,
-cw.mean_usage as mean_consumed_write, cw.max_usage as max_consumed_write,
-pw.mean_usage as mean_provisioned_write, pw.max_usage as max_provisioned_write,
-cr.mean_usage /  pr.mean_usage as  read_utilization_rate,
-cw.mean_usage /  pw.mean_usage as  write_utilization_rate
-
+(
+SELECT c.arn, c.tablename, c.region,
+'ReadCapacityUtilizationRate' as metric,
+c.mean_usage / r.mean_usage as mean_usage,
+c.max_usage / r.max_usage as max_usage
 FROM
-  (SELECT arn, tablename, region, mean_usage, max_usage
+     (SELECT arn, tablename, region, mean_usage, max_usage
    FROM dynamodb_tables_metrics
-   WHERE metric = 'ConsumedReadCapacityUnits') cr
+   WHERE metric = 'ConsumedReadCapacityUnits') c
 JOIN
-  (SELECT arn, mean_usage, max_usage
+    (SELECT arn, mean_usage, max_usage
    FROM dynamodb_tables_metrics
-   WHERE metric = 'ProvisionedReadCapacityUnits') pr
+   WHERE metric = 'ProvisionedReadCapacityUnits') r
 USING(arn)
+
+)
+UNION
+(
+SELECT c.arn, c.tablename, c.region,
+'WriteCapacityUtilizationRate' as metric,
+c.mean_usage / r.mean_usage as mean_usage,
+c.max_usage / r.max_usage as max_usage
+FROM
+     (SELECT arn, tablename, region, mean_usage, max_usage
+   FROM dynamodb_tables_metrics
+   WHERE metric = 'ConsumedWriteCapacityUnits') c
 JOIN
-  (SELECT arn, tablename, region, mean_usage, max_usage
+    (SELECT arn, mean_usage, max_usage
    FROM dynamodb_tables_metrics
-   WHERE metric = 'ConsumedWriteCapacityUnits') cw
+   WHERE metric = 'ProvisionedWriteCapacityUnits') r
 USING(arn)
-JOIN
-  (SELECT arn, mean_usage, max_usage
-   FROM dynamodb_tables_metrics
-   WHERE metric = 'ProvisionedWriteCapacityUnits') pw
-USING(arn)
+)
 ),
 
 cost_by_region_resource AS (
@@ -58,7 +63,7 @@ cost_by_region_resource AS (
         line_item_resource_id,
         SUM(line_item_blended_cost) AS cost
     FROM
-        john_cost_00001_snappy
+        {{ var('cost_usage_table') }}
     WHERE
         line_item_resource_id != ''
         AND line_item_product_code = 'AmazonDynamoDB'
@@ -68,7 +73,22 @@ cost_by_region_resource AS (
         cost DESC
 )
 
-SELECT arn, tablename, region, read_utilization_rate, write_utilization_rate
-FROM dynamodb_tables_utilization
-WHERE read_utilization_rate < 0.5 OR write_utilization_rate < 0.5
+SELECT 
+    cw_usage.arn,
+    NULL::text as instance_type,
+    'DynamoDB' as service,
+    cw_usage.metric as metric,
+    cw_usage.mean_usage as mean_usage,
+    cw_usage.max_usage as max_usage,
+    cost.cost
+
+FROM dynamodb_tables_utilization cw_usage
+LEFT JOIN cost_by_region_resource cost ON (
+        (
+            cw_usage.tablename = cost.line_item_resource_id
+            and cw_usage.region = cost.product_region
+        )
+        or cw_usage.arn = cost.line_item_resource_id
+    )
+WHERE mean_usage < 0.5
 { % endmacro % }
