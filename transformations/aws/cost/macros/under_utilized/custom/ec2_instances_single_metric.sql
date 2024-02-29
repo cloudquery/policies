@@ -18,7 +18,7 @@ with ec2_instance_resource_utilization AS (
     INNER JOIN aws_cloudwatch_metrics cm
         ON cws._cq_parent_id = cm._cq_id
     WHERE
-        cws.label '{{metric}}'
+        cws.label = '{{metric}}'
         AND
         cm.namespace = '{{namespace}}'
     GROUP BY 1, 2
@@ -29,5 +29,5 @@ FROM ec2_instance_reousrce_utilization cw_usage
 LEFT JOIN {{ ref('aws_cost__by_resources') }} cost 
     ON cw_usage.instance_id = cost.line_item_resource_id
 WHERE
-(cw_usage.label = '{{metric}}' and cw_usage.mean_usage > 50)
+(cw_usage.label = '{{metric}}' and cw_usage.mean_usage < 50)
 {% endmacro %}
