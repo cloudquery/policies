@@ -1,11 +1,13 @@
-{ % macro under_utilized_rds_clusters_and_instances_default() % } { { return(
-    {{ return(adapter.dispatch('under_utilized_rds_clusters_and_instances_default')()) }}
-) } } { % endmacro % }
-{ % macro default__under_utilized_rds_clusters_and_instances_default() % } { % endmacro % } 
-{ % macro postgres__under_utilized_rds_clusters_and_instances_default() % }
-WITH rds_cluster_resource_utilization AS (
+{% macro under_utilized_rds_clusters_and_instances_default() %}
+  {{ return(adapter.dispatch('under_utilized_rds_clusters_and_instances_default')()) }}
+{% endmacro %}
+
+{% macro default__under_utilized_rds_clusters_and_instances_default() %}{% endmacro %}
+
+{% macro postgres__under_utilized_rds_clusters_and_instances_default() %}
+WITH rds_instance_resource_utilization AS (
     SELECT
-        'arn:aws:rds:' || cws.region::text || ':' || cws.account_id::text || ':cluster:' || (elem.value ->> 'Value')::text AS arn,
+        'arn:aws:rds:' || cws.region::text || ':' || cws.account_id::text || ':db:' || (elem.value ->> 'Value')::text AS arn,
         elem.value ->> 'Value' AS rds_id,
         cws.region,
         cws.label,
@@ -17,12 +19,12 @@ WITH rds_cluster_resource_utilization AS (
     WHERE
         cws.label = 'CPUUtilization'
         AND cws.input_json ->> 'Namespace' = 'AWS/RDS'
-        AND cws.input_json::text LIKE '%DBClusterIdentifier%'
-        AND elem ->> 'Name' = 'DBClusterIdentifier'
+        AND cws.input_json::text LIKE '%DBInstanceIdentifier%'
+        AND elem ->> 'Name' = 'DBInstanceIdentifier'
     GROUP BY
         1, 2, 3, 4
 ),
-rds_instance_resource_utilization AS (
+rds_cluster_resource_utilization AS (
     SELECT
         'arn:aws:rds:' || cws.region::text || ':' || cws.account_id::text || ':db:' || (elem.value ->> 'Value')::text AS arn,
         elem.value ->> 'Value' AS rds_id,
@@ -31,7 +33,7 @@ rds_instance_resource_utilization AS (
         MAX(cws.maximum) AS max_usage,
         AVG(cws.average) AS mean_usage
     FROM
-        aws_cloudwatch_metric_statistics cws
+        aws_cloudwatch_metric_statistics cws,
         jsonb_array_elements(cws.input_json -> 'Dimensions') AS elem
     WHERE
         cws.label = 'CPUUtilization'
@@ -49,7 +51,6 @@ rds_resource_utilization AS (
     FROM
         rds_cluster_resource_utilization rcu
         LEFT JOIN aws_rds_clusters rc ON rcu.arn = rc.arn OR (rcu.rds_id = rc.db_cluster_identifier AND rcu.region = rc.region)
-
     UNION ALL
 
     SELECT
@@ -66,7 +67,7 @@ cost_by_region_resource AS (
         line_item_resource_id,
         SUM(line_item_blended_cost) AS cost
     FROM
-        {{ var('cost_usage_table') }}
+        john_cost_00001_snappy --{{ var('cost_usage_table') }}
     WHERE
         line_item_resource_id != ''
         AND line_item_product_code = 'AmazonRDS'
@@ -98,4 +99,4 @@ WHERE
         and cw_usage.mean_usage < 50
     )
     and cost > 0 
-{ % endmacro % }
+{% endmacro %}

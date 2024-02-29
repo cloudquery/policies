@@ -1,10 +1,10 @@
-{ % macro under_utilized_dynamodb_tables_default() % } { { return(
-    {{ return(adapter.dispatch('under_utilized_dynamodb_tables_default')())}}
-) } } { % endmacro % } 
+{% macro under_utilized_dynamodb_tables_default() %}
+  {{ return(adapter.dispatch('under_utilized_dynamodb_tables_default')()) }}
+{% endmacro %}
 
-{ % macro default__under_utilized_dynamodb_tables_default() % } { % endmacro % }
+{% macro default__under_utilized_dynamodb_tables_default() %}{% endmacro %}
 
-{ % macro postgres__under_utilized_dynamodb_tables_default() % } 
+{% macro postgres__under_utilized_dynamodb_tables_default() %}
 WITH dynamodb_tables_metrics AS (
     SELECT
         'arn:aws:dynamodb:' || cws.region::text || ':' || cws.account_id::text || ':table/' || (elem.value ->> 'Value')::text AS arn,
@@ -91,4 +91,4 @@ LEFT JOIN cost_by_region_resource cost ON (
         or cw_usage.arn = cost.line_item_resource_id
     )
 WHERE mean_usage < 0.5
-{ % endmacro % }
+{% endmacro %}
