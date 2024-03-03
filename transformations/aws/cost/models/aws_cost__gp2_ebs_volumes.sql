@@ -12,13 +12,13 @@ SELECT
 FROM (
 	SELECT
 	  line_item_resource_id, line_item_product_code,
-    SUM(line_item_blended_cost) AS cost
+    SUM(line_item_unblended_cost) AS cost
 	FROM {{ var('cost_usage_table') }}
 	WHERE
     line_item_resource_id LIKE 'vol-%'
 	GROUP BY
     line_item_resource_id, line_item_product_code
-	HAVING SUM(line_item_blended_cost) > 0
+	HAVING SUM(line_item_unblended_cost) > 0
 	ORDER BY cost DESC
 ) as costquery
 LEFT JOIN "aws_ec2_ebs_volumes" as vols

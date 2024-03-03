@@ -1,7 +1,7 @@
 WITH totals AS (
     SELECT 
         line_item_line_item_type AS type, 
-        SUM(line_item_blended_cost) AS total
+        SUM(line_item_unblended_cost) AS total
     FROM {{ var('cost_usage_table') }}
     WHERE line_item_line_item_type IN ('Credit', 'Usage')
     GROUP BY line_item_line_item_type
