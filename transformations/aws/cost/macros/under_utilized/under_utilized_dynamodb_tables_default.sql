@@ -91,4 +91,5 @@ LEFT JOIN cost_by_region_resource cost ON (
         or cw_usage.arn = cost.line_item_resource_id
     )
 WHERE mean_usage < 0.5
+and cost > 0
 {% endmacro %}
