@@ -201,7 +201,7 @@ models:
       +enabled: true
     aws_cost__compute_optimizer_results:
       +enabled: true
-    aws_cost__gcp2_ebs_volumes:
+    aws_cost__gp2_ebs_volumes:
       +enabled: true
     aws_cost__over_time:
       +enabled: true
@@ -225,3 +225,37 @@ models:
       +enabled: false
     aws_cost__by_untagged_resource:
       +enabled: false
+    autoscaling_group_optimization_recommendations:
+      +enabled: true
+    ebs_volume_optimization_recommendations:
+      +enabled: true
+    ec2_instances_optimization_recommendations:
+      +enabled: true
+    ecs_service_optimization_recommendations:
+      +enabled: true
+    lambda_function_optimization_recommendations:
+      +enabled: true
+    aws_cost__anomaly_per_service:
+      +enabled: true
+    aws_cost__by_account:
+      +enabled: true
+    aws_cost__by_product:
+      +enabled: true
+    aws_cost__by_rds_usage:
+      +enabled: true
+    aws_cost__by_recovery_resources:
+      +enabled: true
+    aws_cost__by_under_utilized_resources:
+      +enabled: true
+    aws_cost__by_unused_resources:
+      +enabled: true
+    aws_cost__over_time_date:
+      +enabled: true
+    aws_cost__total:
+      +enabled: true
+    aws_cost__trusted_advisior_by_arn:
+      +enabled: true
+    aws_cost__trusted_advisior_results:
+      +enabled: true
+    aws_usage__data_usage_capacity:
+      +enabled: true

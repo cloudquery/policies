@@ -219,6 +219,7 @@ ORDER BY account_id, arn;
 In this section you can see all the models (views) that are included in the policy with an explantaion about the data inside and the columns available.
 cost will be in the same units as it is in the CUR file which are USD ($).
 line_item_resource_id is usually the resource ARN except in certain cases where it is a volume_id or instance_id of certain services.
+By default the models related to tags are disabled (Tags  are only available in the CUR if they are activated), to enable this model change them to enabled in the models section in `dbt_project.yml`
 
 #### `aws_cost__by_under_utilized_resources`
 Identifies resources that are under-utilized based on specific metrics (e.g., CPUUtilization, storage usage), highlighting opportunities for cost optimization. Supported services include EC2 Instances, RDS Clusters, and DynamoDB.
