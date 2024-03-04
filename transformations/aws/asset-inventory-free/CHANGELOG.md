@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.0.1...transformation-aws-asset-inventory-free-v2.0.2) (2024-03-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.9 ([#626](https://github.com/cloudquery/policies-premium/issues/626)) ([8a7882d](https://github.com/cloudquery/policies-premium/commit/8a7882d97bf06f9661949e99c7bfb8f5cbf74bad))
+
 ## [2.0.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.0.0...transformation-aws-asset-inventory-free-v2.0.1) (2024-02-14)
 
 
