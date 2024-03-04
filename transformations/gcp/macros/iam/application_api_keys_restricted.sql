@@ -35,8 +35,8 @@ select distinct
         case
             when
                 restrictions is null 
-				or restrictions -> 'api_targets' is null 
-				or restrictions ->> 'api_targets' like '%cloudapis.googleapis.com%'
+				or restrictions:api_targets is null 
+				or restrictions:api_targets like '%cloudapis.googleapis.com%'
             then 'fail'
             else 'pass'
         end as status
@@ -55,8 +55,8 @@ select distinct
         case
             when
                 restrictions is null 
-				or restrictions -> 'api_targets' is null 
-				or restrictions ->> 'api_targets' like '%cloudapis.googleapis.com%'
+				or json_extract(restrictions ,'$.api_targets') is null 
+				or to_json_string(json_extract(restrictions, '$.api_targets')) like '%cloudapis.googleapis.com%'
             then 'fail'
             else 'pass'
         end as status

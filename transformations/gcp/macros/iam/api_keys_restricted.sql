@@ -36,9 +36,9 @@ select distinct
         case
             when
                 restrictions is null 
-				or restrictions -> 'ClientRestrictions' is null 
-				or restrictions -> 'ClientRestrictions' -> 'BrowserKeyRestrictions' ->> 'allowed_referrers' like '%*%'
-				or restrictions -> 'ClientRestrictions' -> 'ServerKeyRestrictions' ->> 'allowed_ips' in ('0.0.0.0', '0.0.0.0/0', '::0')
+				or restrictions:ClientRestrictions is null 
+				or restrictions:ClientRestrictions.BrowserKeyRestrictions.allowed_referrers like '%*%'
+				or restrictions:ClientRestrictions.ServerKeyRestrictions.allowed_ips in ('0.0.0.0', '0.0.0.0/0', '::0')
             then 'fail'
             else 'pass'
         end as status
@@ -57,9 +57,9 @@ select distinct
         case
             when
                 restrictions is null 
-				or restrictions -> 'ClientRestrictions' is null 
-				or restrictions -> 'ClientRestrictions' -> 'BrowserKeyRestrictions' ->> 'allowed_referrers' like '%*%'
-				or restrictions -> 'ClientRestrictions' -> 'ServerKeyRestrictions' ->> 'allowed_ips' in ('0.0.0.0', '0.0.0.0/0', '::0')
+				or json_extract(restrictions, '$.ClientRestrictions') is null 
+				or to_json_string(json_extract(restrictions, '$.ClientRestrictions.BrowserKeyRestrictions.allowed_referrers')) like '%*%'
+				or to_json_string(json_extract(restrictions, '$.ClientRestrictions.ServerKeyRestrictions.allowed_ips')) in ('0.0.0.0', '0.0.0.0/0', '::0')
             then 'fail'
             else 'pass'
         end as status

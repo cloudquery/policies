@@ -50,7 +50,7 @@ select distinct
         project_id as project_id,
         case
             when
-                create_time::date < (current_date - 90)
+                cast(create_time as date) < (current_date - 90)
             then 'fail'
             else 'pass'
         end as status
