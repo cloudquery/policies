@@ -1,10 +1,10 @@
-{% macro dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
-  {{ return(adapter.dispatch('dataproc_clusters_encrypted_with_cmk')(framework, check_id)) }}
+{% macro iam_dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
+  {{ return(adapter.dispatch('iam_dataproc_clusters_encrypted_with_cmk')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__dataproc_clusters_encrypted_with_cmk(framework, check_id) %}{% endmacro %}
+{% macro default__iam_dataproc_clusters_encrypted_with_cmk(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
+{% macro postgres__iam_dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
 select distinct
         cluster_name as resource_id,
         '{{ framework }}' as framework,
@@ -22,7 +22,7 @@ select distinct
 
 {% endmacro %}
 
-{% macro snowflake__dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
+{% macro snowflake__iam_dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
@@ -40,7 +40,7 @@ select distinct
     
 {% endmacro %}
 
-{% macro bigquery__dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
+{% macro bigquery__iam_dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
 select distinct
         cluster_name as resource_id,
         '{{ framework }}' as framework,

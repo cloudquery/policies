@@ -1,10 +1,10 @@
-{% macro application_api_keys_restricted(framework, check_id) %}
-  {{ return(adapter.dispatch('application_api_keys_restricted')(framework, check_id)) }}
+{% macro iam_application_api_keys_restricted(framework, check_id) %}
+  {{ return(adapter.dispatch('iam_application_api_keys_restricted')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__application_api_keys_restricted(framework, check_id) %}{% endmacro %}
+{% macro default__iam_application_api_keys_restricted(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__application_api_keys_restricted(framework, check_id) %}
+{% macro postgres__iam_application_api_keys_restricted(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
@@ -24,7 +24,7 @@ select distinct
 
 {% endmacro %}
 
-{% macro snowflake__application_api_keys_restricted(framework, check_id) %}
+{% macro snowflake__iam_application_api_keys_restricted(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
@@ -44,7 +44,7 @@ select distinct
     
 {% endmacro %}
 
-{% macro bigquery__application_api_keys_restricted(framework, check_id) %}
+{% macro bigquery__iam_application_api_keys_restricted(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,

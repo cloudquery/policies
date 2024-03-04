@@ -123,7 +123,7 @@ select distinct
         case
             when
                 email is null 
-				and not (notification_category_subscriptions::text like all ('%SUSPENSION%','%SECURITY%','%TECHNICAL%','%LEGAL%')) 
+				and not (array_to_string(notification_category_subscriptions, ",") like all ('%SUSPENSION%','%SECURITY%','%TECHNICAL%','%LEGAL%')) 
 				and validation_state != 'VALID'
             then 'fail'
             else 'pass'
@@ -140,7 +140,7 @@ select distinct
         case
             when
                 email is null 
-				and not (notification_category_subscriptions::text like all ('%SUSPENSION%','%SECURITY%','%TECHNICAL%','%LEGAL%'))
+				and not (array_to_string(notification_category_subscriptions, ",") like all ('%SUSPENSION%','%SECURITY%','%TECHNICAL%','%LEGAL%'))
 				and validation_state != 'VALID'
             then 'fail'
             else 'pass'
@@ -157,7 +157,7 @@ select distinct
         case
             when
                 email is null 
-				and not (notification_category_subscriptions::text like all ('%SUSPENSION%','%SECURITY%','%TECHNICAL%','%LEGAL%')) 
+				and not (array_to_string(notification_category_subscriptions, ",") like all ('%SUSPENSION%','%SECURITY%','%TECHNICAL%','%LEGAL%'))
 				and validation_state != 'VALID'
             then 'fail'
             else 'pass'

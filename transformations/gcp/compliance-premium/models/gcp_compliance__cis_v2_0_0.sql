@@ -16,6 +16,18 @@ with
         {{ union() }}
         ({{ kms_separation_of_duties('cis_v2.0.0', '1.11') }})
         {{ union() }}
+        ({{ iam_ensure_no_api_keys('cis_v2.0.0', '1.12') }})
+        {{ union() }}
+        ({{ iam_api_keys_restricted('cis_v2.0.0', '1.13') }})
+        {{ union() }}
+        ({{ iam_application_api_keys_restricted('cis_v2.0.0', '1.14') }})
+        {{ union() }}
+        ({{ iam_api_keys_rotated('cis_v2.0.0', '1.15') }})
+        {{ union() }}
+        ({{ iam_essential_contacts_configured('cis_v2.0.0', '1.16') }})
+        {{ union() }}
+        ({{ iam_dataproc_clusters_encrypted_with_cmk('cis_v2.0.0', '1.17') }})
+        {{ union() }}
         ({{ logging_not_configured_across_services_and_users('cis_v2.0.0', '2.1') }})
         {{ union() }}
         ({{ logging_sinks_not_configured_for_all_log_entries('cis_v2.0.0', '2.2') }})

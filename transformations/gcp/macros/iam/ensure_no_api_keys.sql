@@ -1,10 +1,10 @@
-{% macro ensure_no_api_keys(framework, check_id) %}
-  {{ return(adapter.dispatch('ensure_no_api_keys')(framework, check_id)) }}
+{% macro iam_ensure_no_api_keys(framework, check_id) %}
+  {{ return(adapter.dispatch('iam_ensure_no_api_keys')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__ensure_no_api_keys(framework, check_id) %}{% endmacro %}
+{% macro default__iam_ensure_no_api_keys(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__ensure_no_api_keys(framework, check_id) %}
+{% macro postgres__iam_ensure_no_api_keys(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
@@ -22,7 +22,7 @@ select distinct
 
 {% endmacro %}
 
-{% macro snowflake__ensure_no_api_keys(framework, check_id) %}
+{% macro snowflake__iam_ensure_no_api_keys(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
@@ -40,7 +40,7 @@ select distinct
     
 {% endmacro %}
 
-{% macro bigquery__ensure_no_api_keys(framework, check_id) %}
+{% macro bigquery__iam_ensure_no_api_keys(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
