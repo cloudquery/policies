@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.2](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.3.1...transformation-gcp-compliance-premium-v0.3.2) (2024-03-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.7.3 ([#555](https://github.com/cloudquery/policies-premium/issues/555)) ([e1ef22b](https://github.com/cloudquery/policies-premium/commit/e1ef22b09347ca7663ec3829aa730327a6c9e3f0))
+* **deps:** Update dependency dbt-bigquery to v1.7.6 ([#625](https://github.com/cloudquery/policies-premium/issues/625)) ([e5219a2](https://github.com/cloudquery/policies-premium/commit/e5219a22084a3e05f2f8312f77aecac3244b4839))
+* **deps:** Update dependency dbt-postgres to v1.7.6 ([#556](https://github.com/cloudquery/policies-premium/issues/556)) ([01d83c3](https://github.com/cloudquery/policies-premium/commit/01d83c3589be42468fb3e93ac9aae1b270f60e25))
+* **deps:** Update dependency dbt-postgres to v1.7.9 ([#626](https://github.com/cloudquery/policies-premium/issues/626)) ([8a7882d](https://github.com/cloudquery/policies-premium/commit/8a7882d97bf06f9661949e99c7bfb8f5cbf74bad))
+* **deps:** Update dependency dbt-snowflake to v1.7.2 ([#631](https://github.com/cloudquery/policies-premium/issues/631)) ([68fe93f](https://github.com/cloudquery/policies-premium/commit/68fe93fedeb8857552015555dc6e692a96b59651))
+* Use `registry: cloudquery` for Snowflake tests ([#541](https://github.com/cloudquery/policies-premium/issues/541)) ([087a4ce](https://github.com/cloudquery/policies-premium/commit/087a4cecefdb28a1f29fe7c5d741b3c6ea19a27b))
+
 ## [0.3.1](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.3.0...transformation-gcp-compliance-premium-v0.3.1) (2024-01-17)
 
 
