@@ -886,13 +886,9 @@
       "list": [
         {
           "current": {
-            "selected": true,
-            "text": [
-              "539914985848"
-            ],
-            "value": [
-              "539914985848"
-            ]
+            "selected": false,
+            "text": "All",
+            "value": "$__all"
           },
           "datasource": {
             "type": "postgres",

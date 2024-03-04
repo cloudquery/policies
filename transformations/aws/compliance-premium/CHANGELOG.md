@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.3.0...transformation-aws-compliance-premium-v1.4.0) (2024-02-06)
+
+
+### Features
+
+* Added AWS Compliance CIS version 2.0.0 ([#551](https://github.com/cloudquery/policies-premium/issues/551)) ([852af57](https://github.com/cloudquery/policies-premium/commit/852af570ae8427e2dcdc6926b4d3938e5c671038))
+
 ## [1.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.2.0...transformation-aws-compliance-premium-v1.3.0) (2024-02-01)
 
 

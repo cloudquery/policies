@@ -29,6 +29,7 @@ env:
   SNOW_DATABASE: ${{ secrets.SNOW_DATABASE }}
   SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
   SNOW_REGION: ${{ secrets.SNOW_REGION }}
+  CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
 
 jobs:
   prepare:
@@ -107,7 +108,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v5.3.0
+          version: v5.8.0
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
