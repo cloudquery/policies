@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v2.0.1...transformation-aws-data-resilience-v2.0.2) (2024-03-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.6 ([#556](https://github.com/cloudquery/policies-premium/issues/556)) ([01d83c3](https://github.com/cloudquery/policies-premium/commit/01d83c3589be42468fb3e93ac9aae1b270f60e25))
+* **deps:** Update dependency dbt-postgres to v1.7.9 ([#626](https://github.com/cloudquery/policies-premium/issues/626)) ([8a7882d](https://github.com/cloudquery/policies-premium/commit/8a7882d97bf06f9661949e99c7bfb8f5cbf74bad))
+
 ## [2.0.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v2.0.0...transformation-aws-data-resilience-v2.0.1) (2024-01-22)
 
 
