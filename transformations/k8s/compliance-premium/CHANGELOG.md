@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.4.0...transformation-k8s-compliance-premium-v0.4.1) (2024-03-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.9 ([#626](https://github.com/cloudquery/policies-premium/issues/626)) ([8a7882d](https://github.com/cloudquery/policies-premium/commit/8a7882d97bf06f9661949e99c7bfb8f5cbf74bad))
+
 ## [0.4.0](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.3.0...transformation-k8s-compliance-premium-v0.4.0) (2024-02-09)
 
 
