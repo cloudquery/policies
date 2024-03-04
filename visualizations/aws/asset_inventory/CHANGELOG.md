@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.0](https://github.com/cloudquery/policies-premium/compare/visualization-aws-asset-inventory-v2.0.0...visualization-aws-asset-inventory-v2.1.0) (2024-03-04)
+
+
+### Features
+
+* Added screenshot to readme, updated grafana guidance and links ([#619](https://github.com/cloudquery/policies-premium/issues/619)) ([aa22a96](https://github.com/cloudquery/policies-premium/commit/aa22a96ad1c099c4eec73246e6295739c25ebade))
+* Updated existing aws viz addons in the hub ([#621](https://github.com/cloudquery/policies-premium/issues/621)) ([d4708e0](https://github.com/cloudquery/policies-premium/commit/d4708e0797f8109a792c3f48b66ca1543f048107))
+
 ## [2.0.0](https://github.com/cloudquery/policies-premium/compare/visualization-aws-asset-inventory-v1.0.0...visualization-aws-asset-inventory-v2.0.0) (2024-01-18)
 
 
