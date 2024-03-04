@@ -52,6 +52,8 @@ with
         {{ union() }}
         ({{ logging_dns_logging_disabled('cis_v2.0.0', '2.12') }})
         {{ union() }}
+        ({{ logging_cloud_asset_inventory_enabled('cis_v2.0.0', '2.13') }})
+        {{ union() }}
         ({{ compute_default_network_exist('cis_v2.0.0', '3.1') }})
         {{ union() }}
         ({{ compute_legacy_network_exist('cis_v2.0.0', '3.2') }})
