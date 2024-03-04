@@ -16,7 +16,7 @@ model-paths: ["models"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
 seed-paths: ["seeds"]
-macro-paths: ["../macros", "../../macros"]
+macro-paths: ["macros", "../macros", "../../macros"]
 snapshot-paths: ["snapshots"]
 
 clean-targets:         # directories to be removed by `dbt clean`
@@ -179,6 +179,12 @@ seeds:
         product_size_flex: text
         product_alarm_type: text
         product_availability: text
+        resource_tags_aws_cloudformation_logical_id: text
+        resource_tags_aws_cloudformation_stack_name: text
+        resource_tags_aws_lambda_function_name: text
+        resource_tags_aws_ecs_cluster: text
+        resource_tags_aws_elasticbeanstalk_environment_id: text
+        resource_tags: text
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -195,7 +201,61 @@ models:
       +enabled: true
     aws_cost__compute_optimizer_results:
       +enabled: true
-    aws_cost__gcp2_ebs_volumes:
+    aws_cost__gp2_ebs_volumes:
       +enabled: true
     aws_cost__over_time:
+      +enabled: true
+    aws_cost__cloudformation_tag_spend_allocation:
+      +enabled: false
+    aws_cost__lambda_tag_spend_allocation:
+      +enabled: false
+    aws_cost__ecs_tag_spend_allocation:
+      +enabled: false
+    aws_cost__beanstalk_tag_spend_allocation:
+      +enabled: false
+    aws_cost__by_beanstalk_tag:
+      +enabled: false
+    aws_cost__by_cloudformation_tag:
+      +enabled: false
+    aws_cost__by_ecs_tag:
+      +enabled: false
+    aws_cost__by_lambda_tag:
+      +enabled: false
+    aws_cost__by_tag:
+      +enabled: false
+    aws_cost__by_untagged_resource:
+      +enabled: false
+    autoscaling_group_optimization_recommendations:
+      +enabled: true
+    ebs_volume_optimization_recommendations:
+      +enabled: true
+    ec2_instances_optimization_recommendations:
+      +enabled: true
+    ecs_service_optimization_recommendations:
+      +enabled: true
+    lambda_function_optimization_recommendations:
+      +enabled: true
+    aws_cost__anomaly_per_service:
+      +enabled: true
+    aws_cost__by_account:
+      +enabled: true
+    aws_cost__by_product:
+      +enabled: true
+    aws_cost__by_rds_usage:
+      +enabled: true
+    aws_cost__by_recovery_resources:
+      +enabled: true
+    aws_cost__by_under_utilized_resources:
+      +enabled: true
+    aws_cost__by_unused_resources:
+      +enabled: true
+    aws_cost__over_time_date:
+      +enabled: true
+    aws_cost__total:
+      +enabled: true
+    aws_cost__trusted_advisior_by_arn:
+      +enabled: true
+    aws_cost__trusted_advisior_results:
+      +enabled: true
+    aws_usage__data_usage_capacity:
       +enabled: true

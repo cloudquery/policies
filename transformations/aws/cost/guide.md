@@ -14,46 +14,6 @@ Before you begin, ensure you have the following:
 
 
 ## To run the policy you need to complete the following steps
-### Setting up the DBT profile
-First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
-```bash
-pip install dbt-postgres
-```
-
-Create the profile directory:
-
-```bash
-mkdir -p ~/.dbt
-```
-
-Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
-
-```yaml
-aws_cost: # This should match the name in your dbt_project.yml
-  target: dev
-  outputs:
-    dev:
-      type: postgres
-      host: 127.0.0.1
-      user: postgres
-      pass: pass
-      port: 5432
-      dbname: postgres
-      schema: public # default schema where dbt will build the models
-      threads: 1 # number of threads to use when running in parallel
-```
-
-Test the Connection:
-
-After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly:
-
-```bash
-dbt debug
-```
-
-This command will tell you if dbt can successfully connect to your PostgreSQL instance.
-
-
 ### Login to CloudQuery
 Because this policy uses premium features and tables you must login to your cloudquery account using
 `cloudquery login` in your terminal
@@ -219,7 +179,6 @@ ORDER BY account_id, arn;
 In this section you can see all the models (views) that are included in the policy with an explantaion about the data inside and the columns available.
 cost will be in the same units as it is in the CUR file which are USD ($).
 line_item_resource_id is usually the resource ARN except in certain cases where it is a volume_id or instance_id of certain services.
-By default the models related to tags are disabled (Tags  are only available in the CUR if they are activated), to enable this model change them to enabled in the models section in `dbt_project.yml`
 
 #### `aws_cost__by_under_utilized_resources`
 Identifies resources that are under-utilized based on specific metrics (e.g., CPUUtilization, storage usage), highlighting opportunities for cost optimization. Supported services include EC2 Instances, RDS Clusters, and DynamoDB.
