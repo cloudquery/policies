@@ -54,6 +54,10 @@ with
         {{ union() }}
         ({{ logging_cloud_asset_inventory_enabled('cis_v2.0.0', '2.13') }})
         {{ union() }}
+        ({{ logging_access_approval_enabled('cis_v2.0.0', '2.15') }})
+        {{ union() }}
+        ({{ logging_enabled_for_load_balancers('cis_v2.0.0', '2.16') }})
+        {{ union() }}
         ({{ compute_default_network_exist('cis_v2.0.0', '3.1') }})
         {{ union() }}
         ({{ compute_legacy_network_exist('cis_v2.0.0', '3.2') }})

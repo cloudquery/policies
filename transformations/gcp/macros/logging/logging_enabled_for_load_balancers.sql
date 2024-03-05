@@ -1,10 +1,10 @@
-{% macro logging_access_approval_enabled(framework, check_id) %}
-  {{ return(adapter.dispatch('logging_access_approval_enabled')(framework, check_id)) }}
+{% macro logging_enabled_for_load_balancers(framework, check_id) %}
+  {{ return(adapter.dispatch('logging_enabled_for_load_balancers')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__logging_access_approval_enabled(framework, check_id) %}{% endmacro %}
+{% macro default__logging_enabled_for_load_balancers(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__logging_access_approval_enabled(framework, check_id) %}
+{% macro postgres__logging_enabled_for_load_balancers(framework, check_id) %}
 select distinct
         m.name as resource_id,
         '{{ framework }}' as framework,
@@ -22,7 +22,7 @@ select distinct
     left join gcp_compute_backend_services s on s.self_link = m.default_service
 {% endmacro %}
 
-{% macro snowflake__logging_access_approval_enabled(framework, check_id) %}
+{% macro snowflake__logging_enabled_for_load_balancers(framework, check_id) %}
 select distinct
         m.name as resource_id,
         '{{ framework }}' as framework,
@@ -40,7 +40,7 @@ select distinct
     left join gcp_compute_backend_services s on s.self_link = m.default_service
 {% endmacro %}
 
-{% macro bigquery__logging_access_approval_enabled(framework, check_id) %}
+{% macro bigquery__logging_enabled_for_load_balancers(framework, check_id) %}
 select distinct
         m.name as resource_id,
         '{{ framework }}' as framework,
