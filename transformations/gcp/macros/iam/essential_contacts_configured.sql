@@ -1,10 +1,10 @@
-{% macro essential_contacts_configured(framework, check_id) %}
-  {{ return(adapter.dispatch('essential_contacts_configured')(framework, check_id)) }}
+{% macro iam_essential_contacts_configured(framework, check_id) %}
+  {{ return(adapter.dispatch('iam_essential_contacts_configured')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__essential_contacts_configured(framework, check_id) %}{% endmacro %}
+{% macro default__iam_essential_contacts_configured(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__essential_contacts_configured(framework, check_id) %}
+{% macro postgres__iam_essential_contacts_configured(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
@@ -58,7 +58,7 @@ select distinct
 
 {% endmacro %}
 
-{% macro snowflake__essential_contacts_configured(framework, check_id) %}
+{% macro snowflake__iam_essential_contacts_configured(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
@@ -112,7 +112,7 @@ select distinct
     
 {% endmacro %}
 
-{% macro bigquery__essential_contacts_configured(framework, check_id) %}
+{% macro bigquery__iam_essential_contacts_configured(framework, check_id) %}
 select distinct
         name as resource_id,
         '{{ framework }}' as framework,
