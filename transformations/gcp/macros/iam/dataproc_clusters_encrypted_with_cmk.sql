@@ -24,7 +24,7 @@ select distinct
 
 {% macro snowflake__iam_dataproc_clusters_encrypted_with_cmk(framework, check_id) %}
 select distinct
-        name as resource_id,
+        cluster_name as resource_id,
         '{{ framework }}' as framework,
         '{{ check_id }}' as check_id,
         'Ensure that Dataproc Cluster is encrypted using Customer-Managed Encryption Key (Automated)'
