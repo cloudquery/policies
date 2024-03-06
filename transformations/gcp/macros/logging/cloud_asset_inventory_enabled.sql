@@ -54,6 +54,6 @@ select distinct
             then 'fail'
             else 'pass'
         end as status
-    FROM {{ full_table_name("gcp_logging_metrics") }}
+    FROM {{ full_table_name("gcp_serviceusage_services") }}
     where name like '%cloudasset.googleapis.com'
 {% endmacro %}
