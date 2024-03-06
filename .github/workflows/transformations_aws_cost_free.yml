@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "transformations/aws/cost-free/**"
-      - ".github/workflows/transformations_aws_cost-free.yml"
+      - ".github/workflows/transformations_aws_cost_free.yml"
       - "transformations/aws/macros/**"
       - "transformations/aws/models/**"
       - "transformations/macros/**"
