@@ -29,8 +29,6 @@
   "visualizations/aws/asset_inventory+FILLER": "0.0.0",
   "transformations/aws/cost": "1.0.0",
   "transformations/aws/cost+FILLER": "0.0.0",
-  "transformations/aws/cost-free": "1.0.0",
-  "transformations/aws/cost-free+FILLER": "0.0.0",
   "visualizations/aws/asset_inventory": "2.1.0",
   "visualizations/aws/asset_inventory+FILLER": "0.0.0"
 }
