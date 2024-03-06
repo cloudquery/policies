@@ -111,7 +111,7 @@ select distinct
             then 'fail'
             else 'pass'
         end as status
-    from g{{ full_table_name("gcp_accessapproval_project_settings") }}
+    from {{ full_table_name("gcp_accessapproval_project_settings") }}
 union all
 select distinct
         name as resource_id,
