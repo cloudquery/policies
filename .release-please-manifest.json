@@ -30,5 +30,5 @@
   "transformations/aws/cost": "1.0.0",
   "transformations/aws/cost+FILLER": "0.0.0",
   "transformations/aws/cost-free": "1.0.0",
-  "transformations/aws/cost-free+FILLER": "0.0.0",
+  "transformations/aws/cost-free+FILLER": "0.0.0"
 }
