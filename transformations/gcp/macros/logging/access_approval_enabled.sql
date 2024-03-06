@@ -95,6 +95,8 @@ select distinct
             then 'fail'
             else 'pass'
         end as status
+    from gcp_accessapproval_folder_settings
+
 {% endmacro %}
 
 {% macro bigquery__logging_access_approval_enabled(framework, check_id) %}
