@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "type": "addon",
+  "team_name": "cloudquery",
+  "addon_name": "aws-cost-free",
+  "addon_type": "transformation",
+  "addon_format": "zip",
+  "message": "@./changelog.md",
+  "doc": "./README.md",
+  "path": "./build/aws_cost_free.zip",
+  "plugin_deps": ["cloudquery/source/aws@v24.3.2"],
+  "addon_deps": []
+}
