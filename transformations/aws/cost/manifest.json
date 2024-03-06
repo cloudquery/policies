@@ -8,6 +8,6 @@
   "message": "@./changelog.md",
   "doc": "./README.md",
   "path": "./build/aws_cost.zip",
-  "plugin_deps": ["cloudquery/source/aws@v22.18.0"],
+  "plugin_deps": ["cloudquery/source/aws@v24.3.2"],
   "addon_deps": []
 }
