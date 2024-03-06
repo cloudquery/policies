@@ -67,6 +67,9 @@ This command will run your `dbt` models and create tables/views in your destinat
 - ✅ `1.9`: `kms_publicly_accessible`
 - ✅ `1.10`: `kms_keys_not_rotated_within_90_days`
 - ✅ `1.11`: `kms_separation_of_duties`
+
+##### `cis_v2.0.0`
+
 - ✅ `1.4`: `iam_managed_service_account_keys`
 - ✅ `1.5`: `iam_service_account_admin_priv`
 - ✅ `1.6`: `iam_users_with_service_account_token_creator_role`
