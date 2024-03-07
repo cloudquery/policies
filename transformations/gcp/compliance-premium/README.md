@@ -70,6 +70,43 @@ More information can be found [here.](https://docs.getdbt.com/reference/node-sel
 
 - Run dbt: `dbt run`
 
+#### Required Tables
+
+- `gcp_iam_service_accounts`
+- `gcp_iam_service_account_keys`
+- `gcp_resourcemanager_project_policies`
+- `gcp_kms_crypto_keys`
+- `gcp_apikeys_keys`
+- `gcp_essentialcontacts_project_contacts`
+- `gcp_essentialcontacts_organization_contacts`
+- `gcp_essentialcontacts_folder_contacts`
+- `gcp_dataproc_clusters`
+- `gcp_logging_sinks`
+- `gcp_storage_buckets`
+- `gcp_logging_metrics`
+- `gcp_dns_policiesgdp`
+- `gcp_compute_networks`
+- `gcp_serviceusage_services`
+- `gcp_accessapproval_project_settings`
+- `gcp_accessapproval_organization_settings`
+- `gcp_accessapproval_folder_settings`
+- `gcp_compute_url_maps`
+- `gcp_compute_backend_services`
+- `gcp_dns_managed_zones`
+- `gcp_compute_firewalls`
+- `gcp_firewall_allowed_rules`
+- `gcp_compute_subnetworks`
+- `gcp_compute_target_ssl_proxies`
+- `gcp_compute_ssl_policies`
+- `gcp_compute_projects`
+- `gcp_compute_instances`
+- `gcp_compute_disks`
+- `gcp_storage_bucket_policies`
+- `gcp_public_buckets_accesses`
+- `gcp_sql_instances`
+- `gcp_bigquery_datasets`
+- `gcp_bigquery_tables`
+
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
 
