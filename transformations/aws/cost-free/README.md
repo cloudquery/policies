@@ -176,14 +176,14 @@ ORDER BY cost DESC;
 
 
 ## Data Dictionary
-In this section you can see all the models (views) that are included in the policy with an explantaion about the data inside and the columns available.
+In this section you can see all the models (views) that are included in the policy with an explanation about the data inside and the columns available.
 cost will be in the same units as it is in the CUR file which are USD ($).
 line_item_resource_id is usually the resource ARN except in certain cases where it is a volume_id or instance_id of certain services.
 By default the models related to tags are disabled (Tags  are only available in the CUR if they are activated), to enable this model change them to enabled in the models section in `dbt_project.yml`
 
 #### `aws_cost__of_unused_resources`
 Identifies resources and are completely unused (not metric based), highlighting 'To Be Deleted' resources.
-Supported services are acm certs, backup vaults, cloudfront dstributions, directconnect connections, dynamodb tables, ec2 ebs volumes, ec2 eips, ec2 internet gateways, ec2 hosts, ec2 images, ec2 network acls, ec2 transit gateways, ecr repositories, efs filesystems, lightsail container services, lightsail disks, lightsail distributions, lightsail load balancers, lightsail static ips, load balancers, route53 hosted zones, sns topics.
+Supported services are acm certs, backup vaults, cloudfront distributions, directconnect connections, dynamodb tables, ec2 ebs volumes, ec2 eips, ec2 internet gateways, ec2 hosts, ec2 images, ec2 network acls, ec2 transit gateways, ecr repositories, efs filesystems, lightsail container services, lightsail disks, lightsail distributions, lightsail load balancers, lightsail static ips, load balancers, route53 hosted zones, sns topics.
 
 - `account_id` - the account that owns the resource.
 - `resource_id` - the arn of the resource
