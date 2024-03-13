@@ -10,6 +10,16 @@
         }
       ]
     },
+    "transformations/aws/cost-free": {
+      "component": "transformation-aws-cost-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
     "transformations/aws/encryption": {
       "component": "transformation-aws-encryption",
       "extra-files": [

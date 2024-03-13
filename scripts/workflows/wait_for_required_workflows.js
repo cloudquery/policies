@@ -16,7 +16,7 @@ module.exports = async ({github, context}) => {
         }
         try {
             const contents = fs.readFileSync(file, 'utf8');
-            return contents.includes(`"${action}`)
+            return contents.includes(`"${action}/`)
         } catch {
             return false
         }
