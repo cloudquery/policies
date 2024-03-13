@@ -298,9 +298,14 @@ models:
       +enabled: true
       +tags: "cur_legacy"
     aws_cost__ec2_cost_breakdown_cur_2:
-      +enabled: false
+      +enabled: true
+      +tags: "cur_2"
     aws_cost__ec2_cost_by_region_cur_2:
-      +enabled: false     
+      +enabled: true
+      +tags: "cur_2"
+    aws_cost__ec2_instance_utilization_cost_cur_2:
+      +enabled: true
+      +tags: "cur_2"    
     aws_usage__data_usage_capacity_cur_2:
       +enabled: true
       +tags: "cur_2"
@@ -310,3 +315,28 @@ models:
     aws_cost__by_lambda_usage_cur_2:
       +enabled: true
       +tags: "cur_2"
+    autoscaling_group_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
+    ebs_volume_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
+    ec2_instances_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
+    ecs_service_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
+    lambda_function_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
