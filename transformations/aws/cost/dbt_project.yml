@@ -3,7 +3,9 @@ version: 1.0.0
 config-version: 2
 profile: aws_cost
 model-paths:
-  - models
+  - models/compute_optimizer
+  - models/ec2
+  - models/general
 analysis-paths:
   - analyses
 test-paths:
@@ -184,32 +186,56 @@ models:
   aws_cost:
     aws_cost__by_regions:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__by_resources:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__compute_optimizer_results:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__gp2_ebs_volumes:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__over_time:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__cloudformation_tag_spend_allocation:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__lambda_tag_spend_allocation:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__ecs_tag_spend_allocation:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__beanstalk_tag_spend_allocation:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__by_beanstalk_tag:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__by_cloudformation_tag:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__by_ecs_tag:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__by_lambda_tag:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__by_tag:
       +enabled: false
+      +tags: "cur_2"
     aws_cost__by_untagged_resource:
       +enabled: false
     autoscaling_group_optimization_recommendations:
@@ -224,31 +250,105 @@ models:
       +enabled: true
     aws_cost__anomaly_per_service:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__by_account:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__by_product:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__by_rds_usage:
       +enabled: true
+      +tags: "cur_legacy"
+    aws_cost__by_rds_usage_cur_2:
+      +enabled: true
+      +tags: "cur_2"
     aws_cost__by_recovery_resources:
       +enabled: true
+      +tags: "cur_legacy"
+    aws_cost__by_recovery_resources_cur_2:
+      +enabled: true
+      +tags: "cur_2"
     aws_cost__by_under_utilized_resources:
       +enabled: true
+      +tags: "cur_legacy"
+    aws_cost__by_under_utilized_resources_cur_2:
+      +enabled: true
+      +tags: "cur_2"
     aws_cost__by_unused_resources:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__over_time_date:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__total:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__trusted_advisior_by_arn:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_cost__trusted_advisior_results:
       +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
     aws_usage__data_usage_capacity:
       +enabled: true
+      +tags: "cur_legacy"
     aws_cost__ec2_cost_breakdown_cur_2:
-      +enabled: false
+      +enabled: true
+      +tags: "cur_2"
     aws_cost__ec2_cost_by_region_cur_2:
-      +enabled: false
+      +enabled: true
+      +tags: "cur_2"
     aws_cost__ec2_instance_utilization_cost_cur_2:
-      +enabled: false
+      +enabled: true
+      +tags: "cur_2"    
+    aws_usage__data_usage_capacity_cur_2:
+      +enabled: true
+      +tags: "cur_2"
+    aws_cost__by_lambda_usage:
+      +enabled: true
+      +tags: "cur_legacy"
+    aws_cost__by_lambda_usage_cur_2:
+      +enabled: true
+      +tags: "cur_2"
+    autoscaling_group_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
+    ebs_volume_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
+    ec2_instances_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
+    ecs_service_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
+    lambda_function_optimization_recommendations:
+      +enabled: true
+      +tags: 
+        - "cur_legacy"
+        - "cur_2"
