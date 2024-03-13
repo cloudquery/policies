@@ -305,4 +305,9 @@ models:
       +tags: "cur_legacy"
     aws_cost__by_lambda_usage_cur_2:
       +enabled: true
-      +tags: "cur_2"
+      +tags: "cur_2"    aws_cost__ec2_cost_breakdown_cur_2:
+      +enabled: false
+    aws_cost__ec2_cost_by_region_cur_2:
+      +enabled: false
+    aws_cost__ec2_instance_utilization_cost_cur_2:
+      +enabled: false
