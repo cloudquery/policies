@@ -110,8 +110,10 @@ jobs:
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
-          dbt seed --target dev-pg --profiles-dir ./tests
-          dbt run --target dev-pg --profiles-dir ./tests
+          dbt seed --target dev-pg --profiles-dir ./tests --select cost_legacy
+          dbt run --select tag:cur_legacy --target dev-pg --profiles-dir ./tests
+          dbt seed --target dev-pg --profiles-dir ./tests --full-refresh --select cost_cur_2
+          dbt run --select tag:cur_2 --target dev-pg --profiles-dir ./tests
         if: needs.prepare.outputs.postgres == 'true'
         env:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
