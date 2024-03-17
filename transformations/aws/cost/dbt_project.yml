@@ -43,7 +43,7 @@ seeds:
         identity_line_item_id: TEXT
         identity_time_interval: TEXT
         line_item_availability_zone: TEXT
-        line_item_blended_cost: TEXT
+        line_item_blended_cost: DOUBLE PRECISION
         line_item_blended_rate: TEXT
         line_item_currency_code: TEXT
         line_item_legal_entity: TEXT
@@ -51,24 +51,24 @@ seeds:
         line_item_line_item_type: TEXT
         line_item_net_unblended_cost: TEXT
         line_item_net_unblended_rate: TEXT
-        line_item_normalization_factor: TEXT
-        line_item_normalized_usage_amount: TEXT
+        line_item_normalization_factor: DOUBLE PRECISION
+        line_item_normalized_usage_amount: DOUBLE PRECISION
         line_item_operation: TEXT
         line_item_product_code: TEXT
         line_item_resource_id: TEXT
         line_item_tax_type: TEXT
-        line_item_unblended_cost: TEXT
+        line_item_unblended_cost: DOUBLE PRECISION
         line_item_unblended_rate: TEXT
         line_item_usage_account_id: TEXT
         line_item_usage_account_name: TEXT
-        line_item_usage_amount: TEXT
+        line_item_usage_amount: DOUBLE PRECISION
         line_item_usage_end_date: TIMESTAMP WITHOUT TIME ZONE
         line_item_usage_start_date: TIMESTAMP WITHOUT TIME ZONE
         line_item_usage_type: TEXT
         pricing_currency: TEXT
         pricing_lease_contract_length: TEXT
         pricing_offering_class: TEXT
-        pricing_public_on_demand_cost: TEXT
+        pricing_public_on_demand_cost: DOUBLE PRECISION
         pricing_public_on_demand_rate: TEXT
         pricing_purchase_option: TEXT
         pricing_rate_code: TEXT
@@ -103,13 +103,13 @@ seeds:
         reservation_effective_cost: DOUBLE PRECISION
         reservation_end_time: TEXT
         reservation_modification_status: TEXT
-        reservation_net_amortized_upfront_cost_for_usage: DOUBLE PRECISION
-        reservation_net_amortized_upfront_fee_for_billing_period: DOUBLE PRECISION
-        reservation_net_effective_cost: DOUBLE PRECISION
-        reservation_net_recurring_fee_for_usage: DOUBLE PRECISION
-        reservation_net_unused_amortized_upfront_fee_for_billing_period: DOUBLE PRECISION
-        reservation_net_unused_recurring_fee: DOUBLE PRECISION
-        reservation_net_upfront_value: DOUBLE PRECISION
+        reservation_net_amortized_upfront_cost_for_usage: TEXT
+        reservation_net_amortized_upfront_fee_for_billing_period: TEXT
+        reservation_net_effective_cost: TEXT
+        reservation_net_recurring_fee_for_usage: TEXT
+        reservation_net_unused_amortized_upfront_fee_for_billing_period: TEXT
+        reservation_net_unused_recurring_fee: TEXT
+        reservation_net_upfront_value: TEXT
         reservation_normalized_units_per_reservation: TEXT
         reservation_number_of_reservations: TEXT
         reservation_recurring_fee_for_usage: DOUBLE PRECISION
@@ -134,14 +134,14 @@ seeds:
         savings_plan_offering_type: TEXT
         savings_plan_payment_option: TEXT
         savings_plan_purchase_term: TEXT
-        savings_plan_recurring_commitment_for_billing_period: TEXT
+        savings_plan_recurring_commitment_for_billing_period: DOUBLE PRECISION
         savings_plan_region: TEXT
         savings_plan_savings_plan_a_r_n: TEXT
-        savings_plan_savings_plan_effective_cost: TEXT
-        savings_plan_savings_plan_rate: TEXT
+        savings_plan_savings_plan_effective_cost: DOUBLE PRECISION
+        savings_plan_savings_plan_rate: DOUBLE PRECISION
         savings_plan_start_time: TEXT
-        savings_plan_total_commitment_to_date: TEXT
-        savings_plan_used_commitment: TEXT
+        savings_plan_total_commitment_to_date: DOUBLE PRECISION
+        savings_plan_used_commitment: DOUBLE PRECISION
 models:
   aws_cost:
     aws_cost__cloudformation_tag_spend_allocation:
