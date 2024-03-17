@@ -1,10 +1,10 @@
-{% macro under_utilized_dynamodb_tables_default_cur_2() %}
-  {{ return(adapter.dispatch('under_utilized_dynamodb_tables_default_cur_2')()) }}
+{% macro under_utilized_dynamodb_tables_default() %}
+  {{ return(adapter.dispatch('under_utilized_dynamodb_tables_default')()) }}
 {% endmacro %}
 
-{% macro default__under_utilized_dynamodb_tables_default_cur_2() %}{% endmacro %}
+{% macro default__under_utilized_dynamodb_tables_default() %}{% endmacro %}
 
-{% macro postgres__under_utilized_dynamodb_tables_default_cur_2() %}
+{% macro postgres__under_utilized_dynamodb_tables_default() %}
 WITH dynamodb_tables_metrics AS (
     SELECT
         'arn:aws:dynamodb:' || cws.region::text || ':' || cws.account_id::text || ':table/' || (elem.value ->> 'Value')::text AS arn,

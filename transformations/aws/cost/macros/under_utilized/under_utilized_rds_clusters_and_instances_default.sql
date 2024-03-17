@@ -1,10 +1,10 @@
-{% macro under_utilized_rds_clusters_and_instances_default_cur_2() %}
-  {{ return(adapter.dispatch('under_utilized_rds_clusters_and_instances_default_cur_2')()) }}
+{% macro under_utilized_rds_clusters_and_instances_default() %}
+  {{ return(adapter.dispatch('under_utilized_rds_clusters_and_instances_default')()) }}
 {% endmacro %}
 
-{% macro default__under_utilized_rds_clusters_and_instances_default_cur_2() %}{% endmacro %}
+{% macro default__under_utilized_rds_clusters_and_instances_default() %}{% endmacro %}
 
-{% macro postgres__under_utilized_rds_clusters_and_instances_default_cur_2() %}
+{% macro postgres__under_utilized_rds_clusters_and_instances_default() %}
 WITH rds_instance_resource_utilization AS (
     SELECT
         'arn:aws:rds:' || cws.region::text || ':' || cws.account_id::text || ':db:' || (elem.value ->> 'Value')::text AS arn,

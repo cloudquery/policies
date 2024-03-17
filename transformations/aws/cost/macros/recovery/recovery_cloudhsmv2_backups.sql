@@ -1,10 +1,10 @@
-{% macro recovery_cloudhsmv2_backups_cur_2() %}
-  {{ return(adapter.dispatch('recovery_cloudhsmv2_backups_cur_2')()) }}
+{% macro recovery_cloudhsmv2_backups() %}
+  {{ return(adapter.dispatch('recovery_cloudhsmv2_backups')()) }}
 {% endmacro %}
 
-{% macro default__recovery_cloudhsmv2_backups_cur_2() %}{% endmacro %}
+{% macro default__recovery_cloudhsmv2_backups() %}{% endmacro %}
 
-{% macro postgres__recovery_cloudhsmv2_backups_cur_2() %}
+{% macro postgres__recovery_cloudhsmv2_backups() %}
 with cloudhsmv2_backups_cost as (
 SELECT line_item_resource_id as resource_id, SUM(line_item_unblended_cost) as unblended_cost
 FROM {{ var('cost_usage_table') }}
@@ -21,6 +21,6 @@ inner join cloudhsmv2_backups_cost as cbc
 on acb.arn = cbc.resource_id
 {% endmacro %}
 
-{% macro snowflake__recovery_cloudhsmv2_backups_cur_2() %}
+{% macro snowflake__recovery_cloudhsmv2_backups() %}
 
 {% endmacro %}

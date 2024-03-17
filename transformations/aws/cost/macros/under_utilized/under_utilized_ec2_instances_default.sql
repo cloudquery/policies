@@ -1,10 +1,10 @@
-{% macro under_utilized_ec2_instances_default_cur_2() %}
-  {{ return(adapter.dispatch('under_utilized_ec2_instances_default_cur_2')()) }}
+{% macro under_utilized_ec2_instances_default() %}
+  {{ return(adapter.dispatch('under_utilized_ec2_instances_default')()) }}
 {% endmacro %}
 
-{% macro default__under_utilized_ec2_instances_default_cur_2() %}{% endmacro %}
+{% macro default__under_utilized_ec2_instances_default() %}{% endmacro %}
 
-{% macro postgres__under_utilized_ec2_instances_default_cur_2() %}
+{% macro postgres__under_utilized_ec2_instances_default() %}
 WITH ec2_instance_resource_utilization AS (
     SELECT
         'arn:aws:ec2:' || cws.region::text || ':' || cws.account_id::text || ':instance/' || (elem.value ->> 'Value')::text AS arn,

@@ -1,10 +1,10 @@
-{% macro recovery_rds_db_snapshots_cur_2() %}
-  {{ return(adapter.dispatch('recovery_rds_db_snapshots_cur_2')()) }}
+{% macro recovery_rds_db_snapshots() %}
+  {{ return(adapter.dispatch('recovery_rds_db_snapshots')()) }}
 {% endmacro %}
 
-{% macro default__recovery_rds_db_snapshots_cur_2() %}{% endmacro %}
+{% macro default__recovery_rds_db_snapshots() %}{% endmacro %}
 
-{% macro postgres__recovery_rds_db_snapshots_cur_2() %}
+{% macro postgres__recovery_rds_db_snapshots() %}
 with rds_db_snapshots_cost as (
 SELECT line_item_resource_id as resource_id, SUM(line_item_unblended_cost) as unblended_cost
 FROM {{ var('cost_usage_table') }}
@@ -21,6 +21,6 @@ inner join rds_db_snapshots_cost as rdbsc
 on ardbs.arn = rdbsc.resource_id
 {% endmacro %}
 
-{% macro snowflake__recovery_rds_db_snapshots_cur_2() %}
+{% macro snowflake__recovery_rds_db_snapshots() %}
 
 {% endmacro %}
