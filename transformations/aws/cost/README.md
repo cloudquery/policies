@@ -161,7 +161,7 @@ dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
 To run specific models
 
 ```bash
-dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
+dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}' --select aws_cost__by_regions aws_cost__by_resources
 ```
 
 
