@@ -151,34 +151,19 @@ Before executing the `dbt run` command, it might be useful to check for any pote
 ```bash
 dbt compile --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
 ```
+
 If everything compiles without errors, you can then execute:
 
-### Using Tagging in dbt
-
-To use tagging in dbt to run the right models based on the type of Cost and Usage Report (CUR), follow these steps:
-
-#### Legacy Report:
-
-If you are using a legacy Cost and Usage Report, use the tag cur_legacy when running dbt. For example:
-
-
 ```bash
-dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}' --select tag:cur_legacy
+dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
 ```
 
-#### CUR2 Report:
-
-If you are using a CUR2 report, use the tag cur_2 when running dbt. For example:
+To run specific models
 
 ```bash
-dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}' --select tag:cur_2
+dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
 ```
 
-To run specific models. For example:
-
-```bash
-dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}' --select aws_cost__by_regions aws_cost__by_resources
-```
 
 ## Usage Examples
 
