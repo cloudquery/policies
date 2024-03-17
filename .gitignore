@@ -167,3 +167,4 @@ build
 dbt-docs-site/public
 dbt-docs-site/*.html
 .vercel
+/.vscode
