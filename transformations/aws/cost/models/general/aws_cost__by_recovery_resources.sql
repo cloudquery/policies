@@ -1,34 +1,34 @@
 with
     aggregated as (
-    ({{ recovery_rds_db_snapshots() }})
+    ({{ recovery_rds_db_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_rds_cluster_snapshots() }})
+    ({{ recovery_rds_cluster_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_docdb_cluster_snapshots() }})
+    ({{ recovery_docdb_cluster_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_elasticache_snapshots() }})
+    ({{ recovery_elasticache_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_neptune_cluster_snapshots() }})
+    ({{ recovery_neptune_cluster_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_fsx_snapshots() }})
+    ({{ recovery_fsx_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_ec2_ebs_snapshots() }})
+    ({{ recovery_ec2_ebs_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_redshift_snapshots() }})
+    ({{ recovery_redshift_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_lightsail_instance_snapshots() }})
+    ({{ recovery_lightsail_instance_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_lightsail_disk_snapshots() }})
+    ({{ recovery_lightsail_disk_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_lightsail_database_snapshots() }})
+    ({{ recovery_lightsail_database_snapshots_cur_2() }})
     {{ union() }}
-    ({{ recovery_cloudhsmv2_backups() }})
+    ({{ recovery_cloudhsmv2_backups_cur_2() }})
     {{ union() }}
-    ({{ recovery_dynamodb_table_continuous_backups() }})
+    ({{ recovery_dynamodb_table_continuous_backups_cur_2() }})
     {{ union() }}
-    ({{ recovery_dynamodb_backups() }})
+    ({{ recovery_dynamodb_backups_cur_2() }})
     {{ union() }}
-    ({{ recovery_fsx_backups() }})
+    ({{ recovery_fsx_backups_cur_2() }})
 
     )
 select 

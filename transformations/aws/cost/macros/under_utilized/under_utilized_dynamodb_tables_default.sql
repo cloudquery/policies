@@ -1,10 +1,10 @@
-{% macro under_utilized_dynamodb_tables_default() %}
-  {{ return(adapter.dispatch('under_utilized_dynamodb_tables_default')()) }}
+{% macro under_utilized_dynamodb_tables_default_cur_2() %}
+  {{ return(adapter.dispatch('under_utilized_dynamodb_tables_default_cur_2')()) }}
 {% endmacro %}
 
-{% macro default__under_utilized_dynamodb_tables_default() %}{% endmacro %}
+{% macro default__under_utilized_dynamodb_tables_default_cur_2() %}{% endmacro %}
 
-{% macro postgres__under_utilized_dynamodb_tables_default() %}
+{% macro postgres__under_utilized_dynamodb_tables_default_cur_2() %}
 WITH dynamodb_tables_metrics AS (
     SELECT
         'arn:aws:dynamodb:' || cws.region::text || ':' || cws.account_id::text || ':table/' || (elem.value ->> 'Value')::text AS arn,
@@ -59,7 +59,7 @@ USING(arn)
 
 cost_by_region_resource AS (
     SELECT
-        product_region,
+        product_region_code,
         line_item_resource_id,
         SUM(line_item_unblended_cost) AS cost
     FROM
@@ -86,7 +86,7 @@ FROM dynamodb_tables_utilization cw_usage
 LEFT JOIN cost_by_region_resource cost ON (
         (
             cw_usage.tablename = cost.line_item_resource_id
-            and cw_usage.region = cost.product_region
+            and cw_usage.region = cost.product_region_code
         )
         or cw_usage.arn = cost.line_item_resource_id
     )

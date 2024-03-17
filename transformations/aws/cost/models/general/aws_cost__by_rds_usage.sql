@@ -16,7 +16,7 @@ SELECT
 FROM 
   {{ var('cost_usage_table') }} 
 WHERE  
-  product_product_name = 'Amazon Relational Database Service'
+  line_item_product_code = 'Amazon Relational Database Service'
 GROUP BY 
   bill_payer_account_id,
   line_item_usage_account_id,

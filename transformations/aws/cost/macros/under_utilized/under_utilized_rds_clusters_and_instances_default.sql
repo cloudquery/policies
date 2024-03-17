@@ -1,10 +1,10 @@
-{% macro under_utilized_rds_clusters_and_instances_default() %}
-  {{ return(adapter.dispatch('under_utilized_rds_clusters_and_instances_default')()) }}
+{% macro under_utilized_rds_clusters_and_instances_default_cur_2() %}
+  {{ return(adapter.dispatch('under_utilized_rds_clusters_and_instances_default_cur_2')()) }}
 {% endmacro %}
 
-{% macro default__under_utilized_rds_clusters_and_instances_default() %}{% endmacro %}
+{% macro default__under_utilized_rds_clusters_and_instances_default_cur_2() %}{% endmacro %}
 
-{% macro postgres__under_utilized_rds_clusters_and_instances_default() %}
+{% macro postgres__under_utilized_rds_clusters_and_instances_default_cur_2() %}
 WITH rds_instance_resource_utilization AS (
     SELECT
         'arn:aws:rds:' || cws.region::text || ':' || cws.account_id::text || ':db:' || (elem.value ->> 'Value')::text AS arn,
@@ -63,7 +63,7 @@ rds_resource_utilization AS (
 ),
 cost_by_region_resource AS (
     SELECT
-        product_region,
+        product_region_code,
         line_item_resource_id,
         SUM(line_item_unblended_cost) AS cost
     FROM
@@ -89,7 +89,7 @@ FROM
     LEFT JOIN cost_by_region_resource cost ON (
         (
             cw_usage.rds_id = cost.line_item_resource_id
-            and cw_usage.region = cost.product_region
+            and cw_usage.region = cost.product_region_code
         )
         or cw_usage.arn = cost.line_item_resource_id
     )
