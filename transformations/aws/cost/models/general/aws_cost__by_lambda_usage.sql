@@ -2,7 +2,7 @@ SELECT
   bill_payer_account_id,
   line_item_usage_account_id, 
   line_item_line_item_type,
-  product_region,
+  product_region_code,
   CASE
 	WHEN line_item_usage_type LIKE '%Lambda-Edge-GB-Second%' THEN 'Lambda EDGE GB x Sec.'
 	WHEN line_item_usage_type LIKE '%Lambda-Edge-Request%' THEN 'Lambda EDGE Requests'
@@ -19,14 +19,14 @@ SELECT
   SUM(line_item_unblended_cost) AS sum_line_item_unblended_cost
 FROM {{ var('cost_usage_table') }}
   WHERE 
-  product_product_name = 'AWS Lambda'
+  line_item_product_code = 'AWS Lambda'
   AND line_item_line_item_type LIKE '%Usage%'
   AND product_product_family IN ('Data Transfer', 'Serverless')
 GROUP BY
   bill_payer_account_id,
   line_item_usage_account_id,
   line_item_line_item_type,
-  product_region,
+  product_region_code,
   case_line_item_usage_type,
   line_item_resource_id,
   pricing_term

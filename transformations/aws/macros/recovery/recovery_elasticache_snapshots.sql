@@ -8,7 +8,7 @@
 with elasticache_snapshots_cost as (
 SELECT line_item_resource_id as resource_id, SUM(line_item_unblended_cost) as unblended_cost
 FROM {{ var('cost_usage_table') }}
-WHERE product_product_name = 'Amazon ElastiCache'
+WHERE line_item_product_code = 'Amazon ElastiCache'
 GROUP BY line_item_resource_id
 ) 
 SELECT
