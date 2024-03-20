@@ -73,7 +73,7 @@ with global_recorders as (
   select
     count(*) as global_config_recorders
   from
-    kevinr_test.aws_config_configuration_recorders
+    {{ full_table_name("aws_config_configuration_recorders") }}
   where
     CAST( JSON_VALUE(recording_group.IncludeGlobalResourceTypes) AS BOOL) IS TRUE
     and CAST( JSON_VALUE(recording_group.AllSupported) AS BOOL) IS TRUE
