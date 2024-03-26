@@ -106,7 +106,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v5.11.0
+          version: v5.12.0
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
