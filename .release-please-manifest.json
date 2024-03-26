@@ -9,6 +9,8 @@
   "transformations/azure/compliance-free+FILLER": "0.0.0",
   "transformations/azure/compliance-premium": "0.5.1",
   "transformations/azure/compliance-premium+FILLER": "0.0.0",
+  "transformations/gcp/asset-inventory-free": "1.0.0",
+  "transformations/gcp/asset-inventory-free+FILLER": "0.0.0",
   "transformations/gcp/compliance-free": "1.4.3",
   "transformations/gcp/compliance-free+FILLER": "0.0.0",
   "transformations/gcp/compliance-premium": "0.3.2",

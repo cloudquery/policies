@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "type": "addon",
+  "team_name": "cloudquery",
+  "addon_name": "gcp-asset-inventory",
+  "addon_type": "transformation",
+  "addon_format": "zip",
+  "message": "@./changelog.md",
+  "doc": "./README.md",
+  "path": "./build/gcp_asset_inventory_free.zip",
+  "plugin_deps": ["cloudquery/source/aws@v23.3.1"],
+  "addon_deps": []
+}
