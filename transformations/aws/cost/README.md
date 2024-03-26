@@ -59,36 +59,34 @@ Because this policy uses premium features and tables you must login to your clou
 `cloudquery login` in your terminal
 
 ### Syncing the Cost and Usage Report
-1) Download you Cost and Usage Report from aws.
-2) Using the File Plugin and the Postgres Plugin sync the CUR file, you can use this exanple config yaml but make sure to fill the necessary values
+Using the S3 Plugin and the Postgres Plugin sync the CUR file, you can use this example config yaml but make sure to fill the necessary values
     ```yml
     kind: source
     spec:
-    name: file # The type of source, in this case, a file source.
-    path: cloudquery/file # The plugin path for handling file sources.
-    registry: cloudquery # The registry from which the plugin is sourced.
-    version: "v1.2.1" # The version of the file plugin.
-    tables: ["*"] # Specifies that all tables in the source should be considered.
-    destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
-
-    spec:
-        files_dir: "/path/to/files-to-sync" # The directory where the files to be synced are located.
+      name: s3-cur # The type of source, in this case, a s3-cur source.
+      path: cloudquery/s3 # The plugin path for handling s3 sources.
+      registry: cloudquery # The registry from which the plugin is sourced.
+      version: "v1.0.1" # The version of the s3 plugin.
+      tables: ["*"] # Specifies that all tables in the source should be considered.
+      destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+      spec:
+        bucket: "<BUCKET_NAME>"
+        region: "<REGION>" 
+        # path_prefix: "" # Optional. Only sync files with this prefix
         # concurrency: 50 # Optional. Defines the number of files to sync in parallel. Defaults to 50 if not set.
 
     ---
     kind: destination
     spec:
-    name: "postgresql" # The type of destination, in this case, PostgreSQL.
-    path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
-    registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-    version: "v7.3.5" # The version of the PostgreSQL plugin.
-
+      name: "postgresql" # The type of destination, in this case, PostgreSQL.
+      path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
+      registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
+      version: "v7.3.5" # The version of the PostgreSQL plugin.
     spec:
         connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
         # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
         # You can also specify the connection string in DSN format, which allows for special characters in the password:
         # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
-
     ```
 
 ### Syncing AWS data
@@ -161,7 +159,7 @@ dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
 To run specific models
 
 ```bash
-dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
+dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}' --select aws_cost__by_regions aws_cost__by_resources
 ```
 
 
@@ -216,7 +214,7 @@ ORDER BY account_id, arn;
 ```
 
 ## Data Dictionary
-In this section you can see all the models (views) that are included in the policy with an explantaion about the data inside and the columns available.
+In this section you can see all the models (views) that are included in the policy with an explanation about the data inside and the columns available.
 cost will be in the same units as it is in the CUR file which are USD ($).
 line_item_resource_id is usually the resource ARN except in certain cases where it is a volume_id or instance_id of certain services.
 By default the models related to tags are disabled (Tags  are only available in the CUR if they are activated), to enable this model change them to enabled in the models section in `dbt_project.yml`
@@ -233,7 +231,7 @@ Identifies resources that are under-utilized based on specific metrics (e.g., CP
 
 #### `aws_cost__of_unused_resources`
 Identifies resources and are completely unused (not metric based), highlighting 'To Be Deleted' resources.
-Supported services are acm certs, backup vaults, cloudfront dstributions, directconnect connections, dynamodb tables, ec2 ebs volumes, ec2 eips, ec2 internet gateways, ec2 hosts, ec2 images, ec2 network acls, ec2 transit gateways, ecr repositories, efs filesystems, lightsail container services, lightsail disks, lightsail distributions, lightsail load balancers, lightsail static ips, load balancers, route53 hosted zones, sns topics.
+Supported services are acm certs, backup vaults, cloudfront distributions, directconnect connections, dynamodb tables, ec2 ebs volumes, ec2 eips, ec2 internet gateways, ec2 hosts, ec2 images, ec2 network acls, ec2 transit gateways, ecr repositories, efs filesystems, lightsail container services, lightsail disks, lightsail distributions, lightsail load balancers, lightsail static ips, load balancers, route53 hosted zones, sns topics.
 
 - `account_id` - the account that owns the resource.
 - `resource_id` - the arn of the resource

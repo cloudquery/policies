@@ -8,7 +8,7 @@
 with cloudhsmv2_backups_cost as (
 SELECT line_item_resource_id as resource_id, SUM(line_item_unblended_cost) as unblended_cost
 FROM {{ var('cost_usage_table') }}
-WHERE product_product_name = 'AWS CloudHSM'
+WHERE line_item_product_code = 'AWS CloudHSM'
 GROUP BY line_item_resource_id
 ) 
 SELECT

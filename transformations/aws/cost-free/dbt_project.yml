@@ -22,164 +22,124 @@ clean-targets:
 vars:
   cost_usage_table: cost_usage_table
 seeds:
-  aws_cost:
-    cost_usage_table:
-      +column_types:
-        bill_billing_period_end_date: TIMESTAMP WITHOUT TIME ZONE
-        reservation_amortized_upfront_cost_for_usage: DOUBLE PRECISION
-        reservation_amortized_upfront_fee_for_billing_period: DOUBLE PRECISION
-        reservation_effective_cost: DOUBLE PRECISION
-        line_item_usage_start_date: TIMESTAMP WITHOUT TIME ZONE
-        line_item_unblended_cost: DOUBLE PRECISION
-        line_item_usage_end_date: TIMESTAMP WITHOUT TIME ZONE
-        _cq_sync_time: TIMESTAMP WITHOUT TIME ZONE
-        reservation_recurring_fee_for_usage: DOUBLE PRECISION
-        line_item_blended_cost: DOUBLE PRECISION
-        bill_billing_period_start_date: TIMESTAMP WITHOUT TIME ZONE
-        line_item_usage_amount: DOUBLE PRECISION
-        pricing_public_on_demand_cost: DOUBLE PRECISION
-        line_item_normalization_factor: DOUBLE PRECISION
-        reservation_unused_amortized_upfront_fee_for_billing_period: DOUBLE PRECISION
-        reservation_unused_normalized_unit_quantity: DOUBLE PRECISION
-        reservation_unused_quantity: DOUBLE PRECISION
-        reservation_unused_recurring_fee: DOUBLE PRECISION
-        reservation_upfront_value: DOUBLE PRECISION
-        savings_plan_total_commitment_to_date: DOUBLE PRECISION
-        line_item_normalized_usage_amount: DOUBLE PRECISION
-        savings_plan_savings_plan_rate: DOUBLE PRECISION
-        savings_plan_used_commitment: DOUBLE PRECISION
-        savings_plan_savings_plan_effective_cost: DOUBLE PRECISION
-        savings_plan_amortized_upfront_commitment_for_billing_period: DOUBLE PRECISION
-        savings_plan_recurring_commitment_for_billing_period: DOUBLE PRECISION
-        product_availability_zone: text
-        product_capacitystatus: text
-        product_category: text
-        product_classicnetworkingsupport: text
-        product_clock_speed: text
-        product_current_generation: text
-        product_database_edition: text
-        product_database_engine: text
-        product_dedicated_ebs_throughput: text
-        product_deployment_option: text
-        product_description: text
-        product_durability: text
-        product_ecu: text
-        product_engine_code: text
-        product_enhanced_networking_supported: text
-        product_event_type: text
-        product_free_usage_included: text
-        product_from_location: text
-        product_from_location_type: text
-        product_from_region_code: text
-        product_gpu_memory: text
-        product_group: text
-        product_group_description: text
-        product_instance_family: text
-        product_instance_type: text
-        product_instance_type_family: text
-        product_intel_avx2_available: text
-        product_intel_avx_available: text
-        product_intel_turbo_available: text
-        product_license_model: text
-        product_location: text
-        product_location_type: text
-        product_logs_destination: text
-        product_marketoption: text
-        product_max_iops_burst_performance: text
-        product_max_iopsvolume: text
-        product_max_throughputvolume: text
-        product_max_volume_size: text
-        product_maximum_extended_storage: text
-        product_memory: text
-        product_message_delivery_frequency: text
-        product_message_delivery_order: text
-        product_min_volume_size: text
-        product_network_performance: text
-        product_normalization_size_factor: text
-        product_operating_system: text
-        product_operation: text
-        product_physical_processor: text
-        product_platopricingtype: text
-        product_platovolumetype: text
-        product_pre_installed_sw: text
-        product_processor_architecture: text
-        product_processor_features: text
-        product_product_family: text
-        product_product_type: text
-        product_queue_type: text
-        product_region: text
-        product_region_code: text
-        product_scan_type: text
-        product_servicecode: text
-        product_servicename: text
-        product_sku: text
-        product_standard_storage_retention_included: text
-        product_steps: text
-        product_storage: text
-        product_storage_class: text
-        product_storage_media: text
-        product_tenancy: text
-        product_tier: text
-        product_to_location: text
-        product_to_location_type: text
-        product_to_region_code: text
-        product_transfer_type: text
-        product_type: text
-        product_usage_volume: text
-        product_usagetype: text
-        product_vcpu: text
-        product_version: text
-        product_volume_api_name: text
-        product_volume_type: text
-        product_vpcnetworkingsupport: text
-        product_with_active_users: text
-        pricing_rate_code: text
-        pricing_rate_id: text
-        pricing_currency: text
-        pricing_public_on_demand_rate: text
-        pricing_term: text
-        pricing_unit: text
-        reservation_end_time: text
-        reservation_modification_status: text
-        reservation_normalized_units_per_reservation: text
-        reservation_start_time: text
-        reservation_subscription_id: text
-        reservation_total_reserved_normalized_units: text
-        reservation_total_reserved_units: text
-        reservation_units_per_reservation: text
-        savings_plan_savings_plan_a_r_n: text
-        reservation_number_of_reservations: text
-        _cq_source_name: text
-        identity_line_item_id: text
-        identity_time_interval: text
-        bill_invoice_id: text
-        bill_invoicing_entity: text
-        bill_billing_entity: text
-        bill_bill_type: text
-        bill_payer_account_id: text
-        line_item_usage_account_id: text
-        line_item_line_item_type: text
-        line_item_product_code: text
-        line_item_usage_type: text
-        line_item_operation: text
-        line_item_availability_zone: text
-        line_item_resource_id: text
-        line_item_currency_code: text
-        line_item_unblended_rate: text
-        line_item_blended_rate: text
-        line_item_line_item_description: text
-        line_item_tax_type: text
-        line_item_legal_entity: text
-        product_product_name: text
-        product_size_flex: text
-        product_alarm_type: text
-        product_availability: text
-        resource_tags_aws_cloudformation_logical_id: text
-        resource_tags_aws_cloudformation_stack_name: text
-        resource_tags_aws_lambda_function_name: text
-        resource_tags_aws_ecs_cluster: text
-        resource_tags_aws_elasticbeanstalk_environment_id: text
-        resource_tags: text
+    aws_cost:
+      cost_usage_table:
+        +column_types:
+          _cq_sync_time: TIMESTAMP WITHOUT TIME ZONE
+          _cq_source_name: TEXT
+          bill_bill_type: TEXT
+          bill_billing_entity: TEXT
+          bill_billing_period_end_date: TIMESTAMP WITHOUT TIME ZONE
+          bill_billing_period_start_date: TIMESTAMP WITHOUT TIME ZONE
+          bill_invoice_id: TEXT
+          bill_invoicing_entity: TEXT
+          bill_payer_account_id: TEXT
+          cost_category: TEXT
+          discount: TEXT
+          discount_bundled_discount: TEXT
+          discount_total_discount: TEXT
+          identity_line_item_id: TEXT
+          identity_time_interval: TEXT
+          line_item_availability_zone: TEXT
+          line_item_blended_cost: DOUBLE PRECISION
+          line_item_blended_rate: TEXT
+          line_item_currency_code: TEXT
+          line_item_legal_entity: TEXT
+          line_item_line_item_description: TEXT
+          line_item_line_item_type: TEXT
+          line_item_net_unblended_cost: TEXT
+          line_item_net_unblended_rate: TEXT
+          line_item_normalization_factor: DOUBLE PRECISION
+          line_item_normalized_usage_amount: DOUBLE PRECISION
+          line_item_operation: TEXT
+          line_item_product_code: TEXT
+          line_item_resource_id: TEXT
+          line_item_tax_type: TEXT
+          line_item_unblended_cost: DOUBLE PRECISION
+          line_item_unblended_rate: TEXT
+          line_item_usage_account_id: TEXT
+          line_item_usage_account_name: TEXT
+          line_item_usage_amount: DOUBLE PRECISION
+          line_item_usage_end_date: TIMESTAMP WITHOUT TIME ZONE
+          line_item_usage_start_date: TIMESTAMP WITHOUT TIME ZONE
+          line_item_usage_type: TEXT
+          pricing_currency: TEXT
+          pricing_lease_contract_length: TEXT
+          pricing_offering_class: TEXT
+          pricing_public_on_demand_cost: DOUBLE PRECISION
+          pricing_public_on_demand_rate: TEXT
+          pricing_purchase_option: TEXT
+          pricing_rate_code: TEXT
+          pricing_rate_id: TEXT
+          pricing_term: TEXT
+          pricing_unit: TEXT
+          product: TEXT
+          product_comment: TEXT
+          product_fee_code: TEXT
+          product_fee_description: TEXT
+          product_from_location: TEXT
+          product_from_location_type: TEXT
+          product_from_region_code: TEXT
+          product_instance_family: TEXT
+          product_instance_type: TEXT
+          product_instancesku: TEXT
+          product_location: TEXT
+          product_location_type: TEXT
+          product_operation: TEXT
+          product_pricing_unit: TEXT
+          product_product_family: TEXT
+          product_region_code: TEXT
+          product_servicecode: TEXT
+          product_sku: TEXT
+          product_to_location: TEXT
+          product_to_location_type: TEXT
+          product_to_region_code: TEXT
+          product_usagetype: TEXT
+          reservation_amortized_upfront_cost_for_usage: DOUBLE PRECISION
+          reservation_amortized_upfront_fee_for_billing_period: DOUBLE PRECISION
+          reservation_availability_zone: TEXT
+          reservation_effective_cost: DOUBLE PRECISION
+          reservation_end_time: TEXT
+          reservation_modification_status: TEXT
+          reservation_net_amortized_upfront_cost_for_usage: TEXT
+          reservation_net_amortized_upfront_fee_for_billing_period: TEXT
+          reservation_net_effective_cost: TEXT
+          reservation_net_recurring_fee_for_usage: TEXT
+          reservation_net_unused_amortized_upfront_fee_for_billing_period: TEXT
+          reservation_net_unused_recurring_fee: TEXT
+          reservation_net_upfront_value: TEXT
+          reservation_normalized_units_per_reservation: TEXT
+          reservation_number_of_reservations: TEXT
+          reservation_recurring_fee_for_usage: DOUBLE PRECISION
+          reservation_reservation_a_r_n: TEXT
+          reservation_start_time: TEXT
+          reservation_subscription_id: TEXT
+          reservation_total_reserved_normalized_units: TEXT
+          reservation_total_reserved_units: TEXT
+          reservation_units_per_reservation: TEXT
+          reservation_unused_amortized_upfront_fee_for_billing_period: DOUBLE PRECISION
+          reservation_unused_normalized_unit_quantity: DOUBLE PRECISION
+          reservation_unused_quantity: DOUBLE PRECISION
+          reservation_unused_recurring_fee: DOUBLE PRECISION
+          reservation_upfront_value: DOUBLE PRECISION
+          resource_tags: TEXT
+          savings_plan_amortized_upfront_commitment_for_billing_period: DOUBLE PRECISION
+          savings_plan_end_time: TEXT
+          savings_plan_instance_type_family: TEXT
+          savings_plan_net_amortized_upfront_commitment_for_billing_perio: TEXT
+          savings_plan_net_recurring_commitment_for_billing_period: TEXT
+          savings_plan_net_savings_plan_effective_cost: TEXT
+          savings_plan_offering_type: TEXT
+          savings_plan_payment_option: TEXT
+          savings_plan_purchase_term: TEXT
+          savings_plan_recurring_commitment_for_billing_period: DOUBLE PRECISION
+          savings_plan_region: TEXT
+          savings_plan_savings_plan_a_r_n: TEXT
+          savings_plan_savings_plan_effective_cost: DOUBLE PRECISION
+          savings_plan_savings_plan_rate: DOUBLE PRECISION
+          savings_plan_start_time: TEXT
+          savings_plan_total_commitment_to_date: DOUBLE PRECISION
+          savings_plan_used_commitment: DOUBLE PRECISION
 models:
   aws_cost:
     aws_cost__by_resources:
@@ -188,8 +148,6 @@ models:
       +enabled: false
     aws_cost__by_cloudformation_tag:
       +enabled: false
-    ecs_service_optimization_recommendations:
-      +enabled: true
     aws_cost__by_product:
       +enabled: true
     aws_cost__by_recovery_resources:
