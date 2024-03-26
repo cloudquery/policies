@@ -2,15 +2,15 @@
 
 ## Overview
 
-This contains an AWS Cost Dashboard for Grafana on top of CloudQuery [AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws), [File plugin](https://hub.cloudquery.io/plugins/source/cloudquery/file) and [AWS cost pack](https://hub.cloudquery.io/addons/transformation/cloudquery/cost/).
+This contains an AWS Cost Dashboard for Grafana on top of CloudQuery [AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws), [S3 plugin](https://hub.cloudquery.io/plugins/source/cloudquery/s3) and [AWS cost pack](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-cost/).
 
 ## Requirements
 
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
   - [AWS Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
   - [PostgreSQL Plugin](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
-  - [File Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/file)
-  - [AWS Cost Pack](https://hub.cloudquery.io/addons/transformation/cloudquery/cost/)
+  - [S3 plugin](https://hub.cloudquery.io/plugins/source/cloudquery/s3)
+  - [AWS Cost Pack](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-cost/)
 - [dbt](https://docs.getdbt.com/docs/core/pip-install)
   - [dbt + PostgreSQL](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
 
@@ -23,15 +23,19 @@ Reommendations:
 ```yml
 kind: source
 spec:
-  name: file
-  path: cloudquery/file
+  name: s3
+
+  path: cloudquery/s3
   registry: cloudquery
-  version: "v1.2.1"
+  version: "v1.1.0"
   tables: ["*"]
   destinations: ["postgresql"]
 
   spec:
-    files_dir: "/path/to/cost_and_usage_reports" # Update this value to the local directory with your AWS Cost and Usage Reports
+    # TODO: Update it with the actual spec 
+    bucket: "<BUCKET_NAME>"
+    region: "<REGION>"
+    # path_prefix: "" # optional. Only sync files with this prefix.
 ---
 kind: source
 spec:
