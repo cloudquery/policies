@@ -1,7 +1,7 @@
-name: aws_asset_inventory
-version: 2.0.3
+name: gcp_asset_inventory
+version: 1.0.0
 config-version: 2
-profile: aws_asset_inventory
+profile: gcp_asset_inventory
 model-paths:
   - models
 analysis-paths:

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.2](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-free-v1.5.1...transformation-k8s-compliance-free-v1.5.2) (2024-03-27)
+
+
+### Bug Fixes
+
+* Update dependencies ([#671](https://github.com/cloudquery/policies-premium/issues/671)) ([f0b0275](https://github.com/cloudquery/policies-premium/commit/f0b027532699214e10e93fcf5d754ed8e9f2fc75))
+
 ## [1.5.1](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-free-v1.5.0...transformation-k8s-compliance-free-v1.5.1) (2024-03-04)
 
 
