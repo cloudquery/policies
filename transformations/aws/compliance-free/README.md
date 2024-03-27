@@ -1,7 +1,13 @@
-# CloudQuery &times; dbt: AWS Compliance Package
+# CloudQuery &times; dbt: AWS Compliance Package(Free)
 
 ## Overview
+Welcome to AWS Compliance Package(Free), a free compliance solution that works on top of the CloudQuery framework. This package contains automated checks for different AWS services following different benchmarks like CIS and AWS foundational security. 
+Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by AWS, CIS and more.
 
+This package is a free version of the compliance package, to get a more comprehensive solution visit [AWS Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-compliance-premium/latest/docs)
+
+We recommend to use this transformation with our [AWS Compliance Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-compliance/latest/docs)
+![AWS Compliace Dashboard](./images/dashboard_example.png)
 ### Requirements
 
 - [dbt](https://docs.getdbt.com/docs/installation)
@@ -14,7 +20,7 @@ One of the below databases
 
 ### What's in the pack
 
-The pack contains the free version.
+The pack contains the free version of the compliance package which includes some of the checks from the AWS Foundational Security benchmark, CIS 1.2.0 benchmark and more.
 
 #### Running Your dbt Project
 
