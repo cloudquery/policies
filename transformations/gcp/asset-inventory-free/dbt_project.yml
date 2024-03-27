@@ -1,10 +1,9 @@
-name: aws_data_resilience
-version: 2.0.3
+name: gcp_asset_inventory
+version: 1.0.0
 config-version: 2
-profile: aws_data_resilience
+profile: gcp_asset_inventory
 model-paths:
   - models
-  - ../models
 analysis-paths:
   - analyses
 test-paths:
@@ -12,7 +11,6 @@ test-paths:
 seed-paths:
   - seeds
 macro-paths:
-  - macros
   - ../macros
   - ../../macros
 snapshot-paths:

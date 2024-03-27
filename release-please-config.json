@@ -90,6 +90,16 @@
         }
       ]
     },
+    "transformations/gcp/asset-inventory-free": {
+      "component": "transformation-gcp-asset-inventory-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
     "transformations/gcp/compliance-free": {
       "component": "transformation-gcp-compliance-free",
       "extra-files": [

@@ -1,0 +1,17 @@
+kind: source
+spec:
+  name: gcp
+  path: cloudquery/gcp
+  version: "v12.3.1" # latest version of source gcp plugin
+  destinations: ["postgresql"]
+  tables: ["*"]
+---
+kind: destination
+spec:
+  name: "postgresql"
+  path: "cloudquery/postgresql"
+  registry: cloudquery
+  version: "v8.0.0" # latest version of postgresql plugin
+  spec:
+    batch_size: 10000
+    connection_string: ${CQ_DSN}
