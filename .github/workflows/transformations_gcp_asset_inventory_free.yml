@@ -3,7 +3,7 @@ name: "Test GCP asset-inventory-free Policies"
 on:
   pull_request:
     paths:
-      - "transformations/gcp/asset_inventory_free/**"
+      - "transformations/gcp/asset-inventory-free/**"
       - ".github/workflows/transformations_gcp_asset_inventory_free.yml"
       - "transformations/gcp/macros/**"
       - "transformations/gcp/models/**"
@@ -14,7 +14,7 @@ on:
     branches:
       - main
     paths:
-      - "transformations/gcp/asset_inventory_free/**"
+      - "transformations/gcp/asset-inventory-free/**"
       - ".github/workflows/transformations_gcp_asset_inventory_free.yml"
       - "transformations/gcp/macros/**"
       - "transformations/gcp/models/**"
@@ -106,7 +106,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v5.8.1
+          version: v5.12.0
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
