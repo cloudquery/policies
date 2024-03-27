@@ -1,10 +1,9 @@
-name: gcp_compliance
-version: 1.5.0
+name: gcp_asset_inventory
+version: 1.0.0
 config-version: 2
-profile: gcp_compliance
+profile: gcp_asset_inventory
 model-paths:
   - models
-  - ../models
 analysis-paths:
   - analyses
 test-paths:
@@ -12,7 +11,6 @@ test-paths:
 seed-paths:
   - seeds
 macro-paths:
-  - macros
   - ../macros
   - ../../macros
 snapshot-paths:
@@ -20,5 +18,4 @@ snapshot-paths:
 clean-targets:
   - target
   - dbt_packages
-models:
-  gcp_compliance: null
+models: null
