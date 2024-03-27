@@ -492,6 +492,11 @@ Aggregates costs by resource.
 - `line_item_product_code` - The AWS service.
 - `cost` - The total cost of the resource.
 
+### `aws_cost__by_product`
+Aggregates costs by AWS Product.
+- `line_item_product_code` - The AWS product (i.e EC2, RDS).
+- `cost` - The total cost for the region.
+
 ### `aws_cost__gp2_ebs_volumes`
 Details the cost of GP2 EBS volumes.
 - `line_item_resource_id` - The resource ID.
@@ -658,6 +663,9 @@ Aggregates cost by time period.
 - `cost table`
 
 ### `aws_cost__by_account`
+- `cost table`
+
+### `aws_cost__by_product`
 - `cost table`
 
 ### `aws_cost__anomaly_per_service`

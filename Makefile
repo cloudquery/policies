@@ -28,6 +28,10 @@ ifeq ($(shard),8)
 	make transformation_dir=k8s/compliance-free output_file_name=k8s-compliance-free gen-single-site
 endif
 
+ifeq ($(shard),9)
+	make transformation_dir=gcp/asset-inventory-free output_file_name=gcp-asset-inventory-free gen-single-site
+endif
+
 .PHONY: gen-single-site
 gen-single-site:
 	cloudquery migrate transformations/$(transformation_dir)/tests/postgres.yml
