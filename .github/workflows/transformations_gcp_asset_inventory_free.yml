@@ -3,7 +3,7 @@ name: "Test GCP asset-inventory-free Policies"
 on:
   pull_request:
     paths:
-      - "transformations/gcp/asset_inventory_free/**"
+      - "transformations/gcp/asset-inventory-free/**"
       - ".github/workflows/transformations_gcp_asset_inventory_free.yml"
       - "transformations/gcp/macros/**"
       - "transformations/gcp/models/**"
@@ -14,7 +14,7 @@ on:
     branches:
       - main
     paths:
-      - "transformations/gcp/asset_inventory_free/**"
+      - "transformations/gcp/asset-inventory-free/**"
       - ".github/workflows/transformations_gcp_asset_inventory_free.yml"
       - "transformations/gcp/macros/**"
       - "transformations/gcp/models/**"
