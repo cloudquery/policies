@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-free-v1.4.3...transformation-gcp-compliance-free-v1.5.0) (2024-03-27)
+
+
+### Features
+
+* Gcp cis foundation v2 ([#654](https://github.com/cloudquery/policies-premium/issues/654)) ([47a3f86](https://github.com/cloudquery/policies-premium/commit/47a3f86577c5afd704cbe67c34b5b8053ac1ad2d))
+
+
+### Bug Fixes
+
+* Update dependencies ([#671](https://github.com/cloudquery/policies-premium/issues/671)) ([f0b0275](https://github.com/cloudquery/policies-premium/commit/f0b027532699214e10e93fcf5d754ed8e9f2fc75))
+
 ## [1.4.3](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-free-v1.4.2...transformation-gcp-compliance-free-v1.4.3) (2024-03-04)
 
 
