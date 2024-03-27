@@ -111,8 +111,7 @@ jobs:
         run: |
           cloudquery migrate tests/postgres.yml
           dbt seed --target dev-pg --profiles-dir ./tests
-          dbt compile --target dev-pg --profiles-dir ./tests
-          cat ./target/run/gcp_asset_inventory/models/gcp_resources.sql
+          dbt run --target dev-pg --profiles-dir ./tests
         if: needs.prepare.outputs.postgres == 'true'
         env:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
