@@ -164,6 +164,67 @@ The premium version contains all checks.
 - ✅ `5.4`: `default_sg_no_access`
 - ✅ `5.6`: `ec2_not_imdsv2_instances`
 
+##### `cis_v3.0.0`
+
+- ✅ `1.2`: `security_account_information_provided`
+- ✅ `1.4`: `iam_root_user_no_access_keys`
+- ✅ `1.5`: `mfa_enabled_for_root`
+- ✅ `1.6`: `hardware_mfa_enabled_for_root`
+- ✅ `1.7`: `iam_root_last_used`
+- ✅ `1.8`: `password_policy_min_length`
+- ✅ `1.9`: `password_policy_prevent_reuse`
+- ✅ `1.10`: `mfa_enabled_for_console_access`
+- ✅ `1.11`: `iam_user_access_keys_and_password_at_setup`
+- ✅ `1.12`: `unused_creds_disabled_45_days`
+- ✅ `1.13`: `users_with_two_active_access_keys`
+- ✅ `1.14`: `old_access_keys`
+- ✅ `1.15`: `policies_attached_to_groups_roles`
+- ✅ `1.16`: `no_star`
+- ✅ `1.17`: `iam_support_role`
+- ✅ `1.18`: `use_iam_roles_for_instances`
+- ✅ `1.19`: `iam_server_certificate_not_expired`
+- ✅ `1.20`: `regions_with_no_accessanalyzers`
+- ✅ `1.21`: `iam_users_are_managed_centrally`
+- ✅ `1.22`: `iam_user_group_role_cloudshell_fullaccess_restricted`
+- ✅ `2.1.1`: `deny_http_requests`
+- ✅ `2.1.2`: `mfa_delete`
+- ✅ `2.1.4`: `account_level_public_access_blocks`
+- ✅ `2.2.1`: `unencrypted_ebs_volumes`
+- ✅ `2.3.1`: `instances_should_have_ecnryption_at_rest_enabled`
+- ✅ `2.3.2`: `redis_clusters_have_autominorversionupgrade`
+- ✅ `2.3.3`: `rds_db_instances_should_prohibit_public_access`
+- ✅ `2.4.1`: `unencrypted_efs_filesystems`
+- ✅ `3.1`: `cloudtrail_enabled_all_regions`
+- ✅ `3.2`: `log_file_validation_enabled`
+- ✅ `3.3`: `config_enabled_all_regions`
+- ✅ `3.4`: `bucket_access_logging`
+- ✅ `3.5`: `logs_encrypted`
+- ✅ `3.6`: `rotation_enabled_for_customer_key`
+- ✅ `3.7`: `flow_logs_enabled_in_all_vpcs`
+- ✅ `3.8`: `cloudtrail_s3_object_write_events_audit_enabled`
+- ✅ `3.9`: `cloudtrail_s3_object_read_events_audit_enabled`
+- ✅ `4.1`: `alarm_unauthorized_api`
+- ✅ `4.2`: `alarm_console_no_mfa`
+- ✅ `4.3`: `alarm_root_account`
+- ✅ `4.4`: `alarm_iam_policy_change`
+- ✅ `4.5`: `alarm_cloudtrail_config_changes`
+- ✅ `4.6`: `alarm_console_auth_failure`
+- ✅ `4.7`: `alarm_delete_customer_cmk`
+- ✅ `4.8`: `alarm_s3_bucket_policy_change`
+- ✅ `4.9`: `alarm_aws_config_changes`
+- ✅ `4.10`: `alarm_security_group_changes`
+- ✅ `4.11`: `alarm_nacl_changes`
+- ✅ `4.12`: `alarm_network_gateways`
+- ✅ `4.13`: `alarm_route_table_changes`
+- ✅ `4.14`: `alarm_vpc_changes`
+- ✅ `4.15`: `alarm_organization_changes`
+- ✅ `4.16`: `securityhub_enabled`
+- ✅ `5.1`: `vpc_network_acl_remote_administration`
+- ✅ `5.2`: `vpc_security_group_remote_administration_ipv4`
+- ✅ `5.3`: `no_broad_public_ipv6_ingress_on_port_22_3389`
+- ✅ `5.4`: `default_sg_no_access`
+- ✅ `5.6`: `ec2_not_imdsv2_instances`
+
 ##### `foundational_security`
 
 - ✅ `account.1`: `security_account_information_provided`
