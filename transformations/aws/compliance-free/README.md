@@ -1,4 +1,4 @@
-# CloudQuery &times; dbt: AWS Compliance Package(Free)
+# CloudQuery &times; dbt: AWS Compliance Package (Free)
 
 ## Overview
 Welcome to AWS Compliance Package(Free), a free compliance solution that works on top of the CloudQuery framework. This package contains automated checks for different AWS services following different benchmarks like CIS and AWS foundational security. 
