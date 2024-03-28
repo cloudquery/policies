@@ -70,6 +70,16 @@
         }
       ]
     },
+    "transformations/azure/asset-inventory-free": {
+      "component": "transformation-azure-asset-inventory-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
     "transformations/azure/compliance-free": {
       "component": "transformation-azure-compliance-free",
       "extra-files": [
