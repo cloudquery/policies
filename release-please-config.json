@@ -70,6 +70,16 @@
         }
       ]
     },
+    "transformations/azure/asset-inventory-free": {
+      "component": "transformation-azure-asset-inventory-free",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
     "transformations/azure/compliance-free": {
       "component": "transformation-azure-compliance-free",
       "extra-files": [
@@ -82,6 +92,16 @@
     },
     "transformations/azure/compliance-premium": {
       "component": "transformation-azure-compliance-premium",
+      "extra-files": [
+        {
+          "type": "yaml",
+          "path": "dbt_project.yml",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "transformations/gcp/asset-inventory-free": {
+      "component": "transformation-gcp-asset-inventory-free",
       "extra-files": [
         {
           "type": "yaml",

@@ -1,0 +1,12 @@
+gcp_asset_inventory: # This should match the name in your dbt_project.yml
+  target: dev
+  outputs:
+    dev-pg:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public # default schema where dbt will build the models
+      threads: 1 # number of threads to use when running in parallel
