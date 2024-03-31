@@ -89,6 +89,15 @@ dbt run --models +<model_name>
 
 The premium version contains all checks.
 
+All of the models contain the following columns:
+- **framework**: The benchmark the check belongs to.
+- **check_id**: The check identifier (either a number or the service name and numberr).
+- **title**: The name/title of the check.
+- **account_id**: The AWS account id.
+- **resource_id**: The resource id (ARN).
+- **status**: The status of the check (fail / pass).
+
+
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
 
