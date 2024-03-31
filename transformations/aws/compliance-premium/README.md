@@ -8,6 +8,29 @@ Using this solution you can get instant insights about your security posture and
 We recommend to use this transformation with our [AWS Compliance Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-compliance/latest/docs)
 ![AWS Compliace Dashboard](./images/dashboard_example.png)
 
+### Examples
+How can I check that all my ec2 related resources are following the foundational security standards? (Postgres)
+```sql
+SELECT *
+FROM aws_compliance__foundational_security
+WHERE check_id LIKE '%ec2.%'
+```
+
+How many checks did I fail in the CIS 2.0 benchmark? (Postgres)
+```sql
+SELECT count(*) as failed_count
+FROM aws_compliance__cis_v_2_0_0
+WHERE status = 'fail'
+```
+
+Which resource failed the most tests in the foundational security benchmark? (Postgres)
+```sql
+SELECT resource_id, count(*) as failed_count
+FROM aws_compliance__foundational_security
+WHERE status = 'fail'
+GROUP BY resource_id
+ORDER BY count(*) DESC
+```
 
 ### Requirements
 
@@ -56,6 +79,8 @@ dbt run --models +<model_name>
 #### Models
 
 - **aws_compliance\_\_cis_v1_2_0**: AWS CIS V1.2.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
+- **aws_compliance\_\_cis_v2_0_0**: AWS CIS V2.0.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
+- **aws_compliance\_\_cis_v3_0_0**: AWS CIS V3.0.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
 - **aws_compliance\_\_foundational_security**: AWS Foundational Security benchmark, available PostgreSQL, Snowflake, and BigQuery.
 - **aws_compliance\_\_pci_dss_v3_2_1**: AWS PCI DSS V3.2.1 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
 - **aws_compliance\_\_imds_v2**: IMDSv2 compliance checks.
