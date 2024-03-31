@@ -119,6 +119,22 @@ The premium version contains all queries.
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
 
+##### `cis_v2.1.0`
+
+- ✅ `2.1.5`: `security_defender_on_for_opensource_relational_db`
+- ✅ `2.1.6`: `security_defender_on_for_cosmosdb`
+- ✅ `2.1.16`: `security_defender_on_for_containers`
+- ✅ `3.7`: `storage_account_public_network_access`
+- ✅ `3.10`: `storage_account_uses_private_link`
+- ✅ `3.15`: `storage_account_min_tls_1_2`
+- ✅ `4.5.2`: `cosmosdb_account_uses_private_link`
+- ✅ `8.6`: `keyvault_rbac_enabled`
+- ✅ `8.7`: `keyvault_vault_private_link_used`
+- ✅ `9.5`: `app_using_latest_php_version`
+- ✅ `9.6`: `app_using_latest_python_version`
+- ✅ `9.7`: `app_using_latest_java_version`
+- ✅ `9.8`: `app_using_latest_http_version`
+
 ##### `cis_v1.3.0`
 
 - ✅ `1.21`: `iam_custom_subscription_owner_roles`
