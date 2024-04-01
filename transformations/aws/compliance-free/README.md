@@ -8,6 +8,31 @@ This package is a free version of the compliance package, to get a more comprehe
 
 We recommend to use this transformation with our [AWS Compliance Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-compliance/latest/docs)
 ![AWS Compliace Dashboard](./images/dashboard_example.png)
+
+### Examples
+How can I check that all my apigateway related resources are following the foundational security standards? (Postgres)
+```sql
+SELECT *
+FROM aws_compliance__foundational_security
+WHERE check_id LIKE '%apigateway.%'
+```
+
+How many checks did I fail in the CIS 1.2.0 benchmark? (Postgres)
+```sql
+SELECT count(*) as failed_count
+FROM aws_compliance__cis_v_1_2_0
+WHERE status = 'fail'
+```
+
+Which resource failed the most tests in the foundational security benchmark? (Postgres)
+```sql
+SELECT resource_id, count(*) as failed_count
+FROM aws_compliance__foundational_security
+WHERE status = 'fail'
+GROUP BY resource_id
+ORDER BY count(*) DESC
+```
+
 ### Requirements
 
 - [dbt](https://docs.getdbt.com/docs/installation)
@@ -83,6 +108,14 @@ dbt run --models +<model_name>
         - `aws_s3_accounts`
 
 The free version contains 10% of the full pack's checks.
+
+All of the models contain the following columns:
+- **framework**: The benchmark the check belongs to.
+- **check_id**: The check identifier (either a number or the service name and numberr).
+- **title**: The name/title of the check.
+- **account_id**: The AWS account id.
+- **resource_id**: The resource id (ARN).
+- **status**: The status of the check (fail / pass).
 
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
