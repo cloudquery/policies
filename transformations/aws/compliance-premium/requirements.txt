@@ -1,4 +1,4 @@
-dbt-postgres==1.7.10
+dbt-postgres==1.7.11
 dbt-bigquery==1.7.7
 dbt-snowflake==1.7.2
 pyarrow >= 3.0.0
