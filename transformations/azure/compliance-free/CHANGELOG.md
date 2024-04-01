@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.2](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-free-v1.6.1...transformation-azure-compliance-free-v1.6.2) (2024-04-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.7.7 ([#707](https://github.com/cloudquery/policies-premium/issues/707)) ([6089fcb](https://github.com/cloudquery/policies-premium/commit/6089fcb08cf2e0d28f296dcb672e84b12d0fb471))
+* Update dependencies ([#671](https://github.com/cloudquery/policies-premium/issues/671)) ([f0b0275](https://github.com/cloudquery/policies-premium/commit/f0b027532699214e10e93fcf5d754ed8e9f2fc75))
+
 ## [1.6.1](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-free-v1.6.0...transformation-azure-compliance-free-v1.6.1) (2024-03-04)
 
 
