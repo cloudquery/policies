@@ -2,7 +2,7 @@
 
 ## Overview
 
-Welcome to AWS Compliance Package, a compliance solution that works on top of the CloudQuery framework. This package contains automated checks for different AWS services following different benchmarks like CIS and AWS foundational security. 
+Welcome to AWS Compliance Package, a compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various AWS services, following benchmarks such as CIS and AWS foundational security standards.
 Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by AWS, CIS and more.
 
 We recommend to use this transformation with our [AWS Compliance Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-compliance/latest/docs)
@@ -156,7 +156,7 @@ dbt run --models +<model_name>
 ```
 
 
-#### Models
+### Models
 
 - **aws_compliance\_\_cis_v1_2_0**: AWS CIS V1.2.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
 - **aws_compliance\_\_cis_v2_0_0**: AWS CIS V2.0.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
