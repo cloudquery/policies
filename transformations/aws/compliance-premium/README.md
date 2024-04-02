@@ -36,6 +36,7 @@ ORDER BY count(*) DESC
 
 - [dbt](https://docs.getdbt.com/docs/installation)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 
 One of the below databases
 

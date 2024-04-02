@@ -37,11 +37,13 @@ ORDER BY count(*) DESC
 
 - [dbt](https://docs.getdbt.com/docs/installation)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 
 One of the below databases
 
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 - [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
+- [BigQuery](https://hub.cloudquery.io/plugins/destination/cloudquery/bigquery)
 
 ### What's in the pack
 
