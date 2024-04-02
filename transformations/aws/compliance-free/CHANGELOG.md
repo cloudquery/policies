@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v1.3.1...transformation-aws-compliance-free-v1.4.0) (2024-04-02)
+
+
+### Features
+
+* Aws cis foundation v3 ([#689](https://github.com/cloudquery/policies-premium/issues/689)) ([8058378](https://github.com/cloudquery/policies-premium/commit/805837853f475f3e60751631f655fd80d582f461))
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.7.7 ([#707](https://github.com/cloudquery/policies-premium/issues/707)) ([6089fcb](https://github.com/cloudquery/policies-premium/commit/6089fcb08cf2e0d28f296dcb672e84b12d0fb471))
+* **deps:** Update dependency dbt-postgres to v1.7.11 ([#708](https://github.com/cloudquery/policies-premium/issues/708)) ([abfd8e1](https://github.com/cloudquery/policies-premium/commit/abfd8e1a070537c01d703e8dafa29bad919c05f6))
+* **deps:** Update dependency dbt-snowflake to v1.7.3 ([#711](https://github.com/cloudquery/policies-premium/issues/711)) ([b46a7ff](https://github.com/cloudquery/policies-premium/commit/b46a7ffca2902b4d71806f6a6eb99e2363ac7ccb))
+* Update dependencies ([#671](https://github.com/cloudquery/policies-premium/issues/671)) ([f0b0275](https://github.com/cloudquery/policies-premium/commit/f0b027532699214e10e93fcf5d754ed8e9f2fc75))
+
 ## [1.3.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-free-v1.3.0...transformation-aws-compliance-free-v1.3.1) (2024-03-04)
 
 
