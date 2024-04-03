@@ -35,9 +35,10 @@ order by count(*) desc;
 
 ### Requirements
 
-- [dbt](https://docs.getdbt.com/docs/installation)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [CloudQuery AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [dbt](https://docs.getdbt.com/docs/installation)
  
 One of the below databases:
 
