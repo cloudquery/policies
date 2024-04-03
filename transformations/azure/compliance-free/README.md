@@ -10,7 +10,7 @@ Using this solution you can get instant insights about your security posture and
 How many checks did I fail in the CIS 2.0 benchmark? (Postgres)
 ```sql
 SELECT count(*) as failed_count
-FROM azure_compliance__cis_v_2_0_0_free
+FROM azure_compliance__cis_v2_0_0_free
 WHERE status = 'fail'
 ```
 
@@ -157,7 +157,7 @@ All of the models contain the following columns:
 - **framework**: The benchmark the check belongs to.
 - **check_id**: The check identifier (either a number or the service name and number).
 - **title**: The name/title of the check.
-- **account_id**: The azure account id.
+- **resource_id**: The azure resource id.
 - **subscription_id**: The azure subscription id.
 - **status**: The status of the check (fail / pass).
 

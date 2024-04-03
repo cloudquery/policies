@@ -20,7 +20,7 @@ WHERE check_id LIKE '%apigateway.%'
 How many checks did I fail in the CIS 1.2.0 benchmark? (Postgres)
 ```sql
 SELECT count(*) as failed_count
-FROM aws_compliance__cis_v_1_2_0
+FROM aws_compliance__cis_v1_2_0
 WHERE status = 'fail'
 ```
 

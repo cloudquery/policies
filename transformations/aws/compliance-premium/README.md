@@ -19,7 +19,7 @@ WHERE check_id LIKE '%ec2.%'
 How many checks did I fail in the CIS 2.0 benchmark? (Postgres)
 ```sql
 SELECT count(*) as failed_count
-FROM aws_compliance__cis_v_2_0_0
+FROM aws_compliance__cis_v2_0_0
 WHERE status = 'fail'
 ```
 
