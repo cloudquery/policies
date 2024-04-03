@@ -43,21 +43,19 @@ One of the below databases:
 
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 
-#### dbt Installation
+#### Models Included
 
-- [DBT + Postgres](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
+- **aws_resources**: AWS Resources View, available for PostgreSQL.
+  - Required tables: This model has no specific table dependencies, other than requiring a single CloudQuery table from the AWS plugin that has an ARN. 
 
-An example of how to install dbt to work with the destination of your choice.
 
-First, install `dbt` for the destination of your choice:
+## To run this package you need to complete the following steps
 
-An example installation of dbt-postgres:
-
+### Setting up the DBT profile
+First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 ```bash
 pip install dbt-postgres
 ```
-
-These commands will also install install dbt-core and any other dependencies.
 
 Create the profile directory:
 
@@ -68,7 +66,7 @@ mkdir -p ~/.dbt
 Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
 
 ```yaml
-aws_asset_inventory: # This should match the name in your dbt_project.yml
+aws_compliance: # This should match the name in your dbt_project.yml
   target: dev
   outputs:
     dev:
@@ -77,7 +75,7 @@ aws_asset_inventory: # This should match the name in your dbt_project.yml
       user: postgres
       pass: pass
       port: 5432
-      dbname: aws
+      dbname: postgres
       schema: public # default schema where dbt will build the models
       threads: 1 # number of threads to use when running in parallel
 ```
@@ -90,7 +88,42 @@ After setting up your `profiles.yml`, you should test the connection to ensure e
 dbt debug
 ```
 
-This command will tell you if dbt can successfully connect to your destination database.
+This command will tell you if dbt can successfully connect to your PostgreSQL instance.
+
+### Login to CloudQuery
+Because this policy uses premium features and tables you must login to your cloudquery account using
+`cloudquery login` in your terminal
+
+### Syncing AWS data
+Based on the models you are interested in running you need to sync the relevant tables
+this is an example sync for the relevant tables for all the models (views) in the policy and with a postgres destination
+
+ ```yml
+kind: source
+spec:
+  name: aws # The source type, in this case, AWS.
+  path: cloudquery/aws # The plugin path for handling AWS sources.
+  registry: cloudquery # The registry from which the AWS plugin is sourced.
+  version: "v25.5.3" # The version of the AWS plugin.
+  tables: ["aws_ec2_instances"] # Include any tables that meet your requirements, separated by commas
+  destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+  spec:
+
+---
+kind: destination
+spec:
+  name: "postgresql" # The type of destination, in this case, PostgreSQL.
+  path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
+  registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
+  version: "v8.0.1" # The version of the PostgreSQL plugin.
+
+  spec:
+    connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+    # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
+    # You can also specify the connection string in DSN format, which allows for special characters in the password:
+    # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
+
+ ```
 
 #### Running Your dbt Project
 
@@ -110,6 +143,8 @@ dbt run
 
 This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
 
+**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
 For a specific model and the models in the dependency graph:
@@ -123,8 +158,3 @@ For a specific folder and the models in the dependency graph:
 ```bash
 dbt run --models +<model_name>
 ```
-
-#### Models
-
-- **aws_resources**: AWS Resources View, available for PostgreSQL.
-  - Required tables: This model has no specific table dependencies, other than requiring a single CloudQuery table from the AWS plugin that has an ARN. 
