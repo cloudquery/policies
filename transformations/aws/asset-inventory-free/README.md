@@ -1,8 +1,37 @@
 # CloudQuery &times; dbt: AWS Asset Inventory Package
 ## Overview
 
-This package contains dbt models (views) that aggregates AWS Resources for AWS Asset Inventory.  This currently only supports PostgreSQL as a destination.
+Welcome to our AWS Asset Inventory (Free) package, a free solution that works on top of the Cloudquery framework. This package offers automated line-item listing of all active resources in your AWS environment. Currently, this package only supports usage with PostgreSQL databases. 
 
+We recommend using this transformation with our [AWS Asset Inventory Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-asset-inventory/latest/docs)
+
+![AWS Asset Inventory Dashboard](./images/asset_inventory_dash.png)
+
+### Example Queries
+
+Which accounts have the most resources? (PostgreSQL)
+```sql
+select account_id, count(*)
+from aws_resources
+group by account_id
+order by count(*) desc
+```
+
+Which services are most used in each account? (PostgreSQL)
+```sql
+select account_id, service, count(*)
+from aws_resources
+group by account_id, service
+order by count(*) desc;
+```
+
+Which resources are tagged? (PostgreSQL)
+```sql
+select account_id, service, count(*)
+from aws_resources
+group by account_id, service
+order by count(*) desc;
+```
 
 ### Requirements
 
