@@ -49,6 +49,20 @@ One of the below databases:
 - **aws_resources**: AWS Resources View, available for PostgreSQL.
   - Required tables: This model has no specific table dependencies, other than requiring a single CloudQuery table from the AWS plugin that has an ARN. 
 
+  #### Columns Included
+
+- `_cq_id`
+- `_cq_source_name`
+- `_cq_sync_time`
+- `account_id`
+- `request_account_id`
+- `type`
+- `arn`
+- `region`
+- `tags`
+- `partition`
+- `service`
+- `_cq_table`
 
 ## To run this package you need to complete the following steps
 
