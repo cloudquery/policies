@@ -35,9 +35,9 @@ order by count(*) desc;
 
 ### Requirements
 
-- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
-- [CloudQuery AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
 - [dbt](https://docs.getdbt.com/docs/installation)
+- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [A CloudQuery Account](https://www.cloudquery.io/auth/register)
  
 One of the below databases:
 
