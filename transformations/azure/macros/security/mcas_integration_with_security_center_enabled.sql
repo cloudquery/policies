@@ -1,5 +1,10 @@
 {% macro security_mcas_integration_with_security_center_enabled(framework, check_id) %}
+  {{ return(adapter.dispatch('security_mcas_integration_with_security_center_enabled')(framework, check_id)) }}
+{% endmacro %}
 
+{% macro default__security_mcas_integration_with_security_center_enabled(framework, check_id) %}{% endmacro %}
+
+{% macro postgres__security_mcas_integration_with_security_center_enabled(framework, check_id) %}
 SELECT
   id,
   '{{framework}}' As framework,
@@ -11,5 +16,13 @@ SELECT
     then 'pass' else 'fail'
   end
 FROM azure_security_settings ass
-WHERE "name" = 'MCAS'
+WHERE name in ('MCAS', 'Microsoft Cloud App Security')
+{% endmacro %}
+
+{% macro snowflake__security_mcas_integration_with_security_center_enabled(framework, check_id) %}
+
+{% endmacro %}
+
+{% macro bigquery__security_mcas_integration_with_security_center_enabled(framework, check_id) %}
+
 {% endmacro %}
