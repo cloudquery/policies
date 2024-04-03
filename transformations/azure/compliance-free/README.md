@@ -33,6 +33,7 @@ One of the below databases
 
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 - [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
+- [BigQuery](https://hub.cloudquery.io/plugins/destination/cloudquery/bigquery)
 
 ### What's in the pack
 
@@ -148,7 +149,7 @@ dbt run --models +<model_name>
 
 - **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL and Snowflake.
 - **azure_compliance\_\_cis_v2_0_0.sql**: Azure Compliance CIS V2.0.0, available for PostgreSQL and Snowflake.
-- **azure_compliance\_\_hippa_hitrust_9_2.sql**: Azure Compliance HIPPA HITRUST V9.2, available for PostgreSQL and Snowflake.
+- **azure_compliance\_\_hippa_hitrust_9_2.sql**: Azure Compliance HIPPA HITRUST V9.2, available for PostgreSQL.
 
 The Free version contains 10% of the queries avaiable in the [Azure Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/azure-compliance-premium/latest/docs).
 
