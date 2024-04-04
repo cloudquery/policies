@@ -1,7 +1,7 @@
 # CloudQuery &times; dbt: AWS Asset Inventory Package
 ## Overview
 
-Welcome to our AWS Asset Inventory (Free) package, a free solution that works on top of the Cloudquery framework. This package offers automated line-item listing of all active resources in your AWS environment. Currently, this package only supports usage with PostgreSQL databases. 
+Welcome to our free edition of the AWS Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your AWS environment. Currently, this package only supports usage with PostgreSQL databases. 
 
 We recommend using this transformation with our [AWS Asset Inventory Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-asset-inventory/latest/docs)
 
@@ -25,12 +25,10 @@ group by account_id, service
 order by count(*) desc;
 ```
 
-Which resources are tagged? (PostgreSQL)
+Which resources are not tagged? (PostgreSQL)
 ```sql
-select account_id, service, count(*)
-from aws_resources
-group by account_id, service
-order by count(*) desc;
+select * from aws_resources
+where tags is null or tags = '{}';
 ```
 
 ### Requirements
@@ -81,7 +79,7 @@ mkdir -p ~/.dbt
 Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
 
 ```yaml
-aws_compliance: # This should match the name in your dbt_project.yml
+aws_asset_inventory: # This should match the name in your dbt_project.yml
   target: dev
   outputs:
     dev:
@@ -110,8 +108,8 @@ Because this policy uses premium features and tables you must login to your clou
 `cloudquery login` in your terminal
 
 ### Syncing AWS data
-Based on the models you are interested in running you need to sync the relevant tables
-this is an example sync for the relevant tables for all the models (views) in the policy and with a postgres destination
+Based on the models you are interested in running you need to sync the relevant tables.
+This is an example sync for the relevant tables for all the models (views) in the policy and with a Postgres destination.
 
  ```yml
 kind: source
@@ -158,7 +156,7 @@ dbt run
 
 This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
 
-**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 

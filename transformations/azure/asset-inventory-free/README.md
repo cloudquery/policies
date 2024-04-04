@@ -1,7 +1,7 @@
 # CloudQuery &times; dbt: Azure Asset Inventory Package
 ## Overview
 
-Welcome to our Azure Asset Inventory (Free) package, a free solution that works on top of the Cloudquery framework. This package offers automated line-item listing of all active resources in your Azure environment. Currently, this package only supports usage with PostgreSQL databases. 
+Welcome to our free edition of the Azure Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your Azure environment. Currently, this package only supports usage with PostgreSQL databases. 
 
 ### Coming soon
 - Azure Asset Inventory Dashboard
@@ -97,11 +97,11 @@ This command will tell you if dbt can successfully connect to your PostgreSQL in
 
 ### Login to CloudQuery
 Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal
+`cloudquery login` in your terminal.
 
 ### Syncing Azure data
-Based on the models you are interested in running you need to sync the relevant tables
-this is an example sync for the relevant tables for all the models (views) in the policy and with a postgres destination
+Based on the models you are interested in running you need to sync the relevant tables.
+This is an example sync for the relevant tables for all the models (views) in the policy and with a PostgreSQL destination.
 
  ```yml
 kind: source
@@ -148,7 +148,7 @@ dbt run
 
 This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
 
-**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 

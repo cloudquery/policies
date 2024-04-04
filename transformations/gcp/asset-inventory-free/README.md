@@ -1,7 +1,7 @@
 # CloudQuery &times; dbt: GCP Asset Inventory Package
 ## Overview
 
-Welcome to our GCP Asset Inventory (Free) package, a free solution that works on top of the Cloudquery framework. This package offers automated line-item listing of all active resources in your GCP environment. Currently, this package only supports usage with PostgreSQL databases. 
+Welcome to our free edition of the GCP Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your GCP environment. Currently, this package only supports usage with PostgreSQL databases. 
 
 ### Coming soon
 - GCP Asset Inventory Dashboard
@@ -69,7 +69,7 @@ mkdir -p ~/.dbt
 Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
 
 ```yaml
-azure_asset_inventory: # This should match the name in your dbt_project.yml
+gcp_asset_inventory: # This should match the name in your dbt_project.yml
   target: dev
   outputs:
     dev:
@@ -98,8 +98,8 @@ Because this policy uses premium features and tables you must login to your clou
 `cloudquery login` in your terminal
 
 ### Syncing GCP data
-Based on the models you are interested in running you need to sync the relevant tables
-this is an example sync for the relevant tables for all the models (views) in the policy and with a postgres destination
+Based on the models you are interested in running you need to sync the relevant tables.
+This is an example sync for the relevant tables for all the models (views) in the policy and with a postgres destination
 
  ```yml
 
@@ -149,7 +149,7 @@ dbt run
 
 This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
 
-**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
