@@ -9,21 +9,21 @@ We recommend to use this transformation with our [AWS Compliance Dashboard](http
 ![AWS Compliace Dashboard](./images/dashboard_example.png)
 
 ### Examples
-How can I check that all my ec2 related resources are following the foundational security standards? (Postgres)
+How can I check that all my EC2 related resources are following the foundational security standards? (PostgreSQL)
 ```sql
 SELECT *
 FROM aws_compliance__foundational_security
 WHERE check_id LIKE '%ec2.%'
 ```
 
-How many checks did I fail in the CIS 2.0 benchmark? (Postgres)
+How many checks did I fail in the CIS 2.0 benchmark? (PostgreSQL)
 ```sql
 SELECT count(*) as failed_count
 FROM aws_compliance__cis_v2_0_0
 WHERE status = 'fail'
 ```
 
-Which resource failed the most tests in the foundational security benchmark? (Postgres)
+Which resource failed the most tests in the foundational security benchmark? (PostgreSQL)
 ```sql
 SELECT resource_id, count(*) as failed_count
 FROM aws_compliance__foundational_security
