@@ -6,7 +6,7 @@
         SELECT column_name
         FROM information_schema.columns
         WHERE table_name = '{{ table_name }}'
-            AND column_name = 'account_id'
+            AND lower(column_name) = 'account_id'
     {% endset %}
 
 
@@ -15,7 +15,7 @@
         SELECT column_name
         FROM information_schema.columns
         WHERE table_name = '{{ table_name }}'
-            AND column_name = 'request_account_id'
+            AND lower(column_name) = 'request_account_id'
     {% endset %}
 
     --region
@@ -23,7 +23,7 @@
         SELECT column_name
         FROM information_schema.columns
         WHERE table_name = '{{ table_name }}'
-            AND column_name = 'region'
+            AND lower(column_name) = 'region'
     {% endset %}
     
     --tags
@@ -31,7 +31,7 @@
         SELECT column_name
         FROM information_schema.columns
         WHERE table_name = '{{ table_name }}'
-            AND column_name = 'tags'
+            AND lower(column_name) = 'tags'
     {% endset %}
 
     /* This block was used when other views were evaluated.

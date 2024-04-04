@@ -1,15 +1,15 @@
---Add Intersect pg_tables to ignore views.
+--removed pg tables reference for compatibility, using information_schema and table_type instead to filter out views
 {% set aws_tables %}
-    SELECT tablename as table_name
-    FROM pg_tables
+    SELECT table_name
+    FROM information_schema.tables where table_type = 'BASE TABLE'
     INTERSECT
     SELECT DISTINCT table_name
     FROM information_schema.columns
-    WHERE table_name LIKE 'aws_%s' and COLUMN_NAME IN ('account_id', 'request_account_id')
+    WHERE table_name ILIKE 'aws_%s' and lower(COLUMN_NAME) IN ('account_id', 'request_account_id')
     INTERSECT
     SELECT table_name
     FROM information_schema.columns
-    WHERE table_name LIKE 'aws_%s' and COLUMN_NAME = 'arn';
+    WHERE table_name ILIKE 'aws_%s' and lower(COLUMN_NAME) = 'arn';
 {% endset %}
 
 
