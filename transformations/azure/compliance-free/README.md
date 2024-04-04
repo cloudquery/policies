@@ -5,6 +5,8 @@
 Welcome to Azure Compliance Package (Free), a compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various Azure services, following benchmarks such as CIS and HIPPA.
 Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by CIS and HIPPA.
 
+This package is a free version of the more comprehensive [Azure Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/azure-compliance-premium/latest/docs)
+
 ### Examples
 
 How many checks did I fail in the CIS 2.0 benchmark? (Postgres)
