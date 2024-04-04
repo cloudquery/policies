@@ -88,8 +88,7 @@ Because this policy uses premium features and tables you must login to your clou
 
 ### Syncing GCP data
 Based on the models you are interested in running you need to sync the relevant tables
-this is an example sync for the relevant tables for all the models (views) in the policy and with a postgres destination, this package also supports snowflake.
-
+this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
 
 ```yml
 kind: source
