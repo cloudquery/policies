@@ -7,7 +7,7 @@ Using this solution you can get instant insights about your security posture and
 
 ### Examples
 
-How many checks did I fail in the CIS 2.0 benchmark? (PostgreSQL)
+How many checks failed in the CIS 2.0 benchmark? (PostgreSQL)
 ```sql
 SELECT count(*) as failed_count
 FROM gcp_compliance__cis_v2_0_0

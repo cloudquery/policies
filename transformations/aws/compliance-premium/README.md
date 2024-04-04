@@ -16,7 +16,7 @@ FROM aws_compliance__foundational_security
 WHERE check_id LIKE '%ec2.%'
 ```
 
-How many checks did I fail in the CIS 2.0 benchmark? (PostgreSQL)
+How many checks failed in the CIS 2.0 benchmark? (PostgreSQL)
 ```sql
 SELECT count(*) as failed_count
 FROM aws_compliance__cis_v2_0_0

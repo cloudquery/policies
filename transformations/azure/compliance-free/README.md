@@ -9,7 +9,7 @@ This package is a free version of the more comprehensive [Azure Compliance Packa
 
 ### Examples
 
-How many checks did I fail in the CIS 2.0 benchmark? (PostgreSQL)
+How many checks failed in the CIS 2.0 benchmark? (PostgreSQL)
 ```sql
 SELECT count(*) as failed_count
 FROM azure_compliance__cis_v2_0_0_free
