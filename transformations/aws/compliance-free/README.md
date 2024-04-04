@@ -104,10 +104,9 @@ spec:
   name: aws # The source type, in this case, AWS.
   path: cloudquery/aws # The plugin path for handling AWS sources.
   registry: cloudquery # The registry from which the AWS plugin is sourced.
-  version: "v24.3.2" # The version of the AWS plugin.
+  version: "v25.5.3" # The version of the AWS plugin.
   tables: ["aws_regions","aws_iam_password_policies","aws_cloudfront_distributions","aws_iam_accounts","aws_iam_credential_reports","aws_iam_users","aws_account_alternate_contacts","aws_elbv2_load_balancer_attributes","aws_apigateway_rest_api_stages","aws_codebuild_projects","aws_autoscaling_groups","aws_elbv1_load_balancers","aws_apigateway_rest_apis","aws_rds_clusters","aws_apigatewayv2_api_stages","aws_elasticbeanstalk_environments","aws_cloudtrail_trail_event_selectors","aws_efs_access_points","aws_elbv2_load_balancers","aws_apigatewayv2_apis","aws_config_configuration_recorders","aws_apigatewayv2_api_routes","aws_s3_accounts","aws_cloudtrail_trails","aws_iam_virtual_mfa_devices","aws_iam_user_access_keys"]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
-  use_paid_apis: true
   skip_dependent_tables: true
   spec:
 
@@ -117,7 +116,7 @@ spec:
   name: "postgresql" # The type of destination, in this case, PostgreSQL.
   path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
   registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-  version: "v7.3.5" # The version of the PostgreSQL plugin.
+  version: "v8.0.1" # The version of the PostgreSQL plugin.
 
   spec:
     connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
