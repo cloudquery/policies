@@ -2,7 +2,7 @@
 
 ## Overview
 
-Welcome to our free edition of the AWS Data-Resilience package, a solution that works on top of the CloudQuery framework. This package offers automated insight into your AWS Backup posture in your AWS environment. Currently, this package only supports usage with PostgreSQL databases. 
+Welcome to our free edition of the AWS Data Resilience package, a solution that works on top of the CloudQuery framework. This package offers automated insight into your AWS Backup posture in your AWS environment. Currently, this package only supports usage with PostgreSQL databases. 
 
 We recommend using this transformation with our [AWS Data Resilience Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-data-resilience/latest/docs)
 
@@ -72,7 +72,7 @@ Because this policy uses premium features and tables you must login to your clou
 
 ### Syncing AWS data
 Based on the models you are interested in running you need to sync the relevant tables.
-This is an example sync for the relevant tables for all the models (views) in the policy and with a Postgres destination.
+This is an example sync for the relevant tables for all the models (views) in the policy and with a PostgreSQL destination.
 
  ```yml
 kind: source
@@ -81,7 +81,7 @@ spec:
   path: cloudquery/aws # The plugin path for handling AWS sources.
   registry: cloudquery # The registry from which the AWS plugin is sourced.
   version: "v25.5.3" # The version of the AWS plugin.
-  tables: ["aws_ec2_instances"] # Include any tables that meet your requirements, separated by commas
+  tables: ["aws_dynamodb_tables","aws_ec2_instances","aws_s3_buckets"] # Include any tables that meet your requirements, separated by commas
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   spec:
 
@@ -120,17 +120,3 @@ dbt run
 This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
 
 **Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
-
-To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
-
-For a specific model and the models in the dependency graph:
-
-```bash
-dbt run --select +<model_name>
-```
-
-For a specific folder and the models in the dependency graph:
-
-```bash
-dbt run --models +<model_name>
-```
