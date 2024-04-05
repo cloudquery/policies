@@ -1,6 +1,6 @@
 --removed pg tables reference for compatibility, using information_schema and table_type instead to filter out views
 {% set aws_tables %}
-    SELECT table_name
+    SELECT table_name as "table_name"
     FROM information_schema.tables where table_type = 'BASE TABLE'
     INTERSECT
     SELECT DISTINCT table_name
