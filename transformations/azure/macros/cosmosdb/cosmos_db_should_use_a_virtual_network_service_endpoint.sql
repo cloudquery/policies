@@ -52,7 +52,7 @@ FROM
 {% macro bigquery__cosmosdb_cosmos_db_should_use_a_virtual_network_service_endpoint(framework, check_id) %}
 WITH valid_accounts AS (
   SELECT id
-  FROM `cq-playground`.`azure_23`.`azure_cosmos_database_accounts`,
+  FROM {{ full_table_name("azure_cosmos_database_accounts") }},
   UNNEST(JSON_QUERY_ARRAY(properties.virtualNetworkRules)) AS rule
   WHERE JSON_VALUE(rule.id) IS NOT NULL
 ) -- TODO check
@@ -67,7 +67,7 @@ SELECT
     when v.id IS NULL then 'fail' else 'pass'
   end as status
 FROM
-  `cq-playground`.`azure_23`.`azure_cosmos_database_accounts` a
+  {{ full_table_name("azure_cosmos_database_accounts") }} a
   LEFT OUTER JOIN valid_accounts v
   ON a.id = v.id
 {% endmacro %}

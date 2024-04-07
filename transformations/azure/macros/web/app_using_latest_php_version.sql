@@ -46,5 +46,5 @@ SELECT
         WHEN JSON_VALUE(properties.SiteConfig.linuxFxVersion) = 'PHP|8.0' then 'pass'
         ELSE 'fail'
         END AS status
-FROM `cq-playground`.`azure_23`.`azure_appservice_web_apps`
+FROM {{ full_table_name("azure_appservice_web_apps") }} 
 {% endmacro %}
