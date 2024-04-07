@@ -26,6 +26,23 @@ FROM azure_keyvault_keyvault
 
 
 {% macro snowflake__keyvault_vault_private_link_used(framework, check_id) %}
+SELECT
+    id                                                                       AS resource_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Ensure that Private Endpoints are Used for Azure Key Vault' AS title,
+    subscription_id                                                          AS subscription_id,
+    CASE
+        WHEN properties:networkAcls IS null
+        OR properties:networkAcls:defaultAction = 'Allow' then 'fail'
+        WHEN
+        properties:privateEndpointConnections IS null THEN 'pass'
+        WHEN
+        ARRAY_CONTAINS('{"PrivateLinkServiceConnectionStateStatus": "Approved"}'::variant, properties:privateEndpointConnections)
+        THEN 'pass'
+        ELSE 'fail'
+    END                                                                      AS status
+FROM azure_keyvault_keyvault
 {% endmacro %}
 
 {% macro bigquery__keyvault_vault_private_link_used(framework, check_id) %}
