@@ -50,4 +50,24 @@ FROM
 {% endmacro %}
 
 {% macro bigquery__cosmosdb_cosmos_db_should_use_a_virtual_network_service_endpoint(framework, check_id) %}
+WITH valid_accounts AS (
+  SELECT id
+  FROM `cq-playground`.`azure_23`.`azure_cosmos_database_accounts`,
+  UNNEST(JSON_QUERY_ARRAY(properties.virtualNetworkRules)) AS rule
+  WHERE JSON_VALUE(rule.id) IS NOT NULL
+) -- TODO check
+
+SELECT
+  a.id,
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Ensure That "Firewalls & Networks" Is Limited to Use Selected Networks Instead of All Networks (Automated)' as title,
+  a.subscription_id,
+  case
+    when v.id IS NULL then 'fail' else 'pass'
+  end as status
+FROM
+  `cq-playground`.`azure_23`.`azure_cosmos_database_accounts` a
+  LEFT OUTER JOIN valid_accounts v
+  ON a.id = v.id
 {% endmacro %}

@@ -1,4 +1,3 @@
-{{ config(enabled=block_bigquery()) }}
 with
     aggregated as (
         ({{iam_custom_subscription_owner_roles('cis_v2.1.0','1.23')}})

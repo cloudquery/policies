@@ -35,4 +35,16 @@ FROM azure_storage_accounts
 {% endmacro %}
 
 {% macro bigquery__storage_account_public_network_access(framework, check_id) %}
+SELECT
+    id                                                                     AS resource_id,
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Ensure that Public Network Access is Disabled for storage accounts' AS title,
+    subscription_id                                                        AS subscription_id,
+    CASE
+        WHEN JSON_VALUE(properties.publicNetworkAccess) != 'Disabled'
+        THEN 'fail'
+        ELSE 'pass'
+    END                                                                         AS status
+FROM {{ full_table_name("azure_storage_accounts") }}
 {% endmacro %}

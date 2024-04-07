@@ -33,4 +33,15 @@ FROM azure_appservice_web_apps
 {% endmacro %}
 
 {% macro bigquery__app_using_latest_http_version(framework, check_id) %}
+SELECT
+       id                                                                     AS resource_id,
+       '{{framework}}' As framework,
+       '{{check_id}}' As check_id,
+       'Ensure that HTTP Version is the Latest, if Used to Run the Web App' AS title,
+       subscription_id                                                        AS subscription_id,
+       CASE
+        WHEN not CAST( JSON_VALUE(properties.SiteConfig.http20Enabled) AS BOOL) then 'fail'
+        ELSE 'pass'
+        END AS status
+FROM {{ full_table_name("azure_appservice_web_apps") }}
 {% endmacro %}
