@@ -2,8 +2,8 @@
 
 ## Overview
 
-Welcome to Azure Compliance Package (Free), a compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various Azure services, following benchmarks such as CIS and HIPPA.
-Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by CIS and HIPPA.
+Welcome to our free edition of the [Azure Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/azure-compliance-premium/latest/docs), a compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various Azure services, following benchmarks such as CIS and HIPAA.
+Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by CIS and HIPAA.
 
 This package is a free version of the more comprehensive [Azure Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/azure-compliance-premium/latest/docs)
 
@@ -16,7 +16,7 @@ FROM azure_compliance__cis_v2_0_0_free
 WHERE status = 'fail'
 ```
 
-Which resource failed the most tests in the HIPPA HITRUST benchmark? (PostgreSQL)
+Which resource failed the most tests in the HIPAA HITRUST benchmark? (PostgreSQL)
 ```sql
 SELECT resource_id, count(*) as failed_count
 FROM azure_compliance__hipaa_hitrust_v9_2_free
@@ -30,6 +30,7 @@ ORDER BY count(*) DESC
 - [dbt](https://docs.getdbt.com/docs/installation)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [Azure Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure/latest/docs)
 
 One of the below databases
 
@@ -39,11 +40,11 @@ One of the below databases
 
 ### What's in the pack
 
-10% of the Automated compliance checks following CIS and HIPPA availble in the [Azure Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/azure-compliance-premium/latest/docs)
+10% of the Automated compliance checks following CIS and HIPAA availble in the [Azure Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/azure-compliance-premium/latest/docs)
 
 ## To run this package you need to complete the following steps
 
-### Setting up the DBT profile
+### Setting up the DBT profile (PostgreSQL)
 First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 ```bash
 pip install dbt-postgres
@@ -84,10 +85,10 @@ This command will tell you if dbt can successfully connect to your PostgreSQL in
 
 ### Login to CloudQuery
 Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal
+`cloudquery login` in your terminal.
 
 ### Syncing Azure data
-Based on the models you are interested in running you need to sync the relevant tables
+Based on the models you are interested in running, you need to sync the relevant tables.
 this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
 
  ```yml
@@ -117,9 +118,11 @@ spec:
 
  ```
 
+See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
+
 #### Running Your dbt Project
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your snowflake connection and authentication information.
+Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your PostgreSQL/Snowflake/BigQuery connection and authentication information.
 
 If everything compiles without errors, you can then execute:
 
@@ -129,7 +132,7 @@ dbt run
 
 This command will run all your `dbt` models and create tables/views in your destination database as defined in your models.
 
-**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
@@ -147,9 +150,11 @@ dbt run --models +<model_name>
 
 #### Models
 
-- **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL and Snowflake.
-- **azure_compliance\_\_cis_v2_0_0.sql**: Azure Compliance CIS V2.0.0, available for PostgreSQL and Snowflake.
-- **azure_compliance\_\_hippa_hitrust_9_2.sql**: Azure Compliance HIPPA HITRUST V9.2, available for PostgreSQL.
+The following models are available for PostgreSQL, Snowflake and Google BigQuery.
+- **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0.
+- **azure_compliance\_\_cis_v2_0_0.sql**: Azure Compliance CIS V2.0.0.
+
+- **azure_compliance\_\_hippa_hitrust_9_2.sql**: Azure Compliance HIPAA HITRUST V9.2, availableonly for PostgreSQL.
 
 The Free version contains 10% of the queries avaiable in the [Azure Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/azure-compliance-premium/latest/docs).
 

@@ -1,13 +1,13 @@
 # CloudQuery &times; dbt: AWS Compliance Package (Free)
 
 ## Overview
-Welcome to AWS Compliance Package (Free), a free compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various AWS services, following benchmarks such as CIS and AWS foundational security standards.
+Welcome to our free edition of the [AWS Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-compliance-premium/latest/docs), a free compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various AWS services, following benchmarks such as CIS and AWS foundational security standards.
 Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by AWS, CIS and more.
 
 This package is a free version of the more comprehensive [AWS Compliance Package](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-compliance-premium/latest/docs)
 
 We recommend to use this transformation with our [AWS Compliance Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-compliance/latest/docs)
-![AWS Compliace Dashboard](./images/dashboard_example.png)
+![AWS Compliance Dashboard](./images/dashboard_example.png)
 
 ### Examples
 How can I check that all my API Gateway related resources are following the foundational security standards? (PostgreSQL)
@@ -38,6 +38,7 @@ ORDER BY count(*) DESC
 - [dbt](https://docs.getdbt.com/docs/installation)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [AWS Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs)
 
 One of the below databases
 
@@ -51,7 +52,7 @@ The pack contains the free version of the compliance package which includes some
 
 ## To run this package you need to complete the following steps
 
-### Setting up the DBT profile
+### Setting up the DBT profile (PostgreSQL)
 First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 ```bash
 pip install dbt-postgres
@@ -92,10 +93,10 @@ This command will tell you if dbt can successfully connect to your PostgreSQL in
 
 ### Login to CloudQuery
 Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal
+`cloudquery login` in your terminal.
 
 ### Syncing AWS data
-Based on the models you are interested in running you need to sync the relevant tables
+Based on the models you are interested in running, you need to sync the relevant tables.
 this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
 
  ```yml
@@ -126,9 +127,11 @@ spec:
 
  ```
 
+ See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
+
 #### Running Your dbt Project
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your snowflake connection and authentication information.
+Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your PostgreSQL/Snowflake/BigQuery connection and authentication information.
 
 If everything compiles without errors, you can then execute:
 
@@ -138,7 +141,7 @@ dbt run
 
 This command will run all your `dbt` models and create tables/views in your destination database as defined in your models.
 
-**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
@@ -158,13 +161,15 @@ dbt run --models +<model_name>
 
 ### Models
 
-- **aws_compliance\_\_cis_v1_2_0_free**: AWS CIS V1.2.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery
-- **aws_compliance\_\_cis_v2_0_0_free**: AWS CIS V2.0.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery
-- **aws_compliance\_\_cis_v3_0_0_free**: AWS CIS V3.0.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery
-- **aws_compliance\_\_pci_dss_v3_2_1_free**: AWS PCI DSS V3.2.1 benchmark, PostgreSQL, Snowflake, and BigQuery   
-- **aws_compliance\_\_foundational_security_free**: AWS Foundational Security benchmark, PostgreSQL, Snowflake, and BigQuery
-
+The following models are available for PostgreSQL, Snowflake and Google BigQuery.
 The free version contains 10% of the full pack's checks.
+- **aws_compliance\_\_cis_v1_2_0_free**: AWS CIS V1.2.0.
+- **aws_compliance\_\_cis_v2_0_0_free**: AWS CIS V2.0.0.
+- **aws_compliance\_\_cis_v3_0_0_free**: AWS CIS V3.0.0.
+- **aws_compliance\_\_pci_dss_v3_2_1_free**: AWS PCI DSS V3.2.1.
+- **aws_compliance\_\_foundational_security_free**: AWS Foundational Security.
+
+
 
 All of the models contain the following columns:
 - **framework**: The benchmark the check belongs to.

@@ -6,7 +6,9 @@ Welcome to AWS Compliance Package, a compliance solution that works on top of th
 Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by AWS, CIS and more.
 
 We recommend to use this transformation with our [AWS Compliance Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-compliance/latest/docs)
-![AWS Compliace Dashboard](./images/dashboard_example.png)
+![AWS Compliance Dashboard](./images/dashboard_example.png)
+
+This is a premium package. To try this package for free see out limited [AWS Compliance Package (Free)](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-compliance-free/latest/docs)
 
 ### Examples
 How can I check that all my EC2 related resources are following the foundational security standards? (PostgreSQL)
@@ -37,6 +39,7 @@ ORDER BY count(*) DESC
 - [dbt](https://docs.getdbt.com/docs/installation)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [AWS Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs)
 
 One of the below databases
 
@@ -46,11 +49,11 @@ One of the below databases
 
 ### What's in the pack
 
-Automated compliance checks following CIS, AWS Foundational Security, IMDS V2 and PCI DSS
+This package includes: Automated compliance checks following CIS, AWS Foundational Security, IMDS V2 and PCI DSS
 
 ## To run this package you need to complete the following steps
 
-### Setting up the DBT profile
+### Setting up the DBT profile (PostgreSQL)
 First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 ```bash
 pip install dbt-postgres
@@ -91,10 +94,10 @@ This command will tell you if dbt can successfully connect to your PostgreSQL in
 
 ### Login to CloudQuery
 Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal
+`cloudquery login` in your terminal.
 
 ### Syncing AWS data
-Based on the models you are interested in running you need to sync the relevant tables
+Based on the models you are interested in running, you need to sync the relevant tables.
 this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
 
  ```yml
@@ -125,9 +128,11 @@ spec:
 
  ```
 
+ See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
+
 #### Running Your dbt Project
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your snowflake connection and authentication information.
+Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your PostgreSQL/Snowflake/BigQuery connection and authentication information.
 
 If everything compiles without errors, you can then execute:
 
@@ -137,7 +142,7 @@ dbt run
 
 This command will run all your `dbt` models and create tables/views in your destination database as defined in your models.
 
-**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
@@ -155,12 +160,12 @@ dbt run --models +<model_name>
 
 
 ### Models
-
-- **aws_compliance\_\_cis_v1_2_0**: AWS CIS V1.2.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
-- **aws_compliance\_\_cis_v2_0_0**: AWS CIS V2.0.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
-- **aws_compliance\_\_cis_v3_0_0**: AWS CIS V3.0.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
-- **aws_compliance\_\_foundational_security**: AWS Foundational Security benchmark, available PostgreSQL, Snowflake, and BigQuery.
-- **aws_compliance\_\_pci_dss_v3_2_1**: AWS PCI DSS V3.2.1 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
+The following models are available for PostgreSQL, Snowflake and Google BigQuery.
+- **aws_compliance\_\_cis_v1_2_0**: AWS CIS V1.2.0.
+- **aws_compliance\_\_cis_v2_0_0**: AWS CIS V2.0.0.
+- **aws_compliance\_\_cis_v3_0_0**: AWS CIS V3.0.0.
+- **aws_compliance\_\_foundational_security**: AWS Foundational Security.
+- **aws_compliance\_\_pci_dss_v3_2_1**: AWS PCI DSS V3.2.1.
 - **aws_compliance\_\_imds_v2**: IMDSv2 compliance checks.
 - **aws_compliance\_\_public_egress**: Checks to find resources that can reach the public internet.
 - **aws_compliance\_\_publicly_available**: Checks to find publicly accessible resources.

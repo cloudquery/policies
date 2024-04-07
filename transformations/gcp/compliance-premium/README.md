@@ -5,6 +5,8 @@
 Welcome to GCP Compliance Package, a compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various GCP services, following benchmarks such as CIS 1.2 and CIS 2.0.
 Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by CIS.
 
+This is a premium package. To try this package for free see out limited [GCP Compliance Package (Free)](https://hub.cloudquery.io/addons/transformation/cloudquery/gcp-compliance-free/latest/docs)
+
 ### Examples
 
 How many checks failed in the CIS 2.0 benchmark? (PostgreSQL)
@@ -28,6 +30,7 @@ ORDER BY count(*) DESC
 - [dbt](https://docs.getdbt.com/docs/installation)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [GCP Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/gcp/latest/docs)
 
 One of the below databases
 
@@ -41,7 +44,7 @@ Automated compliance checks following CIS 1.2 and 2.0
 
 ## To run this package you need to complete the following steps
 
-### Setting up the DBT profile
+### Setting up the DBT profile (PostgreSQL)
 First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 ```bash
 pip install dbt-postgres
@@ -82,10 +85,10 @@ This command will tell you if dbt can successfully connect to your PostgreSQL in
 
 ### Login to CloudQuery
 Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal
+`cloudquery login` in your terminal.
 
 ### Syncing GCP data
-Based on the models you are interested in running you need to sync the relevant tables
+Based on the models you are interested in running, you need to sync the relevant tables.
 this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
 
  ```yml
@@ -115,9 +118,11 @@ spec:
 
  ```
 
+ See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
+
 #### Running Your dbt Project
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your snowflake connection and authentication information.
+Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your PostgreSQL/Snowflake/BigQuery connection and authentication information.
 
 If everything compiles without errors, you can then execute:
 
@@ -127,7 +132,7 @@ dbt run
 
 This command will run all your `dbt` models and create tables/views in your destination database as defined in your models.
 
-**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
@@ -145,8 +150,9 @@ dbt run --models +<model_name>
 
 #### Models
 
-- **gcp_compliance\_\_cis_v1_2_0.sql**: GCP Compliance CIS V1.3.0, available for PostgreSQL, Snowflake and BigQuery.
-- **gcp_compliance\_\_cis_v2_0_0.sql**: GCP Compliance CIS V2.0.0, available for PostgreSQL, Snowflake and BigQuery.
+The following models are available for PostgreSQL, Snowflake and Google BigQuery.
+- **gcp_compliance\_\_cis_v1_2_0.sql**: GCP Compliance CIS V1.3.0.
+- **gcp_compliance\_\_cis_v2_0_0.sql**: GCP Compliance CIS V2.0.0.
 
 The premium version contains all queries.
 
