@@ -13,21 +13,21 @@ We recommend to use this transformation with our [AWS Compliance Dashboard](http
 How can I check that all my API Gateway related resources are following the foundational security standards? (PostgreSQL)
 ```sql
 SELECT *
-FROM aws_compliance__foundational_security
+FROM aws_compliance__foundational_security_free
 WHERE check_id LIKE '%apigateway.%'
 ```
 
 How many checks failed in the CIS 1.2.0 benchmark? (PostgreSQL)
 ```sql
 SELECT count(*) as failed_count
-FROM aws_compliance__cis_v1_2_0
+FROM aws_compliance__cis_v1_2_0_free
 WHERE status = 'fail'
 ```
 
 Which resource failed the most tests in the foundational security benchmark? (PostgreSQL)
 ```sql
 SELECT resource_id, count(*) as failed_count
-FROM aws_compliance__foundational_security
+FROM aws_compliance__foundational_security_free
 WHERE status = 'fail'
 GROUP BY resource_id
 ORDER BY count(*) DESC
