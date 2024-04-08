@@ -4,7 +4,6 @@ config-version: 2
 profile: aws_data_resilience
 model-paths:
   - models
-  - ../models
 analysis-paths:
   - analyses
 test-paths:
