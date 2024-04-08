@@ -1,5 +1,5 @@
 name: gcp_compliance
-version: 1.5.0
+version: 1.5.1
 config-version: 2
 profile: gcp_compliance
 model-paths:
