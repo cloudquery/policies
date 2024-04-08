@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.3](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-free-v1.6.2...transformation-azure-compliance-free-v1.6.3) (2024-04-08)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.11 ([#708](https://github.com/cloudquery/policies-premium/issues/708)) ([abfd8e1](https://github.com/cloudquery/policies-premium/commit/abfd8e1a070537c01d703e8dafa29bad919c05f6))
+* **deps:** Update dependency dbt-snowflake to v1.7.3 ([#711](https://github.com/cloudquery/policies-premium/issues/711)) ([b46a7ff](https://github.com/cloudquery/policies-premium/commit/b46a7ffca2902b4d71806f6a6eb99e2363ac7ccb))
+
 ## [1.6.2](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-free-v1.6.1...transformation-azure-compliance-free-v1.6.2) (2024-04-01)
 
 
