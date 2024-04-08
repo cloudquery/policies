@@ -10,7 +10,7 @@ select
   split_part(cr.arn, ':', 5) as account_id,
   cr.arn as resource_id,
   case
-    cr.mfa_active = FALSE then 'fail'
+    when cr.mfa_active = FALSE then 'fail'
     when mfa.serial_number is null and cr.mfa_active = TRUE then 'pass'
   end as status
 from aws_iam_credential_reports cr
@@ -29,7 +29,7 @@ select
   split_part(cr.arn, ':', 5) as account_id,
   cr.arn as resource_id,
   case
-    cr.mfa_active = FALSE then 'fail'
+    when cr.mfa_active = FALSE then 'fail'
     when mfa.serial_number is null and cr.mfa_active = TRUE then 'pass'
   end as status
 from aws_iam_credential_reports cr
@@ -48,7 +48,7 @@ select
   SPLIT(cr.arn, ':')[SAFE_OFFSET(4)] AS account_id,
   cr.arn as resource_id,
   case
-    cr.mfa_active = FALSE then 'fail'
+    when cr.mfa_active = FALSE then 'fail'
     when mfa.serial_number is null and cr.mfa_active = TRUE then 'pass'
   end as status
 from {{ full_table_name("aws_iam_credential_reports") }} cr
