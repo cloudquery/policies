@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.5.0...transformation-aws-compliance-premium-v1.6.0) (2024-04-09)
+
+
+### Features
+
+* Improve docs for the compliance policies ([#701](https://github.com/cloudquery/policies-premium/issues/701)) ([e562c4b](https://github.com/cloudquery/policies-premium/commit/e562c4be4ad0ffd05ebbe542becd292c41de4f6b))
+
 ## [1.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.4.1...transformation-aws-compliance-premium-v1.5.0) (2024-04-01)
 
 
