@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.5.2](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.5.1...transformation-azure-compliance-premium-v0.5.2) (2024-04-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.7.7 ([#707](https://github.com/cloudquery/policies-premium/issues/707)) ([6089fcb](https://github.com/cloudquery/policies-premium/commit/6089fcb08cf2e0d28f296dcb672e84b12d0fb471))
+* **deps:** Update dependency dbt-postgres to v1.7.11 ([#708](https://github.com/cloudquery/policies-premium/issues/708)) ([abfd8e1](https://github.com/cloudquery/policies-premium/commit/abfd8e1a070537c01d703e8dafa29bad919c05f6))
+* Update dependencies ([#671](https://github.com/cloudquery/policies-premium/issues/671)) ([f0b0275](https://github.com/cloudquery/policies-premium/commit/f0b027532699214e10e93fcf5d754ed8e9f2fc75))
+
 ## [0.5.1](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.5.0...transformation-azure-compliance-premium-v0.5.1) (2024-03-04)
 
 
