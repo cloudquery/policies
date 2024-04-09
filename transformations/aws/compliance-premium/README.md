@@ -2,10 +2,44 @@
 
 ## Overview
 
+Welcome to AWS Compliance Package, a compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various AWS services, following benchmarks such as CIS and AWS foundational security standards.
+Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by AWS, CIS and more.
+
+We recommend to use this transformation with our [AWS Compliance Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-compliance/latest/docs)
+![AWS Compliance Dashboard](./images/dashboard_example.png)
+
+This is a premium package. To try this package for free see out limited [AWS Compliance Package (Free)](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-compliance-free/latest/docs)
+
+### Examples
+How can I check that all my EC2 related resources are following the foundational security standards? (PostgreSQL)
+```sql
+SELECT *
+FROM aws_compliance__foundational_security
+WHERE check_id LIKE '%ec2.%'
+```
+
+How many checks failed in the CIS 2.0 benchmark? (PostgreSQL)
+```sql
+SELECT count(*) as failed_count
+FROM aws_compliance__cis_v2_0_0
+WHERE status = 'fail'
+```
+
+Which resource failed the most tests in the foundational security benchmark? (PostgreSQL)
+```sql
+SELECT resource_id, count(*) as failed_count
+FROM aws_compliance__foundational_security
+WHERE status = 'fail'
+GROUP BY resource_id
+ORDER BY count(*) DESC
+```
+
 ### Requirements
 
 - [dbt](https://docs.getdbt.com/docs/installation)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [AWS Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs)
 
 One of the below databases
 
@@ -15,11 +49,90 @@ One of the below databases
 
 ### What's in the pack
 
-The pack contains the premium version.
+This package includes: Automated compliance checks following CIS, AWS Foundational Security, IMDS V2 and PCI DSS
+
+## To run this package you need to complete the following steps
+
+### Setting up the DBT profile (PostgreSQL)
+First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
+```bash
+pip install dbt-postgres
+```
+
+Create the profile directory:
+
+```bash
+mkdir -p ~/.dbt
+```
+
+Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
+
+```yaml
+aws_compliance: # This should match the name in your dbt_project.yml
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: 127.0.0.1
+      user: postgres
+      pass: pass
+      port: 5432
+      dbname: postgres
+      schema: public # default schema where dbt will build the models
+      threads: 1 # number of threads to use when running in parallel
+```
+
+Test the Connection:
+
+After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly:
+
+```bash
+dbt debug
+```
+
+This command will tell you if dbt can successfully connect to your PostgreSQL instance.
+
+### Login to CloudQuery
+Because this policy uses premium features and tables you must login to your cloudquery account using
+`cloudquery login` in your terminal.
+
+### Syncing AWS data
+Based on the models you are interested in running, you need to sync the relevant tables.
+this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
+
+ ```yml
+kind: source
+spec:
+  name: aws # The source type, in this case, AWS.
+  path: cloudquery/aws # The plugin path for handling AWS sources.
+  registry: cloudquery # The registry from which the AWS plugin is sourced.
+  version: "v25.5.3" # The version of the AWS plugin.
+  tables: ["aws_s3_bucket_notification_configurations","aws_iam_password_policies","aws_ec2_vpc_endpoints","aws_iam_user_attached_policies","aws_applicationautoscaling_policies","aws_iam_instance_profiles","aws_s3_bucket_replications","aws_ec2_route_tables","aws_apigateway_rest_api_stages","aws_s3_bucket_encryption_rules","aws_efs_filesystems","aws_ssm_instances","aws_rds_clusters","aws_apigatewayv2_api_stages","aws_dynamodb_tables","aws_ec2_vpcs","aws_elbv2_load_balancers","aws_iam_roles","aws_wafregional_rule_groups","aws_dynamodb_table_continuous_backups","aws_rds_db_snapshots","aws_redshift_cluster_parameters","aws_s3_bucket_grants","aws_ssm_documents","aws_accessanalyzer_analyzers","aws_athena_work_groups","aws_apigatewayv2_api_routes","aws_cloudtrail_trails","aws_iam_server_certificates","aws_ssm_instance_compliance_items","aws_waf_web_acls","aws_redshift_cluster_parameter_groups","aws_ec2_flow_logs","aws_guardduty_detectors","aws_ec2_eips","aws_s3_bucket_versionings","aws_waf_rules","aws_iam_user_access_keys","aws_iam_role_attached_policies","aws_elasticache_replication_groups","aws_iam_credential_reports","aws_iam_users","aws_iam_accounts","aws_rds_cluster_snapshots","aws_appsync_graphql_apis","aws_lightsail_instances","aws_ecs_cluster_services","aws_codebuild_projects","aws_ec2_network_interfaces","aws_autoscaling_groups","aws_securityhub_hubs","aws_sagemaker_notebook_instances","aws_neptune_clusters","aws_waf_rule_groups","aws_iam_role_policies","aws_eks_clusters","aws_elasticbeanstalk_environments","aws_cloudtrail_trail_event_selectors","aws_s3_bucket_object_lock_configurations","aws_elbv2_listeners","aws_efs_access_points","aws_iam_policy_versions","aws_s3_bucket_policies","aws_redshift_clusters","aws_rds_instances","aws_apigatewayv2_apis","aws_ec2_ebs_volumes","aws_config_configuration_recorders","aws_stepfunctions_state_machines","aws_ecs_task_definitions","aws_networkfirewall_firewall_policies","aws_ec2_subnets","aws_iam_saml_identity_providers","aws_kms_keys","aws_lambda_functions","aws_autoscaling_launch_configurations","aws_sns_topics","aws_cloudfront_distributions","aws_elbv1_load_balancer_policies","aws_wafregional_web_acls","aws_acm_certificates","aws_ec2_instances","aws_compliance__security_group_egress_rules","aws_iam_group_attached_policies","aws_ec2_regional_configs","aws_ec2_launch_template_versions","aws_docdb_clusters","aws_ecr_repositories","aws_ec2_transit_gateways","aws_apigateway_rest_apis","aws_s3_buckets","aws_wafv2_web_acls","aws_secretsmanager_secrets","aws_ec2_network_acls","aws_ec2_ebs_snapshot_attributes","aws_iam_groups","aws_ecs_clusters","aws_elasticbeanstalk_configuration_settings","aws_iam_virtual_mfa_devices","aws_kinesis_streams","aws_iam_policies","aws_regions","aws_lambda_runtimes","aws_s3_bucket_public_access_blocks","aws_ec2_images","aws_s3_bucket_loggings","aws_account_alternate_contacts","aws_elasticache_clusters","aws_elbv2_load_balancer_attributes","aws_cloudformation_stacks","aws_sqs_queues","aws_neptune_cluster_snapshots","aws_elbv1_load_balancers","aws_wafregional_rules","aws_elasticsearch_domains","aws_rds_events","aws_ecr_repository_lifecycle_policies","aws_dms_replication_instances","aws_iam_group_policies","aws_networkfirewall_rule_groups","aws_iam_user_policies","aws_dax_clusters","aws_emr_clusters","aws_s3_accounts","aws_ec2_vpn_connections","aws_ec2_security_groups","aws_iam_openid_connect_identity_providers","aws_s3_bucket_lifecycles"]
+  destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+  skip_dependent_tables: true
+  spec:
+
+---
+kind: destination
+spec:
+  name: "postgresql" # The type of destination, in this case, PostgreSQL.
+  path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
+  registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
+  version: "v8.0.1" # The version of the PostgreSQL plugin.
+
+  spec:
+    connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+    # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
+    # You can also specify the connection string in DSN format, which allows for special characters in the password:
+    # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
+
+ ```
+
+ See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
 
 #### Running Your dbt Project
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your snowflake connection and authentication information.
+Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your PostgreSQL/Snowflake/BigQuery connection and authentication information.
 
 If everything compiles without errors, you can then execute:
 
@@ -29,7 +142,7 @@ dbt run
 
 This command will run all your `dbt` models and create tables/views in your destination database as defined in your models.
 
-**Note:** If running locally ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
@@ -46,16 +159,320 @@ dbt run --models +<model_name>
 ```
 
 
-#### Models
-
-- **aws_compliance\_\_cis_v1_2_0**: AWS CIS V1.2.0 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
-- **aws_compliance\_\_foundational_security**: AWS Foundational Security benchmark, available PostgreSQL, Snowflake, and BigQuery.
-- **aws_compliance\_\_pci_dss_v3_2_1**: AWS PCI DSS V3.2.1 benchmark, available for PostgreSQL, Snowflake, and BigQuery.
+### Models
+The following models are available for PostgreSQL, Snowflake and Google BigQuery.
+- **aws_compliance\_\_cis_v1_2_0**: AWS CIS V1.2.0.
+- **aws_compliance\_\_cis_v2_0_0**: AWS CIS V2.0.0.
+- **aws_compliance\_\_cis_v3_0_0**: AWS CIS V3.0.0.
+- **aws_compliance\_\_foundational_security**: AWS Foundational Security.
+- **aws_compliance\_\_pci_dss_v3_2_1**: AWS PCI DSS V3.2.1.
 - **aws_compliance\_\_imds_v2**: IMDSv2 compliance checks.
 - **aws_compliance\_\_public_egress**: Checks to find resources that can reach the public internet.
 - **aws_compliance\_\_publicly_available**: Checks to find publicly accessible resources.
 
 The premium version contains all checks.
+
+All of the models contain the following columns:
+- **framework**: The benchmark the check belongs to.
+- **check_id**: The check identifier (either a number or the service name and numberr).
+- **title**: The name/title of the check.
+- **account_id**: The AWS account id.
+- **resource_id**: The resource id (ARN).
+- **status**: The status of the check (fail / pass).
+
+
+### Required tables
+- **aws_compliance\_\_cis_v1_2_0**:
+```yaml
+"aws_iam_password_policies",
+"aws_iam_users",
+"aws_iam_credential_reports",
+"aws_s3_bucket_loggings",
+"aws_iam_user_attached_policies",
+"aws_iam_user_access_keys",
+"aws_s3_buckets",
+"aws_cloudtrail_trail_event_selectors",
+"aws_ec2_vpcs",
+"aws_iam_user_policies",
+"aws_cloudtrail_trails",
+"aws_kms_keys",
+"aws_ec2_flow_logs",
+"aws_iam_virtual_mfa_devices",
+"aws_ec2_security_groups"
+```
+
+- **aws_compliance\_\_cis_v2_0_0**:
+```yaml
+"aws_iam_password_policies",
+"aws_iam_user_attached_policies",
+"aws_iam_instance_profiles",
+"aws_efs_filesystems",
+"aws_ec2_vpcs",
+"aws_iam_roles",
+"aws_s3_bucket_grants",
+"aws_accessanalyzer_analyzers",
+"aws_cloudtrail_trails",
+"aws_iam_server_certificates",
+"aws_ec2_flow_logs",
+"aws_s3_bucket_versionings",
+"aws_iam_user_access_keys",
+"aws_iam_role_attached_policies",
+"aws_iam_accounts",
+"aws_iam_credential_reports",
+"aws_iam_users",
+"aws_securityhub_hubs",
+"aws_cloudtrail_trail_event_selectors",
+"aws_iam_policy_versions",
+"aws_s3_bucket_policies",
+"aws_rds_instances",
+"aws_ec2_ebs_volumes",
+"aws_config_configuration_recorders",
+"aws_iam_saml_identity_providers",
+"aws_kms_keys",
+"aws_ec2_instances",
+"aws_iam_group_attached_policies",
+"aws_s3_buckets",
+"aws_iam_virtual_mfa_devices",
+"aws_iam_policies",
+"aws_regions",
+"aws_account_alternate_contacts",
+"aws_elasticache_clusters",
+"aws_s3_bucket_loggings",
+"aws_iam_user_policies",
+"aws_s3_accounts",
+"aws_ec2_security_groups",
+"aws_iam_openid_connect_identity_providers"
+```
+- **aws_compliance\_\_cis_v3_0_0**:
+```yaml
+"aws_iam_password_policies",
+"aws_iam_user_attached_policies",
+"aws_iam_instance_profiles",
+"aws_efs_filesystems",
+"aws_ec2_vpcs",
+"aws_iam_roles",
+"aws_accessanalyzer_analyzers",
+"aws_cloudtrail_trails",
+"aws_iam_server_certificates",
+"aws_ec2_flow_logs",
+"aws_s3_bucket_versionings",
+"aws_iam_user_access_keys",
+"aws_iam_role_attached_policies",
+"aws_iam_accounts",
+"aws_iam_credential_reports",
+"aws_iam_users",
+"aws_securityhub_hubs",
+"aws_cloudtrail_trail_event_selectors",
+"aws_iam_policy_versions",
+"aws_s3_bucket_policies",
+"aws_rds_instances",
+"aws_ec2_ebs_volumes",
+"aws_config_configuration_recorders",
+"aws_iam_saml_identity_providers",
+"aws_kms_keys",
+"aws_ec2_instances",
+"aws_iam_group_attached_policies",
+"aws_s3_buckets",
+"aws_iam_virtual_mfa_devices",
+"aws_iam_policies",
+"aws_regions",
+"aws_account_alternate_contacts",
+"aws_elasticache_clusters",
+"aws_s3_bucket_loggings",
+"aws_iam_user_policies",
+"aws_s3_accounts",
+"aws_ec2_security_groups",
+"aws_iam_openid_connect_identity_providers"
+```
+- **aws_compliance\_\_foundational_security**:
+```yaml
+"aws_iam_password_policies",
+"aws_rds_clusters",
+"aws_elbv2_load_balancers",
+"aws_rds_db_snapshots",
+"aws_redshift_cluster_parameters",
+"aws_s3_bucket_grants",
+"aws_apigatewayv2_api_routes",
+"aws_cloudtrail_trails",
+"aws_ssm_instance_compliance_items",
+"aws_ec2_flow_logs",
+"aws_s3_bucket_versionings",
+"aws_waf_rules",
+"aws_iam_user_access_keys",
+"aws_rds_cluster_snapshots",
+"aws_ecs_cluster_services",
+"aws_iam_role_policies",
+"aws_ec2_ebs_volumes",
+"aws_networkfirewall_firewall_policies",
+"aws_autoscaling_launch_configurations",
+"aws_sns_topics",
+"aws_acm_certificates",
+"aws_secretsmanager_secrets",
+"aws_ec2_ebs_snapshot_attributes",
+"aws_iam_virtual_mfa_devices",
+"aws_elasticache_clusters",
+"aws_neptune_cluster_snapshots",
+"aws_dms_replication_instances",
+"aws_iam_group_policies",
+"aws_s3_accounts",
+"aws_applicationautoscaling_policies",
+"aws_ssm_instances",
+"aws_wafregional_rule_groups",
+"aws_ssm_documents",
+"aws_redshift_cluster_parameter_groups",
+"aws_iam_accounts",
+"aws_iam_credential_reports",
+"aws_sagemaker_notebook_instances",
+"aws_eks_clusters",
+"aws_elasticbeanstalk_environments",
+"aws_redshift_clusters",
+"aws_stepfunctions_state_machines",
+"aws_kms_keys",
+"aws_lambda_functions",
+"aws_ec2_instances",
+"aws_ec2_regional_configs",
+"aws_ec2_launch_template_versions",
+"aws_docdb_clusters",
+"aws_ec2_network_acls",
+"aws_iam_groups",
+"aws_elasticbeanstalk_configuration_settings",
+"aws_s3_bucket_loggings",
+"aws_account_alternate_contacts",
+"aws_sqs_queues",
+"aws_wafregional_rules",
+"aws_rds_events",
+"aws_ecr_repository_lifecycle_policies",
+"aws_dax_clusters",
+"aws_ec2_security_groups",
+"aws_efs_filesystems",
+"aws_apigatewayv2_api_stages",
+"aws_iam_roles",
+"aws_dynamodb_table_continuous_backups",
+"aws_codebuild_projects",
+"aws_ec2_network_interfaces",
+"aws_waf_rule_groups",
+"aws_elbv2_listeners",
+"aws_iam_policy_versions",
+"aws_apigatewayv2_apis",
+"aws_ecs_task_definitions",
+"aws_ec2_subnets",
+"aws_ecr_repositories",
+"aws_ec2_transit_gateways",
+"aws_s3_buckets",
+"aws_wafv2_web_acls",
+"aws_kinesis_streams",
+"aws_iam_policies",
+"aws_regions",
+"aws_lambda_runtimes",
+"aws_elbv2_load_balancer_attributes",
+"aws_cloudformation_stacks",
+"aws_iam_user_policies",
+"aws_emr_clusters",
+"aws_ec2_vpn_connections",
+"aws_s3_bucket_lifecycles",
+"aws_s3_bucket_notification_configurations",
+"aws_ec2_vpc_endpoints",
+"aws_iam_user_attached_policies",
+"aws_apigateway_rest_api_stages",
+"aws_s3_bucket_encryption_rules",
+"aws_dynamodb_tables",
+"aws_ec2_vpcs",
+"aws_athena_work_groups",
+"aws_waf_web_acls",
+"aws_guardduty_detectors",
+"aws_elasticache_replication_groups",
+"aws_iam_users",
+"aws_appsync_graphql_apis",
+"aws_autoscaling_groups",
+"aws_neptune_clusters",
+"aws_cloudtrail_trail_event_selectors",
+"aws_s3_bucket_object_lock_configurations",
+"aws_efs_access_points",
+"aws_s3_bucket_policies",
+"aws_rds_instances",
+"aws_config_configuration_recorders",
+"aws_cloudfront_distributions",
+"aws_elbv1_load_balancer_policies",
+"aws_wafregional_web_acls",
+"aws_apigateway_rest_apis",
+"aws_ecs_clusters",
+"aws_s3_bucket_public_access_blocks",
+"aws_elbv1_load_balancers",
+"aws_elasticsearch_domains",
+"aws_networkfirewall_rule_groups"
+
+```
+- **aws_compliance\_\_pci_dss_v3_2_1**:
+```yaml
+"aws_iam_password_policies",
+"aws_iam_user_attached_policies",
+"aws_s3_bucket_replications",
+"aws_s3_bucket_encryption_rules",
+"aws_ssm_instances",
+"aws_ec2_vpcs",
+"aws_s3_bucket_grants",
+"aws_cloudtrail_trails",
+"aws_waf_web_acls",
+"aws_ssm_instance_compliance_items",
+"aws_ec2_flow_logs",
+"aws_guardduty_detectors",
+"aws_ec2_eips",
+"aws_iam_user_access_keys",
+"aws_iam_users",
+"aws_iam_credential_reports",
+"aws_rds_cluster_snapshots",
+"aws_iam_accounts",
+"aws_codebuild_projects",
+"aws_autoscaling_groups",
+"aws_sagemaker_notebook_instances",
+"aws_cloudtrail_trail_event_selectors",
+"aws_elbv2_listeners",
+"aws_iam_policy_versions",
+"aws_redshift_clusters",
+"aws_s3_bucket_policies",
+"aws_rds_instances",
+"aws_config_configuration_recorders",
+"aws_kms_keys",
+"aws_lambda_functions",
+"aws_ec2_instances",
+"aws_s3_buckets",
+"aws_wafv2_web_acls",
+"aws_secretsmanager_secrets",
+"aws_ec2_ebs_snapshot_attributes",
+"aws_iam_virtual_mfa_devices",
+"aws_iam_policies",
+"aws_regions",
+"aws_s3_bucket_public_access_blocks",
+"aws_elasticsearch_domains",
+"aws_dms_replication_instances",
+"aws_iam_user_policies",
+"aws_s3_accounts",
+"aws_ec2_security_groups"
+```
+- **aws_compliance\_\_imds_v2**:
+```yaml
+"aws_ec2_images",
+"aws_ec2_instances",
+"aws_lightsail_instances"
+```
+- **aws_compliance\_\_public_egress**:
+```yaml
+"aws_ec2_instances",
+"aws_compliance__security_group_egress_rules",
+"aws_ec2_route_tables",
+"aws_lambda_functions"
+```
+- **aws_compliance\_\_publicly_available**:
+```yaml
+"aws_cloudfront_distributions",
+"aws_ec2_instances",
+"aws_elbv1_load_balancers",
+"aws_apigateway_rest_apis",
+"aws_elbv2_load_balancers",
+"aws_redshift_clusters",
+"aws_apigatewayv2_apis",
+"aws_rds_instances"
+```
 
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
