@@ -1,5 +1,5 @@
 name: azure_compliance
-version: 0.5.2
+version: 0.6.0
 config-version: 2
 profile: azure_compliance
 model-paths:
