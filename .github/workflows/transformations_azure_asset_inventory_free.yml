@@ -1,12 +1,12 @@
-name: "Test AWS Compliance Free Policies"
+name: "Test Azure asset-inventory-free Policies"
 
 on:
   pull_request:
     paths:
-      - "transformations/aws/compliance-free/**"
-      - ".github/workflows/transformations_aws_compliance_free.yml"
-      - "transformations/aws/macros/**"
-      - "transformations/aws/models/**"
+      - "transformations/azure/asset-inventory-free/**"
+      - ".github/workflows/transformations_azure_asset_inventory_free.yml"
+      - "transformations/azure/macros/**"
+      - "transformations/azure/models/**"
       - "transformations/macros/**"
       - ".github/workflows/wait_for_required_workflows.yml"
       - "scripts/workflows/wait_for_required_workflows.js"
@@ -14,10 +14,10 @@ on:
     branches:
       - main
     paths:
-      - "transformations/aws/compliance-free/**"
-      - ".github/workflows/transformations_aws_compliance_free.yml"
-      - "transformations/aws/macros/**"
-      - "transformations/aws/models/**"
+      - "transformations/azure/asset-inventory-free/**"
+      - ".github/workflows/transformations_azure_asset_inventory_free.yml"
+      - "transformations/azure/macros/**"
+      - "transformations/azure/models/**"
       - "transformations/macros/**"
 
 env:
@@ -45,7 +45,7 @@ jobs:
       - uses: actions/github-script@v7
         id: set-result
         env:
-          TRANSFORMATION_DIR: transformations/aws/compliance-free
+          TRANSFORMATION_DIR: transformations/azure/asset-inventory-free
         with:
           script: |
             const fs = require('fs/promises');
@@ -61,7 +61,7 @@ jobs:
               snowflake,
               bigquery,
             };
-  transformations-aws-compliance-free:
+  transformations-azure-asset-inventory-free:
     permissions:
       id-token: 'write'
       contents: 'read'
@@ -90,8 +90,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GH_CQ_BOT }}
       - name: Authenticate to Google Cloud
         uses: 'google-github-actions/auth@v2'
         if: needs.prepare.outputs.bigquery == 'true'
@@ -108,10 +106,11 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v5.11.0
+          version: v5.14.0
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
+          dbt seed --target dev-pg --profiles-dir ./tests
           dbt run --target dev-pg --profiles-dir ./tests
         if: needs.prepare.outputs.postgres == 'true'
         env:
@@ -119,6 +118,7 @@ jobs:
       - name: Test Snowflake
         run: |
           cloudquery migrate tests/snowflake.yml
+          dbt seed --target dev-pg --profiles-dir ./tests
           dbt run --target dev-snowflake --profiles-dir ./tests
         if: needs.prepare.outputs.snowflake == 'true'
         env:
@@ -127,20 +127,5 @@ jobs:
         if: needs.prepare.outputs.bigquery == 'true'
         run: |
           cloudquery migrate tests/bigquery.yml
+          dbt seed --target dev-pg --profiles-dir ./tests
           dbt run --target dev-bigquery --profiles-dir ./tests
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-          cache: 'npm'
-          cache-dependency-path: scripts/dbt-pack/package-lock.json
-      - name: Install Dependencies
-        run: npm ci
-        working-directory: ./scripts/dbt-pack
-      - name: Gen docs
-        run: |
-          make gen-docs
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: Update readme"
-          file_pattern: '${{ needs.prepare.outputs.transformation_dir }}/README.md'

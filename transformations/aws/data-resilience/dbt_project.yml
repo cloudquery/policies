@@ -1,10 +1,9 @@
 name: aws_data_resilience
-version: 2.0.2
+version: 2.1.0
 config-version: 2
 profile: aws_data_resilience
 model-paths:
   - models
-  - ../models
 analysis-paths:
   - analyses
 test-paths:

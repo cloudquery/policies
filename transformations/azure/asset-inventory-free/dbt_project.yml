@@ -1,0 +1,21 @@
+name: azure_asset_inventory
+version: 1.1.0
+config-version: 2
+profile: azure_asset_inventory
+model-paths:
+  - models
+analysis-paths:
+  - analyses
+test-paths:
+  - tests
+seed-paths:
+  - seeds
+macro-paths:
+  - ../macros
+  - ../../macros
+snapshot-paths:
+  - snapshots
+clean-targets:
+  - target
+  - dbt_packages
+models: null
