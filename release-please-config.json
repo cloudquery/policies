@@ -10,16 +10,6 @@
         }
       ]
     },
-    "transformations/aws/cost-free": {
-      "component": "transformation-aws-cost-free",
-      "extra-files": [
-        {
-          "type": "yaml",
-          "path": "dbt_project.yml",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
     "transformations/aws/encryption": {
       "component": "transformation-aws-encryption",
       "extra-files": [
@@ -50,16 +40,6 @@
         }
       ]
     },
-    "transformations/aws/compliance-free": {
-      "component": "transformation-aws-compliance-free",
-      "extra-files": [
-        {
-          "type": "yaml",
-          "path": "dbt_project.yml",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
     "transformations/aws/compliance-premium": {
       "component": "transformation-aws-compliance-premium",
       "extra-files": [
@@ -72,16 +52,6 @@
     },
     "transformations/azure/asset-inventory-free": {
       "component": "transformation-azure-asset-inventory-free",
-      "extra-files": [
-        {
-          "type": "yaml",
-          "path": "dbt_project.yml",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
-    "transformations/azure/compliance-free": {
-      "component": "transformation-azure-compliance-free",
       "extra-files": [
         {
           "type": "yaml",
@@ -110,28 +80,8 @@
         }
       ]
     },
-    "transformations/gcp/compliance-free": {
-      "component": "transformation-gcp-compliance-free",
-      "extra-files": [
-        {
-          "type": "yaml",
-          "path": "dbt_project.yml",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
     "transformations/gcp/compliance-premium": {
       "component": "transformation-gcp-compliance-premium",
-      "extra-files": [
-        {
-          "type": "yaml",
-          "path": "dbt_project.yml",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
-    "transformations/k8s/compliance-free": {
-      "component": "transformation-k8s-compliance-free",
       "extra-files": [
         {
           "type": "yaml",
