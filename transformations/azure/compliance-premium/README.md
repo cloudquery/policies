@@ -98,7 +98,9 @@ spec:
   path: cloudquery/azure # The plugin path for handling Azure sources.
   registry: cloudquery # The registry from which the Azure plugin is sourced.
   version: "12.1.2" # The version of the Azure plugin.
-  tables: ["azure_redis_caches","azure_storage_containers","azure_monitor_diagnostic_settings","azure_sql_managed_instance_encryption_protectors","azure_network_virtual_networks","azure_monitor_log_profiles","azure_authorization_role_definitions","azure_eventhub_namespace_network_rule_sets","azure_sql_server_database_long_term_retention_policies","azure_network_watcher_flow_logs","azure_authorization_role_assignments","azure_security_jit_network_access_policies","azure_monitor_subscription_diagnostic_settings","azure_compute_virtual_machine_extensions","azure_storage_accounts","azure_sql_server_databases","azure_mysqlflexibleservers_server_configurations","azure_postgresql_server_firewall_rules","azure_containerservice_managed_clusters","azure_compute_disks","azure_streamanalytics_streaming_jobs","azure_batch_account","azure_sql_server_database_blob_auditing_policies","azure_containerregistry_registries","azure_sql_server_advanced_threat_protection_settings","azure_network_bastion_hosts","azure_keyvault_keyvault","azure_sql_server_firewall_rules","azure_network_interfaces","azure_keyvault_keyvault_secrets","azure_sql_server_vulnerability_assessments","azure_compute_virtual_machines","azure_sql_server_admins","azure_keyvault_keyvault_keys","azure_sql_transparent_data_encryptions","azure_appservice_web_app_auth_settings","azure_applicationinsights_components","azure_sql_managed_instance_vulnerability_assessments","azure_appservice_web_app_configurations","azure_sql_servers","azure_security_contacts","azure_sql_server_encryption_protectors","azure_monitor_activity_log_alerts","azure_mysql_servers","azure_mysql_server_configurations","azure_cosmos_database_accounts","azure_eventhub_namespaces","azure_sql_managed_instances","azure_resources_links","azure_mariadb_servers","azure_network_security_groups","azure_datalakestore_accounts","azure_security_assessments","azure_security_auto_provisioning_settings","azure_security_pricings","azure_sql_server_blob_auditing_policies","azure_postgresql_server_configurations","azure_storage_blob_services","azure_logic_workflows","azure_mysqlflexibleservers_servers","azure_monitor_resources","azure_keyvault_keyvault_managed_hsms","azure_subscription_subscription_locations","azure_appservice_web_apps","azure_compute_virtual_machine_scale_sets","azure_network_watchers","azure_subscription_subscriptions","azure_postgresql_servers","azure_sql_server_virtual_network_rules","azure_appservice_web_app_vnet_connections","azure_sql_server_database_vulnerability_assessment_scans","azure_search_services"]
+  tables: ["azure_redis_caches","azure_storage_containers","azure_monitor_diagnostic_settings","azure_sql_managed_instance_encryption_protectors","azure_network_virtual_networks","azure_monitor_log_profiles","azure_authorization_role_definitions","azure_eventhub_namespace_network_rule_sets","azure_sql_server_database_long_term_retention_policies","azure_network_watcher_flow_logs","azure_authorization_role_assignments","azure_security_jit_network_access_policies","azure_monitor_subscription_diagnostic_settings","azure_compute_virtual_machine_extensions","azure_storage_accounts","azure_sql_server_databases","azure_mysqlflexibleservers_server_configurations","azure_postgresql_server_firewall_rules","azure_containerservice_managed_clusters","azure_compute_disks","azure_streamanalytics_streaming_jobs","azure_batch_account","azure_sql_server_database_blob_auditing_policies","azure_containerregistry_registries","azure_sql_server_advanced_threat_protection_settings","azure_network_bastion_hosts","azure_keyvault_keyvault","azure_sql_server_firewall_rules","azure_network_interfaces","azure_keyvault_keyvault_secrets","azure_sql_server_vulnerability_assessments","azure_compute_virtual_machines","azure_sql_server_admins","azure_keyvault_keyvault_keys","azure_sql_transparent_data_encryptions","azure_appservice_web_app_auth_settings","azure_applicationinsights_components","azure_sql_managed_instance_vulnerability_assessments","azure_appservice_web_app_configurations","azure_sql_servers","azure_security_contacts","azure_sql_server_encryption_protectors","azure_monitor_activity_log_alerts","azure_mysql_servers","azure_mysql_server_configurations","azure_cosmos_database_accounts","azure_eventhub_namespaces","azure_sql_managed_instances","azure_resources_links","azure_mariadb_servers","azure_network_security_groups","azure_datalakestore_accounts","azure_security_assessments","azure_security_auto_provisioning_settings","azure_security_pricings","azure_sql_server_blob_auditing_policies","azure_postgresql_server_configurations","azure_storage_blob_services","azure_logic_workflows","azure_mysqlflexibleservers_servers","azure_monitor_resources","azure_keyvault_keyvault_managed_hsms","azure_subscription_subscription_locations","azure_appservice_web_apps","azure_compute_virtual_machine_scale_sets","azure_network_watchers","azure_subscription_subscriptions","azure_postgresql_servers","azure_sql_server_virtual_network_rules","azure_appservice_web_app_vnet_connections","azure_sql_server_database_vulnerability_assessment_scans","azure_search_services",
+  "azure_policy_assignments",
+  "azure_network_security_groups"]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   spec:
 
@@ -204,8 +206,14 @@ All of the models contain the following columns:
 "azure_postgresql_servers",
 "azure_keyvault_keyvault_keys",
 "azure_sql_server_blob_auditing_policies",
-"azure_sql_server_encryption_protectors"
+"azure_sql_server_encryption_protectors",
+"azure_policy_assignments",
+"azure_network_security_groups"
 ```
+This model is dependent on the following models:
+- view_azure_security_policy_parameters
+- view_azure_nsg_dest_port_ranges
+
 - **azure_compliance\_\_cis_v2_0_0.sql**:
 ```yaml
 "azure_monitor_activity_log_alerts",
@@ -250,8 +258,14 @@ All of the models contain the following columns:
 "azure_mysqlflexibleservers_servers",
 "azure_sql_server_encryption_protectors",
 "azure_sql_server_blob_auditing_policies",
-"azure_mysqlflexibleservers_server_configurations"
+"azure_mysqlflexibleservers_server_configurations",
+"azure_policy_assignments",
+"azure_network_security_groups"
 ```
+This model is dependent on the following models:
+- view_azure_security_policy_parameters
+- view_azure_nsg_dest_port_ranges
+
 - **azure_compliance\_\_cis_v2_1_0.sql**:
 ```yaml
 "azure_network_virtual_networks",
@@ -294,8 +308,14 @@ All of the models contain the following columns:
 "azure_postgresql_server_configurations",
 "azure_monitor_resources",
 "azure_appservice_web_apps",
-"azure_subscription_subscriptions"
+"azure_subscription_subscriptions",
+"azure_policy_assignments",
+"azure_network_security_groups"
 ```
+This model is dependent on the following models:
+- view_azure_security_policy_parameters
+- view_azure_nsg_dest_port_ranges
+
 - **azure_compliance\_\_hippa_hitrust_9_2.sql**:
 ```yaml
 "azure_monitor_activity_log_alerts",
@@ -346,8 +366,11 @@ All of the models contain the following columns:
 "azure_appservice_web_app_vnet_connections",
 "azure_sql_server_virtual_network_rules",
 "azure_batch_account",
-"azure_security_jit_network_access_policies"
+"azure_security_jit_network_access_policies",
+"azure_network_security_groups"
 ```
+This model is dependent on the following models:
+- view_azure_nsg_rules
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
 
