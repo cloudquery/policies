@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.5.2...transformation-azure-compliance-premium-v0.6.0) (2024-04-09)
+
+
+### Features
+
+* Added CIS Azure v2.1.0 ([#706](https://github.com/cloudquery/policies-premium/issues/706)) ([1f13461](https://github.com/cloudquery/policies-premium/commit/1f1346135e286c9ffd5e080043d029754bd060c7))
+* Added CIS Azure v2.1.0, snowflake and bigquery destination ([#733](https://github.com/cloudquery/policies-premium/issues/733)) ([ed436e3](https://github.com/cloudquery/policies-premium/commit/ed436e3eb401608cae73e82e5dd73115dbcb2160))
+* Added new model to the readme ([#741](https://github.com/cloudquery/policies-premium/issues/741)) ([0ffd27c](https://github.com/cloudquery/policies-premium/commit/0ffd27cb911731fbc38ef19a61728c2245d768c3))
+* Improve docs for the compliance policies ([#701](https://github.com/cloudquery/policies-premium/issues/701)) ([e562c4b](https://github.com/cloudquery/policies-premium/commit/e562c4be4ad0ffd05ebbe542becd292c41de4f6b))
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-snowflake to v1.7.3 ([#711](https://github.com/cloudquery/policies-premium/issues/711)) ([b46a7ff](https://github.com/cloudquery/policies-premium/commit/b46a7ffca2902b4d71806f6a6eb99e2363ac7ccb))
+
 ## [0.5.2](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.5.1...transformation-azure-compliance-premium-v0.5.2) (2024-04-01)
 
 
