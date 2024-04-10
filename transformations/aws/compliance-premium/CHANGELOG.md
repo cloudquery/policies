@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.6.2...transformation-aws-compliance-premium-v1.7.0) (2024-04-10)
+
+
+### Features
+
+* Remove links to free compliance packs in docs ([#753](https://github.com/cloudquery/policies-premium/issues/753)) ([3682e4a](https://github.com/cloudquery/policies-premium/commit/3682e4a1b9feaf54c2bf2b394dbde1711c149781))
+
 ## [1.6.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.6.1...transformation-aws-compliance-premium-v1.6.2) (2024-04-10)
 
 
