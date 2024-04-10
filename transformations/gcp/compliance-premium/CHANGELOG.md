@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.5.0...transformation-gcp-compliance-premium-v0.6.0) (2024-04-10)
+
+
+### Features
+
+* Remove links to free compliance packs in docs ([#753](https://github.com/cloudquery/policies-premium/issues/753)) ([3682e4a](https://github.com/cloudquery/policies-premium/commit/3682e4a1b9feaf54c2bf2b394dbde1711c149781))
+
 ## [0.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.4.0...transformation-gcp-compliance-premium-v0.5.0) (2024-04-09)
 
 
