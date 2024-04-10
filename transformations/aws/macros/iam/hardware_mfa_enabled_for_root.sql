@@ -10,8 +10,8 @@ select
   split_part(cr.arn, ':', 5) as account_id,
   cr.arn as resource_id,
   case
-    when mfa.serial_number is null or cr.mfa_active = FALSE then 'fail'
-    when mfa.serial_number is not null and cr.mfa_active = TRUE then 'pass'
+    when cr.mfa_active = FALSE or mfa.serial_number like 'arn%' or mfa.serial_number is null then 'fail'
+    when mfa.serial_number not like 'arn%' and mfa.serial_number is not null and cr.mfa_active = TRUE then 'pass'
   end as status
 from aws_iam_credential_reports cr
 left join
@@ -29,8 +29,8 @@ select
   split_part(cr.arn, ':', 5) as account_id,
   cr.arn as resource_id,
   case
-    when mfa.serial_number is null or cr.mfa_active = FALSE then 'fail'
-    when mfa.serial_number is not null and cr.mfa_active = TRUE then 'pass'
+    when cr.mfa_active = FALSE or mfa.serial_number like 'arn%' or mfa.serial_number is null then 'fail'
+    when mfa.serial_number not like 'arn%' and mfa.serial_number is not null and cr.mfa_active = TRUE then 'pass'
   end as status
 from aws_iam_credential_reports cr
 left join
@@ -48,8 +48,8 @@ select
   SPLIT(cr.arn, ':')[SAFE_OFFSET(4)] AS account_id,
   cr.arn as resource_id,
   case
-    when mfa.serial_number is null or cr.mfa_active = FALSE then 'fail'
-    when mfa.serial_number is not null and cr.mfa_active = TRUE then 'pass'
+    when cr.mfa_active = FALSE or mfa.serial_number like 'arn%' or mfa.serial_number is null then 'fail'
+    when mfa.serial_number not like 'arn%' and mfa.serial_number is not null and cr.mfa_active = TRUE then 'pass'
   end as status
 from {{ full_table_name("aws_iam_credential_reports") }} cr
 left join
