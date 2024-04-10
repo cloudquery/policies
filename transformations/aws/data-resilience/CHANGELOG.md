@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v2.1.0...transformation-aws-data-resilience-v2.1.1) (2024-04-10)
+
+
+### Bug Fixes
+
+* Renamed image pointed to by the readme ([6b8aabb](https://github.com/cloudquery/policies-premium/commit/6b8aabb2e6edb1ecfe1912e4b7cb3c992f6c5fb4))
+
 ## [2.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v2.0.3...transformation-aws-data-resilience-v2.1.0) (2024-04-08)
 
 
