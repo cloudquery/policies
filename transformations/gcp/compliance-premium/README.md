@@ -5,8 +5,6 @@
 Welcome to GCP Compliance Package, a compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various GCP services, following benchmarks such as CIS 1.2 and CIS 2.0.
 Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by CIS.
 
-This is a premium package. To try this package for free see out limited [GCP Compliance Package (Free)](https://hub.cloudquery.io/addons/transformation/cloudquery/gcp-compliance-free/latest/docs)
-
 ### Examples
 
 How many checks failed in the CIS 2.0 benchmark? (PostgreSQL)

@@ -8,8 +8,6 @@ Using this solution you can get instant insights about your security posture and
 We recommend to use this transformation with our [AWS Compliance Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-compliance/latest/docs)
 ![AWS Compliance Dashboard](./images/dashboard_example.png)
 
-This is a premium package. To try this package for free see out limited [AWS Compliance Package (Free)](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-compliance-free/latest/docs)
-
 ### Examples
 How can I check that all my EC2 related resources are following the foundational security standards? (PostgreSQL)
 ```sql
