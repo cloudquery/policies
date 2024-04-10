@@ -15,40 +15,43 @@ with wildcards as
     and (
       (statement -> 'Principal' -> 'AWS') = '["*"]'
       or statement ->> 'Principal' = '*'
-    ))
+    )
+	and statement -> 'Condition' is null)
 select DISTINCT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Lambda function policies should prohibit public access' AS title,
     alf.account_id,
     alf.arn AS resource_id,
-	  case when wildcards.arn is null then 'pass'
-	  else 'fail' end as status
+	case when wildcards.arn is null then 'pass'
+	else 'fail' end as status
 from aws_lambda_functions alf
 left join wildcards on alf.arn = wildcards.arn
 {% endmacro %}
 
 {% macro snowflake__lambda_function_public_access_prohibited(framework, check_id) %}
 with wildcards as
-(
-  SELECT
-  arn
-  FROM
-  aws_lambda_functions,
-  table(flatten(policy_document, 'Statement')) as statement
-  where
-  statement.value:Effect = 'Allow'
+(select
+    arn,
+    statements.*
+from aws_lambda_functions,
+LATERAL FLATTEN(INPUT => IFF(TYPEOF(policy_document:Statement) = 'STRING', 
+                                              TO_ARRAY(policy_document:Statement), 
+                                              policy_document:Statement)) AS statements
+where
+  statements.value:Effect = 'Allow'
   and
-  (statement.value:Principal = '*' or (statement.value:Principal:AWS = '["*"]'))
-)
+  (statements.value:Principal = '*' or (statements.value:Principal:AWS = '["*"]'))
+  and statements.value:Condition is null
+  )
 select DISTINCT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'Lambda function policies should prohibit public access' AS title,
     alf.account_id,
     alf.arn AS resource_id,
-	  case when wildcards.arn is null then 'pass'
-	  else 'fail' end as status
+	case when wildcards.arn is null then 'pass'
+	else 'fail' end as status
 from aws_lambda_functions alf
 left join wildcards on alf.arn = wildcards.arn
 {% endmacro %}
@@ -67,6 +70,8 @@ with wildcards as
         (JSON_VALUE(statement.Principal) = '*'
         or
         (JSON_VALUE(statement.Principal.AWS) = '["*"]'))
+      and
+        json_query(statement, '$.Condition') is null  
       )
   select DISTINCT
     '{{framework}}' As framework,
