@@ -41,8 +41,8 @@ WHERE
 GROUP BY 
     t.table_name
 HAVING
-    MAX(CASE WHEN UPPER(c.column_name) = 'PROJECT_ID' THEN 1 ELSE 0 END)::bool
-    AND (MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END)::bool)
+    MAX(CASE WHEN UPPER(c.column_name) = 'PROJECT_ID' THEN 1 ELSE 0 END)::boolean
+    AND (MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END)::boolean)
 
 {% endmacro %} 
 
