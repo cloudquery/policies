@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.7.0...transformation-azure-compliance-premium-v0.7.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* Added required tables from supporting models. Azure ([#748](https://github.com/cloudquery/policies-premium/issues/748)) ([7f9c36b](https://github.com/cloudquery/policies-premium/commit/7f9c36bcad18ccada843eaedd3a59c1467185d73))
+
 ## [0.7.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.6.0...transformation-azure-compliance-premium-v0.7.0) (2024-04-10)
 
 
