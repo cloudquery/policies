@@ -26,7 +26,7 @@ HAVING
 
 {% macro snowflake__aws_tables_dyn() %}
 SELECT 
-    t.table_name,
+    t.table_name as "table_name",
     MAX(CASE WHEN UPPER(c.column_name) = 'ARN' THEN 1 ELSE 0 END) AS ARN_EXIST,
     MAX(CASE WHEN UPPER(c.column_name) = 'ACCOUNT_ID' THEN 1 ELSE 0 END) AS ACCOUNT_ID_EXIST,
     MAX(CASE WHEN UPPER(c.column_name) = 'REQUEST_ACCOUNT_ID' THEN 1 ELSE 0 END) AS REQUEST_ACCOUNT_ID_EXIST,
@@ -37,7 +37,7 @@ FROM
 LEFT JOIN 
     INFORMATION_SCHEMA.COLUMNS c ON t.table_name = c.table_name AND t.table_schema = c.table_schema
 WHERE
-    t.table_type = 'BASE TABLE' AND t.table_name LIKE 'aws_%s'
+    t.table_type = 'BASE TABLE' AND t.table_name ILIKE 'aws_%s'
 GROUP BY 
     t.table_name
 HAVING

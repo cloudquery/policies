@@ -42,7 +42,7 @@ _cq_id, _cq_source_name, _cq_sync_time,
 {% if ACCOUNT_ID_EXIST %}
 account_id
 {% else %}
-SPLIT_PART(arn, ':' 5)
+SPLIT_PART(arn, ':', 5)
 {% endif %}
 AS account_id,
 {% if REQUEST_ACCOUNT_ID_EXIST %}
@@ -63,9 +63,9 @@ region
 {% endif %} AS region,
 
 {% if TAGS_EXIST %}
-trim(tags::variant)
+trim(tags::varchar)
 {% else %}
-'{}'::variant
+'{}'::varchar
 {% endif %} AS tags,
 SPLIT_PART(arn, ':', 2) AS PARTITION,
 SPLIT_PART(arn, ':', 3) AS service,
