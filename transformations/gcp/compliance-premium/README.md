@@ -96,7 +96,7 @@ spec:
   path: cloudquery/gcp # The plugin path for handling GCP sources.
   registry: cloudquery # The registry from which the GCP plugin is sourced.
   version: "12.3.2" # The version of the GCP plugin.
-  tables: ["gcp_dns_policies","gcp_accessapproval_project_settings","gcp_sql_instances","gcp_storage_buckets","gcp_compute_backend_services","gcp_iam_service_account_keys","gcp_compute_disks","gcp_compute_instances","gcp_dataproc_clusters","gcp_logging_metrics","gcp_bigquery_datasets","gcp_compute_subnetworks","gcp_essentialcontacts_folder_contacts","gcp_resourcemanager_project_policies","gcp_public_buckets_accesses","gcp_iam_service_accounts","gcp_firewall_allowed_rules","gcp_logging_sinks","gcp_compute_projects","gcp_accessapproval_folder_settings","gcp_essentialcontacts_project_contacts","gcp_compute_ssl_policies","gcp_compute_target_ssl_proxies","gcp_compute_url_maps","gcp_accessapproval_organization_settings","gcp_compute_firewalls","gcp_dns_managed_zones","gcp_storage_bucket_policies","gcp_apikeys_keys","gcp_kms_crypto_keys","gcp_bigquery_tables","gcp_compute_networks","gcp_essentialcontacts_organization_contacts","gcp_serviceusage_services"]
+  tables: ["gcp_dns_policies","gcp_accessapproval_project_settings","gcp_sql_instances","gcp_storage_buckets","gcp_compute_backend_services","gcp_iam_service_account_keys","gcp_compute_disks","gcp_compute_instances","gcp_dataproc_clusters","gcp_logging_metrics","gcp_bigquery_datasets","gcp_compute_subnetworks","gcp_essentialcontacts_folder_contacts","gcp_resourcemanager_project_policies","gcp_iam_service_accounts","gcp_logging_sinks","gcp_compute_projects","gcp_accessapproval_folder_settings","gcp_essentialcontacts_project_contacts","gcp_compute_ssl_policies","gcp_compute_target_ssl_proxies","gcp_compute_url_maps","gcp_accessapproval_organization_settings","gcp_compute_firewalls","gcp_dns_managed_zones","gcp_storage_bucket_policies","gcp_apikeys_keys","gcp_kms_crypto_keys","gcp_bigquery_tables","gcp_compute_networks","gcp_essentialcontacts_organization_contacts","gcp_serviceusage_services"]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   spec:
 
@@ -170,7 +170,6 @@ All of the models contain the following columns:
 "gcp_sql_instances",
 "gcp_resourcemanager_project_policies",
 "gcp_iam_service_accounts",
-"gcp_firewall_allowed_rules",
 "gcp_iam_service_account_keys",
 "gcp_compute_disks",
 "gcp_bigquery_datasets",
@@ -179,7 +178,6 @@ All of the models contain the following columns:
 "gcp_storage_bucket_policies",
 "gcp_kms_crypto_keys",
 "gcp_bigquery_tables",
-"gcp_public_buckets_accesses",
 "gcp_compute_firewalls",
 "gcp_compute_networks",
 "gcp_storage_buckets",
@@ -197,7 +195,6 @@ All of the models contain the following columns:
 "gcp_sql_instances",
 "gcp_resourcemanager_project_policies",
 "gcp_iam_service_accounts",
-"gcp_firewall_allowed_rules",
 "gcp_iam_service_account_keys",
 "gcp_compute_disks",
 "gcp_bigquery_datasets",
@@ -211,7 +208,6 @@ All of the models contain the following columns:
 "gcp_bigquery_tables",
 "gcp_serviceusage_services",
 "gcp_compute_backend_services",
-"gcp_public_buckets_accesses",
 "gcp_essentialcontacts_project_contacts",
 "gcp_compute_firewalls",
 "gcp_compute_networks",
