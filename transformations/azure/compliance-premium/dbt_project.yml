@@ -60,6 +60,8 @@ vars:
     - azure_keyvault_keyvault_keys
     - azure_sql_server_blob_auditing_policies
     - azure_sql_server_encryption_protectors
+    - azure_network_security_groups
+    - azure_policy_assignments
 
   cis_v2_0_0:
     - azure_monitor_activity_log_alerts
@@ -105,6 +107,8 @@ vars:
     - azure_sql_server_encryption_protectors
     - azure_sql_server_blob_auditing_policies
     - azure_mysqlflexibleservers_server_configurations
+    - azure_policy_assignments
+    - azure_network_security_groups
 
   cis_v2_1_0:
     - azure_postgresql_server_configurations
@@ -148,8 +152,10 @@ vars:
     - azure_appservice_web_app_configurations
     - azure_postgresql_server_firewall_rules
     - azure_subscription_subscriptions
+    - azure_policy_assignments
+    - azure_network_security_groups
 
-  hippa_hitrust:
+  hipaa_hitrust_v9_2:
     - azure_monitor_activity_log_alerts
     - azure_security_assessments
     - azure_subscription_subscription_locations
@@ -273,3 +279,4 @@ vars:
     - azure_sql_server_database_vulnerability_assessment_scans
     - azure_security_jit_network_access_policies
     - azure_appservice_web_app_configurations
+    - azure_policy_assignments

@@ -43,6 +43,9 @@ vars:
     - aws_ec2_flow_logs
     - aws_iam_virtual_mfa_devices
     - aws_ec2_security_groups
+    - aws_sns_subscriptions
+    - aws_cloudwatchlogs_metric_filters
+    - aws_cloudwatch_alarms
 
   cis_v2_0_0:
     - aws_iam_password_policies
@@ -84,6 +87,10 @@ vars:
     - aws_s3_accounts
     - aws_ec2_security_groups
     - aws_iam_openid_connect_identity_providers
+    - aws_sns_subscriptions
+    - aws_ec2_network_acls
+    - aws_cloudwatchlogs_metric_filters
+    - aws_cloudwatch_alarms
 
   cis_v3_0_0:
     - aws_iam_password_policies
@@ -124,6 +131,10 @@ vars:
     - aws_s3_accounts
     - aws_ec2_security_groups
     - aws_iam_openid_connect_identity_providers
+    - aws_cloudwatchlogs_metric_filters
+    - aws_sns_subscriptions
+    - aws_ec2_network_acls
+    - aws_cloudwatch_alarms
 
   foundational_security:
     - aws_iam_password_policies
@@ -287,6 +298,9 @@ vars:
     - aws_iam_user_policies
     - aws_s3_accounts
     - aws_ec2_security_groups
+    - aws_sns_subscriptions
+    - aws_cloudwatch_alarms
+    - aws_cloudwatchlogs_metric_filters
 
   imds_v2:
     - aws_ec2_images
@@ -295,7 +309,7 @@ vars:
 
   public_egress:
     - aws_ec2_instances
-    - aws_compliance__security_group_egress_rules
+    - aws_ec2_security_groups
     - aws_ec2_route_tables
     - aws_lambda_functions
 
@@ -392,7 +406,6 @@ vars:
     - aws_wafregional_web_acls
     - aws_acm_certificates
     - aws_ec2_instances
-    - aws_compliance__security_group_egress_rules
     - aws_iam_group_attached_policies
     - aws_ec2_regional_configs
     - aws_ec2_launch_template_versions
@@ -438,4 +451,7 @@ vars:
     - aws_ec2_security_groups
     - aws_iam_openid_connect_identity_providers
     - aws_s3_bucket_lifecycles
+    - aws_cloudwatchlogs_metric_filters
+    - aws_sns_subscriptions
+    - aws_cloudwatch_alarms
 

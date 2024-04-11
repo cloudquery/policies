@@ -34,7 +34,6 @@ vars:
     - gcp_sql_instances
     - gcp_resourcemanager_project_policies
     - gcp_iam_service_accounts
-    - gcp_firewall_allowed_rules
     - gcp_iam_service_account_keys
     - gcp_compute_disks
     - gcp_bigquery_datasets
@@ -43,7 +42,6 @@ vars:
     - gcp_storage_bucket_policies
     - gcp_kms_crypto_keys
     - gcp_bigquery_tables
-    - gcp_public_buckets_accesses
     - gcp_compute_firewalls
     - gcp_compute_networks
     - gcp_storage_buckets
@@ -60,7 +58,6 @@ vars:
     - gcp_sql_instances
     - gcp_resourcemanager_project_policies
     - gcp_iam_service_accounts
-    - gcp_firewall_allowed_rules
     - gcp_iam_service_account_keys
     - gcp_compute_disks
     - gcp_bigquery_datasets
@@ -74,7 +71,6 @@ vars:
     - gcp_bigquery_tables
     - gcp_serviceusage_services
     - gcp_compute_backend_services
-    - gcp_public_buckets_accesses
     - gcp_essentialcontacts_project_contacts
     - gcp_compute_firewalls
     - gcp_compute_networks
@@ -105,9 +101,7 @@ vars:
     - gcp_compute_subnetworks
     - gcp_essentialcontacts_folder_contacts
     - gcp_resourcemanager_project_policies
-    - gcp_public_buckets_accesses
     - gcp_iam_service_accounts
-    - gcp_firewall_allowed_rules
     - gcp_logging_sinks
     - gcp_compute_projects
     - gcp_accessapproval_folder_settings
