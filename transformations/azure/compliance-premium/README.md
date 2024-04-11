@@ -2,44 +2,51 @@
 
 ## Overview
 
-This package contains dbt models (views) that gives compliance insights from CloudQuery [Azure plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure) data.
+Welcome to Azure Compliance Package, a compliance solution that works on top of the CloudQuery framework. This package offers automated checks across various Azure services, following benchmarks such as CIS and HIPAA.
+Using this solution you can get instant insights about your security posture and make sure you are following the recommended security guidelines defined by CIS and HIPAA.
 
+### Examples
+
+How many checks failed in the CIS 2.0 benchmark? (PostgreSQL)
+```sql
+SELECT count(*) as failed_count
+FROM azure_compliance__cis_v2_0_0
+WHERE status = 'fail'
+```
+
+Which resource failed the most tests in the HIPAA HITRUST benchmark? (PostgreSQL)
+```sql
+SELECT resource_id, count(*) as failed_count
+FROM azure_compliance__hipaa_hitrust_v9_2
+WHERE status = 'fail'
+GROUP BY resource_id
+ORDER BY count(*) DESC
+```
 
 ### Requirements
 
-- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
-- [CloudQuery Azure plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure)
 - [dbt](https://docs.getdbt.com/docs/installation)
- 
-One of the below databases:
+- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [Azure Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure/latest/docs)
+
+One of the below databases
 
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 - [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
+- [BigQuery](https://hub.cloudquery.io/plugins/destination/cloudquery/bigquery)
 
+### What's in the pack
 
-#### dbt Installation
+Automated compliance checks following CIS and HIPAA
 
-- [DBT + Snowflake](https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup)
-- [DBT + Postgres](https://docs.getdbt.com/docs/core/connect-data-platform/postgres-setup)
-- [DBT + BigQuery](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)
+## To run this package you need to complete the following steps
 
-An example of how to install dbt to work with the destination of your choice.
-
-First, install `dbt` for the destination of your choice:
-
-An example installation of dbt-postgres:
-
+### Setting up the DBT profile (PostgreSQL)
+First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 ```bash
 pip install dbt-postgres
 ```
-
-An example installation of dbt-snowflake:
-
-```bash
-pip install dbt-snowflake
-```
-
-These commands will also install install dbt-core and any other dependencies.
 
 Create the profile directory:
 
@@ -59,7 +66,7 @@ azure_compliance: # This should match the name in your dbt_project.yml
       user: postgres
       pass: pass
       port: 5432
-      dbname: azure
+      dbname: postgres
       schema: public # default schema where dbt will build the models
       threads: 1 # number of threads to use when running in parallel
 ```
@@ -72,17 +79,50 @@ After setting up your `profiles.yml`, you should test the connection to ensure e
 dbt debug
 ```
 
-This command will tell you if dbt can successfully connect to your destination database.
+This command will tell you if dbt can successfully connect to your PostgreSQL instance.
+
+### Login to CloudQuery
+Because this policy uses premium features and tables you must login to your cloudquery account using
+`cloudquery login` in your terminal.
+
+### Syncing Azure data
+Based on the models you are interested in running, you need to sync the relevant tables.
+this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
+
+ ```yml
+kind: source
+spec:
+  name: azure # The source type, in this case, Azure.
+  path: cloudquery/azure # The plugin path for handling Azure sources.
+  registry: cloudquery # The registry from which the Azure plugin is sourced.
+  version: "12.1.2" # The version of the Azure plugin.
+  tables: ["azure_redis_caches","azure_storage_containers","azure_monitor_diagnostic_settings","azure_sql_managed_instance_encryption_protectors","azure_network_virtual_networks","azure_monitor_log_profiles","azure_authorization_role_definitions","azure_eventhub_namespace_network_rule_sets","azure_sql_server_database_long_term_retention_policies","azure_network_watcher_flow_logs","azure_authorization_role_assignments","azure_security_jit_network_access_policies","azure_monitor_subscription_diagnostic_settings","azure_compute_virtual_machine_extensions","azure_storage_accounts","azure_sql_server_databases","azure_mysqlflexibleservers_server_configurations","azure_postgresql_server_firewall_rules","azure_containerservice_managed_clusters","azure_compute_disks","azure_streamanalytics_streaming_jobs","azure_batch_account","azure_sql_server_database_blob_auditing_policies","azure_containerregistry_registries","azure_sql_server_advanced_threat_protection_settings","azure_network_bastion_hosts","azure_keyvault_keyvault","azure_sql_server_firewall_rules","azure_network_interfaces","azure_keyvault_keyvault_secrets","azure_sql_server_vulnerability_assessments","azure_compute_virtual_machines","azure_sql_server_admins","azure_keyvault_keyvault_keys","azure_sql_transparent_data_encryptions","azure_appservice_web_app_auth_settings","azure_applicationinsights_components","azure_sql_managed_instance_vulnerability_assessments","azure_appservice_web_app_configurations","azure_sql_servers","azure_security_contacts","azure_sql_server_encryption_protectors","azure_monitor_activity_log_alerts","azure_mysql_servers","azure_mysql_server_configurations","azure_cosmos_database_accounts","azure_eventhub_namespaces","azure_sql_managed_instances","azure_resources_links","azure_mariadb_servers","azure_network_security_groups","azure_datalakestore_accounts","azure_security_assessments","azure_security_auto_provisioning_settings","azure_security_pricings","azure_sql_server_blob_auditing_policies","azure_postgresql_server_configurations","azure_storage_blob_services","azure_logic_workflows","azure_mysqlflexibleservers_servers","azure_monitor_resources","azure_keyvault_keyvault_managed_hsms","azure_subscription_subscription_locations","azure_appservice_web_apps","azure_compute_virtual_machine_scale_sets","azure_network_watchers","azure_subscription_subscriptions","azure_postgresql_servers","azure_sql_server_virtual_network_rules","azure_appservice_web_app_vnet_connections","azure_sql_server_database_vulnerability_assessment_scans","azure_search_services",
+  "azure_policy_assignments",
+  "azure_network_security_groups"]
+  destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+  spec:
+
+---
+kind: destination
+spec:
+  name: "postgresql" # The type of destination, in this case, PostgreSQL.
+  path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
+  registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
+  version: "v8.0.1" # The version of the PostgreSQL plugin.
+
+  spec:
+    connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+    # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
+    # You can also specify the connection string in DSN format, which allows for special characters in the password:
+    # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
+
+ ```
+
+ See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
 
 #### Running Your dbt Project
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides.
-
-Before executing the `dbt run` command, it might be useful to check for any potential issues:
-
-```bash
-dbt compile
-```
+Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your PostgreSQL/Snowflake/BigQuery connection and authentication information.
 
 If everything compiles without errors, you can then execute:
 
@@ -90,32 +130,245 @@ If everything compiles without errors, you can then execute:
 dbt run
 ```
 
-This command will run your `dbt` models and create tables/views in your destination database as defined in your models.
+This command will run all your `dbt` models and create tables/views in your destination database as defined in your models.
+
+**Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
 To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
 
-For a specific model and the models in the dependency graph:
+To select a specific model and the dependencies in the dependency graph:
 
 ```bash
-dbt run --select +"<model_name>"
+dbt run --select +<model_name>
 ```
 
-For a specific folder and the models in the dependency graph:
+For a specific model and the dependencies in the dependency graph:
 
 ```bash
-dbt run --models +pro
+dbt run --models +<model_name>
 ```
-
-### What's in the pack
-
-The pack contains the premium version.
 
 #### Models
 
-- **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0, available for PostgreSQL and Snowflake.
+The following models are available for PostgreSQL, Snowflake and Google BigQuery.
+- **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0.
+- **azure_compliance\_\_cis_v2_0_0.sql**: Azure Compliance CIS V2.0.0.
+- **azure_compliance\_\_cis_v2_0_0.sql**: Azure Compliance CIS V2.1.0.
+
+- **azure_compliance\_\_hippa_hitrust_9_2.sql**: Azure Compliance HIPAA HITRUST V9.2, available for PostgreSQL.
 
 The premium version contains all queries.
 
+All of the models contain the following columns:
+- **framework**: The benchmark the check belongs to.
+- **check_id**: The check identifier (either a number or the service name and number).
+- **title**: The name/title of the check.
+- **resource_id**: The azure resource id.
+- **subscription_id**: The azure subscription id.
+- **status**: The status of the check (fail / pass).
+
+
+### Required tables
+- **azure_compliance\_\_cis_v1_3_0.sql**:
+```yaml
+"azure_monitor_activity_log_alerts",
+"azure_keyvault_keyvault",
+"azure_appservice_web_app_auth_settings",
+"azure_storage_accounts",
+"azure_sql_server_admins",
+"azure_monitor_resources",
+"azure_appservice_web_apps",
+"azure_containerservice_managed_clusters",
+"azure_sql_servers",
+"azure_postgresql_server_firewall_rules",
+"azure_appservice_web_app_configurations",
+"azure_sql_server_firewall_rules",
+"azure_authorization_role_definitions",
+"azure_sql_server_advanced_threat_protection_settings",
+"azure_sql_server_database_blob_auditing_policies",
+"azure_compute_virtual_machines",
+"azure_monitor_subscription_diagnostic_settings",
+"azure_security_pricings",
+"azure_compute_disks",
+"azure_postgresql_server_configurations",
+"azure_sql_transparent_data_encryptions",
+"azure_storage_containers",
+"azure_security_auto_provisioning_settings",
+"azure_sql_server_databases",
+"azure_keyvault_keyvault_secrets",
+"azure_monitor_diagnostic_settings",
+"azure_sql_server_vulnerability_assessments",
+"azure_storage_blob_services",
+"azure_network_watcher_flow_logs",
+"azure_mysql_servers",
+"azure_postgresql_servers",
+"azure_keyvault_keyvault_keys",
+"azure_sql_server_blob_auditing_policies",
+"azure_sql_server_encryption_protectors",
+"azure_policy_assignments",
+"azure_network_security_groups"
+```
+This model is dependent on the following models:
+- view_azure_security_policy_parameters
+- view_azure_nsg_dest_port_ranges
+
+- **azure_compliance\_\_cis_v2_0_0.sql**:
+```yaml
+"azure_monitor_activity_log_alerts",
+"azure_keyvault_keyvault",
+"azure_appservice_web_app_auth_settings",
+"azure_storage_accounts",
+"azure_sql_server_admins",
+"azure_monitor_resources",
+"azure_appservice_web_apps",
+"azure_containerservice_managed_clusters",
+"azure_sql_servers",
+"azure_postgresql_server_firewall_rules",
+"azure_network_watchers",
+"azure_network_bastion_hosts",
+"azure_appservice_web_app_configurations",
+"azure_sql_server_firewall_rules",
+"azure_authorization_role_definitions",
+"azure_sql_server_advanced_threat_protection_settings",
+"azure_sql_server_database_blob_auditing_policies",
+"azure_security_contacts",
+"azure_subscription_subscriptions",
+"azure_compute_virtual_machines",
+"azure_monitor_subscription_diagnostic_settings",
+"azure_security_pricings",
+"azure_compute_disks",
+"azure_postgresql_server_configurations",
+"azure_sql_transparent_data_encryptions",
+"azure_network_virtual_networks",
+"azure_storage_containers",
+"azure_applicationinsights_components",
+"azure_security_auto_provisioning_settings",
+"azure_sql_server_databases",
+"azure_keyvault_keyvault_secrets",
+"azure_monitor_diagnostic_settings",
+"azure_sql_server_vulnerability_assessments",
+"azure_storage_blob_services",
+"azure_mysql_servers",
+"azure_network_watcher_flow_logs",
+"azure_mysql_server_configurations",
+"azure_postgresql_servers",
+"azure_keyvault_keyvault_keys",
+"azure_mysqlflexibleservers_servers",
+"azure_sql_server_encryption_protectors",
+"azure_sql_server_blob_auditing_policies",
+"azure_mysqlflexibleservers_server_configurations",
+"azure_policy_assignments",
+"azure_network_security_groups"
+```
+This model is dependent on the following models:
+- view_azure_security_policy_parameters
+- view_azure_nsg_dest_port_ranges
+
+- **azure_compliance\_\_cis_v2_1_0.sql**:
+```yaml
+"azure_network_virtual_networks",
+"azure_network_watcher_flow_logs",
+"azure_postgresql_server_firewall_rules",
+"azure_keyvault_keyvault_secrets",
+"azure_keyvault_keyvault_keys",
+"azure_security_pricings",
+"azure_storage_blob_services",
+"azure_mysqlflexibleservers_servers",
+"azure_postgresql_servers",
+"azure_monitor_diagnostic_settings",
+"azure_monitor_subscription_diagnostic_settings",
+"azure_storage_accounts",
+"azure_mysqlflexibleservers_server_configurations",
+"azure_network_bastion_hosts",
+"azure_keyvault_keyvault",
+"azure_compute_virtual_machines",
+"azure_sql_server_admins",
+"azure_sql_transparent_data_encryptions",
+"azure_appservice_web_app_configurations",
+"azure_sql_server_encryption_protectors",
+"azure_monitor_activity_log_alerts",
+"azure_mysql_servers",
+"azure_security_auto_provisioning_settings",
+"azure_sql_server_blob_auditing_policies",
+"azure_network_watchers",
+"azure_storage_containers",
+"azure_authorization_role_definitions",
+"azure_sql_server_firewall_rules",
+"azure_sql_servers",
+"azure_mysql_server_configurations",
+"azure_sql_server_databases",
+"azure_compute_disks",
+"azure_sql_server_database_blob_auditing_policies",
+"azure_appservice_web_app_auth_settings",
+"azure_applicationinsights_components",
+"azure_security_contacts",
+"azure_cosmos_database_accounts",
+"azure_postgresql_server_configurations",
+"azure_monitor_resources",
+"azure_appservice_web_apps",
+"azure_subscription_subscriptions",
+"azure_policy_assignments",
+"azure_network_security_groups"
+```
+This model is dependent on the following models:
+- view_azure_security_policy_parameters
+- view_azure_nsg_dest_port_ranges
+
+- **azure_compliance\_\_hippa_hitrust_9_2.sql**:
+```yaml
+"azure_monitor_activity_log_alerts",
+"azure_security_assessments",
+"azure_subscription_subscription_locations",
+"azure_search_services",
+"azure_keyvault_keyvault",
+"azure_network_interfaces",
+"azure_storage_accounts",
+"azure_appservice_web_apps",
+"azure_containerservice_managed_clusters",
+"azure_monitor_log_profiles",
+"azure_sql_servers",
+"azure_sql_managed_instance_vulnerability_assessments",
+"azure_network_watchers",
+"azure_network_security_groups",
+"azure_compute_virtual_machine_extensions",
+"azure_cosmos_database_accounts",
+"azure_containerregistry_registries",
+"azure_authorization_role_definitions",
+"azure_sql_managed_instance_encryption_protectors",
+"azure_authorization_role_assignments",
+"azure_mariadb_servers",
+"azure_subscription_subscriptions",
+"azure_compute_virtual_machines",
+"azure_keyvault_keyvault_managed_hsms",
+"azure_compute_virtual_machine_scale_sets",
+"azure_sql_transparent_data_encryptions",
+"azure_sql_server_database_vulnerability_assessment_scans",
+"azure_logic_workflows",
+"azure_network_virtual_networks",
+"azure_sql_server_database_long_term_retention_policies",
+"azure_datalakestore_accounts",
+"azure_eventhub_namespaces",
+"azure_resources_links",
+"azure_security_auto_provisioning_settings",
+"azure_monitor_diagnostic_settings",
+"azure_sql_server_databases",
+"azure_sql_server_vulnerability_assessments",
+"azure_mysql_servers",
+"azure_postgresql_servers",
+"azure_redis_caches",
+"azure_sql_managed_instances",
+"azure_sql_server_blob_auditing_policies",
+"azure_sql_server_encryption_protectors",
+"azure_streamanalytics_streaming_jobs",
+"azure_eventhub_namespace_network_rule_sets",
+"azure_appservice_web_app_vnet_connections",
+"azure_sql_server_virtual_network_rules",
+"azure_batch_account",
+"azure_security_jit_network_access_policies",
+"azure_network_security_groups"
+```
+This model is dependent on the following models:
+- view_azure_nsg_rules
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
 

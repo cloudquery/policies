@@ -1,5 +1,5 @@
 name: aws_cost
-version: 1.0.0
+version: 1.1.0
 config-version: 2
 profile: aws_cost
 model-paths:
@@ -164,3 +164,35 @@ models:
       +enabled: true
     aws_cost__by_untagged_resource:
       +enabled: true
+    aws_cost__total:
+      +tags: dashboard
+    aws_cost__by_resources:
+      +tags: dashboard
+    aws_cost__by_product:
+      +tags: dashboard
+    aws_cost__by_account:
+      +tags: dashboard
+    aws_cost__by_regions:
+      +tags: dashboard
+    aws_cost__over_time_date:
+      +tags: dashboard
+    aws_cost__ec2_instance_count:
+      +tags: dashboard
+    aws_cost__ec2_overall_cost:
+      +tags: dashboard
+    aws_cost__ec2_instance_status:
+      +tags: dashboard
+    aws_cost__ec2_cost_breakdown:
+      +tags: dashboard
+    aws_cost__ec2_cost_by_instance_type:
+      +tags: dashboard
+    aws_cost__ec2_cost_by_region:
+      +tags: dashboard
+    ec2_instances_optimization_recommendations:
+      +tags: dashboard
+    aws_cost__trusted_advisior_by_arn:
+      +tags: dashboard
+    aws_cost__ec2_cost_over_time:
+      +tags: dashboard
+    aws_cost__ec2_instance_utilization_cost:
+      +tags: dashboard

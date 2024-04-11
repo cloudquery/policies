@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.7.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.6.2...transformation-aws-compliance-premium-v1.7.0) (2024-04-10)
+
+
+### Features
+
+* Remove links to free compliance packs in docs ([#753](https://github.com/cloudquery/policies-premium/issues/753)) ([3682e4a](https://github.com/cloudquery/policies-premium/commit/3682e4a1b9feaf54c2bf2b394dbde1711c149781))
+
+## [1.6.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.6.1...transformation-aws-compliance-premium-v1.6.2) (2024-04-10)
+
+
+### Bug Fixes
+
+* Fix AWS Security Foundations Lambda1 ([b7efef4](https://github.com/cloudquery/policies-premium/commit/b7efef43108c9219f67470b2095df1a51239a6e6))
+* Fix iam.6 logic in AWS Foundational Security ([b7efef4](https://github.com/cloudquery/policies-premium/commit/b7efef43108c9219f67470b2095df1a51239a6e6))
+
+## [1.6.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.6.0...transformation-aws-compliance-premium-v1.6.1) (2024-04-10)
+
+
+### Bug Fixes
+
+* Added required tables from supporting models ([#746](https://github.com/cloudquery/policies-premium/issues/746)) ([4424db1](https://github.com/cloudquery/policies-premium/commit/4424db168b165cf7d9bf67ca0a9bcb1009108351))
+
+## [1.6.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.5.0...transformation-aws-compliance-premium-v1.6.0) (2024-04-09)
+
+
+### Features
+
+* Improve docs for the compliance policies ([#701](https://github.com/cloudquery/policies-premium/issues/701)) ([e562c4b](https://github.com/cloudquery/policies-premium/commit/e562c4be4ad0ffd05ebbe542becd292c41de4f6b))
+
 ## [1.5.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.4.1...transformation-aws-compliance-premium-v1.5.0) (2024-04-01)
 
 
