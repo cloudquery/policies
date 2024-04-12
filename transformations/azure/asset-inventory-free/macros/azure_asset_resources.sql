@@ -51,7 +51,7 @@ reverse(split_part(reverse(id), '/'::TEXT, 1))
 location
 {% else %}
 'unavailable'
-{% endif %} as location
+{% endif %} as location,
 {% if kind_exist %}
 kind
 {% else %}
@@ -75,7 +75,7 @@ subscription_id
 'unavailable'
 {% endif %} AS subscription_id,
 {% if id_exist %}
-reverse(split_part(reverse(id), '/'::TEXT, 1))
+reverse(split(reverse(id), '/')[0])
 {% else %}
 'unavailable'
 {% endif %} AS id, 
@@ -83,7 +83,7 @@ reverse(split_part(reverse(id), '/'::TEXT, 1))
 location
 {% else %}
 'unavailable'
-{% endif %} as location
+{% endif %} as location,
 {% if kind_exist %}
 kind
 {% else %}
