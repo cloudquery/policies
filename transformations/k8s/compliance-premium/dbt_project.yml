@@ -20,5 +20,26 @@ snapshot-paths:
 clean-targets:
   - target
   - dbt_packages
-models:
-  k8s_compliance: null
+
+#vars
+vars:
+  cis_v1_8:
+    - k8s_networking_network_policies
+    - k8s_rbac_cluster_role_bindings
+    - k8s_core_pods
+    - k8s_rbac_cluster_roles
+    - k8s_core_namespaces
+    - k8s_core_service_accounts
+    - k8s_rbac_roles
+
+  nsa_cisa_v1:
+    - k8s_networking_network_policies
+    - k8s_core_pods
+    - k8s_core_namespaces
+    - k8s_core_service_accounts
+    - k8s_apps_daemon_sets
+    - k8s_apps_replica_sets
+    - k8s_apps_deployments
+    - k8s_core_resource_quotas
+    - k8s_core_limit_ranges
+    - k8s_batch_jobs
