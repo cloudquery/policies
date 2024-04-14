@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.6.0...transformation-gcp-compliance-premium-v0.6.1) (2024-04-14)
+
+
+### Bug Fixes
+
+* Added required tables from supporting models. GCP ([#760](https://github.com/cloudquery/policies-premium/issues/760)) ([a2377e5](https://github.com/cloudquery/policies-premium/commit/a2377e5b3b3c6eafb756130884f0df54b0a5dec9))
+
 ## [0.6.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.5.0...transformation-gcp-compliance-premium-v0.6.0) (2024-04-10)
 
 
