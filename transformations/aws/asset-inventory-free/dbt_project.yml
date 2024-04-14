@@ -11,7 +11,7 @@ test-paths:
 seed-paths:
   - seeds
 macro-paths:
-  - ../macros
+  - macros
   - ../../macros
 snapshot-paths:
   - snapshots
@@ -19,3 +19,8 @@ clean-targets:
   - target
   - dbt_packages
 models: null
+dispatch:
+  - macro_namespace: dbt_utils
+    search_order:
+      - aws_asset_inventory
+      - dbt_utils
