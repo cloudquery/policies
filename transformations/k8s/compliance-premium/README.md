@@ -119,7 +119,27 @@ spec:
 
  See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
 
-#### Running Your dbt Project
+## Pre-Run Table Existence Check in Your dbt Project
+
+Before executing models in your dbt project, it's a good practice to ensure that all necessary tables are available in your database. This step prevents failures during model execution due to missing tables. 
+
+### Run the Table Check Operation
+
+To verify the existence of required tables for specific models, use the `run-operation` command provided by dbt. This command invokes a custom operation (macro) that checks for the presence of necessary tables in the database.
+
+**Command to Check Table Existence**:
+```bash
+dbt run-operation check_tables_exist --args '{"variable_name": "variable_name_here"}'
+```
+
+### Variable Names You Can Use
+Each variable name corresponds to a specific model or a set of models within your dbt project. Use one of the following variable names as needed:
+
+- **cis_v1_8**
+- **nsa_cisa_v1**
+- **k8s_models**
+
+### Running Your dbt Project
 
 Navigate to your dbt project directory, where your `dbt_project.yml` resides. Make sure to have an existing profile in your `profiles.yml` that contains your PostgreSQL/Snowflake/BigQuery connection and authentication information.
 
@@ -133,18 +153,12 @@ This command will run all your `dbt` models and create tables/views in your dest
 
 **Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
-To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
+## Running Specific Models in dbt
 
-To select a specific model and the dependencies in the dependency graph:
+To execute a specific model along with its dependencies in your dbt project, use the `--select` option with the `dbt run` command. This command ensures that all dependencies for the specified model are also executed.
 
 ```bash
 dbt run --select +<model_name>
-```
-
-For a specific model and the dependencies in the dependency graph:
-
-```bash
-dbt run --models +<model_name>
 ```
 
 #### Models
