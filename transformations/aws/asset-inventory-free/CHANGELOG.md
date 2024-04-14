@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.1.0...transformation-aws-asset-inventory-free-v2.2.0) (2024-04-14)
+
+
+### Features
+
+* AWS Asset Inventory for Google BigQuery and Snowflake ([#759](https://github.com/cloudquery/policies-premium/issues/759)) ([12c611d](https://github.com/cloudquery/policies-premium/commit/12c611d933fbd9818d03a8515673ff9f6be163fa))
+
 ## [2.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.0.3...transformation-aws-asset-inventory-free-v2.1.0) (2024-04-09)
 
 
