@@ -1,23 +1,11 @@
---Add Intersect pg_tables to ignore views.
 {% set aws_tables %}
-    SELECT tablename as table_name
-    FROM pg_tables
-    INTERSECT
-    SELECT DISTINCT table_name
-    FROM information_schema.columns
-    WHERE table_name LIKE 'aws_%s' and COLUMN_NAME IN ('account_id', 'request_account_id')
-    INTERSECT
-    SELECT table_name
-    FROM information_schema.columns
-    WHERE table_name LIKE 'aws_%s' and COLUMN_NAME = 'arn';
+    {{ aws_tables_dyn() }}
 {% endset %}
-
-
 
 -- Generate dynamic SQL statements
 {% for row in run_query(aws_tables) %}
     {% if row.table_name is not none and row.table_name != '' %}
-        {{ aws_asset_resources(row.table_name) }}
+        {{ aws_asset_resources(row.table_name, row.ARN_EXIST, row.ACCOUNT_ID_EXIST, row.REQUEST_ACCOUNT_ID_EXIST, row.REGION_EXIST, row.TAGS_EXIST) }}
         {% if not loop.last %} UNION ALL {% endif %}
     {% endif %}
 {% endfor %}
