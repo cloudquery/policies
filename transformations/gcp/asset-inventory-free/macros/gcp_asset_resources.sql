@@ -75,7 +75,7 @@ project_id
 'unavailable'
 {% endif %} AS project_id,
 {% if id_exist %}
-reverse(split_part(reverse(id), '/'::TEXT, 1))
+cast(id as string)
 {% else %}
 'unavailable'
 {% endif %} AS id, 
@@ -83,7 +83,7 @@ reverse(split_part(reverse(id), '/'::TEXT, 1))
 region
 {% else %}
 'unavailable'
-{% endif %} as region
+{% endif %} as region,
 {% if description_exist %}
 description
 {% else %}
