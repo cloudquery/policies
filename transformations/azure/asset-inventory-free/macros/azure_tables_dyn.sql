@@ -20,7 +20,7 @@ GROUP BY
     t.table_name
 HAVING
     MAX(CASE WHEN UPPER(c.column_name) = 'SUBSCRIPTION_ID' THEN 1 ELSE 0 END)::bool
-    AND (MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END)::bool OR MAX(CASE WHEN UPPER(c.column_name) = 'REQUEST_ACCOUNT_ID' THEN 1 ELSE 0 END)::bool)
+    AND (MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END)::bool)
 
 {% endmacro %}    
 
@@ -42,7 +42,7 @@ GROUP BY
     t.table_name
 HAVING
     MAX(CASE WHEN UPPER(c.column_name) = 'SUBSCRIPTION_ID' THEN 1 ELSE 0 END)::boolean
-    AND (MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END)::boolean OR MAX(CASE WHEN UPPER(c.column_name) = 'REQUEST_ACCOUNT_ID' THEN 1 ELSE 0 END)::boolean)
+    AND (MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END)::boolean)
 
 {% endmacro %} 
 
@@ -65,6 +65,6 @@ GROUP BY
     t.table_name
 HAVING
     CAST(MAX(CASE WHEN UPPER(c.column_name) = 'SUBSCRIPTION_ID' THEN 1 ELSE 0 END) AS BOOL)
-    AND (CAST(MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END) as BOOL) OR CAST(MAX(CASE WHEN UPPER(c.column_name) = 'REQUEST_ACCOUNT_ID' THEN 1 ELSE 0 END) AS BOOL))
+    AND (CAST(MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END) as BOOL))
 
 {% endmacro %}  
