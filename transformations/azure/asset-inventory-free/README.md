@@ -1,7 +1,7 @@
 # CloudQuery &times; dbt: Azure Asset Inventory Package
 ## Overview
 
-Welcome to our free edition of the Azure Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your Azure environment. Currently, this package only supports usage with PostgreSQL databases. 
+Welcome to our free edition of the Azure Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your Azure environment. Currently, this package supports usage with PostgreSQL, Snowflake, and BigQuery databases. 
 
 ### Coming soon
 - Azure Asset Inventory Dashboard
@@ -36,6 +36,8 @@ order by count(*) desc
 One of the below databases:
 
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
+- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
+- [BigQuery](https://hub.cloudquery.io/plugins/destination/cloudquery/bigquery)
 
 #### Models Included
 
