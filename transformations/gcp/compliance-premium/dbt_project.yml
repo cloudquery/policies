@@ -1,5 +1,5 @@
 name: gcp_compliance
-version: 0.6.1
+version: 0.7.0
 config-version: 2
 profile: gcp_compliance
 model-paths:
@@ -20,9 +20,6 @@ snapshot-paths:
 clean-targets:
   - target
   - dbt_packages
-
-
-#vars
 vars:
   cis_v1_2_0:
     - gcp_dns_policies
@@ -46,7 +43,6 @@ vars:
     - gcp_compute_projects
     - gcp_compute_target_ssl_proxies
     - gcp_dns_managed_zones
-
   cis_v2_0_0:
     - gcp_dns_policies
     - gcp_accessapproval_project_settings
@@ -80,7 +76,6 @@ vars:
     - gcp_compute_target_ssl_proxies
     - gcp_dns_managed_zones
     - gcp_essentialcontacts_organization_contacts
-
   gcp_models:
     - gcp_dns_policies
     - gcp_accessapproval_project_settings
