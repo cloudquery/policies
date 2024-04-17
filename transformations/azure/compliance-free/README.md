@@ -8,7 +8,7 @@ This package contains dbt models (views) that gives compliance insights from Clo
 
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [CloudQuery Azure plugin](https://hub.cloudquery.io/plugins/source/cloudquery/azure)
-- [dbt](https://docs.getdbt.com/docs/installation)
+- [dbt](https://docs.getdbt.com/docs/core/pip-install)
 
 #### dbt Installation
 

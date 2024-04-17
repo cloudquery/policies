@@ -4,7 +4,7 @@
 
 ### Requirements
 
-- [dbt](https://docs.getdbt.com/docs/installation)
+- [dbt](https://docs.getdbt.com/docs/core/pip-install)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 
 One of the below databases
