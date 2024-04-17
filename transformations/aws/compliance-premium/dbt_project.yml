@@ -1,5 +1,5 @@
 name: aws_compliance
-version: 1.7.0
+version: 1.8.0
 config-version: 2
 profile: aws_compliance
 model-paths:
@@ -24,8 +24,6 @@ dispatch:
     search_order:
       - aws_compliance
       - dbt_utils
-
-#vars
 vars:
   cis_v1_2_0:
     - aws_iam_password_policies
@@ -46,7 +44,6 @@ vars:
     - aws_sns_subscriptions
     - aws_cloudwatchlogs_metric_filters
     - aws_cloudwatch_alarms
-
   cis_v2_0_0:
     - aws_iam_password_policies
     - aws_iam_user_attached_policies
@@ -91,7 +88,6 @@ vars:
     - aws_ec2_network_acls
     - aws_cloudwatchlogs_metric_filters
     - aws_cloudwatch_alarms
-
   cis_v3_0_0:
     - aws_iam_password_policies
     - aws_iam_user_attached_policies
@@ -135,7 +131,6 @@ vars:
     - aws_sns_subscriptions
     - aws_ec2_network_acls
     - aws_cloudwatch_alarms
-
   foundational_security:
     - aws_iam_password_policies
     - aws_rds_clusters
@@ -251,8 +246,6 @@ vars:
     - aws_elbv1_load_balancers
     - aws_elasticsearch_domains
     - aws_networkfirewall_rule_groups
-
-
   pci_dss_v3_2_1:
     - aws_iam_password_policies
     - aws_iam_user_attached_policies
@@ -301,18 +294,15 @@ vars:
     - aws_sns_subscriptions
     - aws_cloudwatch_alarms
     - aws_cloudwatchlogs_metric_filters
-
   imds_v2:
     - aws_ec2_images
     - aws_ec2_instances
     - aws_lightsail_instances
-
   public_egress:
     - aws_ec2_instances
     - aws_ec2_security_groups
     - aws_ec2_route_tables
     - aws_lambda_functions
-
   publicly_available:
     - aws_cloudfront_distributions
     - aws_ec2_instances
@@ -322,7 +312,6 @@ vars:
     - aws_redshift_clusters
     - aws_apigatewayv2_apis
     - aws_rds_instances
-
   aws_models:
     - aws_s3_bucket_notification_configurations
     - aws_iam_password_policies
