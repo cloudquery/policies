@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.7.0...transformation-aws-compliance-premium-v1.8.0) (2024-04-17)
+
+
+### Features
+
+* Added macro check_tables ([#764](https://github.com/cloudquery/policies-premium/issues/764)) ([3c91c51](https://github.com/cloudquery/policies-premium/commit/3c91c51586851fb38a9c1b0f0690eaacc2f3d41b))
+* Aws v26 update fixes for compliance policies ([#776](https://github.com/cloudquery/policies-premium/issues/776)) ([b601cc7](https://github.com/cloudquery/policies-premium/commit/b601cc72a2d712a232d0fa07d0069e294c9680a7))
+
 ## [1.7.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.6.2...transformation-aws-compliance-premium-v1.7.0) (2024-04-10)
 
 
