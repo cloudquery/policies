@@ -17,7 +17,7 @@ ifeq ($(shard),5)
 endif
 
 ifeq ($(shard),6)
-	make transformation_dir=azure/compliance-free output_file_name=azure-compliance-free gen-single-site
+	make transformation_dir=azure/compliance-premium output_file_name=azure-compliance gen-single-site
 endif
 
 ifeq ($(shard),7)
