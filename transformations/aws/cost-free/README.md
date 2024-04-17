@@ -15,7 +15,7 @@ Before you begin, ensure you have the following:
 
 ## To run the policy you need to complete the following steps
 ### Setting up the DBT profile
-First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 ```bash
 pip install dbt-postgres
 ```
