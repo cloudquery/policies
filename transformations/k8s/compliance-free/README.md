@@ -8,7 +8,7 @@ This package contains dbt models (views) that gives compliance insights from Clo
 
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [CloudQuery k8s plugin](https://hub.cloudquery.io/plugins/source/cloudquery/k8s)
-- [dbt](https://docs.getdbt.com/docs/core/installation)
+- [dbt](https://docs.getdbt.com/docs/installation)
 
 One of the below databases
 
