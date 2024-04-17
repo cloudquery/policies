@@ -1,5 +1,5 @@
 name: k8s_compliance
-version: 0.5.0
+version: 0.6.0
 config-version: 2
 profile: k8s_compliance
 model-paths:
@@ -20,8 +20,6 @@ snapshot-paths:
 clean-targets:
   - target
   - dbt_packages
-
-#vars
 vars:
   cis_v1_8:
     - k8s_networking_network_policies
@@ -31,7 +29,6 @@ vars:
     - k8s_core_namespaces
     - k8s_core_service_accounts
     - k8s_rbac_roles
-
   nsa_cisa_v1:
     - k8s_networking_network_policies
     - k8s_core_pods
@@ -43,7 +40,6 @@ vars:
     - k8s_core_resource_quotas
     - k8s_core_limit_ranges
     - k8s_batch_jobs
-
   k8s_models:
     - k8s_networking_network_policies
     - k8s_rbac_roles

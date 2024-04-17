@@ -9,14 +9,15 @@ select
   '{{framework}}' as framework,
   '{{check_id}}' as check_id,
   'Ensure rotation for customer created custom master keys is enabled (Scored)' as title,
-  account_id,
-  arn,
+  akk.account_id,
+  akk.arn,
   case when
-    rotation_enabled is FALSE and key_manager = 'CUSTOMER'
+    akkrs.key_rotation_enabled = FALSE and akk.key_manager = 'CUSTOMER'
     then 'fail'
     else 'pass'
-  end
-from aws_kms_keys
+  end as status
+from aws_kms_keys akk
+left join aws_kms_key_rotation_statuses akkrs on akk.arn = akkrs.key_arn
 {% endmacro %}
 
 {% macro bigquery__rotation_enabled_for_customer_key(framework, check_id) %}
@@ -24,14 +25,16 @@ select
   '{{framework}}' as framework,
   '{{check_id}}' as check_id,
   'Ensure rotation for customer created custom master keys is enabled (Scored)' as title,
-  account_id,
-  arn,
+  akk.account_id,
+  akk.arn,
   case when
-    rotation_enabled is FALSE and key_manager = 'CUSTOMER'
+    akkrs.key_rotation_enabled is FALSE and akk.key_manager = 'CUSTOMER'
     then 'fail'
     else 'pass'
-  end
-from {{ full_table_name("aws_kms_keys") }}
+  end as status
+from {{ full_table_name("aws_kms_keys") }} akk
+left join {{ full_table_name("aws_kms_key_rotation_statuses") }} akkrs on akk.arn = akkrs.key_arn
+
 {% endmacro %}
 
 {% macro snowflake__rotation_enabled_for_customer_key(framework, check_id) %}
@@ -39,12 +42,13 @@ select
   '{{framework}}' as framework,
   '{{check_id}}' as check_id,
   'Ensure rotation for customer created custom master keys is enabled (Scored)' as title,
-  account_id,
-  arn,
+  akk.account_id,
+  akk.arn,
   case when
-    not rotation_enabled and key_manager = 'CUSTOMER'
+    not akkrs.key_rotation_enabled and akk.key_manager = 'CUSTOMER'
     then 'fail'
     else 'pass'
-  end
-from aws_kms_keys
+  end as status
+from aws_kms_keys akk
+left join aws_kms_key_rotation_statuses akkrs on akk.arn = akkrs.key_arn
 {% endmacro %}
