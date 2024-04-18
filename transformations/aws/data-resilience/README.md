@@ -21,7 +21,7 @@ We recommend using this transformation with our [AWS Data Resilience Dashboard](
 
 ### Requirements
 
-- [dbt](https://docs.getdbt.com/docs/installation)
+- [dbt](https://docs.getdbt.com/docs/core/pip-install)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 - [AWS Plugin](https://www.cloudquery.io/docs/plugins/sources/aws/overview)
@@ -29,7 +29,7 @@ We recommend using this transformation with our [AWS Data Resilience Dashboard](
 ## To run this package you need to complete the following steps
 
 ### Setting up the DBT profile
-First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
+First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
 ```bash
 pip install dbt-postgres
 ```
