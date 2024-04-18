@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.6.1...transformation-gcp-compliance-premium-v0.7.0) (2024-04-17)
+
+
+### Features
+
+* Added macro check_tables ([#764](https://github.com/cloudquery/policies-premium/issues/764)) ([3c91c51](https://github.com/cloudquery/policies-premium/commit/3c91c51586851fb38a9c1b0f0690eaacc2f3d41b))
+
 ## [0.6.1](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.6.0...transformation-gcp-compliance-premium-v0.6.1) (2024-04-14)
 
 
