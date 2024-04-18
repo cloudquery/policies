@@ -22,7 +22,13 @@ cache_behaviors as (
         arn
     from
         aws_cloudfront_distributions d,
-		JSONB_ARRAY_ELEMENTS(COALESCE(distribution_config -> 'CacheBehaviors' -> 'Items', '{}')) as f  
+		JSONB_ARRAY_ELEMENTS(
+                case 
+					when d_1.distribution_config ->> 'CacheBehaviors' is NULL then '[]'::jsonb
+					when (d_1.distribution_config -> 'CacheBehaviors'::text) ->> 'Items' is NULL then '[]'::jsonb
+					else COALESCE((d_1.distribution_config -> 'CacheBehaviors'::text) -> 'Items'::text, '[]'::jsonb) 
+				end
+        ) as f  
     where
         f ->> 'ViewerProtocolPolicy' = 'allow-all'
 )
