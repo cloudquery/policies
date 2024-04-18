@@ -11,7 +11,7 @@ test-paths:
 seed-paths:
   - seeds
 macro-paths:
-  - ../macros
+  - macros
   - ../../macros
 snapshot-paths:
   - snapshots
