@@ -4,7 +4,7 @@ ifeq ($(shard),1)
 	make transformation_dir=aws/asset-inventory-free output_file_name=aws-asset-inventory-free gen-single-site
 endif
 ifeq ($(shard),2)
-	make transformation_dir=aws/compliance-free output_file_name=aws-compliance-free gen-single-site
+	make transformation_dir=aws/compliance-premium output_file_name=aws-compliance gen-single-site
 endif
 ifeq ($(shard),3)
 	make transformation_dir=aws/cost output_file_name=aws-cost gen-single-site
