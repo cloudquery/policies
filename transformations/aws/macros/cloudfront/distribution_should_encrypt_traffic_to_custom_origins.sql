@@ -24,9 +24,9 @@ cache_behaviors as (
         aws_cloudfront_distributions d,
 		JSONB_ARRAY_ELEMENTS(
                 case 
-					when d.distribution_config ->> 'CacheBehaviors' is NULL then '[]'::jsonb
-					when (d.distribution_config -> 'CacheBehaviors'::text) ->> 'Items' is NULL then '[]'::jsonb
-					else COALESCE((d.distribution_config -> 'CacheBehaviors'::text) -> 'Items'::text, '[]'::jsonb) 
+					when distribution_config ->> 'CacheBehaviors' is NULL then '[]'::jsonb
+					when (distribution_config -> 'CacheBehaviors'::text) ->> 'Items' is NULL then '[]'::jsonb
+					else COALESCE((distribution_config -> 'CacheBehaviors'::text) -> 'Items'::text, '[]'::jsonb) 
 				end
         ) as f  
     where
