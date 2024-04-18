@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.7.0...transformation-gcp-compliance-premium-v0.7.1) (2024-04-18)
+
+
+### Bug Fixes
+
+* Improve dbt install docs ([#777](https://github.com/cloudquery/policies-premium/issues/777)) ([d3a968d](https://github.com/cloudquery/policies-premium/commit/d3a968d6b055b29b6c7596483e0bfbb110f1bccf))
+
 ## [0.7.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.6.1...transformation-gcp-compliance-premium-v0.7.0) (2024-04-17)
 
 

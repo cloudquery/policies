@@ -1,5 +1,5 @@
 name: gcp_asset_inventory
-version: 1.1.0
+version: 1.2.0
 config-version: 2
 profile: gcp_asset_inventory
 model-paths:
@@ -11,7 +11,7 @@ test-paths:
 seed-paths:
   - seeds
 macro-paths:
-  - ../macros
+  - macros
   - ../../macros
 snapshot-paths:
   - snapshots
