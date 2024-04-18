@@ -4,7 +4,7 @@ ifeq ($(shard),1)
 	make transformation_dir=aws/asset-inventory-free output_file_name=aws-asset-inventory-free gen-single-site
 endif
 ifeq ($(shard),2)
-	make transformation_dir=aws/compliance-free output_file_name=aws-compliance-free gen-single-site
+	make transformation_dir=aws/compliance-premium output_file_name=aws-compliance gen-single-site
 endif
 ifeq ($(shard),3)
 	make transformation_dir=aws/cost output_file_name=aws-cost gen-single-site
@@ -17,15 +17,15 @@ ifeq ($(shard),5)
 endif
 
 ifeq ($(shard),6)
-	make transformation_dir=azure/compliance-free output_file_name=azure-compliance-free gen-single-site
+	make transformation_dir=azure/compliance-premium output_file_name=azure-compliance gen-single-site
 endif
 
 ifeq ($(shard),7)
-	make transformation_dir=gcp/compliance-free output_file_name=gcp-compliance-free gen-single-site
+	make transformation_dir=gcp/compliance-premium output_file_name=gcp-compliance gen-single-site
 endif
 
 ifeq ($(shard),8)
-	make transformation_dir=k8s/compliance-free output_file_name=k8s-compliance-free gen-single-site
+	make transformation_dir=k8s/compliance-premium output_file_name=k8s-compliance gen-single-site
 endif
 
 ifeq ($(shard),9)

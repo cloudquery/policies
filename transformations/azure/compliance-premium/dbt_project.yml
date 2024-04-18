@@ -1,5 +1,5 @@
 name: azure_compliance
-version: 0.7.1
+version: 0.8.0
 config-version: 2
 profile: azure_compliance
 model-paths:
@@ -19,9 +19,6 @@ snapshot-paths:
 clean-targets:
   - target
   - dbt_packages
-
-
-#vars
 vars:
   cis_v1_3_0:
     - azure_monitor_activity_log_alerts
@@ -60,7 +57,6 @@ vars:
     - azure_sql_server_encryption_protectors
     - azure_network_security_groups
     - azure_policy_assignments
-
   cis_v2_0_0:
     - azure_monitor_activity_log_alerts
     - azure_keyvault_keyvault
@@ -107,7 +103,6 @@ vars:
     - azure_mysqlflexibleservers_server_configurations
     - azure_policy_assignments
     - azure_network_security_groups
-
   cis_v2_1_0:
     - azure_postgresql_server_configurations
     - azure_security_auto_provisioning_settings
@@ -152,7 +147,6 @@ vars:
     - azure_subscription_subscriptions
     - azure_policy_assignments
     - azure_network_security_groups
-
   hipaa_hitrust_v9_2:
     - azure_monitor_activity_log_alerts
     - azure_security_assessments
@@ -203,7 +197,6 @@ vars:
     - azure_sql_server_virtual_network_rules
     - azure_batch_account
     - azure_security_jit_network_access_policies
-
   azure_models:
     - azure_monitor_activity_log_alerts
     - azure_security_assessments

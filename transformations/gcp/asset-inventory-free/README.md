@@ -26,7 +26,7 @@ order by count(*) desc
 
 ### Requirements
 
-- [dbt](https://docs.getdbt.com/docs/installation)
+- [dbt](https://docs.getdbt.com/docs/core/pip-install)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 - [CloudQuery GCP plugin](https://hub.cloudquery.io/plugins/source/cloudquery/gcp)
@@ -57,7 +57,7 @@ One of the below databases:
 ## To run this package you need to complete the following steps
 
 ### Setting up the DBT profile
-First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
+First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
 ```bash
 pip install dbt-postgres
 ```

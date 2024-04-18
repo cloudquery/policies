@@ -25,7 +25,7 @@ ORDER BY count(*) DESC
 
 ### Requirements
 
-- [dbt](https://docs.getdbt.com/docs/installation)
+- [dbt](https://docs.getdbt.com/docs/core/pip-install)
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 - [K8S Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/k8s/latest/docs)
@@ -43,7 +43,7 @@ This package includes: Automated compliance checks following CIS and CISA NSA.
 ## To run this package you need to complete the following steps
 
 ### Setting up the DBT profile (PostgreSQL)
-First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
+First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
 ```bash
 pip install dbt-postgres
 ```
