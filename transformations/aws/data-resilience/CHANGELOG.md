@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v2.1.1...transformation-aws-data-resilience-v2.1.2) (2024-04-18)
+
+
+### Bug Fixes
+
+* Improve dbt install docs ([#777](https://github.com/cloudquery/policies-premium/issues/777)) ([d3a968d](https://github.com/cloudquery/policies-premium/commit/d3a968d6b055b29b6c7596483e0bfbb110f1bccf))
+
 ## [2.1.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v2.1.0...transformation-aws-data-resilience-v2.1.1) (2024-04-10)
 
 
