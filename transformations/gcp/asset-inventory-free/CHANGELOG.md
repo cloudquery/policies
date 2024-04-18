@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-asset-inventory-free-v1.1.0...transformation-gcp-asset-inventory-free-v1.2.0) (2024-04-18)
+
+
+### Features
+
+* Gcp asset inventory update ([#772](https://github.com/cloudquery/policies-premium/issues/772)) ([5570243](https://github.com/cloudquery/policies-premium/commit/5570243f8574a4cd6fbbd97e75b0efd17c131ecb))
+
+
+### Bug Fixes
+
+* Improve dbt install docs ([#777](https://github.com/cloudquery/policies-premium/issues/777)) ([d3a968d](https://github.com/cloudquery/policies-premium/commit/d3a968d6b055b29b6c7596483e0bfbb110f1bccf))
+
 ## [1.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-asset-inventory-free-v1.0.0...transformation-gcp-asset-inventory-free-v1.1.0) (2024-04-09)
 
 
