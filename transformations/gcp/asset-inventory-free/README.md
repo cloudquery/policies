@@ -1,7 +1,7 @@
 # CloudQuery &times; dbt: GCP Asset Inventory Package
 ## Overview
 
-Welcome to our free edition of the GCP Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your GCP environment. Currently, this package only supports usage with PostgreSQL databases. 
+Welcome to our free edition of the GCP Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your GCP environment. Currently, this package supports usage with PostgreSQL, BigQuery, and Snowflake databases. 
 
 ### Coming soon
 - GCP Asset Inventory Dashboard
@@ -34,6 +34,8 @@ order by count(*) desc
 One of the below databases:
 
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
+- [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
+- [BigQuery](https://hub.cloudquery.io/plugins/destination/cloudquery/bigquery)
 
 #### Models Included
 
