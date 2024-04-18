@@ -25,7 +25,7 @@ ifeq ($(shard),7)
 endif
 
 ifeq ($(shard),8)
-	make transformation_dir=k8s/compliance-free output_file_name=k8s-compliance-free gen-single-site
+	make transformation_dir=k8s/compliance-premium output_file_name=k8s-compliance gen-single-site
 endif
 
 ifeq ($(shard),9)
