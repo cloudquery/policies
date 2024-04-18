@@ -43,3 +43,4 @@ select
     end as status
 FROM {{ full_table_name("aws_cloudtrail_trails") }}
 {% endmacro %}
+{% macro default__logs_encrypted(framework, check_id) %}{% endmacro %}

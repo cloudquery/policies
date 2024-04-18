@@ -1,7 +1,7 @@
 name: aws_compliance
 version: 1.8.0
 config-version: 2
-profile: aws_compliance
+profile: aws_athena
 model-paths:
   - models
   - ../models
@@ -12,7 +12,7 @@ test-paths:
 seed-paths:
   - seeds
 macro-paths:
-  - ../macros
+  - macros
   - ../../macros
 snapshot-paths:
   - snapshots
