@@ -7,7 +7,7 @@ Welcome to AWS Cost Policy, a comprehensive solution designed to help you analyz
 Before you begin, ensure you have the following:
 - An active AWS account with cost and usage report activated. [Creating a Cost and Usage Report](https://docs.aws.amazon.com/cur/latest/userguide/cur-create.html)
 - CloudQuery CLI downloaded and installed. [Installing CloudQuery CLI](https://docs.cloudquery.io/docs)
-- DBT CLI downloaded installed and configured. [Installing DBT CLI](https://docs.getdbt.com/docs/core/installation-overview)
+- DBT CLI downloaded installed and configured. [Installing DBT CLI](https://docs.getdbt.com/docs/core/pip-install)
 - A CloudQuery account. [Register to CloudQuery](https://www.cloudquery.io/auth/register?returnTo=%2Fz)
 - A Postgresql instance running (Local or cloud based). [Running Postgres with Docker](https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/)
 - Basic familiarity with YAML and SQL.

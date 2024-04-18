@@ -36,7 +36,7 @@ where tags is null or tags = '{}';
 - [CloudQuery](https://www.cloudquery.io/docs/quickstart)
 - [CloudQuery AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
-- [dbt](https://docs.getdbt.com/docs/installation)
+- [dbt](https://docs.getdbt.com/docs/core/pip-install)
  
 One of the below databases:
 
@@ -65,7 +65,7 @@ One of the below databases:
 ## To run this package you need to complete the following steps
 
 ### Setting up the DBT profile
-First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
+First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
 ```bash
 pip install dbt-postgres
 ```
