@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-asset-inventory-free-v1.1.0...transformation-azure-asset-inventory-free-v1.2.0) (2024-04-18)
+
+
+### Features
+
+* Azure asset inventory update ([#771](https://github.com/cloudquery/policies-premium/issues/771)) ([2ae60e4](https://github.com/cloudquery/policies-premium/commit/2ae60e4d921ccebca61ed6dff754fd8aaab6b704))
+
+
+### Bug Fixes
+
+* Improve dbt install docs ([#777](https://github.com/cloudquery/policies-premium/issues/777)) ([d3a968d](https://github.com/cloudquery/policies-premium/commit/d3a968d6b055b29b6c7596483e0bfbb110f1bccf))
+
 ## [1.1.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-asset-inventory-free-v1.0.0...transformation-azure-asset-inventory-free-v1.1.0) (2024-04-09)
 
 
