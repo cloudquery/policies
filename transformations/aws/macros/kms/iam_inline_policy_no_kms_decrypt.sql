@@ -330,3 +330,112 @@ FROM {{ full_table_name("aws_iam_groups") }} g
 LEFT JOIN decrypt_groups dg
     ON g.arn = dg.arn
 {% endmacro %}
+
+{% macro athena__iam_inline_policy_no_kms_decrypt(framework, check_id) %}
+WITH decrypt_users as (
+    SELECT DISTINCT
+        u.user_arn as arn
+    FROM 
+        aws_iam_user_policies u,
+        LATERAL FLATTEN(input => u.policy_document) inline_policy,
+        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s --todo: lateral flatten translation to athena
+    WHERE 
+        json_extract(s.value, '$.Effect') = 'Allow'
+        AND
+        (json_extract(s.value, '$.Resource') = '*' OR
+        json_extract(s.value, '$.Resource') LIKE '%kms%') 
+        AND 
+        (json_extract(s.value, '$.Action') = '*' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:*%' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:decrypt%' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract(s.value, '$.Action') LIKE '%kms:reencrypt*%')
+  
+),
+decrypt_roles as (
+  SELECT DISTINCT
+        r.role_arn as arn
+    FROM 
+        aws_iam_role_policies r,
+        LATERAL FLATTEN(input => r.policy_document) inline_policy,
+        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s
+    WHERE 
+        json_extract(s.value, '$.Effect') = 'Allow'
+        AND
+        (json_extract(s.value, '$.Resource') = '*' OR
+        json_extract(s.value, '$.Resource') LIKE '%kms%') 
+        AND 
+        (json_extract(s.value, '$.Action') = '*' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:*%' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:decrypt%' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract(s.value, '$.Action') LIKE '%kms:reencrypt*%')
+        AND r.role_arn NOT LIKE '%service-role/%'
+
+),
+decrypt_groups as (
+  SELECT DISTINCT
+        g.group_arn as arn
+    FROM 
+        aws_iam_group_policies g,
+        LATERAL FLATTEN(input => g.policy_document) inline_policy,
+        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s
+    WHERE 
+        json_extract(s.value, '$.Effect') = 'Allow'
+        AND
+        (json_extract(s.value, '$.Resource') = '*' OR
+        json_extract(s.value, '$.Resource') '%kms%') 
+        AND 
+        (json_extract(s.value, '$.Action') = '*' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:*%' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:decrypt%' 
+         OR json_extract(s.value, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract(s.value, '$.Action') LIKE '%kms:reencrypt*%')
+)
+
+SELECT
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
+    u.account_id,
+    u.arn as resource_id,
+    CASE
+    WHEN du.arn is not null THEN 'fail'
+    ELSE 'pass'
+    END as status
+FROM aws_iam_users u
+LEFT JOIN decrypt_users du
+    ON u.arn = du.arn
+
+UNION
+
+SELECT
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
+    r.account_id,
+    r.arn as resource_id,
+    CASE
+    WHEN dr.arn is not null THEN 'fail'
+    ELSE 'pass'
+    END as status
+FROM aws_iam_roles r
+LEFT JOIN decrypt_roles dr
+    ON r.arn = dr.arn
+
+UNION
+
+SELECT
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
+    g.account_id,
+    g.arn as resource_id,
+    CASE
+    WHEN dg.arn is not null THEN 'fail'
+    ELSE 'pass'
+    END as status
+FROM aws_iam_groups g
+LEFT JOIN decrypt_groups dg
+    ON g.arn = dg.arn
+{% endmacro %}

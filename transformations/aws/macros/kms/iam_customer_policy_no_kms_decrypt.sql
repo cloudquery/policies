@@ -111,16 +111,16 @@ WITH policy_with_decrypt AS (
     INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
     , lateral flatten(input => pv.document_json:Statement) as s --todo: figure out for athena
     WHERE
-        json_query(s.value, '$.Effect') = 'Allow'
+        json_extract(s.value, '$.Effect') = 'Allow' --todo: benchmark regexp_like()
         AND
-        (json_query(s.value, '$.Resource') = '*' OR
-        json_query(s.value, '$.Resource') LIKE '%kms%')
+        (json_extract(s.value, '$.Resource') = '*' OR
+        json_extract(s.value, '$.Resource') LIKE '%kms%')
         AND 
-        (s.value:Action = '*'
-         OR s.value:Action ILIKE '%kms:*%'
-         OR s.value:Action ILIKE '%kms:decrypt%'
-         OR s.value:Action ILIKE '%kms:reencryptfrom%'
-         OR s.value:Action ILIKE '%kms:reencrypt*%')
+        (json_extract(s.value, '$.Action') = '*'
+         OR (json_extract(s.value, '$.Action') LIKE '%kms:*%'
+         OR json_extract(s.value, '$.Action') LIKE '%kms:decrypt%'
+         OR json_extract(s.value, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract(s.value, '$.Action') LIKE '%kms:reencrypt*%')
 )
 SELECT
   '{{framework}}' As framework,
