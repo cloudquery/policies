@@ -7,8 +7,8 @@
 {% macro postgres__no_broad_public_ipv6_ingress_on_port_22_3389(framework, check_id) %}
 -- uses view which uses aws_security_group_ingress_rules.sql query
 select
-  '{{framework}}',
-  '{{check_id}}',
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
   'Ensure no security groups allow ingress from ::/0 to remote server administration ports (Automated)',
   account_id,
   arn,
@@ -26,8 +26,8 @@ from {{ ref('aws_compliance__security_group_ingress_rules') }}
 
 {% macro snowflake__no_broad_public_ipv6_ingress_on_port_22_3389(framework, check_id) %}
 select
-  '{{framework}}',
-  '{{check_id}}',
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
   'Ensure no security groups allow ingress from ::/0 to remote server administration ports (Automated)',
   account_id,
   arn,
@@ -45,8 +45,8 @@ from {{ ref('aws_compliance__security_group_ingress_rules') }}
 
 {% macro bigquery__no_broad_public_ipv6_ingress_on_port_22_3389(framework, check_id) %}
 select
-  '{{framework}}',
-  '{{check_id}}',
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
   'Ensure no security groups allow ingress from ::/0 to remote server administration ports (Automated)',
   account_id,
   arn,

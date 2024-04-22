@@ -6,8 +6,8 @@
 
 {% macro postgres__vpc_security_group_remote_administration_ipv4(framework, check_id) %}
 select
-  '{{framework}}',
-  '{{check_id}}',
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
   'Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports (Automated)' AS title,
   account_id,
   arn,
@@ -32,8 +32,8 @@ from {{ ref('aws_compliance__security_group_ingress_rules') }}
 
 {% macro snowflake__vpc_security_group_remote_administration_ipv4(framework, check_id) %}
 select
-  '{{framework}}',
-  '{{check_id}}',
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
   'Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports (Automated)' AS title,
   account_id,
   arn,
@@ -58,8 +58,8 @@ from {{ ref('aws_compliance__security_group_ingress_rules') }}
 
 {% macro bigquery__vpc_security_group_remote_administration_ipv4(framework, check_id) %}
 select
-  '{{framework}}',
-  '{{check_id}}',
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
   'Ensure no security groups allow ingress from 0.0.0.0/0 to remote server administration ports (Automated)' AS title,
   account_id,
   arn,
