@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.8.2...transformation-aws-compliance-premium-v1.9.0) (2024-04-23)
+
+
+### Features
+
+* Release aws compliance column alias fix ([#803](https://github.com/cloudquery/policies-premium/issues/803)) ([3a5072a](https://github.com/cloudquery/policies-premium/commit/3a5072ae9adcb630706c2ce9b1b68f7aca5c3543))
+
 ## [1.8.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.8.1...transformation-aws-compliance-premium-v1.8.2) (2024-04-19)
 
 
