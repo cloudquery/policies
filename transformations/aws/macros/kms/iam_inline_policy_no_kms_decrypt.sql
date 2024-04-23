@@ -336,40 +336,36 @@ WITH decrypt_users as (
     SELECT DISTINCT
         u.user_arn as arn
     FROM 
-        aws_iam_user_policies u,
-        LATERAL FLATTEN(input => u.policy_document) inline_policy,
-        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s --todo: lateral flatten translation to athena
+        aws_iam_user_policies u
     WHERE 
-        json_extract(s.value, '$.Effect') = 'Allow'
+        json_extract_scalar(policy_document, '$.Effect') = 'Allow'
         AND
-        (json_extract(s.value, '$.Resource') = '*' OR
-        json_extract(s.value, '$.Resource') LIKE '%kms%') 
+        (json_extract_scalar(policy_document, '$.Resource') = '*' OR
+        json_extract_scalar(policy_document, '$.Resource') LIKE '%kms%') 
         AND 
-        (json_extract(s.value, '$.Action') = '*' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:*%' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:decrypt%' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:reencryptfrom%'
-         OR json_extract(s.value, '$.Action') LIKE '%kms:reencrypt*%')
+        (json_extract_scalar(policy_document, '$.Action') = '*' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:*%' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:decrypt%' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencrypt*%')
   
 ),
 decrypt_roles as (
   SELECT DISTINCT
         r.role_arn as arn
     FROM 
-        aws_iam_role_policies r,
-        LATERAL FLATTEN(input => r.policy_document) inline_policy,
-        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s
+        aws_iam_role_policies r
     WHERE 
-        json_extract(s.value, '$.Effect') = 'Allow'
+        json_extract_scalar(policy_document, '$.Effect') = 'Allow'
         AND
-        (json_extract(s.value, '$.Resource') = '*' OR
-        json_extract(s.value, '$.Resource') LIKE '%kms%') 
+        (json_extract_scalar(policy_document, '$.Resource') = '*' OR
+        json_extract_scalar(policy_document, '$.Resource') LIKE '%kms%') 
         AND 
-        (json_extract(s.value, '$.Action') = '*' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:*%' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:decrypt%' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:reencryptfrom%'
-         OR json_extract(s.value, '$.Action') LIKE '%kms:reencrypt*%')
+        (json_extract_scalar(policy_document, '$.Action') = '*' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:*%' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:decrypt%' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencrypt*%')
         AND r.role_arn NOT LIKE '%service-role/%'
 
 ),
@@ -377,20 +373,18 @@ decrypt_groups as (
   SELECT DISTINCT
         g.group_arn as arn
     FROM 
-        aws_iam_group_policies g,
-        LATERAL FLATTEN(input => g.policy_document) inline_policy,
-        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s
+        aws_iam_group_policies g
     WHERE 
-        json_extract(s.value, '$.Effect') = 'Allow'
+        json_extract_scalar(policy_document, '$.Effect') = 'Allow'
         AND
-        (json_extract(s.value, '$.Resource') = '*' OR
-        json_extract(s.value, '$.Resource') '%kms%') 
+        (json_extract_scalar(policy_document, '$.Resource') = '*' OR
+        json_extract_scalar(policy_document, '$.Resource') LIKE '%kms%') 
         AND 
-        (json_extract(s.value, '$.Action') = '*' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:*%' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:decrypt%' 
-         OR json_extract(s.value, '$.Action') LIKE '%kms:reencryptfrom%'
-         OR json_extract(s.value, '$.Action') LIKE '%kms:reencrypt*%')
+        (json_extract_scalar(policy_document, '$.Action') = '*' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:*%' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:decrypt%' 
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencrypt*%')
 )
 
 SELECT

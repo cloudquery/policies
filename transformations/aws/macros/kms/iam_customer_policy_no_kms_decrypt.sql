@@ -109,18 +109,17 @@ WITH policy_with_decrypt AS (
     SELECT DISTINCT arn
     FROM aws_iam_policies p
     INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
-    , lateral flatten(input => pv.document_json:Statement) as s --todo: figure out for athena
     WHERE
-        json_extract(s.value, '$.Effect') = 'Allow' --todo: benchmark regexp_like()
+        json_extract_scalar(pv.document_json, '$.Statement[0].Effect') = 'Allow' --todo: benchmark regexp_like()
         AND
-        (json_extract(s.value, '$.Resource') = '*' OR
-        json_extract(s.value, '$.Resource') LIKE '%kms%')
+        (json_extract_scalar(pv.document_json, '$.Resource') = '*' OR
+        json_extract_scalar(pv.document_json, '$.Resource') LIKE '%kms%')
         AND 
-        (json_extract(s.value, '$.Action') = '*'
-         OR (json_extract(s.value, '$.Action') LIKE '%kms:*%'
-         OR json_extract(s.value, '$.Action') LIKE '%kms:decrypt%'
-         OR json_extract(s.value, '$.Action') LIKE '%kms:reencryptfrom%'
-         OR json_extract(s.value, '$.Action') LIKE '%kms:reencrypt*%')
+        (json_extract_scalar(pv.document_json, '$.Action') = '*'
+         OR (json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:*%'
+         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:decrypt%'
+         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:reencrypt*%'))
 )
 SELECT
   '{{framework}}' As framework,
