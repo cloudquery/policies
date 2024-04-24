@@ -62,9 +62,11 @@ select
     account_id,
     arn as resource_id,
     case when
-
+    json_extract_scalar(a, '$.AttributeName') = 'restore' and contains(cast(json_extract(a, '$.AttributeValues') as array(varchar)), 'all')
+    then 'fail'
     else 'pass'
     end as status
 from 
-    aws_neptune_cluster_snapshots
+    aws_neptune_cluster_snapshots,
+    unnest(cast(json_parse(attributes) as array(json))) as a(a)
     {% endmacro %}
