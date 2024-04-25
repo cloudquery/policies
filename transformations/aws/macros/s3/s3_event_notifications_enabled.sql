@@ -60,3 +60,22 @@ select
 FROM
     {{ full_table_name("aws_s3_bucket_notification_configurations") }}
 {% endmacro %}
+
+{% macro athena__s3_event_notifications_enabled(framework, check_id) %}
+select distinct
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'S3 buckets should have event notifications enabled' AS title,
+    account_id,
+    bucket_arn AS resource_id,    
+    CASE WHEN
+        (event_bridge_configuration is null or event_bridge_configuration = '[]' or json_array_length(json_parse(event_bridge_configuration)) = 0)
+        AND (lambda_function_configurations is null or lambda_function_configurations = '[]' or json_array_length(json_parse(lambda_function_configurations)) = 0)
+        AND (queue_configurations is null or queue_configurations = '[]' or json_array_length(json_parse(queue_configurations)) = 0)
+        AND (topic_configurations is null or topic_configurations = '[]' or json_array_length(json_parse(topic_configurations)) = 0)
+    THEN 'fail'
+    ELSE 'pass'
+    END AS status
+FROM
+    aws_s3_bucket_notification_configurations
+{% endmacro %}
