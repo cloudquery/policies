@@ -98,3 +98,42 @@ inner join
         and aws_cloudtrail_trails.region = aws_cloudtrail_trail_event_selectors.region
         and aws_cloudtrail_trails.account_id = aws_cloudtrail_trail_event_selectors.account_id
 {% endmacro %}
+
+{% macro athena__cloudtrail_enabled_all_regions(framework, check_id) %}
+with aes as
+(
+  select *
+  from aws_cloudtrail_trail_event_selectors
+)
+
+select
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Ensure CloudTrail is enabled in all regions' as title,
+    aws_cloudtrail_trails.account_id,
+    arn as resource_id,
+    case
+        when aws_cloudtrail_trails.is_multi_region_trail = FALSE then 'fail'
+        when exists(select *
+                    from aws_cloudtrail_trail_event_selectors
+                    where 
+                    json_extract_scalar(event_selectors, '$.ReadWriteType') != 'All'
+                    or
+                    cast(json_extract(event_selectors, '$.IncludeManagementEvents') as boolean) = FALSE
+                    )
+            then 'fail'
+        when exists(
+                    select *
+                   from aes
+                   where json_extract_scalar(advanced_event_selectors, '$.FieldSelectors.Field') = 'readOnly'
+                   )
+            then 'fail'
+        else 'pass'
+    end as status
+from aws_cloudtrail_trails
+inner join
+    aws_cloudtrail_trail_event_selectors on
+        aws_cloudtrail_trails.arn = aws_cloudtrail_trail_event_selectors.trail_arn
+        and aws_cloudtrail_trails.region = aws_cloudtrail_trail_event_selectors.region
+        and aws_cloudtrail_trails.account_id = aws_cloudtrail_trail_event_selectors.account_id
+{% endmacro %}

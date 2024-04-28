@@ -69,3 +69,26 @@ select
   end as status
 from {{ full_table_name("aws_iam_credential_reports") }}
 {% endmacro %}
+
+{% macro athena__iam_user_access_keys_and_password_at_setup(framework, check_id) %}
+select
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Do not setup access keys during initial user setup for all IAM
+users that have a console password' as title,
+  -- Failed when password is enabled and the key was created within 10 seconds of the user
+  split_part(arn, ':', 5) as account_id,
+  arn as resource_id,
+  case when
+    password_enabled = 'TRUE' 
+    and
+    (
+        date_diff( 'second', access_key_1_last_rotated, user_creation_time ) < 10
+        or 
+        date_diff( 'second', access_key_2_last_rotated, user_creation_time ) < 10
+    )
+    then 'fail'
+    else 'pass'
+  end as status
+from aws_iam_credential_reports
+{% endmacro %}
