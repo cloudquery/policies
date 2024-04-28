@@ -96,3 +96,34 @@ from aws_cloudtrail_trails AS c
 join audit_enabled AS cae ON c.arn = cae.arn
 group by c.arn, c.account_id
 {% endmacro %}
+
+{% macro athena__cloudtrail_s3_object_write_events_audit_enabled(framework, check_id) %}
+with audit_enabled AS (
+    select
+    c.arn,
+    case
+	when is_multi_region_trail and 
+	json_extract_scalar(es.event_selectors, '$.DataResources.Type') = 'AWS::S3::Object'
+    and json_array_contains(json_extract(es.event_selectors, '$.DataResources.Values'),'arn:aws:s3')
+    and json_extract_scalar(event_selectors, '$.ReadWriteType') in ('WriteOnly', 'All')
+     then True
+	else False
+	end as write_event
+from aws_cloudtrail_trails AS c
+join aws_cloudtrail_trail_event_selectors AS es ON c._cq_id = es._cq_parent_id
+)
+
+select 
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Ensure that Object-level logging for write events is enabled for S3 bucket' as title,
+	c.account_id,
+	c.arn as resource_id,
+	case
+	when bool_or(write_event) then 'pass'
+	else 'fail'
+	end as status
+from aws_cloudtrail_trails AS c
+join audit_enabled AS cae ON c.arn = cae.arn
+group by c.arn, c.account_id
+{% endmacro %}

@@ -109,3 +109,47 @@ where t.is_multi_region_trail = TRUE
     and (t.status:IsLogging)::boolean = TRUE
     and ss.arn like 'aws:arn:%'
 {% endmacro %}
+
+{% macro athena__log_metric_filter_and_alarm() %}
+with af as (
+  select distinct a.arn, a.actions_enabled, a.alarm_actions, 
+  json_extract_scalar(metrics, '$.MetricStat.Metric.MetricName') as metric_name -- TODO check
+  from aws_cloudwatch_alarms a
+),
+aes as (
+select advanced_event_selectors as aes from aws_cloudtrail_trail_event_selectors
+),
+tes as (
+    select trail_arn from aws_cloudtrail_trail_event_selectors
+    where exists(
+        select * from 
+      aws_cloudtrail_trail_event_selectors
+      where 
+        json_extract_scalar(event_selectors, '$.ReadWriteType') = 'All'
+        and
+        cast(json_extract(event_selectors, '$.IncludeManagementEvents') as boolean) = TRUE
+    ) 
+  or exists(
+      select * from aes
+       where not exists (
+       select * from aes
+        where
+        json_extract_scalar(FieldSelectors, '$.Field') = 'readOnly'
+       )
+    )
+)
+select
+    t.account_id,
+    t.region,
+    t.cloud_watch_logs_log_group_arn,
+    mf.filter_pattern as pattern
+from aws_cloudtrail_trails t
+inner join tes on t.arn = tes.trail_arn
+inner join aws_cloudwatchlogs_metric_filters mf on mf.log_group_name = t.cloudwatch_logs_log_group_name
+inner join af on mf.filter_name = af.metric_name
+inner join aws_sns_subscriptions ss on json_array_contains(json_extract(af.alarm_actions), ss.topic_arn)
+where t.is_multi_region_trail = TRUE
+    and 
+    cast(json_extract(t.status, '$.IsLogging') as boolean) = TRUE
+    and ss.arn like 'aws:arn:%'
+{% endmacro %}
