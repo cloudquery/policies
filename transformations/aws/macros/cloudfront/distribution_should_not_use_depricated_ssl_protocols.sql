@@ -87,17 +87,16 @@ FROM
     ON d.arn = o.arn
 {% endmacro %}
 
---todo
 {% macro athena__distribution_should_not_use_depricated_ssl_protocols(framework, check_id) %}
 WITH origins_with_sslv3 AS (
 SELECT DISTINCT
     arn,
-    o.value:Id AS origin_id
+    json_extract_scalar(o, '$.Id') AS origin_id
 FROM
     aws_cloudfront_distributions
-, LATERAL FLATTEN(input => COALESCE(distribution_config:Origins:Items, ARRAY_CONSTRUCT())) AS o
+, unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(varchar))) AS o
 WHERE
-    ARRAY_CONTAINS('SSLv3'::variant, o.value:CustomOriginConfig:OriginSslProtocols:Items::ARRAY)
+    CONTAINS(cast(json_extract(o, '$.CustomOriginConfig.OriginSslProtocols.Items') as array(varchar)), 'SSLv3')
 )
 
 SELECT

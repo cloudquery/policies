@@ -142,19 +142,18 @@ from
     LEFT JOIN cache_behaviors as cb on d.arn = cb.arn   
 {% endmacro %}
 
---todo: test lateral flatten logic in athena
 {% macro athena__distribution_should_encrypt_traffic_to_custom_origins(framework, check_id) %}
 with origins as (
     select distinct
         arn,
-        f.value:CustomOriginConfig:OriginProtocolPolicy as policy
+        json_extract_scalar(f.CustomOriginConfig, '$.OriginProtocolPolicy') as policy
     from
         aws_cloudfront_distributions d,
-        LATERAL FLATTEN(input => distribution_config:Origins:Items) as f
+        unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) as f
   
     WHERE
-        f.value:CustomOriginConfig:OriginProtocolPolicy = 'http-only'
-        or f.value:CustomOriginConfig:OriginProtocolPolicy = 'match-viewer'   
+        policy = 'http-only'
+        or policy = 'match-viewer'   
 
 ),
 cache_behaviors as (
@@ -162,9 +161,9 @@ cache_behaviors as (
         arn
     from
         aws_cloudfront_distributions d,
-        LATERAL FLATTEN(input => COALESCE(distribution_config:CacheBehaviors:Items, ARRAY_CONSTRUCT())) as f
+        unnest(cast(json_extract(distribution_config, '$.CacheBehaviors.Items') as array(json))) as f
     where
-        f.value:ViewerProtocolPolicy = 'allow-all'
+        json_extract_scalar(distribution_config, '$.ViewerProtocolPolicy') = 'allow-all'
 )
 select distinct
     '{{framework}}' As framework,
@@ -176,7 +175,7 @@ select distinct
         WHEN o.policy = 'http-only' THEN 'fail'
         WHEN o.policy = 'match-viewer' and (cb.arn is not null 
                                             or
-                                            distribution_config:DefaultCacheBehavior:ViewerProtocolPolicy = 'allow-all') 
+                                            json_extract_scalar(distribution_config, '$.DefaultCacheBehavior.ViewerProtocolPolicy') = 'allow-all') 
                                             THEN 'fail'
         ELSE 'pass'
     END as status
