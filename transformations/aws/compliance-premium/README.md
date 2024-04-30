@@ -705,7 +705,7 @@ This model is dependent on the following models:
 - ✅ `apigateway.1`: `api_gw_execution_logging_enabled`
 - ✅ `apigateway.2`: `api_gw_stage_should_use_ssl`
 - ✅ `apigateway.3`: `api_gw_stage_should_have_xray_tracing_enabled`
-- ✅ `apigateway.4`: `api_gw_associated_wth_waf`
+- ✅ `apigateway.4`: `api_gw_associated_with_waf`
 - ✅ `apigateway.5`: `api_gw_cache_data_encrypted`
 - ✅ `apigateway.8`: `api_gw_routes_should_specify_authorization_type`
 - ✅ `apigateway.9`: `api_gw_access_logging_should_be_configured`
