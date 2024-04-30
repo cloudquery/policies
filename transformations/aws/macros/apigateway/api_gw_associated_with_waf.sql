@@ -1,10 +1,10 @@
-{% macro api_gw_associated_wth_waf(framework, check_id) %}
-  {{ return(adapter.dispatch('api_gw_associated_wth_waf')(framework, check_id)) }}
+{% macro api_gw_associated_with_waf(framework, check_id) %}
+  {{ return(adapter.dispatch('api_gw_associated_with_waf')(framework, check_id)) }}
 {% endmacro %}
 
-{% macro default__api_gw_associated_wth_waf(framework, check_id) %}{% endmacro %}
+{% macro default__api_gw_associated_with_waf(framework, check_id) %}{% endmacro %}
 
-{% macro postgres__api_gw_associated_wth_waf(framework, check_id) %}
+{% macro postgres__api_gw_associated_with_waf(framework, check_id) %}
 SELECT 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
@@ -19,7 +19,7 @@ FROM
     aws_apigateway_rest_api_stages
 {% endmacro %}
 
-{% macro snowflake__api_gw_associated_wth_waf(framework, check_id) %}
+{% macro snowflake__api_gw_associated_with_waf(framework, check_id) %}
 SELECT 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
@@ -34,7 +34,7 @@ FROM
     aws_apigateway_rest_api_stages
 {% endmacro %}
 
-{% macro bigquery__api_gw_associated_wth_waf(framework, check_id) %}
+{% macro bigquery__api_gw_associated_with_waf(framework, check_id) %}
 SELECT 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
@@ -49,7 +49,7 @@ FROM
     {{ full_table_name("aws_apigateway_rest_api_stages") }}
 {% endmacro %}
 
-{% macro athena__api_gw_associated_wth_waf(framework, check_id) %}
+{% macro athena__api_gw_associated_with_waf(framework, check_id) %}
 SELECT 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
