@@ -43,7 +43,7 @@ select
 from {{ full_table_name("aws_redshift_clusters") }}
 {% endmacro %}
 
-{% macro snowflake__clusters_should_use_enhanced_vpc_routing(framework, check_id) %}
+{% macro athena__clusters_should_use_enhanced_vpc_routing(framework, check_id) %}
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

@@ -46,7 +46,7 @@ select
 from {{ full_table_name("aws_secretsmanager_secrets") }}
 {% endmacro %}
 
-{% macro snowflake__secrets_should_be_rotated_within_a_specified_number_of_days(framework, check_id) %}
+{% macro athena__secrets_should_be_rotated_within_a_specified_number_of_days(framework, check_id) %}
 select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
