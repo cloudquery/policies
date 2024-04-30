@@ -86,3 +86,31 @@ FROM
     LEFT JOIN origins_with_sslv3 o
     ON d.arn = o.arn
 {% endmacro %}
+
+{% macro athena__distribution_should_not_use_depricated_ssl_protocols(framework, check_id) %}
+WITH origins_with_sslv3 AS (
+SELECT DISTINCT
+    arn,
+    json_extract_scalar(o, '$.Id') AS origin_id
+FROM
+    aws_cloudfront_distributions
+, unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(varchar))) AS o
+WHERE
+    CONTAINS(cast(json_extract(o, '$.CustomOriginConfig.OriginSslProtocols.Items') as array(varchar)), 'SSLv3')
+)
+
+SELECT
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins' as title,
+    d.arn as resource_id,
+    d.account_id,
+    CASE
+        WHEN o.arn is null THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM
+    aws_cloudfront_distributions d
+    LEFT JOIN origins_with_sslv3 o
+    ON d.arn = o.arn
+{% endmacro %}

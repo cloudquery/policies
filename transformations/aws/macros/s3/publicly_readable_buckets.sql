@@ -194,3 +194,64 @@ where
         and policy_allow_public.statement_count > 0
     )
 {% endmacro %} 
+
+{% macro athena__publicly_readable_buckets(framework, check_id) %}
+WITH policy_allow_public AS (
+    SELECT
+        arn,
+        COUNT(*) AS statement_count
+    FROM
+        (
+            SELECT
+                b.arn,
+                statements,
+                json_extract_scalar(statements, '$.Principal.AWS') as principals_aws,
+                json_extract_scalar(statements, '$.Principal.Service') as principals_service_scalar,
+                try_cast(json_extract(statements, '$.Principal.Service') as array(varchar)) as principals_service_array
+            FROM
+                aws_s3_buckets b
+            inner join aws_s3_bucket_policies bp ON bp._cq_parent_id = b._cq_id,
+            UNNEST(cast(json_extract(bp.policy_json, '$.Statement') as array(json))) t(statements)
+            WHERE
+                json_extract_scalar(statements, '$.Effect') = 'Allow'
+        ) AS foo
+    WHERE
+        (contains(foo.principals_service_array, '*') or foo.principals_service_scalar = '*')
+        OR (
+            foo.principals_aws is not null
+            AND (
+                foo.principals_aws = '*'
+                )
+            )
+    GROUP BY
+        arn
+        )
+SELECT
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'S3 buckets should prohibit public read access' AS title,
+    b.account_id,
+    b.arn AS resource_id,
+    'fail' AS status -- TODO FIXME
+FROM
+    aws_s3_buckets b
+LEFT JOIN
+    aws_s3_bucket_grants bg
+        ON bg._cq_parent_id = b._cq_id
+LEFT JOIN policy_allow_public ON
+        b.arn = policy_allow_public.arn
+LEFT JOIN aws_s3_bucket_public_access_blocks bpab
+        ON bpab._cq_parent_id = b._cq_id
+WHERE
+    (
+        (cast(json_extract_scalar(bpab.public_access_block_configuration, '$.BlockPublicAcls') as boolean) != TRUE
+        AND (
+            json_extract_scalar(bg.grantee, '$.URI') = 'http://acs.amazonaws.com/groups/global/AllUsers'
+            AND bg.permission IN ('READ_ACP', 'FULL_CONTROL')
+        )
+    )
+    OR (
+        (cast(json_extract_scalar(bpab.public_access_block_configuration, '$.BlockPublicPolicy') as boolean) != TRUE
+        AND policy_allow_public.statement_count > 0
+    )))
+{% endmacro %}

@@ -49,3 +49,18 @@ select
 from 
   {{ full_table_name("aws_neptune_clusters") }}
 {% endmacro %}
+
+{% macro athena__neptune_cluster_cloudwatch_log_export_enabled(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Neptune DB clusters should publish audit logs to CloudWatch Logs' as title,
+    account_id,
+    arn as resource_id,
+    case when
+         contains(ENABLED_CLOUDWATCH_LOGS_EXPORTS, 'audit') then 'pass' --todo: test
+    else 'fail'
+    end as status
+from 
+    aws_neptune_clusters
+{% endmacro %}
