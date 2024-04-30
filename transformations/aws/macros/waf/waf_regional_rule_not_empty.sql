@@ -55,7 +55,7 @@ from
     {{ full_table_name("aws_wafregional_rules") }}
 {% endmacro %}
 
-{% macro snowflake__waf_regional_rule_not_empty(framework, check_id) %}
+{% macro athena__waf_regional_rule_not_empty(framework, check_id) %}
 select
 	'{{framework}}' As framework,
     '{{check_id}}' As check_id,

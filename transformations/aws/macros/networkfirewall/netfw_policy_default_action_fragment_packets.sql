@@ -52,7 +52,7 @@ FROM
   {{ full_table_name("aws_networkfirewall_firewall_policies") }}
 {% endmacro %}
 
-{% macro snowflake__netfw_policy_default_action_fragment_packets(framework, check_id) %}
+{% macro athena__netfw_policy_default_action_fragment_packets(framework, check_id) %}
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
