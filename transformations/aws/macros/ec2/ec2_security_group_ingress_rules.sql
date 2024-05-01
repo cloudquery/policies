@@ -85,18 +85,22 @@ select
 {% endmacro %}
 
 {% macro athena__ec2_security_group_ingress_rules() %}
-select
-        account_id,
-        region,
-        group_name,
-        arn,
-        group_id as id,
-        vpc_id,
-        cast(json_extract(ip_permissions, '$.FromPort') as integer) AS from_port,
-        cast(json_extract(ip_permissions, '$.ToPort') as integer) AS to_port,
-        json_extract_scalar(ip_permissions, '$.IpProtocol') AS ip_protocol,
-        json_extract_scalar(ip_permissions, '$.IpRanges.CidrIp') AS ip,
-        json_extract_scalar(ip_permissions, '$.Ipv6Ranges.CidrIpv6') AS ip6
-from aws_ec2_security_groups
+SELECT
+    sg.account_id,
+    sg.region,
+    sg.group_name,
+    sg.arn,
+    sg.group_id as id,
+    sg.vpc_id,
+    cast(json_extract_scalar(ip, '$.FromPort') as integer) AS from_port,
+    cast(json_extract_scalar(ip, '$.ToPort') as integer) AS to_port,
+    json_extract_scalar(ip, '$.IpProtocol') as ip_protocol,
+    json_extract_scalar(ip_range, '$.CidrIp') as ip,
+    json_extract_scalar(ip6_range, '$.CidrIpv6') as ip6
+FROM 
+    aws_ec2_security_groups sg
+CROSS JOIN UNNEST(json_parse(sg.ip_permissions)) as t(ip)
+LEFT JOIN UNNEST(json_extract_scalar(ip, '$.IpRanges')) as t2(ip_range) ON true
+LEFT JOIN UNNEST(json_extract_scalar(ip, '$.Ipv6Ranges')) as t3(ip6_range) ON true
 {% endmacro %}
 
