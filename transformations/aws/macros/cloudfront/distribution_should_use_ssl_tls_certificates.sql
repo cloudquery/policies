@@ -73,7 +73,7 @@ select
             AND
             json_extract(distribution_config, '$.ViewerCertificate:IAMCertificateId') is null
             ) 
-            OR json_extract(distribution_config, '$.ViewerCertificate:CloudFrontDefaultCertificate') = true
+            OR cast(json_extract_scalar(distribution_config, '$.ViewerCertificate:CloudFrontDefaultCertificate') as boolean) = true
         THEN 'fail'
         ELSE 'pass'
     END as status
