@@ -100,40 +100,69 @@ inner join
 {% endmacro %}
 
 {% macro athena__cloudtrail_enabled_all_regions(framework, check_id) %}
-with aes as
-(
-  select *
-  from aws_cloudtrail_trail_event_selectors
+WITH aes AS (
+    SELECT
+        es.trail_arn,
+        es.region,
+        es.account_id,
+        x.aes
+    FROM 
+        aws_cloudtrail_trail_event_selectors es
+        --need to change
+    CROSS JOIN 
+		    UNNEST(es.advanced_event_selectors) AS t(x)
+),
+event_selector_failures AS (
+    SELECT
+        es.trail_arn,
+        es.region,
+        es.account_id
+    FROM 
+        aws_cloudtrail_trail_event_selectors es
+    CROSS JOIN 
+        UNNEST(es.event_selectors) AS t(es)
+    WHERE 
+        json_extract_scalar(es, '$.ReadWriteType') != 'All' 
+        OR cast(json_extract_scalar(es, '$.IncludeManagementEvents') AS boolean) = FALSE
+),
+aes_failures AS (
+    SELECT
+        aes.trail_arn,
+        aes.region,
+        aes.account_id
+    FROM 
+        aes
+    CROSS JOIN 
+		    UNNEST(json_extract(aes.aes, '$.FieldSelectors')) AS t(aes_fs)
+    WHERE 
+        json_extract_scalar(aes_fs, '$.Field') = 'readOnly'
 )
 
-select
+SELECT
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
     'Ensure CloudTrail is enabled in all regions' as title,
-    aws_cloudtrail_trails.account_id,
-    arn as resource_id,
-    case
-        when aws_cloudtrail_trails.is_multi_region_trail = FALSE then 'fail'
-        when exists(select *
-                    from aws_cloudtrail_trail_event_selectors
-                    where 
-                    json_extract_scalar(event_selectors, '$.ReadWriteType') != 'All'
-                    or
-                    cast(json_extract(event_selectors, '$.IncludeManagementEvents') as boolean) = FALSE
-                    )
-            then 'fail'
-        when exists(
-                    select *
-                   from aes
-                   where json_extract_scalar(advanced_event_selectors, '$.FieldSelectors.Field') = 'readOnly'
-                   )
-            then 'fail'
-        else 'pass'
-    end as status
-from aws_cloudtrail_trails
-inner join
-    aws_cloudtrail_trail_event_selectors on
-        aws_cloudtrail_trails.arn = aws_cloudtrail_trail_event_selectors.trail_arn
-        and aws_cloudtrail_trails.region = aws_cloudtrail_trail_event_selectors.region
-        and aws_cloudtrail_trails.account_id = aws_cloudtrail_trail_event_selectors.account_id
+    ct.account_id,
+    ct.arn AS resource_id,
+    CASE
+        WHEN ct.is_multi_region_trail = FALSE THEN 'fail'
+        WHEN EXISTS (
+            SELECT 1
+            FROM event_selector_failures ef
+            WHERE ef.trail_arn = ct.arn AND ef.region = ct.region AND ef.account_id = ct.account_id
+        ) THEN 'fail'
+        WHEN EXISTS (
+            SELECT 1
+            FROM aes_failures af
+            WHERE af.trail_arn = ct.arn AND af.region = ct.region AND af.account_id = ct.account_id
+        ) THEN 'fail'
+        ELSE 'pass'
+    END as status
+FROM 
+    aws_cloudtrail_trails ct
+INNER JOIN
+    aws_cloudtrail_trail_event_selectors es ON 
+        ct.arn = es.trail_arn AND 
+        ct.region = es.region AND 
+        ct.account_id = es.account_id
 {% endmacro %}

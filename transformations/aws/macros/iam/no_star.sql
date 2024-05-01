@@ -120,38 +120,49 @@ left join violations on violations.id = aws_iam_policies.id
 {% endmacro %}
 
 {% macro athena__no_star(framework, check_id) %}
-with pvs as (
-    select
+WITH pvs AS (
+    SELECT
         p.id,
         pv.document_json as document
-    from aws_iam_policies p
-    inner join aws_iam_policy_versions pv on pv._cq_parent_id = p._cq_id
-), violations as (
-    select
-        id,
+    FROM 
+        aws_iam_policies p
+    INNER JOIN 
+        aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
+),
+violations AS (
+    SELECT
+        pvs.id,
         COUNT(*) as violations
-    from pvs
-    where 
-        json_extract_scalar(document, '$.Statement.Effect') = 'Allow'
-        and json_extract_scalar(document, '$.Statement.Resource') = '*'
-        and (
-            json_extract_scalar(document, '$.Statement.Action') = '*'
-            or json_extract_scalar(document, '$.Statement.Action') = '*:*'
-        )
-    group by id
+    FROM 
+        pv
+    CROSS JOIN 
+        UNNEST(json_extract(document, '$.Statement')) AS t2(statement)
+    CROSS JOIN 
+        UNNEST(json_extract(statement, '$.Resource')) AS t3(resource)
+    CROSS JOIN 
+        UNNEST(json_extract(statement, '$.Action')) AS t4(action)
+    WHERE 
+        json_extract_scalar(statement, '$.Effect') = 'Allow'
+        AND json_extract_scalar(resource, '$') = '*'
+        AND (json_extract_scalar(action, '$') = '*' OR json_extract_scalar(action, '$') = '*:*')
+    GROUP BY 
+        pvs.id
 )
 
-select distinct
+SELECT DISTINCT
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
     'IAM policies should not allow full ''*'' administrative privileges' as title,
     account_id,
     arn AS resource_id,
-    case 
-        when violations.id is not null AND violations.violations > 0
-        then 'fail' 
-        else 'pass' 
-    end as status
-from aws_iam_policies
-left join violations on violations.id = aws_iam_policies.id
+    CASE 
+        WHEN violations.id IS NOT NULL AND violations.violations > 0
+        THEN 'fail' 
+        ELSE 'pass' 
+    END as status
+FROM 
+    aws_iam_policies
+LEFT JOIN 
+    violations ON violations.id = aws_iam_policies.id
+
 {% endmacro %}

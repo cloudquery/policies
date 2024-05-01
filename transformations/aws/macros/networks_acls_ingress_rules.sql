@@ -69,20 +69,32 @@ WHERE egress IS DISTINCT FROM 'true'
 
 {% macro athena__networks_acls_ingress_rules() %}
 WITH rules AS (
-  SELECT 
-     aena.arn,
-     aena.account_id,
-     cast(json_extract(ENTRIES, '$.PortRange.From') as INT) as port_range_from,
-     cast(json_extract(ENTRIES, '$.PortRange.To') as INT) as port_range_to,
-     json_extract_scalar(ENTRIES, '$.Protocol') as protocol,
-     json_extract_scalar(ENTRIES, '$.CidrBlock') as cidr_block,
-     json_extract_scalar(ENTRIES, '$.Ipv6CidrBlock') as ipv6_cidr_block,
-     json_extract_scalar(ENTRIES, '$.Egress') as egress,
-     json_extract_scalar(ENTRIES, '$.RuleAction') as rule_action
-FROM aws_ec2_network_acls aena
+    SELECT 
+        aena.arn,
+        aena.account_id,
+        cast(json_extract_scalar(v, '$.PortRange.From') as integer) as port_range_from,
+        cast(json_extract_scalar(v, '$.PortRange.To') as integer) as port_range_to,
+        json_extract_scalar(v, '$.Protocol') as protocol,
+        json_extract_scalar(v, '$.CidrBlock') as cidr_block,
+        json_extract_scalar(v, '$.Ipv6CidrBlock') as ipv6_cidr_block,
+        json_extract_scalar(v, '$.Egress') as egress,
+        json_extract_scalar(v, '$.RuleAction') as rule_action
+    FROM 
+        aws_ec2_network_acls aena
+    CROSS JOIN
+        UNNEST(aena.entries) AS t(v)
 )
-SELECT arn, account_id, port_range_from, port_range_to, protocol, cidr_block, ipv6_cidr_block
-FROM rules
-WHERE egress IS DISTINCT FROM 'true'
-  AND rule_action = 'allow'
+SELECT 
+    arn, 
+    account_id, 
+    port_range_from, 
+    port_range_to, 
+    protocol, 
+    cidr_block, 
+    ipv6_cidr_block
+FROM 
+    rules
+WHERE 
+    egress <> 'true'
+    AND rule_action = 'allow'
 {% endmacro %}

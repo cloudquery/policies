@@ -111,45 +111,56 @@ where t.is_multi_region_trail = TRUE
 {% endmacro %}
 
 {% macro athena__log_metric_filter_and_alarm() %}
-with af as (
-  select distinct a.arn, a.actions_enabled, a.alarm_actions, 
-  json_extract_scalar(metrics, '$.MetricStat.Metric.MetricName') as metric_name -- TODO check
-  from aws_cloudwatch_alarms a
+WITH af AS (
+    SELECT DISTINCT 
+        a.arn, 
+        a.actions_enabled, 
+        a.alarm_actions, 
+        json_extract_scalar(m, '$.MetricStat.Metric.MetricName') AS metric_name
+    FROM 
+        aws_cloudwatch_alarms a
+    CROSS JOIN
+        UNNEST(a.metrics) AS t(m)
 ),
-aes as (
-select advanced_event_selectors as aes from aws_cloudtrail_trail_event_selectors
+aes AS (
+    SELECT *
+    FROM aws_cloudtrail_trail_event_selectors
+    CROSS JOIN UNNEST(advanced_event_selectors) AS t(aes)
 ),
-tes as (
-    select trail_arn from aws_cloudtrail_trail_event_selectors
-    where exists(
-        select * from 
-      aws_cloudtrail_trail_event_selectors
-      where 
-        json_extract_scalar(event_selectors, '$.ReadWriteType') = 'All'
-        and
-        cast(json_extract(event_selectors, '$.IncludeManagementEvents') as boolean) = TRUE
-    ) 
-  or exists(
-      select * from aes
-       where not exists (
-       select * from aes
-        where
-        json_extract_scalar(FieldSelectors, '$.Field') = 'readOnly'
-       )
+tes AS (
+    SELECT trail_arn 
+    FROM aws_cloudtrail_trail_event_selectors
+    WHERE EXISTS (
+        SELECT 1
+        FROM aws_cloudtrail_trail_event_selectors
+        CROSS JOIN UNNEST(event_selectors) AS t(es)
+        WHERE json_extract_scalar(es, '$.ReadWriteType') = 'All'
+          AND cast(json_extract_scalar(es, '$.IncludeManagementEvents') AS boolean) = TRUE
+    )
+    OR EXISTS (
+        SELECT 1
+        FROM aes
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM unnest(cast(json_extract(aes.aes, '$.FieldSelectors') 
+        as array(json))) as u(aes_fs)
+            WHERE json_extract_scalar(aes_fs, '$.Field') = 'readOnly'
+        )
     )
 )
-select
+SELECT
     t.account_id,
     t.region,
     t.cloud_watch_logs_log_group_arn,
-    mf.filter_pattern as pattern
-from aws_cloudtrail_trails t
-inner join tes on t.arn = tes.trail_arn
-inner join aws_cloudwatchlogs_metric_filters mf on mf.log_group_name = t.cloudwatch_logs_log_group_name
-inner join af on mf.filter_name = af.metric_name
-inner join aws_sns_subscriptions ss on json_array_contains(json_extract(af.alarm_actions), ss.topic_arn)
-where t.is_multi_region_trail = TRUE
-    and 
-    cast(json_extract(t.status, '$.IsLogging') as boolean) = TRUE
-    and ss.arn like 'aws:arn:%'
+    mf.filter_pattern AS pattern
+FROM aws_cloudtrail_trails t
+INNER JOIN tes ON t.arn = tes.trail_arn
+INNER JOIN aws_cloudwatchlogs_metric_filters mf ON mf.log_group_name = t.cloud_watch_logs_log_group_arn
+INNER JOIN af ON mf.filter_name = af.metric_name
+INNER JOIN aws_sns_subscriptions ss ON json_array_contains(json_parse(af.alarm_actions), ss.topic_arn)
+WHERE t.is_multi_region_trail = TRUE
+    AND 
+    cast(json_extract(t.status, '$.IsLogging') AS boolean) = TRUE
+    AND ss.arn LIKE 'aws:arn:%'
+
 {% endmacro %}
