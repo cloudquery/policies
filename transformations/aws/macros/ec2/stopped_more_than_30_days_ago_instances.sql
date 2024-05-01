@@ -51,3 +51,19 @@ select
   end AS status
 FROM {{ full_table_name("aws_ec2_instances") }}
 {% endmacro %}
+
+{% macro athena__stopped_more_than_30_days_ago_instances(framework, check_id) %}
+select
+  '{{framework}}' AS framework,
+  '{{check_id}}' AS check_id,
+  'Stopped EC2 instances should be removed after a specified time period' as title,
+  account_id,
+  instance_id as resource_id,
+  case when
+    JSON_EXTRACT_SCALAR(state, '$.Name') = 'stopped' -- Assuming 'state' is a JSON column
+    AND date_diff('day', from_iso8601_timestamp(CAST(state_transition_reason_time AS varchar)), current_date) > 30
+  then 'fail'
+  else 'pass'
+  end AS status
+from aws_ec2_instances
+{% endmacro %}

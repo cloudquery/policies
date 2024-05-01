@@ -71,3 +71,27 @@ select
     status
 from results
 {% endmacro %}
+
+{% macro athena__unused_acls(framework, check_id) %}
+WITH results AS (
+    SELECT DISTINCT
+        account_id,
+        network_acl_id AS resource_id,
+        CASE WHEN
+            JSON_EXTRACT(assoc, '$.NetworkAclAssociationId') IS NULL
+        THEN 'fail'
+        ELSE 'pass'
+        END AS status
+    FROM aws_ec2_network_acls
+    CROSS JOIN UNNEST(CAST(json_parse(associations) AS array(json))) AS t (assoc)
+)
+
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Unused network access control lists should be removed' as title,
+    account_id,
+    resource_id,
+    status
+FROM results
+{% endmacro %}

@@ -81,3 +81,27 @@ from {{ full_table_name("aws_ec2_vpcs") }}
 left join endpoints
     on aws_ec2_vpcs.vpc_id = endpoints.vpc_endpoint_id
 {% endmacro %}
+
+{% macro athena__vpcs_without_ec2_endpoint(framework, check_id) %}
+WITH endpoints AS (
+    SELECT vpc_id
+    FROM aws_ec2_vpc_endpoints
+    WHERE vpc_endpoint_type = 'Interface'
+        AND service_name LIKE CONCAT('com.amazonaws.', region, '.ec2')
+)
+
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Amazon EC2 should be configured to use VPC endpoints that are created for the Amazon EC2 service' as title,
+    account_id,
+    aws_ec2_vpcs.vpc_id as resource_id,
+    CASE WHEN
+        endpoints.vpc_id IS NULL
+        THEN 'fail'
+        ELSE 'pass'
+    END as status
+FROM aws_ec2_vpcs
+LEFT JOIN endpoints
+    ON aws_ec2_vpcs.vpc_id = endpoints.vpc_id
+{% endmacro %}

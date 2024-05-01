@@ -55,3 +55,19 @@ FROM
     {{ full_table_name("aws_rds_events") }}
 where source_type = 'db-parameter-group'
 {% endmacro %}
+
+{% macro athena__rds_pg_event_notifications_configured(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'An RDS event notifications subscription should be configured for critical database parameter group events' AS title,
+    account_id,
+    SOURCE_ARN AS resource_id,
+    CASE 
+        WHEN contains(cast(EVENT_CATEGORIES as array(varchar)), 'configuration change') 
+        THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM aws_rds_events
+WHERE source_type = 'db-parameter-group'
+{% endmacro %}
