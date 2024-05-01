@@ -67,7 +67,7 @@ WHERE
     source_type = 'db-instance'
 {% endmacro %}
 
-{% macro bigquery__rds_instance_event_notifications_configured(framework, check_id) %}
+{% macro athena__rds_instance_event_notifications_configured(framework, check_id) %}
 SELECT
     '{{framework}}' AS framework,
     '{{check_id}}' AS check_id,

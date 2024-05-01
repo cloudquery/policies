@@ -95,3 +95,34 @@ FROM {{ full_table_name("aws_elasticbeanstalk_environments") }} e
 JOIN flat_configs as fc
     ON e.arn = fc.environment_arn
 {% endmacro %}
+
+{% macro athena__elastic_beanstalk_stream_logs_to_cloudwatch(framework, check_id) %}
+with flat_configs as (
+    select 
+        c.environment_arn,
+        json_extract_scalar(f, '$.Namespace.Value') as is_log_streaming
+        
+    from 
+        aws_elasticbeanstalk_configuration_settings c,
+        unnest(cast(json_parse(option_settings) as array(json))) as t(f)
+
+    WHERE
+        json_extract_scalar(f, '$.Namespace') = 'aws:elasticbeanstalk:cloudwatch:logs'
+        and 
+        json_extract_scalar(f, '$.OptionName') = 'StreamLogs'
+)
+
+SELECT
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Elastic Beanstalk should stream logs to CloudWatch' as title, 
+    e.account_id,
+    e.arn as resource_id,
+    CASE
+     WHEN is_log_streaming = 'true' THEN 'pass'
+     ELSE 'fail'
+    END as status
+FROM aws_elasticbeanstalk_environments e
+JOIN flat_configs as fc
+    ON e.arn = fc.environment_arn
+{% endmacro %}

@@ -53,3 +53,19 @@ select
     end as status
 from {{ full_table_name("aws_elasticbeanstalk_environments") }}
 {% endmacro %}
+
+{% macro athena__advanced_health_reporting_enabled(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Elastic Beanstalk environments should have enhanced health reporting enabled' as title,
+    account_id,
+    arn as resource_id,
+    case when
+        health_status is null
+        or health is null
+        then 'fail'
+        else 'pass'
+    end as status
+from aws_elasticbeanstalk_environments
+{% endmacro %}

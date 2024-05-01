@@ -48,3 +48,18 @@ select
  FROM 
      {{ full_table_name("aws_ecr_repositories") }}
 {% endmacro %}
+
+{% macro athena__private_repositories_have_image_scanning_configured(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id, 
+     'ECR private repositories should have image scanning configured' as title,
+     account_id,
+     arn as resource_id,
+     CASE
+       WHEN json_extract_scalar(image_scanning_configuration, '$.ScanOnPush') = 'false' THEN 'fail'
+       ELSE 'pass'
+     END as status
+ FROM 
+     aws_ecr_repositories
+{% endmacro %}

@@ -49,7 +49,7 @@ FROM
     {{ full_table_name("aws_rds_clusters") }}
 {% endmacro %}
 
-{% macro bigquery__rds_cluster_encrypted_at_rest(framework, check_id) %}
+{% macro athena__rds_cluster_encrypted_at_rest(framework, check_id) %}
 SELECT
     '{{framework}}' AS framework,
     '{{check_id}}' AS check_id,
