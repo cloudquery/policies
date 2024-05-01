@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('flow_logs_enabled_in_all_vpcs')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__flow_logs_enabled_in_all_vpcs(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__flow_logs_enabled_in_all_vpcs(framework, check_id) %}
 select
   '{{framework}}' As framework,
