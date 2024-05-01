@@ -54,3 +54,20 @@ select
 from
     {{ full_table_name("aws_ec2_security_groups") }}
 {% endmacro %}
+
+{% macro athena__default_sg_no_access(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'The VPC default security group should not allow inbound and outbound traffic' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE 
+        WHEN group_name = 'default' 
+             AND (cardinality(cast(json_parse(ip_permissions) as array(json))) > 0
+                  OR cardinality(cast(json_parse(ip_permissions_egress) as array(json))) > 0)
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_ec2_security_groups
+{% endmacro %}

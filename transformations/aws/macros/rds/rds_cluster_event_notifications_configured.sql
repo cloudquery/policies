@@ -60,3 +60,21 @@ FROM
     {{ full_table_name("aws_rds_events") }}
 WHERE source_type = 'db-cluster'
 {% endmacro %}
+
+{% macro athena__rds_cluster_event_notifications_configured(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'An RDS event notifications subscription should be configured for critical cluster events' AS title,
+    account_id,
+    SOURCE_ARN AS resource_id,
+    CASE 
+        WHEN 
+            contains(cast(EVENT_CATEGORIES as array(varchar)), 'maintenance') AND
+            contains(cast(EVENT_CATEGORIES as array(varchar)), 'failure')
+            THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM aws_rds_events
+WHERE source_type = 'db-cluster'
+{% endmacro %}
