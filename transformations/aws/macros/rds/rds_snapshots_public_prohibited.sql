@@ -101,3 +101,42 @@ FROM
     {{ full_table_name("aws_rds_db_snapshots") }},
     UNNEST(JSON_QUERY_ARRAY(ATTRIBUTES)) AS a
 {% endmacro %}
+
+{% macro athena__rds_snapshots_public_prohibited(framework, check_id) %}
+WITH Snapshot_Attributes AS (
+    SELECT
+        '{{framework}}' AS framework,
+        '{{check_id}}' AS check_id,
+        'RDS snapshot should be private' AS title,
+        account_id,
+        arn AS resource_id,
+        attribute
+    FROM aws_rds_cluster_snapshots
+    CROSS JOIN UNNEST(CAST(json_parse(attributes) as array(json))) AS t(attribute)
+    
+    UNION ALL
+    
+    SELECT
+        '{{framework}}' AS framework,
+        '{{check_id}}' AS check_id,
+        'RDS snapshot should be private' AS title,
+        account_id,
+        arn AS resource_id,
+        attribute
+    FROM aws_rds_db_snapshots
+    CROSS JOIN UNNEST(CAST(json_parse(attributes) as array(json))) AS t(attribute)
+)
+
+SELECT
+    framework,
+    check_id,
+    title,
+    account_id,
+    resource_id,
+    CASE 
+        WHEN json_extract_scalar(attribute, '$.Name') = 'restore' AND contains(cast(json_extract(attribute, '$.Value') as array(varchar)), 'all')
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM Snapshot_Attributes
+{% endmacro %}
