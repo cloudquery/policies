@@ -124,21 +124,21 @@ select DISTINCT
     arn
 
 from aws_apigateway_rest_api_stages as s,
-  LATERAL FLATTEN(input => COALESCE(s.method_settings, ARRAY_CONSTRUCT())) as ms
+unnest(try_cast(json_parse(s.method_settings) as array(json))) as t(ms)
   
   WHERE
-    ms.value:CachingEnabled = 'true'
+    json_extract_scalar(ms, '$.CachingEnabled') = 'true'
     AND
-    ms.value:CacheDataEncrypted <> 'true'
+    json_extract_scalar(ms, '$.CacheDataEncrypted') <> 'true'
 ),
 cache_enabled AS (
 select DISTINCT
     arn,
     account_id
 FROM  aws_apigateway_rest_api_stages as s,
-LATERAL FLATTEN(input => COALESCE(s.method_settings, ARRAY_CONSTRUCT())) as ms
+unnest(try_cast(json_parse(s.method_settings) as array(json))) as t(ms)
 WHERE
-    ms.value:CachingEnabled = 'true'
+    json_extract_scalar(ms, '$.CachingEnabled') = 'true'
 )
 SELECT
     '{{framework}}' As framework,
