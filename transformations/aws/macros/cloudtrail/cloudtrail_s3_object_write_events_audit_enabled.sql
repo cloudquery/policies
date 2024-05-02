@@ -105,7 +105,7 @@ WITH audit_enabled AS (
             WHEN c.is_multi_region_trail 
                 AND json_extract_scalar(dr, '$.Type') = 'AWS::S3::Object'
                 AND json_array_contains(json_extract(dr, '$.Values'), 'arn:aws:s3')
-                AND json_extract_scalar(es, '$.ReadWriteType') IN ('WriteOnly', 'All')
+                AND json_extract_scalar(event_selectors, '$.ReadWriteType') IN ('WriteOnly', 'All')
             THEN True
             ELSE False
         END as write_event
@@ -113,8 +113,8 @@ WITH audit_enabled AS (
         aws_cloudtrail_trails AS c
     JOIN 
         aws_cloudtrail_trail_event_selectors AS es ON c._cq_id = es._cq_parent_id
-    CROSS JOIN 
-        UNNEST(json_extract(es, '$.DataResources')) AS t2(dr)
+    CROSS JOIN
+        UNNEST(cast(json_extract(es.event_selectors, '$.DataResources') as array(json))) as t2(dr)
 )
 
 SELECT 

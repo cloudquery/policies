@@ -120,12 +120,12 @@ WITH af AS (
     FROM 
         aws_cloudwatch_alarms a
     CROSS JOIN
-        UNNEST(a.metrics) AS t(m)
+        UNNEST(cast(json_extract(a.metrics, '$') as array(json))) as t(m)
 ),
 aes AS (
     SELECT *
     FROM aws_cloudtrail_trail_event_selectors
-    CROSS JOIN UNNEST(advanced_event_selectors) AS t(aes)
+    CROSS JOIN UNNEST(cast(json_extract(advanced_event_selectors, '$') as array(json))) as t(aes)
 ),
 tes AS (
     SELECT trail_arn 
@@ -133,7 +133,7 @@ tes AS (
     WHERE EXISTS (
         SELECT 1
         FROM aws_cloudtrail_trail_event_selectors
-        CROSS JOIN UNNEST(event_selectors) AS t(es)
+        CROSS JOIN UNNEST(cast(json_extract(event_selectors, '$') as array(json))) as t(es)
         WHERE json_extract_scalar(es, '$.ReadWriteType') = 'All'
           AND cast(json_extract_scalar(es, '$.IncludeManagementEvents') AS boolean) = TRUE
     )
@@ -142,7 +142,7 @@ tes AS (
         FROM aes
         WHERE NOT EXISTS (
             SELECT 1
-            FROM unnest(cast(json_extract(aes.aes, '$.FieldSelectors') 
+            FROM aes, unnest(cast(json_extract(aes.aes, '$.FieldSelectors') 
         as array(json))) as u(aes_fs)
             WHERE json_extract_scalar(aes_fs, '$.Field') = 'readOnly'
         )
@@ -157,10 +157,9 @@ FROM aws_cloudtrail_trails t
 INNER JOIN tes ON t.arn = tes.trail_arn
 INNER JOIN aws_cloudwatchlogs_metric_filters mf ON mf.log_group_name = t.cloud_watch_logs_log_group_arn
 INNER JOIN af ON mf.filter_name = af.metric_name
-INNER JOIN aws_sns_subscriptions ss ON json_array_contains(json_parse(af.alarm_actions), ss.topic_arn)
+INNER JOIN aws_sns_subscriptions ss ON contains(af.alarm_actions, ss.topic_arn)
 WHERE t.is_multi_region_trail = TRUE
     AND 
     cast(json_extract(t.status, '$.IsLogging') AS boolean) = TRUE
     AND ss.arn LIKE 'aws:arn:%'
-
 {% endmacro %}
