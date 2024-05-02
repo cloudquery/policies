@@ -332,6 +332,7 @@ LEFT JOIN decrypt_groups dg
 {% endmacro %}
 
 {% macro athena__iam_inline_policy_no_kms_decrypt(framework, check_id) %}
+select * from (
 WITH decrypt_users as (
     SELECT DISTINCT
         u.user_arn as arn
@@ -432,4 +433,5 @@ SELECT
 FROM aws_iam_groups g
 LEFT JOIN decrypt_groups dg
     ON g.arn = dg.arn
+)
 {% endmacro %}

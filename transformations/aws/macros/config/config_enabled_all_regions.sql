@@ -103,6 +103,7 @@ from
 {% endmacro %}
 
 {% macro athena__config_enabled_all_regions(framework, check_id) %}
+select * from (
 with global_recorders as (
   select
     count(*) as global_config_recorders
@@ -132,4 +133,5 @@ from
   inner join aws_config_configuration_recorders as r on r.account_id = a.account_id
   and r.region = a.region_name
   where a.opt_in_status != 'not-opted-in'
+)
 {% endmacro %}

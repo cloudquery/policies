@@ -97,6 +97,7 @@ JOIN flat_configs as fc
 {% endmacro %}
 
 {% macro athena__elastic_beanstalk_stream_logs_to_cloudwatch(framework, check_id) %}
+select * from (
 with flat_configs as (
     select 
         c.environment_arn,
@@ -125,4 +126,5 @@ SELECT
 FROM aws_elasticbeanstalk_environments e
 JOIN flat_configs as fc
     ON e.arn = fc.environment_arn
+)
 {% endmacro %}

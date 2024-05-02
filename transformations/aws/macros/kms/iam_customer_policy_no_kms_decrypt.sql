@@ -105,6 +105,7 @@ LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
 {% endmacro %}
 
 {% macro athena__iam_customer_policy_no_kms_decrypt(framework, check_id) %}
+select * from (
 WITH policy_with_decrypt AS (
     SELECT DISTINCT arn
     FROM aws_iam_policies p
@@ -134,4 +135,5 @@ SELECT
 FROM    
     aws_iam_policies i
 LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
+)
 {% endmacro %}

@@ -102,6 +102,7 @@ inner join
 {% endmacro %}
 
 {% macro athena__cloudtrail_enabled_all_regions(framework, check_id) %}
+select * from (
 with aes as
 (
   select *
@@ -137,4 +138,5 @@ inner join
         aws_cloudtrail_trails.arn = aws_cloudtrail_trail_event_selectors.trail_arn
         and aws_cloudtrail_trails.region = aws_cloudtrail_trail_event_selectors.region
         and aws_cloudtrail_trails.account_id = aws_cloudtrail_trail_event_selectors.account_id
+)
 {% endmacro %}
