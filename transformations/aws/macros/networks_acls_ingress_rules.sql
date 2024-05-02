@@ -82,7 +82,7 @@ WITH rules AS (
     FROM 
         aws_ec2_network_acls aena
     CROSS JOIN
-        UNNEST(aena.entries) AS t(v)
+        UNNEST(cast(json_extract(aena.entries, '$') as array(json))) as t(v)
 )
 SELECT 
     arn, 
