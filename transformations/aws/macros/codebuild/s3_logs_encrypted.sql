@@ -46,7 +46,7 @@ select
 from {{ full_table_name("aws_codebuild_projects") }}
 {% endmacro %}
 
-{% macro snowflake__s3_logs_encrypted(framework, check_id) %}
+{% macro athena__s3_logs_encrypted(framework, check_id) %}
 select 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

@@ -58,7 +58,7 @@ FROM
     aws_efs_access_points
 {% endmacro %}
 
-{% macro snowflake__access_point_enforce_user_identity(framework, check_id) %}
+{% macro athena__access_point_enforce_user_identity(framework, check_id) %}
 select 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

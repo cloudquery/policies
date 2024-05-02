@@ -49,7 +49,7 @@ select
 from {{ full_table_name("aws_elasticsearch_domains") }}
 {% endmacro %}
 
-{% macro snowflake__elasticsearch_domains_should_encrypt_data_sent_between_nodes(framework, check_id) %}
+{% macro athena__elasticsearch_domains_should_encrypt_data_sent_between_nodes(framework, check_id) %}
 select
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,

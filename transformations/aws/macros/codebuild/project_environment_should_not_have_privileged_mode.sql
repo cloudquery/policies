@@ -47,7 +47,7 @@ from
      {{ full_table_name("aws_codebuild_projects") }}
 {% endmacro %}
 
-{% macro snowflake__project_environment_should_not_have_privileged_mode(framework, check_id) %}
+{% macro athena__project_environment_should_not_have_privileged_mode(framework, check_id) %}
 select 
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,

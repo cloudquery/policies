@@ -121,7 +121,7 @@ FROM {{ full_table_name("aws_cloudfront_distributions") }} as d
 LEFT JOIN s3_origins_with_buckets as o ON d.arn = o.arn
 {% endmacro %}
 
-{% macro snowflake__distribution_should_use_origin_access_control(framework, check_id) %}
+{% macro athena__distribution_should_use_origin_access_control(framework, check_id) %}
 WITH s3_origins AS (
     SELECT DISTINCT
         arn,
