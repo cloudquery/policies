@@ -77,6 +77,7 @@ left join {{ full_table_name("aws_acm_certificates") }} on aws_acm_certificates.
 {% endmacro %}
 
 {% macro athena__elbv1_cert_provided_by_acm(framework, check_id) %}
+select * from (
 with listeners as (
   select
       lb.account_id as account_id,
@@ -101,4 +102,5 @@ select
   end as status
 from listeners
 left join aws_acm_certificates on aws_acm_certificates.arn = listeners.ssl_certificate_id
+)
 {% endmacro %}

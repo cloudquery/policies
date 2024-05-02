@@ -57,7 +57,7 @@ select
     account_id,
     arn as resource_id,
     CASE 
-        WHEN json_extract(distribution_config, '$.ViewerCertificate:SSLSupportMethod') <> 'sni-only'
+        WHEN json_extract_scalar(distribution_config, '$.ViewerCertificate:SSLSupportMethod') <> 'sni-only'
         THEN 'fail'
         ELSE 'pass'
     END as status

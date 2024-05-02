@@ -60,7 +60,7 @@ select
   account_id,
   arn AS resource_id,
   case
-  when json_extract(METADATA_OPTIONS, '$.HttpTokens') = 'required' then 'pass'
+  when json_extract_scalar(METADATA_OPTIONS, '$.HttpTokens') = 'required' then 'pass'
     else 'fail'
   END
     AS status

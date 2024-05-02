@@ -54,7 +54,7 @@ select
     account_id,
     arn as resource_id,
     case
-        when json_extract(distribution_config, '$.WebACLId') = '' then 'fail'
+        when json_extract_scalar(distribution_config, '$.WebACLId') = '' then 'fail'
         else 'pass'
     end as status
 from aws_cloudfront_distributions
