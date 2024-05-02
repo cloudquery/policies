@@ -89,3 +89,24 @@ FROM {{ full_table_name("aws_apigateway_rest_api_stages") }} s
 JOIN {{ full_table_name("aws_apigateway_rest_apis") }} r ON s.rest_api_arn=r.arn,
 UNNEST(JSON_QUERY_ARRAY(s.method_settings)) AS ms
 {% endmacro %}
+
+{% macro athena__api_gateway_method_settings() %}
+SELECT
+    s.arn,
+    s.rest_api_arn,
+    s.stage_name,
+    s.tracing_enabled AS stage_data_trace_enabled,
+    s.cache_cluster_enabled AS stage_caching_enabled,
+    s.web_acl_arn AS waf,
+    s.client_certificate_id AS cert,
+    key AS method,
+    CASE WHEN json_extract_scalar(ms, '$.DataTraceEnabled') = 'true' THEN 1 ELSE 0 END AS data_trace_enabled,
+    CASE WHEN json_extract_scalar(ms, '$.CachingEnabled') = 'true' THEN 1 ELSE 0 END AS caching_enabled,
+    CASE WHEN json_extract_scalar(ms, '$.CacheDataEncrypted') = 'true' THEN 1 ELSE 0 END AS cache_data_encrypted,
+    json_extract_scalar(ms, '$.LoggingLevel') AS logging_level,
+    r.account_id
+FROM aws_apigateway_rest_api_stages s
+JOIN aws_apigateway_rest_apis r ON s.rest_api_arn=r.arn,
+unnest(cast(json_parse(s.method_settings) as array(json))) as t(ms)
+
+{% endmacro %}

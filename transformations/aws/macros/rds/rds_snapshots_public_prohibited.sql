@@ -103,6 +103,7 @@ FROM
 {% endmacro %}
 
 {% macro athena__rds_snapshots_public_prohibited(framework, check_id) %}
+select * from (
 WITH Snapshot_Attributes AS (
     SELECT
         '{{framework}}' AS framework,
@@ -139,4 +140,5 @@ SELECT
         ELSE 'pass'
     END AS status
 FROM Snapshot_Attributes
+)
 {% endmacro %}

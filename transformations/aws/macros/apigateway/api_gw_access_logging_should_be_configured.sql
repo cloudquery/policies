@@ -57,7 +57,7 @@ select
     account_id, 
     arn AS resource_id,
     CASE
-        WHEN coalesce(cast(access_log_settings as TEXT), '') = '' THEN 'fail'
+        WHEN coalesce(cast(access_log_settings as varchar), '') = '' THEN 'fail'
         ELSE 'pass'
     END AS status
 FROM 

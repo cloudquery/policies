@@ -80,6 +80,7 @@ FROM {{ full_table_name("aws_ec2_security_groups") }}
 {% endmacro %}
 
 {% macro athena__security_groups_not_associated(framework, check_id) %}
+select * from (
 WITH used_security_groups AS (
     -- Security groups associated with EC2 instances
     SELECT JSON_EXTRACT_SCALAR(sg, '$.GroupId') as security_group_id
@@ -102,4 +103,5 @@ SELECT
         ELSE 'fail'
     END AS status
 FROM aws_ec2_security_groups
+)
 {% endmacro %}

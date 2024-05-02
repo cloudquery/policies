@@ -111,6 +111,7 @@ WHERE REGEXP_CONTAINS(p.arn, r'.*\d{12}.*')
 {% endmacro %}
 
 {% macro athena__policies_with_admin_rights(framework, check_id) %}
+select * from (
 WITH iam_policies AS (
     SELECT
         p.id AS id,
@@ -167,4 +168,5 @@ SELECT
     CASE WHEN b.id IS NOT NULL THEN 'fail' ELSE 'pass' END AS status
 FROM aws_iam_policies p
 LEFT JOIN allow_all_statements b ON p.id = b.id
+)
 {% endmacro %}

@@ -85,6 +85,7 @@ FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 
 {% macro athena__security_groups_with_access_to_unauthorized_ports(framework, check_id) %}
 -- Assuming aws_compliance__security_group_ingress_rules view is available with the necessary fields
+select * from (
 WITH IndividualRuleStatus AS (
   SELECT
       account_id,
@@ -97,7 +98,7 @@ WITH IndividualRuleStatus AS (
       then 'fail'
       else 'pass'
     end as status
-  FROM FROM {{ref('aws_compliance__security_group_ingress_rules')}}
+  FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 )
 
 SELECT
@@ -112,4 +113,5 @@ SELECT
     END as status
   FROM IndividualRuleStatus
   GROUP BY account_id, resource_id
+)
 {% endmacro %}

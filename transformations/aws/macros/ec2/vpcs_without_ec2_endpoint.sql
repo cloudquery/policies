@@ -83,6 +83,7 @@ left join endpoints
 {% endmacro %}
 
 {% macro athena__vpcs_without_ec2_endpoint(framework, check_id) %}
+select * from (
 WITH endpoints AS (
     SELECT vpc_id
     FROM aws_ec2_vpc_endpoints
@@ -104,4 +105,5 @@ SELECT
 FROM aws_ec2_vpcs
 LEFT JOIN endpoints
     ON aws_ec2_vpcs.vpc_id = endpoints.vpc_id
+)
 {% endmacro %}

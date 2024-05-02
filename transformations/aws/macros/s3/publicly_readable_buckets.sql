@@ -196,6 +196,7 @@ where
 {% endmacro %} 
 
 {% macro athena__publicly_readable_buckets(framework, check_id) %}
+select * from (
 WITH policy_allow_public AS (
     SELECT
         arn,
@@ -254,4 +255,5 @@ WHERE
         (cast(json_extract_scalar(bpab.public_access_block_configuration, '$.BlockPublicPolicy') as boolean) != TRUE
         AND policy_allow_public.statement_count > 0
     )))
+)
 {% endmacro %}

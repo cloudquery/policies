@@ -86,6 +86,7 @@ with wildcards as
 {% endmacro %}
 
 {% macro athena__lambda_function_public_access_prohibited(framework, check_id) %}
+select * from (
 with wildcards as
 (select
     arn
@@ -107,4 +108,5 @@ select DISTINCT
 	else 'fail' end as status
 from aws_lambda_functions alf
 left join wildcards on alf.arn = wildcards.arn
+)
 {% endmacro %}

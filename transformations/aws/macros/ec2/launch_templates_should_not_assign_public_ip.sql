@@ -98,6 +98,7 @@ LEFT JOIN
 {% endmacro %}
 
 {% macro athena__launch_templates_should_not_assign_public_ip(framework, check_id) %}
+select * from (
 WITH FlattenedData AS (
     SELECT
         account_id,
@@ -126,4 +127,5 @@ FROM
 LEFT JOIN
     aws_ec2_network_interfaces
     ON FlattenedData.network_interface_id = aws_ec2_network_interfaces.network_interface_id
+)
 {% endmacro %}

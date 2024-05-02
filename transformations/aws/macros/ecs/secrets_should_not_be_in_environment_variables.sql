@@ -111,6 +111,7 @@ from
 {% endmacro %}
 
 {% macro athena__secrets_should_not_be_in_environment_variables(framework, check_id) %}
+select * from (
 with flat_containers AS (
 SELECT 
     t.arn,
@@ -143,4 +144,5 @@ select
     END as status
 from
     flat_containers
+)
 {% endmacro %}

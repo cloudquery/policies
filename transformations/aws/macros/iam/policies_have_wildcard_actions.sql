@@ -100,6 +100,7 @@ FROM
 {% endmacro %}
 
 {% macro athena__policies_have_wildcard_actions(framework, check_id) %}
+select * from (
 WITH iam_policies AS (
     SELECT
         p.id AS id,
@@ -149,4 +150,5 @@ SELECT DISTINCT
     END AS status
 FROM
     bad_statements
+)
 {% endmacro %}

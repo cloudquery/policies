@@ -57,8 +57,9 @@ select
     account_id,
     arn as resource_id,
     CASE
-        WHEN cast(json_extract(o.value, '$.DomainName') as varchar) LIKE '%s3.amazonaws.com' AND cast(json_extract(o.value, '$.S3OriginConfig.OriginAccessIdentity') as string) = '' THEN 'fail'
+        WHEN json_extract_scalar(o, '$.DomainName') LIKE '%s3.amazonaws.com' AND json_extract_scalar(o, '$.S3OriginConfig.OriginAccessIdentity') = '' THEN 'fail'
         ELSE 'pass'
     END AS status
-from aws_cloudfront_distributions, LATERAL FLATTEN(input => json_extract(distribution_config, '$.Origins.Items')) o
+from aws_cloudfront_distributions,
+unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) as t(o)
 {% endmacro %}

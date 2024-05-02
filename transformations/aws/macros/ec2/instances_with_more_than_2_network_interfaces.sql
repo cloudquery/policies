@@ -55,6 +55,7 @@ from data
 
 
 {% macro athena__instances_with_more_than_2_network_interfaces(framework, check_id) %}
+select * from (
 WITH data AS (
     SELECT
         account_id,
@@ -79,4 +80,5 @@ SELECT
     END AS status
 FROM
     data
+)
 {% endmacro %}

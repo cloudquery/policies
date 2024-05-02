@@ -73,6 +73,7 @@ from results
 {% endmacro %}
 
 {% macro athena__unused_acls(framework, check_id) %}
+select * from (
 WITH results AS (
     SELECT DISTINCT
         account_id,
@@ -94,4 +95,5 @@ SELECT
     resource_id,
     status
 FROM results
+)
 {% endmacro %}

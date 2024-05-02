@@ -60,7 +60,7 @@ select
   account_id,
   arn AS resource_id,
   case
-  when cast(json_extract(LAUNCH_TEMPLATE) as varchar) is null then 'fail'
+  when LAUNCH_TEMPLATE is null then 'fail'
     else 'pass'
   END
     AS status

@@ -75,6 +75,7 @@ from cachebeviors
 {% endmacro %}
 
 {% macro athena__viewer_policy_https(framework, check_id) %} --todo handle lateral flattens for athena
+select * from (
 WITH cachebeviors AS (
     -- Handle all non-defaults as well as when there is only a default route
     SELECT DISTINCT arn, account_id 
@@ -98,4 +99,5 @@ select
     arn as resource_id,
     'fail' as status
 from cachebeviors
+)
 {% endmacro %}

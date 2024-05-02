@@ -195,6 +195,7 @@ where
 {% endmacro %}
 
 {% macro athena__publicly_writable_buckets(framework, check_id) %}
+select * from (
 WITH policy_allow_public AS (
     SELECT
         arn,
@@ -228,7 +229,7 @@ WITH policy_allow_public AS (
 SELECT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
-    'S3 buckets should prohibit public read access' AS title,
+    'S3 buckets should prohibit public write access' AS title,
     b.account_id,
     b.arn AS resource_id,
     'fail' AS status -- TODO FIXME
@@ -253,4 +254,5 @@ WHERE
         (cast(json_extract_scalar(bpab.public_access_block_configuration, '$.BlockPublicPolicy') as boolean) != TRUE
         AND policy_allow_public.statement_count > 0
     )))
+)
 {% endmacro %}

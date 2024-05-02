@@ -142,6 +142,7 @@ FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 
 {% macro athena__security_groups_with_open_critical_ports(framework, check_id) %}
 -- Assumes aws_compliance__security_group_ingress_rules view or equivalent is set up in Athena
+select * from (
 WITH CriticalPortStatus AS (
   SELECT
       account_id,
@@ -191,4 +192,5 @@ SELECT
     END AS status
   FROM CriticalPortStatus
   GROUP BY account_id, resource_id
+)
 {% endmacro %}
