@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.9.0...transformation-aws-compliance-premium-v1.9.1) (2024-05-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.7.13 ([#817](https://github.com/cloudquery/policies-premium/issues/817)) ([0104238](https://github.com/cloudquery/policies-premium/commit/01042382c48b21a1bcd0f1189a29137dcbd55fb6))
+
 ## [1.9.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.8.2...transformation-aws-compliance-premium-v1.9.0) (2024-04-23)
 
 
