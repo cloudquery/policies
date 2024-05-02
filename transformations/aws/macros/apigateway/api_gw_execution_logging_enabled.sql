@@ -141,7 +141,7 @@ union
      a.account_id,
      'arn:' || 'aws' || ':apigateway:' || a.region || ':/apis/' || a.id as resource_id,
      case
-         WHEN s.default_route_settings:LoggingLevel IN (NULL, 'OFF') THEN 'fail'
+         WHEN json_extract_scalar(s.default_route_settings, '$.LoggingLevel') IN (NULL, 'OFF') THEN 'fail'
          else 'pass'
          end as status
 from

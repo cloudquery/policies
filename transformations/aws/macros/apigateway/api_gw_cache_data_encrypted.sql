@@ -119,6 +119,7 @@ FROM
 {% endmacro %}
 
 {% macro athena__api_gw_cache_data_encrypted(framework, check_id) %}
+select * from (
 with bad_methods as (
 select DISTINCT
     arn
@@ -154,4 +155,5 @@ FROM
     cache_enabled ce
     LEFT JOIN bad_methods as b
         ON ce.arn = b.arn
+)
 {% endmacro %}
