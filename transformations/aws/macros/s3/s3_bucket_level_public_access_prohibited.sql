@@ -76,10 +76,10 @@ select distinct
     b.account_id,
     b.arn AS resource_id,
     CASE
-    when json_extract_scalar(pab.public_access_block_configuration, '$.block_public_acls')
-    and json_extract_scalar(pab.public_access_block_configuration, '$.block_public_policy')
-    and json_extract_scalar(pab.public_access_block_configuration, '$.ignore_public_acls')
-    and json_extract_scalar(pab.public_access_block_configuration, '$.restrict_public_buckets') THEN 'pass'
+    when cast(json_extract_scalar(pab.public_access_block_configuration, '$.block_public_acls') as boolean)
+    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.block_public_policy') as boolean)
+    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.ignore_public_acls') as boolean)
+    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.restrict_public_buckets') as boolean) THEN 'pass'
         ELSE 'fail'
     END AS status
 FROM

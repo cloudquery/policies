@@ -87,8 +87,8 @@ select distinct
     account_id,
     acd.arn as resource_id,
     case
-            when o.ogs = 'null' or
-            json_extract(o.ogs, '$.Members.Items') = 'null' or
+            when o.ogs is null or
+            json_extract_scalar(o.ogs, '$.Members.Items') = 'null' or
             json_array_length(json_extract(o.ogs, '$.Members.Items')) = 0  then 'fail'
     else 'pass'
     end as status

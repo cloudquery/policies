@@ -81,5 +81,5 @@ ON
 GROUP BY
     a.account_id,
     a.arn,
-    status
+    b.object_lock_enabled
 {% endmacro %}

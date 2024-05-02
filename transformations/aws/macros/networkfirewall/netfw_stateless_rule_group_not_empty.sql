@@ -76,7 +76,7 @@ select
   json_extract_scalar(rules_source, '$.StatelessRulesAndCustomActions.StatelessRules') is NULL and type = 'STATELESS'
   then 'fail'
   WHEN
-  json_extract_scalar(rules_source, '$.StatelessRulesAndCustomActions.StatelessRules') = 0 and type = 'STATELESS'
+  cast(json_extract_scalar(rules_source, '$.StatelessRulesAndCustomActions.StatelessRules') as integer) = 0 and type = 'STATELESS'
   then 'fail'
   else 'pass'
   END AS status
