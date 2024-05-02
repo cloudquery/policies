@@ -99,7 +99,7 @@ SELECT
     s.cache_cluster_enabled AS stage_caching_enabled,
     s.web_acl_arn AS waf,
     s.client_certificate_id AS cert,
-    key AS method,
+    json_extract_scalar(ms, '$.key') AS method,
     CASE WHEN json_extract_scalar(ms, '$.DataTraceEnabled') = 'true' THEN 1 ELSE 0 END AS data_trace_enabled,
     CASE WHEN json_extract_scalar(ms, '$.CachingEnabled') = 'true' THEN 1 ELSE 0 END AS caching_enabled,
     CASE WHEN json_extract_scalar(ms, '$.CacheDataEncrypted') = 'true' THEN 1 ELSE 0 END AS cache_data_encrypted,
