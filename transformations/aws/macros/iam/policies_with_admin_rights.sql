@@ -109,3 +109,62 @@ LEFT JOIN bad_statements as b
     ON p.id = b.id
 WHERE REGEXP_CONTAINS(p.arn, r'.*\d{12}.*')
 {% endmacro %}
+
+{% macro athena__policies_with_admin_rights(framework, check_id) %}
+WITH iam_policies AS (
+    SELECT
+        p.id AS id,
+        p.account_id,
+        p.arn,
+        CASE 
+    WHEN json_array_length(json_extract(pv.document_json, '$.Statement')) IS NULL THEN
+      json_parse('[' || json_extract_scalar(pv.document_json, '$.Statement') || ']')
+    ELSE
+      json_extract(pv.document_json, '$.Statement')
+  END AS statement
+    FROM aws_iam_policies p
+    JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
+    WHERE pv.is_default_version = TRUE and p.arn not like 'arn:aws:iam::aws:policy%'
+),
+policy_statements AS (
+    SELECT
+        id,
+        account_id,
+        arn,
+        t.statement
+    FROM iam_policies
+    CROSS JOIN UNNEST(CAST(statement AS array(json))) AS t(statement)
+),
+allow_all_statements AS (
+    SELECT
+        id,
+        account_id,
+        arn
+    FROM policy_statements
+    WHERE (JSON_EXTRACT_SCALAR(statement, '$.Effect') = '"Allow"'
+            OR JSON_EXTRACT_SCALAR(statement, '$.Effect') = 'Allow')
+        AND (
+            JSON_EXTRACT_SCALAR(statement, '$.Action') = '*'
+            OR
+            JSON_EXTRACT_SCALAR(statement, '$.Action') LIKE '%"*"%'
+        )
+        AND 
+        (
+            JSON_EXTRACT_SCALAR(statement, '$.Resource') = '*'
+            OR
+            JSON_EXTRACT_SCALAR(statement, '$.Resource') LIKE '%"*"%'
+        )
+  
+    GROUP BY id, account_id, arn
+)
+
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM policies should not allow full * administrative privileges' AS title,
+    p.account_id,
+    p.arn AS resource_id,
+    CASE WHEN b.id IS NOT NULL THEN 'fail' ELSE 'pass' END AS status
+FROM aws_iam_policies p
+LEFT JOIN allow_all_statements b ON p.id = b.id
+{% endmacro %}
