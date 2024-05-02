@@ -120,3 +120,42 @@ SELECT DISTINCT
 FROM {{ full_table_name("aws_cloudfront_distributions") }} as d 
 LEFT JOIN s3_origins_with_buckets as o ON d.arn = o.arn
 {% endmacro %}
+
+{% macro snowflake__distribution_should_use_origin_access_control(framework, check_id) %}
+WITH s3_origins AS (
+    SELECT DISTINCT
+        arn,
+        json_extract_scalar(o, '$.DomainName') AS s3_domain_name,
+        json_extract_scalar(o, '$.OriginAccessControlId') AS origin_access_control_id
+    FROM
+        aws_cloudfront_distributions,
+        unnest(try_cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) as t(o)
+    WHERE
+        json_extract_scalar(o, '$.S3OriginConfig') IS NOT NULL
+        AND json_extract_scalar(o, '$.DomainName') LIKE '%.s3.%'
+),
+s3_origins_with_buckets AS (
+SELECT DISTINCT
+    s.arn,
+    s.origin_access_control_id
+FROM
+    s3_origins s
+INNER JOIN aws_s3_buckets b ON SPLIT_PART(s3_domain_name, '.', 1) = b.name
+ )
+  
+SELECT DISTINCT
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should use origin access control' as title,
+    d.account_id,
+    d.arn as resouce_id,
+    CASE
+        WHEN o.arn is not null 
+            and (o.origin_access_control_id is null 
+            or o.origin_access_control_id = '') THEN 'fail'
+        ELSE 'pass'
+    END as status
+    
+FROM aws_cloudfront_distributions as d 
+LEFT JOIN s3_origins_with_buckets as o ON d.arn = o.arn
+{% endmacro %}
