@@ -80,6 +80,7 @@ from oids
 {% endmacro %}
 
 {% macro athena__origin_failover_enabled(framework, check_id) %}
+select * from (
 with origin_groups as ( select acd.arn, json_extract(distribution_config, '$.OriginGroups.Items') as ogs from aws_cloudfront_distributions acd),
      oids as (
 select distinct
@@ -102,4 +103,5 @@ select
     resource_id,
     status
 from oids
+)
 {% endmacro %}

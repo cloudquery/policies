@@ -117,6 +117,7 @@ ON d.arn = o.arn
 {% endmacro %}
 
 {% macro athena__distribution_should_not_point_to_non_existent_s3_origins(framework, check_id) %}
+select * from (
 WITH s3_origins AS (
     SELECT DISTINCT
         arn,
@@ -151,4 +152,5 @@ SELECT DISTINCT
 FROM aws_cloudfront_distributions d 
     LEFT JOIN s3_origins_no_bucket o 
     ON d.arn = o.arn
+)
 {% endmacro %}

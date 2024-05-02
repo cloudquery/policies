@@ -95,6 +95,7 @@ FROM
 {% endmacro %}
 
 {% macro athena__containers_should_run_as_non_privileged(framework, check_id) %}
+select * from ( 
 with flat_containers as (
         SELECT
             arn,
@@ -121,5 +122,5 @@ select
         ELSE 'pass'
     END as status
 FROM
-    flat_containers
+    flat_containers)
 {% endmacro %}

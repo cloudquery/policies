@@ -84,6 +84,7 @@ FROM snapshot_access_groups
 {% endmacro %}                    
 
 {% macro athena__ebs_snapshot_permissions_check(framework, check_id) %}
+select * from (
 WITH snapshot_access_groups AS (
     SELECT account_id,
            region,
@@ -108,4 +109,5 @@ SELECT DISTINCT
     ELSE 'pass'
     END AS status
 FROM snapshot_access_groups
+)
 {% endmacro %}  

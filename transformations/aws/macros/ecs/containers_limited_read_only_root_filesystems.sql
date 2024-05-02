@@ -95,6 +95,7 @@ from
 {% endmacro %}
 
 {% macro athena__containers_limited_read_only_root_filesystems(framework, check_id) %}
+select * from (
 with flat_containers as (
         SELECT
             arn,
@@ -121,5 +122,5 @@ select
         ELSE 'pass'
     END as status
 from
-    flat_containers
+    flat_containers)
 {% endmacro %}

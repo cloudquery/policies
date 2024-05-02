@@ -88,6 +88,7 @@ FROM
 {% endmacro %}
 
 {% macro athena__distribution_should_not_use_depricated_ssl_protocols(framework, check_id) %}
+select * from (
 WITH origins_with_sslv3 AS (
 SELECT DISTINCT
     arn,
@@ -113,4 +114,5 @@ FROM
     aws_cloudfront_distributions d
     LEFT JOIN origins_with_sslv3 o
     ON d.arn = o.arn
+)
 {% endmacro %}

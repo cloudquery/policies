@@ -89,6 +89,7 @@ LEFT JOIN
 {% endmacro %}
 
 {% macro athena__clusters_should_use_container_insights(framework, check_id) %}
+select * from (
 with settings as (
 SELECT DISTINCT
   arn
@@ -114,4 +115,5 @@ FROM
   aws_ecs_clusters c
 LEFT JOIN
     settings s ON c.arn = s.arn
+)
 {% endmacro %}

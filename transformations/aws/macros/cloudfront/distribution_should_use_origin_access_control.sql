@@ -122,6 +122,7 @@ LEFT JOIN s3_origins_with_buckets as o ON d.arn = o.arn
 {% endmacro %}
 
 {% macro athena__distribution_should_use_origin_access_control(framework, check_id) %}
+select * from (
 WITH s3_origins AS (
     SELECT DISTINCT
         arn,
@@ -158,4 +159,5 @@ SELECT DISTINCT
     
 FROM aws_cloudfront_distributions as d 
 LEFT JOIN s3_origins_with_buckets as o ON d.arn = o.arn
+)
 {% endmacro %}

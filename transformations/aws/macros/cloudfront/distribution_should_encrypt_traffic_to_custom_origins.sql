@@ -143,6 +143,7 @@ from
 {% endmacro %}
 
 {% macro athena__distribution_should_encrypt_traffic_to_custom_origins(framework, check_id) %}
+select * from (
 with origins as (
     select distinct
         arn,
@@ -185,4 +186,5 @@ from
     aws_cloudfront_distributions d
     LEFT JOIN origins as o on d.arn = o.arn
     LEFT JOIN cache_behaviors as cb on d.arn = cb.arn  
+)
 {% endmacro %}

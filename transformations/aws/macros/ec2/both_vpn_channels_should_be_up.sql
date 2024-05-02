@@ -80,6 +80,7 @@ LEFT JOIN TunnelStatus t ON c.vpn_connection_id = t.vpn_connection_id
 {% endmacro %}
 
 {% macro athena__both_vpn_channels_should_be_up(framework, check_id) %}
+select * from (
 WITH TunnelStatus AS (
     SELECT
         vpn_connection_id,
@@ -102,4 +103,5 @@ SELECT
 FROM
     aws_ec2_vpn_connections
 LEFT JOIN TunnelStatus ON aws_ec2_vpn_connections.vpn_connection_id = TunnelStatus.vpn_connection_id
+)
 {% endmacro %}

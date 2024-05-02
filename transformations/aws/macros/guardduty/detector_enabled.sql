@@ -116,6 +116,7 @@ where
 {% endmacro %}    
 
 {% macro athena__detector_enabled(framework, check_id) %}
+select * from (
 with enabled_detector_regions as (
     select request_account_id as account_id, request_region as region
     from aws_guardduty_detectors
@@ -150,4 +151,5 @@ select
 from aws_guardduty_detectors
 where
     status = 'ENABLED'
+)
 {% endmacro %}
