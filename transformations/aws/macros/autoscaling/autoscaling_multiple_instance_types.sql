@@ -91,7 +91,7 @@ JOIN (
     END AS status
   FROM
     aws_autoscaling_groups AS aag,
-    LATERAL FLATTEN(input => aag.INSTANCES) instance
+    unnest(cast(json_parse(aag.INSTANCES) as array(json))) as t(instance)
   GROUP BY arn
 ) AS ditc ON aag.arn = ditc.arn
 {% endmacro %}
