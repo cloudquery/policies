@@ -147,14 +147,14 @@ select * from (
 with origins as (
     select distinct
         arn,
-        json_extract_scalar(f.CustomOriginConfig, '$.OriginProtocolPolicy') as policy
+        json_extract_scalar(f, '$.CustomOriginConfig.OriginProtocolPolicy') as policy
     from
         aws_cloudfront_distributions d,
-        unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) as f
+        unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) as t(f)
   
     WHERE
-        policy = 'http-only'
-        or policy = 'match-viewer'   
+        json_extract_scalar(f, '$.CustomOriginConfig.OriginProtocolPolicy') = 'http-only'
+        or json_extract_scalar(f, '$.CustomOriginConfig.OriginProtocolPolicy') = 'match-viewer'   
 
 ),
 cache_behaviors as (

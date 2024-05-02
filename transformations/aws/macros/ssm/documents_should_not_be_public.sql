@@ -51,6 +51,6 @@ select
     account_id,
     arn as resource_id,
     case when CONTAINS(cast(json_extract(perms, '$.AccountIds') as array(varchar)), 'all') then 'fail' else 'pass' end as status
-from aws_ssm_documents, unnest(cast(aws_ssm_documents.permissions as array(varchar))) as t(perms)
+from aws_ssm_documents, unnest(cast(json_parse(aws_ssm_documents.permissions) as array(json))) as t(perms)
 where owner in (select account_id from aws_iam_accounts)
 {% endmacro %}

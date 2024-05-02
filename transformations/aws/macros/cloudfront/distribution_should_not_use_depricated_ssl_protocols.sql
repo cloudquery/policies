@@ -95,7 +95,7 @@ SELECT DISTINCT
     json_extract_scalar(o, '$.Id') AS origin_id
 FROM
     aws_cloudfront_distributions
-, unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(varchar))) AS o
+, unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) AS t(o)
 WHERE
     CONTAINS(cast(json_extract(o, '$.CustomOriginConfig.OriginSslProtocols.Items') as array(varchar)), 'SSLv3')
 )
