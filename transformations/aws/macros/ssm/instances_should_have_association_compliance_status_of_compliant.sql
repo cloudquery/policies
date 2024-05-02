@@ -76,7 +76,7 @@ select
 	 inner join association_compliance_status_groups on aws_ssm_instances.arn = association_compliance_status_groups.instance_arn
 {% endmacro %}
 
-{% macro athena_instances_should_have_association_compliance_status_of_compliant(framework, check_id) %}
+{% macro athena__instances_should_have_association_compliance_status_of_compliant(framework, check_id) %}
 select * from (
 with association_compliance_status_groups as(
     select

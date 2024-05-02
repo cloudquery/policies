@@ -115,7 +115,7 @@ LEFT JOIN bad_entries b
     ON a.arn = b.arn
 {% endmacro %}
 
-{% macro athena_network_acls_should_not_allow_ingress_for_ssh_rdp_ports(framework, check_id) %}
+{% macro athena__network_acls_should_not_allow_ingress_for_ssh_rdp_ports(framework, check_id) %}
 select * from (
 WITH BadEntries AS (
     SELECT
