@@ -116,6 +116,7 @@ LEFT JOIN bad_entries b
 {% endmacro %}
 
 {% macro athena_network_acls_should_not_allow_ingress_for_ssh_rdp_ports(framework, check_id) %}
+select * from (
 WITH BadEntries AS (
     SELECT
         DISTINCT
@@ -150,4 +151,5 @@ FROM
     aws_ec2_network_acls a
 LEFT JOIN BadEntries b
     ON a.arn = b.arn
+)
 {% endmacro %}
