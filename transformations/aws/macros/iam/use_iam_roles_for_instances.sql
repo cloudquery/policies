@@ -70,12 +70,12 @@ SELECT
   ec2.arn AS resource_id,
   CASE
     WHEN 
-      iip.roles IS NULL OR cardinality(iip.roles) = 0
+      iip.roles IS NULL OR cardinality(cast(json_extract(iip.roles, '$') as array(json))) = 0
     THEN 'fail'
     ELSE 'pass'
   END AS status
 FROM
   aws_ec2_instances ec2
 JOIN
-  aws_iam_instance_profiles iip ON iip.arn = ec2.iam_instance_profile:arn
+  aws_iam_instance_profiles iip ON iip.arn = json_extract_scalar(ec2.iam_instance_profile, '$.arn')
 {% endmacro %}

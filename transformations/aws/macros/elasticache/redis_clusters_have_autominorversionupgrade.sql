@@ -63,11 +63,11 @@ select
     account_id,
     arn as resource_id,
     CASE
-        WHEN auto_minor_version_upgrade = 'false' THEN 'fail'
+        WHEN auto_minor_version_upgrade = false THEN 'fail'
         ELSE 'pass'
     END as status
 FROM 
     aws_elasticache_clusters
 WHERE 
-    engine = 'redis' 
+    engine = 'redis'
 {% endmacro %}
