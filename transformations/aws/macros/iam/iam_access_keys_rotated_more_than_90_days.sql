@@ -45,3 +45,17 @@ select
     END AS status
 from {{ full_table_name("aws_iam_user_access_keys") }}
 {% endmacro %}
+
+{% macro athena__iam_access_keys_rotated_more_than_90_days(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM users access keys should be rotated every 90 days or less' AS title,
+    account_id,
+    access_key_id AS resource_id,
+    CASE 
+        WHEN date_diff('day', last_rotated, current_date) > 90 THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_iam_user_access_keys
+{% endmacro %}
