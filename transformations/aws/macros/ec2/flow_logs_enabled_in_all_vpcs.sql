@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('flow_logs_enabled_in_all_vpcs')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__flow_logs_enabled_in_all_vpcs(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__flow_logs_enabled_in_all_vpcs(framework, check_id) %}
 select
   '{{framework}}' As framework,
@@ -68,4 +70,5 @@ FROM
     aws_ec2_vpcs
 LEFT JOIN 
     aws_ec2_flow_logs ON aws_ec2_vpcs.vpc_id = aws_ec2_flow_logs.resource_id
+
 {% endmacro %}

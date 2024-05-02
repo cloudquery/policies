@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('default_sg_no_access')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__default_sg_no_access(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__default_sg_no_access(framework, check_id) %}
 select
   '{{framework}}' As framework,
@@ -56,6 +58,7 @@ from
 {% endmacro %}
 
 {% macro athena__default_sg_no_access(framework, check_id) %}
+
 SELECT
     '{{framework}}' AS framework,
     '{{check_id}}' AS check_id,
@@ -70,4 +73,5 @@ SELECT
         ELSE 'pass'
     END AS status
 FROM aws_ec2_security_groups
+
 {% endmacro %}
