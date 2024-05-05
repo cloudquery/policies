@@ -111,6 +111,7 @@ where t.is_multi_region_trail = TRUE
 {% endmacro %}
 
 {% macro athena__log_metric_filter_and_alarm() %}
+select * from (
 WITH af AS (
     SELECT DISTINCT 
         a.arn, 
@@ -162,4 +163,5 @@ WHERE t.is_multi_region_trail = TRUE
     AND 
     cast(json_extract(t.status, '$.IsLogging') AS boolean) = TRUE
     AND ss.arn LIKE 'aws:arn:%'
+)
 {% endmacro %}

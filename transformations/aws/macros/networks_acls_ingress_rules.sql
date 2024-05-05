@@ -68,6 +68,7 @@ WHERE egress IS DISTINCT FROM 'true'
 {% endmacro %}
 
 {% macro athena__networks_acls_ingress_rules() %}
+select * from (
 WITH rules AS (
     SELECT 
         aena.arn,
@@ -97,4 +98,5 @@ FROM
 WHERE 
     egress <> 'true'
     AND rule_action = 'allow'
+)
 {% endmacro %}

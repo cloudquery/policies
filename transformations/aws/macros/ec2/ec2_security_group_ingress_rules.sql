@@ -85,6 +85,7 @@ select
 {% endmacro %}
 
 {% macro athena__ec2_security_group_ingress_rules() %}
+select * from (
 SELECT
     sg.account_id,
     sg.region,
@@ -102,5 +103,7 @@ FROM
 CROSS JOIN UNNEST(cast(json_extract(sg.ip_permissions, '$') as array(json))) as t(ip)
 LEFT JOIN UNNEST(cast(json_extract(ip, '$.IpRanges') as array(json))) AS t2(ip_range) ON true
 LEFT JOIN UNNEST(cast(json_extract(ip, '$.Ipv6Ranges') as array(json))) AS t3(ip6_range) ON true
+
+)
 {% endmacro %}
 
