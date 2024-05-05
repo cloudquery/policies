@@ -59,6 +59,7 @@ from {{ full_table_name("aws_regions") }} r
 {% endmacro %}
 
 {% macro athena__securityhub_enabled(framework, check_id) %}
+select * from (
 with enabled_securityhub_regions as (select account_id, region from aws_securityhub_hubs)
 
 select
@@ -74,4 +75,6 @@ select
            else 'pass' end             AS status
 from aws_regions r
          left join enabled_securityhub_regions e on e.region = r.region AND e.account_id = r.account_id
+
+)
 {% endmacro %}
