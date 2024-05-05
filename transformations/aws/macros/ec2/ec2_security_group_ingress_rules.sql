@@ -83,3 +83,22 @@ select
     LEFT JOIN ip_ranges ON TRUE
     LEFT JOIN ip6_ranges ON TRUE
 {% endmacro %}
+
+{% macro athena_ec2_security_group_ingress_rules() %}
+    select
+        account_id,
+        region,
+        group_name,
+        arn,
+        group_id as id,
+        vpc_id,
+        JSON_EXTRACT_SCALAR(i, '$.FromPort') as from_port,
+        JSON_EXTRACT_SCALAR(i, '$.ToPort') as to_port,
+        JSON_EXTRACT_SCALAR(i, '$.IpProtocol') as ip_protocol,
+        JSON_EXTRACT_SCALAR(i, '$.CidrIp') as ip,
+        JSON_EXTRACT_SCALAR(i, '$.CidrIpv6') as ip6
+    from aws_ec2_security_groups, 
+    UNNEST(CAST(JSON_PARSE(aws_ec2_security_groups.ip_permissions) AS array(json))) as t(i),
+    UNNEST(CAST(JSON_EXTRACT(i, '$.IpRanges') AS array(json))) as t(ip_ranges),
+    UNNEST(CAST(JSON_EXTRACT(i, '$.Ipv6Ranges') AS array(json))) as t(ip6_ranges)
+{% endmacro %}
