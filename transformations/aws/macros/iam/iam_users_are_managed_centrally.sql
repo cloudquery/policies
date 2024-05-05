@@ -128,7 +128,8 @@ GROUP BY
 {% endmacro %}
 
 {% macro athena__iam_users_are_managed_centrally(framework, check_id) %}
-  WITH identity_providers AS (
+select * from (
+WITH identity_providers AS (
     SELECT
       account_id,
       COUNT(*) AS count
@@ -166,4 +167,5 @@ GROUP BY
     identity_providers ip ON a.account_id = ip.account_id
   GROUP BY
     a.account_id, ip.count
+)
 {% endmacro %}

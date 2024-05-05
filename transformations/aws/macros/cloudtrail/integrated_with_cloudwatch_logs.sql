@@ -2,6 +2,9 @@
   {{ return(adapter.dispatch('integrated_with_cloudwatch_logs')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__integrated_with_cloudwatch_logs(framework, check_id) %}
+{% endmacro %}
+
 {% macro snowflake__integrated_with_cloudwatch_logs(framework, check_id) %}
 select
   '{{framework}}' As framework,

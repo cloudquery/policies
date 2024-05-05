@@ -2,6 +2,9 @@
   {{ return(adapter.dispatch('access_logs_enabled')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__access_logs_enabled(framework, check_id) %}
+{% endmacro %}
+
 {% macro snowflake__access_logs_enabled(framework, check_id) %}
 select
     '{{framework}}' As framework,
@@ -44,3 +47,4 @@ select
     end as status
 from {{ full_table_name("aws_cloudfront_distributions") }}
 {% endmacro %}
+

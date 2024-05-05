@@ -98,6 +98,7 @@ group by c.arn, c.account_id
 {% endmacro %}
 
 {% macro athena__cloudtrail_s3_object_write_events_audit_enabled(framework, check_id) %}
+select * from (
 WITH audit_enabled AS (
     SELECT
         c.arn,
@@ -133,4 +134,5 @@ JOIN
     audit_enabled AS cae ON c.arn = cae.arn
 GROUP BY 
     c.arn, c.account_id
+)
 {% endmacro %}
