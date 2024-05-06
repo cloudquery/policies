@@ -57,7 +57,7 @@ select
     account_id,
     arn as resource_id,
     case when
-        encrypted = false
+        encrypted = FALSE
         then 'fail'
         else 'pass'
     end as status

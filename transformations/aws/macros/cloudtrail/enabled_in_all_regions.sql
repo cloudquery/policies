@@ -109,7 +109,8 @@ with aes as
   from aws_cloudtrail_trail_event_selectors,
   unnest(cast(json_parse(advanced_event_selectors) as array(json))) as t(aes)
 )
-select distinct
+SELECT DISTINCT
+
     '{{framework}}' as framework,
     '{{check_id}}' as check_id,
     'Ensure CloudTrail is enabled in all regions' as title,
