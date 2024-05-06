@@ -51,3 +51,19 @@ select
 FROM
   {{ full_table_name("aws_waf_web_acls") }}
 {% endmacro %}
+
+{% macro athena__waf_global_webacl_not_empty(framework, check_id) %}
+select
+	'{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+	'A WAF global web ACL should have at least one rule or rule group' as title,
+	account_id,
+	arn,
+	CASE
+        WHEN 
+        json_array_length(rules) = 0 THEN 'fail'
+        ELSE 'pass'
+        END AS rule_status
+FROM
+  aws_waf_web_acls
+{% endmacro %}

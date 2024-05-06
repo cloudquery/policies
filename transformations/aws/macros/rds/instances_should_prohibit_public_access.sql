@@ -36,3 +36,17 @@ select
     case when publicly_accessible = TRUE then 'fail' else 'pass' end as status
 from {{ full_table_name("aws_rds_instances") }}
 {% endmacro %}
+
+{% macro athena__instances_should_prohibit_public_access(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'RDS DB instances should prohibit public access, determined by the PubliclyAccessible configuration' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE 
+        WHEN publicly_accessible = TRUE THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_rds_instances
+{% endmacro %}

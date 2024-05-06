@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('mfa_enabled_for_console_access')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__mfa_enabled_for_console_access(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__mfa_enabled_for_console_access(framework, check_id) %}
 select
   '{{framework}}' As framework,

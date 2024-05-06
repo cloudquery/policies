@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('default_sg_no_access')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__default_sg_no_access(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__default_sg_no_access(framework, check_id) %}
 select
   '{{framework}}' As framework,

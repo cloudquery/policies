@@ -82,3 +82,36 @@ SELECT
   end
 FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 {% endmacro %}
+
+{% macro athena__security_groups_with_access_to_unauthorized_ports(framework, check_id) %}
+-- Assuming aws_compliance__security_group_ingress_rules view is available with the necessary fields
+select * from (
+WITH IndividualRuleStatus AS (
+  SELECT
+      account_id,
+    id as resource_id,
+    case when
+      (ip = '0.0.0.0/0' OR ip = '::/0')
+      AND ((from_port IS NULL AND to_port IS NULL) -- all ports
+      OR (from_port <> 80 AND to_port <> 80) -- not only port 80
+      OR (from_port <> 443 AND to_port <> 443)) -- not only port 443
+      then 'fail'
+      else 'pass'
+    end as status
+  FROM {{ref('aws_compliance__security_group_ingress_rules')}}
+)
+
+SELECT
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Aggregates rules of security groups with ports and IPs including ipv6' as title,    
+    account_id,
+    resource_id,
+    CASE
+      WHEN SUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) > 0 THEN 'fail'
+      ELSE 'pass'
+    END as status
+  FROM IndividualRuleStatus
+  GROUP BY account_id, resource_id
+)
+{% endmacro %}

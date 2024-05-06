@@ -139,3 +139,58 @@ select
     end
 FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 {% endmacro %}
+
+{% macro athena__security_groups_with_open_critical_ports(framework, check_id) %}
+-- Assumes aws_compliance__security_group_ingress_rules view or equivalent is set up in Athena
+select * from (
+WITH CriticalPortStatus AS (
+  SELECT
+      account_id,
+      id as resource_id,
+      case when
+        (ip = '0.0.0.0/0' or ip = '::/0') and
+        ((from_port IS NULL and to_port IS NULL) -- implies all ports
+        or (20 BETWEEN from_port and to_port)
+        or (21 BETWEEN from_port and to_port)
+        or (22 BETWEEN from_port and to_port)
+        or (23 BETWEEN from_port and to_port)
+        or (25 BETWEEN from_port and to_port)
+        or (110 BETWEEN from_port and to_port)
+        or (135 BETWEEN from_port and to_port)
+        or (143 BETWEEN from_port and to_port)
+        or (445 BETWEEN from_port and to_port)
+        or (1433 BETWEEN from_port and to_port)
+        or (1434 BETWEEN from_port and to_port)
+        or (3000 BETWEEN from_port and to_port)
+        or (3306 BETWEEN from_port and to_port)
+        or (3389 BETWEEN from_port and to_port)
+        or (4333 BETWEEN from_port and to_port)
+        or (5000 BETWEEN from_port and to_port)
+        or (5432 BETWEEN from_port and to_port)
+        or (5500 BETWEEN from_port and to_port)
+        or (5601 BETWEEN from_port and to_port)
+        or (8080 BETWEEN from_port and to_port)
+        or (8088 BETWEEN from_port and to_port)
+        or (8888 BETWEEN from_port and to_port)
+        or (9200 BETWEEN from_port and to_port)
+        or (9300 BETWEEN from_port and to_port))
+        then 'fail'
+        else 'pass'
+      end as status
+  FROM {{ref('aws_compliance__security_group_ingress_rules')}}
+)
+
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Security groups should not allow unrestricted access to ports with high risk' AS title,
+    account_id,
+    resource_id,
+    CASE
+      WHEN SUM(CASE WHEN status = 'fail' THEN 1 ELSE 0 END) > 0 THEN 'fail'
+      ELSE 'pass'
+    END AS status
+  FROM CriticalPortStatus
+  GROUP BY account_id, resource_id
+)
+{% endmacro %}

@@ -93,3 +93,34 @@ select
 from
     flat_containers
 {% endmacro %}
+
+{% macro athena__containers_limited_read_only_root_filesystems(framework, check_id) %}
+select * from (
+with flat_containers as (
+        SELECT
+            arn,
+            account_id,
+            CASE
+                WHEN cast(json_extract_scalar(container_definition, '$.readonlyRootFilesystem') as BOOLEAN) = FALSE
+                OR json_extract_scalar(container_definition, '$.readonlyRootFilesystem') IS NULL THEN 1
+                ELSE 0
+            END AS status
+        FROM
+            aws_ecs_task_definitions,
+            unnest(cast(json_parse(container_definitions) as array(json))) as t(container_definition)
+        WHERE
+            status = 'ACTIVE'
+    )
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'ECS containers should be limited to read-only access to root filesystems' as title,
+    arn,
+    account_id,
+    CASE
+        WHEN max(status) OVER (PARTITION BY arn) = 1 THEN 'fail'
+        ELSE 'pass'
+    END as status
+from
+    flat_containers)
+{% endmacro %}

@@ -42,3 +42,18 @@ from {{ full_table_name("aws_rds_clusters") }}
 where
     engine in ('aurora', 'aurora-mysql', 'mysql')
 {% endmacro %}
+
+{% macro athena__amazon_aurora_clusters_should_have_backtracking_enabled(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Amazon Aurora clusters should have backtracking enabled' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE 
+        WHEN backtrack_window IS NULL THEN 'fail' 
+        ELSE 'pass' 
+    END AS status
+FROM aws_rds_clusters
+WHERE engine IN ('aurora', 'aurora-mysql', 'mysql')
+{% endmacro %}

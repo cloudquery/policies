@@ -51,8 +51,8 @@ from {{ full_table_name("aws_ec2_ebs_volumes") }}
 
 {% macro athena__unencrypted_ebs_volumes(framework, check_id) %}
 select
-    '{{framework}}' As framework,
-    '{{check_id}}' As check_id,
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
     'Attached EBS volumes should be encrypted at rest' as title,
     account_id,
     arn as resource_id,

@@ -63,3 +63,23 @@ select
 FROM
   {{ full_table_name("aws_networkfirewall_rule_groups") }}
 {% endmacro %}
+
+{% macro athena__netfw_stateless_rule_group_not_empty(framework, check_id) %}
+select
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Stateless Network Firewall rule group should not be empty' as title,
+  account_id,
+  arn as resource_id,
+  CASE 
+  WHEN
+  json_extract_scalar(rules_source, '$.StatelessRulesAndCustomActions.StatelessRules') is NULL and type = 'STATELESS'
+  then 'fail'
+  WHEN
+  cast(json_extract_scalar(rules_source, '$.StatelessRulesAndCustomActions.StatelessRules') as integer) = 0 and type = 'STATELESS'
+  then 'fail'
+  else 'pass'
+  END AS status
+FROM
+  aws_networkfirewall_rule_groups
+{% endmacro %}

@@ -46,3 +46,17 @@ select
 from 
      {{ full_table_name("aws_codebuild_projects") }}
 {% endmacro %}
+
+{% macro athena__project_environment_should_not_have_privileged_mode(framework, check_id) %}
+select 
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CodeBuild project environments should not have privileged mode enabled' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+    WHEN cast(json_extract_scalar(logs_config, '$.environment.PrivilegedMode') as boolean) then 'fail'
+    ELSE 'pass'
+    END as status
+from aws_codebuild_projects
+{% endmacro %}

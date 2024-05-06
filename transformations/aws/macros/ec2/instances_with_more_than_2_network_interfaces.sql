@@ -52,3 +52,33 @@ select
     case when cnt > 1 then 'fail' else 'pass' end as status
 from data
 {% endmacro %}
+
+
+{% macro athena__instances_with_more_than_2_network_interfaces(framework, check_id) %}
+select * from (
+WITH data AS (
+    SELECT
+        account_id,
+        instance_id,
+        COUNT(nic) AS cnt
+    FROM
+        aws_ec2_instances
+    CROSS JOIN
+        UNNEST(cast(json_parse(network_interfaces) AS array(json))) AS t(nic)
+    GROUP BY
+        account_id, instance_id
+)
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'EC2 instances should not use more than two ENIs' AS title,
+    account_id,
+    instance_id AS resource_id,
+    CASE 
+        WHEN cnt > 2 THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM
+    data
+)
+{% endmacro %}

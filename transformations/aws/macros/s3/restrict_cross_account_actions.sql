@@ -162,3 +162,46 @@ WHERE
 -- This will flag ALL users that have been deleted as NOT COMPLIANT
 -- This will not catch if an explicit deny supercedes the statement
 {% endmacro %}
+
+{% macro athena__restrict_cross_account_actions(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Amazon S3 permissions granted to other AWS accounts in bucket policies should be restricted' AS title,
+    account_id,
+    arn AS resource_id,
+    'fail' AS status -- TODO FIXME
+FROM (
+    SELECT
+        aws_s3_buckets.arn,
+        aws_s3_buckets.account_id,
+        aws_s3_buckets.name,
+        aws_s3_buckets.region,
+        -- For each Statement return an array containing the principals
+        json_extract_scalar(statements, '$.Principal.AWS') as principals_aws,
+        json_extract_scalar(statements, '$.Principal') as principals,
+        -- For each Statement return an array containing the Actions
+        json_extract_scalar(statements, '$.Actions') as actions
+    FROM
+        aws_s3_buckets
+    inner join aws_s3_bucket_policies bp on aws_s3_buckets.arn = bp.bucket_arn,
+    unnest(cast(json_extract(bp.policy_json, '$.Statement') as array(json))) as t(statements)
+    WHERE
+        json_extract_scalar(statements, '$.Effect') = 'Allow'
+) AS flatten_statements,
+unnest(cast(json_parse(actions) as array(json))) as t(a),
+unnest(cast(json_parse(principals) as array(json))) as t(p)
+WHERE
+    -- Any cross account principals (or unknown principals) get flagged
+    (
+        NOT CONTAINS(cast(p as array(varchar)), 'arn:aws:iam::' || account_id || ':%')
+        OR CONTAINS(cast(p as array(varchar)), '*')
+    )
+    -- Any broad permissions or Deletes get flagged
+    AND (CONTAINS(cast(a as array(varchar)), 's3:%*')
+        OR CONTAINS(cast(a as array(varchar)), 's3:DeleteObject'))
+
+-- This will flag ALL canonical IDs as NOT COMPLIANT
+-- This will flag ALL users that have been deleted as NOT COMPLIANT
+-- This will not catch if an explicit deny supercedes the statement
+{% endmacro %}

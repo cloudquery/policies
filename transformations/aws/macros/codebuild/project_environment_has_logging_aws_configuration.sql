@@ -50,3 +50,18 @@ select
 from 
      {{ full_table_name("aws_codebuild_projects") }}
 {% endmacro %}
+
+{% macro athena__project_environment_has_logging_aws_configuration(framework, check_id) %}
+select 
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CodeBuild project environments should have a logging AWS Configuration' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+    WHEN json_extract_scalar(logs_config, '$.S3Logs.status') = 'ENABLED' then 'pass'
+    WHEN json_extract_scalar(logs_config, '$.CloudWatchLogs:status') = 'ENABLED' then 'pass'
+    ELSE 'fail'
+    END as status
+from aws_codebuild_projects
+{% endmacro %}

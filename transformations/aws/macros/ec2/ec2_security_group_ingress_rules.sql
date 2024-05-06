@@ -106,4 +106,3 @@ LEFT JOIN UNNEST(cast(json_extract(ip, '$.Ipv6Ranges') as array(json))) AS t3(ip
 
 )
 {% endmacro %}
-

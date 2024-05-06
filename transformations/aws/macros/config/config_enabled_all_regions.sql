@@ -110,9 +110,9 @@ with global_recorders as (
   from
     aws_config_configuration_recorders
   where
-    cast(json_extract(recording_group, '$.IncludeGlobalResourceTypes') as BOOLEAN)
-    and 
-    cast(json_extract(recording_group, '$.AllSupported') as BOOLEAN) = TRUE
+
+    cast(json_extract(recording_group, '$.IncludeGlobalResourceTypes') as BOOLEAN) = TRUE
+    and cast(json_extract(recording_group, '$.AllSupported') as BOOLEAN) = TRUE
     and status_recording = TRUE
     and status_last_status = 'SUCCESS'
 )

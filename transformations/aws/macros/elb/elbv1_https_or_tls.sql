@@ -49,3 +49,19 @@ select
 from {{ full_table_name("aws_elbv1_load_balancers") }} lb,
     UNNEST(JSON_QUERY_ARRAY(listener_descriptions)) AS li
 {% endmacro %}
+
+{% macro athena__elbv1_https_or_tls(framework, check_id) %}
+select
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Classic Load Balancer listeners should be configured with HTTPS or TLS termination' as title,
+  lb.account_id,
+  lb.arn as resource_id,
+  case when
+    json_extract_scalar(li, '$.Listener.Protocol') not in ('HTTPS', 'SSL')
+    then 'fail'
+    else 'pass'
+  end as status
+from aws_elbv1_load_balancers lb,
+unnest(cast(json_parse(lb.listener_descriptions) as array(json))) as t(li)
+{% endmacro %}

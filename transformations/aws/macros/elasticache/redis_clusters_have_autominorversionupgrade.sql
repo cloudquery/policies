@@ -69,5 +69,5 @@ select
 FROM 
     aws_elasticache_clusters
 WHERE 
-    engine = 'redis'
+    engine = 'redis' 
 {% endmacro %}

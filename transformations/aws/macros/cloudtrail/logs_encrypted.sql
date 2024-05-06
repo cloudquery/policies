@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('logs_encrypted')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__logs_encrypted(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__logs_encrypted(framework, check_id) %}
 select
     '{{framework}}' As framework,

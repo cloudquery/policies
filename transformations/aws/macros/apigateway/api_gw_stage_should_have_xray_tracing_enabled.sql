@@ -48,3 +48,18 @@ select
 FROM 
     {{ full_table_name("aws_apigateway_rest_api_stages") }}
 {% endmacro %}
+
+{% macro athena__api_gw_stage_should_have_xray_tracing_enabled(framework, check_id) %}
+select 
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'API Gateway REST API stages should have AWS X-Ray tracing enabled' as title,
+    account_id, 
+    arn as resource_id,
+    CASE
+        WHEN tracing_enabled = true THEN 'pass'
+        ELSE 'fail'
+    END as status
+FROM 
+    aws_apigateway_rest_api_stages
+{% endmacro %}

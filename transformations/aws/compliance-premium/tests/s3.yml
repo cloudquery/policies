@@ -1,0 +1,22 @@
+kind: source
+spec:
+  name: aws
+  path: cloudquery/aws
+  registry: cloudquery
+  version: "v26.2.0" # latest version of source aws plugin
+  destinations: ["s3"]
+  tables: ["*"]
+---
+kind: destination
+spec:
+  name: "s3"
+  path: "cloudquery/s3"
+  registry: "cloudquery"
+  version: "v6.2.0"
+  write_mode: "append"
+  spec:
+    bucket: "aws-compliance-athena"
+    region: "us-east-1" # Example: us-east-1
+    path: "data/{{TABLE}}/{{UUID}}.{{FORMAT}}"
+    format: "parquet" # options: parquet, json, csv
+    write_empty_objects_for_empty_tables: true
