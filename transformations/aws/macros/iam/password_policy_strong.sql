@@ -70,24 +70,24 @@ from {{ full_table_name("aws_iam_password_policies") }}
 {% endmacro %}
 
 {% macro athena__password_policy_strong(framework, check_id) %}
-SELECT
-    '{{framework}}' AS framework,
-    '{{check_id}}' AS check_id,
-    'Password policies for IAM users should have strong configurations' AS title,
-    account_id,
-    account_id AS resource_id,
-    CASE 
-        WHEN (
-            require_uppercase_characters = FALSE
-            OR require_lowercase_characters = FALSE
-            OR require_numbers = FALSE
-            OR minimum_password_length < 14
-            OR password_reuse_prevention IS NULL
-            OR max_password_age IS NULL
-            OR policy_exists = FALSE
-        )
-        THEN 'fail'
-        ELSE 'pass'
-    END AS status
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+  'Password policies for IAM users should have strong configurations' AS title,
+  account_id,
+  account_id AS resource_id,
+  CASE 
+    WHEN (
+        require_uppercase_characters != TRUE
+        OR require_lowercase_characters != TRUE
+        OR require_numbers != TRUE
+        OR minimum_password_length < 14
+        OR password_reuse_prevention IS NULL
+        OR max_password_age IS NULL
+        OR policy_exists != TRUE
+    )
+    THEN 'fail' 
+    ELSE 'pass' 
+  END AS status
 FROM aws_iam_password_policies
 {% endmacro %}
