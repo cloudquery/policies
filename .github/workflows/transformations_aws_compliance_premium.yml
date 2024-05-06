@@ -98,6 +98,11 @@ jobs:
         with:
           workload_identity_provider: 'projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider'
           service_account: 'integration-service-account@cq-integration-tests.iam.gserviceaccount.com'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::615713231484:role/cq-playground-aws-github-action
+          aws-region: us-east-1
       - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
