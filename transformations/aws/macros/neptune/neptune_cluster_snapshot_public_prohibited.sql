@@ -53,3 +53,20 @@ FROM
     {{ full_table_name("aws_neptune_cluster_snapshots") }},
     UNNEST(JSON_QUERY_ARRAY(attributes)) AS a
 {% endmacro %}
+
+{% macro athena__neptune_cluster_snapshot_public_prohibited(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Neptune DB cluster snapshots should not be public' as title,
+    account_id,
+    arn as resource_id,
+    case when
+    json_extract_scalar(a, '$.AttributeName') = 'restore' and contains(cast(json_extract(a, '$.AttributeValues') as array(varchar)), 'all')
+    then 'fail'
+    else 'pass'
+    end as status
+from 
+    aws_neptune_cluster_snapshots,
+    unnest(cast(json_parse(attributes) as array(json))) as a(a)
+    {% endmacro %}

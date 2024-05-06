@@ -104,3 +104,29 @@ select
       then 'fail' else 'pass' end as status
 from {{ full_table_name("aws_rds_instances") }}
 {% endmacro %}   
+
+{% macro athena__database_logging_should_be_enabled(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Database logging should be enabled' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE 
+        WHEN enabled_cloudwatch_logs_exports IS NULL THEN 'fail'
+        WHEN engine IN ('aurora', 'aurora-mysql', 'mariadb', 'mysql') AND
+             NOT cardinality(array_intersect(CAST(enabled_cloudwatch_logs_exports AS array(varchar)),
+                 ARRAY['audit', 'error', 'general', 'slowquery'])) = 4 THEN 'fail'
+        WHEN engine LIKE '%postgres%' AND
+             NOT cardinality(array_intersect(CAST(enabled_cloudwatch_logs_exports AS array(varchar)),
+                 ARRAY['postgresql', 'upgrade'])) = 2 THEN 'fail'
+        WHEN engine LIKE '%oracle%' AND
+             NOT cardinality(array_intersect(CAST(enabled_cloudwatch_logs_exports AS array(varchar)),
+                 ARRAY['alert', 'audit', 'trace', 'listener'])) = 4 THEN 'fail'
+        WHEN engine LIKE '%sqlserver%' AND
+             NOT cardinality(array_intersect(CAST(enabled_cloudwatch_logs_exports AS array(varchar)),
+                 ARRAY['error', 'agent'])) = 2 THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_rds_instances
+{% endmacro %}   

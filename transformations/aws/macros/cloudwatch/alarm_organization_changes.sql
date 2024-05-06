@@ -105,3 +105,37 @@ select
         end as status
 from {{ ref('aws_compliance__log_metric_filter_and_alarm') }}
 {% endmacro %}
+
+{% macro athena__alarm_organization_changes(framework, check_id) %}
+SELECT
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Ensure a log metric filter and alarm exist for usage of "root" account (Score)' as title,
+    account_id,
+    cloud_watch_logs_log_group_arn as resource_id,
+    CASE
+        WHEN pattern NOT LIKE '%NOT%'
+            AND (
+                pattern LIKE '%($.eventName = AcceptHandshake)%' OR
+                pattern LIKE '%($.eventName = AttachPolicy)%' OR
+                pattern LIKE '%($.eventName = CreateAccount)%' OR
+                pattern LIKE '%($.eventName = CreateOrganizationalUnit)%' OR
+                pattern LIKE '%($.eventName = CreatePolicy)%' OR
+                pattern LIKE '%($.eventName = DeclineHandshake)%' OR
+                pattern LIKE '%($.eventName = DeleteOrganization)%' OR
+                pattern LIKE '%($.eventName = DeleteOrganizationalUnit)%' OR
+                pattern LIKE '%($.eventName = DeletePolicy)%' OR
+                pattern LIKE '%($.eventName = DetachPolicy)%' OR
+                pattern LIKE '%($.eventName = DisablePolicyType)%' OR
+                pattern LIKE '%($.eventName = EnablePolicyType)%' OR
+                pattern LIKE '%($.eventName = InviteAccountToOrganization)%' OR
+                pattern LIKE '%($.eventName = LeaveOrganization)%' OR
+                pattern LIKE '%($.eventName = MoveAccount)%' OR
+                pattern LIKE '%($.eventName = RemoveAccountFromOrganization)%' OR
+                pattern LIKE '%($.eventName = UpdatePolicy)%' OR
+                pattern LIKE '%($.eventName = UpdateOrganizationalUnit)%'
+            ) THEN 'pass'
+        ELSE 'fail'
+    END as status
+from {{ ref('aws_compliance__log_metric_filter_and_alarm') }}
+{% endmacro %}

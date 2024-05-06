@@ -128,6 +128,11 @@ jobs:
         run: |
           cloudquery migrate tests/bigquery.yml
           dbt run --target dev-bigquery --profiles-dir ./tests
+      - name: Test Athena
+        if: needs.prepare.outputs.s3 == 'true'
+        run: |
+          cloudquery migrate tests/s3.yml
+          dbt run --target dev-athena --profiles-dir ./tests
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:

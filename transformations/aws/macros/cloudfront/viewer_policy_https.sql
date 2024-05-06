@@ -73,3 +73,31 @@ select
     'fail' as status
 from cachebeviors
 {% endmacro %}
+
+{% macro athena__viewer_policy_https(framework, check_id) %} --todo handle lateral flattens for athena
+select * from (
+WITH cachebeviors AS (
+    -- Handle all non-defaults as well as when there is only a default route
+    SELECT DISTINCT arn, account_id 
+    FROM (
+        SELECT arn, account_id, d AS CacheBehavior 
+        FROM aws_cloudfront_distributions, 
+        unnest(try_cast(json_extract(distribution_config, '$.CacheBehaviors.Items') as array(json))) as t(d)
+        WHERE json_extract(distribution_config, '$.CacheBehaviors.Items') IS NOT NULL
+        UNION 
+        -- Handle default Cachebehaviors
+        SELECT arn, account_id, json_extract(distribution_config, '$.DefaultCacheBehavior') AS CacheBehavior 
+        FROM aws_cloudfront_distributions
+    ) AS cachebeviors 
+    WHERE json_extract_scalar(CacheBehavior, '$.ViewerProtocolPolicy') = 'allow-all'
+)
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should require encryption in transit' as title,
+    account_id,
+    arn as resource_id,
+    'fail' as status
+from cachebeviors
+)
+{% endmacro %}

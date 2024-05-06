@@ -48,3 +48,18 @@ select
 from {{ full_table_name("aws_cloudfront_distributions") }},
 UNNEST(JSON_QUERY_ARRAY(distribution_config.Origins.Items)) AS o
 {% endmacro %}
+
+{% macro athena__origin_access_identity_enabled(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should have origin access identity enabled' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+        WHEN json_extract_scalar(o, '$.DomainName') LIKE '%s3.amazonaws.com' AND json_extract_scalar(o, '$.S3OriginConfig.OriginAccessIdentity') = '' THEN 'fail'
+        ELSE 'pass'
+    END AS status
+from aws_cloudfront_distributions,
+unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) as t(o)
+{% endmacro %}

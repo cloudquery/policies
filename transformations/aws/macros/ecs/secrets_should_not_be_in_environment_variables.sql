@@ -109,3 +109,40 @@ select
 from
     flat_containers
 {% endmacro %}
+
+{% macro athena__secrets_should_not_be_in_environment_variables(framework, check_id) %}
+select * from (
+with flat_containers AS (
+SELECT 
+    t.arn,
+    t.account_id,
+    CASE
+        WHEN
+          json_extract_scalar(f, '$.environment') LIKE '%AWS_ACCESS_KEY_ID%' 
+          OR
+          json_extract_scalar(f, '$.environment') LIKE '%AWS_SECRET_ACCESS_KEY%'
+          OR
+          json_extract_scalar(f, '$.environment') LIKE  '%ECS_ENGINE_AUTH_DATA%'
+        THEN 1
+        ELSE 0
+    END as status
+FROM 
+    aws_ecs_task_definitions t,
+    unnest(cast(json_parse(t.container_definitions) as array(json))) as t(f)
+WHERE 
+    t.status = 'ACTIVE')
+    
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Secrets should not be passed as container environment variables' as title,
+    arn as resource_id,
+    account_id,
+    CASE
+        WHEN max(status) OVER (PARTITION BY arn) = 1 THEN 'fail'
+        ELSE 'pass'
+    END as status
+from
+    flat_containers
+)
+{% endmacro %}

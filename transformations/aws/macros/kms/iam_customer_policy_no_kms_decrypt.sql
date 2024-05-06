@@ -103,3 +103,37 @@ FROM
     {{ full_table_name("aws_iam_policies") }} i
 LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
 {% endmacro %}
+
+{% macro athena__iam_customer_policy_no_kms_decrypt(framework, check_id) %}
+select * from (
+WITH policy_with_decrypt AS (
+    SELECT DISTINCT arn
+    FROM aws_iam_policies p
+    INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
+    WHERE
+        json_extract_scalar(pv.document_json, '$.Statement[0].Effect') = 'Allow' --todo: benchmark regexp_like()
+        AND
+        (json_extract_scalar(pv.document_json, '$.Resource') = '*' OR
+        json_extract_scalar(pv.document_json, '$.Resource') LIKE '%kms%')
+        AND 
+        (json_extract_scalar(pv.document_json, '$.Action') = '*'
+         OR (json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:*%'
+         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:decrypt%'
+         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:reencryptfrom%'
+         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:reencrypt*%'))
+)
+SELECT
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
+  i.account_id,
+    i.arn AS resource_id,
+    CASE 
+        WHEN d.arn IS NULL THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM    
+    aws_iam_policies i
+LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
+)
+{% endmacro %}

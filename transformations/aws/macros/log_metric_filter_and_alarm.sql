@@ -109,3 +109,59 @@ where t.is_multi_region_trail = TRUE
     and (t.status:IsLogging)::boolean = TRUE
     and ss.arn like 'aws:arn:%'
 {% endmacro %}
+
+{% macro athena__log_metric_filter_and_alarm() %}
+select * from (
+WITH af AS (
+    SELECT DISTINCT 
+        a.arn, 
+        a.actions_enabled, 
+        a.alarm_actions, 
+        json_extract_scalar(m, '$.MetricStat.Metric.MetricName') AS metric_name
+    FROM 
+        aws_cloudwatch_alarms a
+    CROSS JOIN
+        UNNEST(cast(json_extract(a.metrics, '$') as array(json))) as t(m)
+),
+aes AS (
+    SELECT *
+    FROM aws_cloudtrail_trail_event_selectors
+    CROSS JOIN UNNEST(cast(json_extract(advanced_event_selectors, '$') as array(json))) as t(aes)
+),
+tes AS (
+    SELECT trail_arn 
+    FROM aws_cloudtrail_trail_event_selectors
+    WHERE EXISTS (
+        SELECT 1
+        FROM aws_cloudtrail_trail_event_selectors
+        CROSS JOIN UNNEST(cast(json_extract(event_selectors, '$') as array(json))) as t(es)
+        WHERE json_extract_scalar(es, '$.ReadWriteType') = 'All'
+          AND cast(json_extract_scalar(es, '$.IncludeManagementEvents') AS boolean) = TRUE
+    )
+    OR EXISTS (
+        SELECT 1
+        FROM aes
+        WHERE NOT EXISTS (
+            SELECT 1
+            FROM aes, unnest(cast(json_extract(aes.aes, '$.FieldSelectors') 
+        as array(json))) as u(aes_fs)
+            WHERE json_extract_scalar(aes_fs, '$.Field') = 'readOnly'
+        )
+    )
+)
+SELECT
+    t.account_id,
+    t.region,
+    t.cloud_watch_logs_log_group_arn,
+    mf.filter_pattern AS pattern
+FROM aws_cloudtrail_trails t
+INNER JOIN tes ON t.arn = tes.trail_arn
+INNER JOIN aws_cloudwatchlogs_metric_filters mf ON mf.log_group_name = t.cloud_watch_logs_log_group_arn
+INNER JOIN af ON mf.filter_name = af.metric_name
+INNER JOIN aws_sns_subscriptions ss ON contains(af.alarm_actions, ss.topic_arn)
+WHERE t.is_multi_region_trail = TRUE
+    AND 
+    cast(json_extract(t.status, '$.IsLogging') AS boolean) = TRUE
+    AND ss.arn LIKE 'aws:arn:%'
+)
+{% endmacro %}

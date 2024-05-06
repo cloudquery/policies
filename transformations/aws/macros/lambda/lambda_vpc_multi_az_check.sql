@@ -67,3 +67,23 @@ ON
     JSON_VALUE(a.value) = s.subnet_id
 group by l.arn, account_id
 {% endmacro %}
+
+{% macro athena__lambda_vpc_multi_az_check(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+  'VPC Lambda functions should operate in more than one Availability Zone' AS title,
+    account_id, 
+    l.arn AS resource_id,
+    CASE WHEN
+    count (distinct s.availability_zone_id) > 1 THEN 'pass'
+    ELSE 'fail'
+    end as status
+FROM
+    aws_lambda_functions as l
+LEFT JOIN
+    aws_ec2_subnets s
+ON
+    json_extract_scalar(l.configuration, '$.VpcConfig.SubnetIds') = s.subnet_id
+group by l.arn, account_id
+{% endmacro %}

@@ -118,3 +118,63 @@ select distinct
 from aws_iam_policies
 left join violations on violations.id = aws_iam_policies.id
 {% endmacro %}
+
+{% macro athena__no_star(framework, check_id) %}
+select * from (
+WITH pvs AS (
+    SELECT
+        p.id AS id,
+        CASE 
+    WHEN json_array_length(json_extract(pv.document_json, '$.Statement')) IS NULL THEN
+      json_parse('[' || json_extract_scalar(pv.document_json, '$.Statement') || ']')
+    ELSE
+      json_extract(pv.document_json, '$.Statement')
+  END AS statement_fixed
+    FROM aws_iam_policies p
+    JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
+),
+fix_resouce_action as (
+    SELECT
+    id,
+    statement_fixed,
+    CASE 
+    WHEN json_array_length(json_extract(statement_fixed, '$.Resource')) IS NULL THEN
+      json_parse('[' || json_extract_scalar(statement_fixed, '$.Resource') || ']')
+    ELSE
+      json_extract(statement_fixed, '$.Resource')
+  END AS resource_fixed,
+  CASE 
+    WHEN json_array_length(json_extract(statement_fixed, '$.Action')) IS NULL THEN
+      json_parse('[' || json_extract_scalar(statement_fixed, '$.Action') || ']')
+    ELSE
+      json_extract(statement_fixed, '$.Action')
+  END AS action_fixed
+  FROM pvs
+    
+),
+violations as (
+    select
+        id,
+        COUNT(*) as violations
+    from fix_resouce_action,
+        UNNEST(CAST(statement_fixed as array(json))) as t(statement),
+        UNNEST(CAST(resource_fixed as array(varchar))) t(resource),
+        UNNEST(CAST(action_fixed as array(varchar))) t(action)
+    where JSON_EXTRACT_SCALAR(statement, '$.Effect') = 'Allow'
+          and resource = '*'
+          and ( action = '*' or action = '*:*' )
+    group by id
+)
+select distinct
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'IAM policies should not allow full ''*'' administrative privileges' as title,
+    account_id,
+    arn AS resource_id,
+    case when
+        violations.id is not null AND violations.violations > 0
+    then 'fail' else 'pass' end as status
+from aws_iam_policies
+left join violations on violations.id = aws_iam_policies.id
+)
+{% endmacro %}

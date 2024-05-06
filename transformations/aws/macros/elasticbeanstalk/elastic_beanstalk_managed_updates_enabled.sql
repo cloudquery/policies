@@ -48,3 +48,19 @@ select
   end as status
 from {{ full_table_name("aws_elasticbeanstalk_configuration_settings") }},
 UNNEST(JSON_QUERY_ARRAY(option_settings)) AS s{% endmacro %}
+
+{% macro athena__elastic_beanstalk_managed_updates_enabled(framework, check_id) %}
+select
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Elastic Beanstalk managed platform updates should be enabled' as title,
+  account_id,
+  application_arn as resource_id,
+  case when
+    json_extract_scalar(s, '$.OptionName') = 'ManagedActionsEnabled' AND cast(json_extract_scalar(s, '$.Value') as boolean) is distinct from true
+    then 'fail'
+    else 'pass'
+  end as status
+from aws_elasticbeanstalk_configuration_settings,
+unnest(cast(json_parse(aws_elasticbeanstalk_configuration_settings.option_settings) as array(json))) as t(s)
+{% endmacro %}
