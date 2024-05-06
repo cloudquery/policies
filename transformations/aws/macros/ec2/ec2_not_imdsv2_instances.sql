@@ -65,6 +65,5 @@ select
     else 'pass'
   end as status
 from aws_ec2_instances
-where 
-json_extract_scalar(metadata_options, '$.httpEndpoint') = 'enabled'
+where json_extract_scalar(metadata_options, '$.httpEndpoint') = 'enabled'
 {% endmacro %}
