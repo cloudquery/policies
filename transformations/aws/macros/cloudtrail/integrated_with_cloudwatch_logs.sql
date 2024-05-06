@@ -49,3 +49,19 @@ select
     end as status
 from {{ full_table_name("aws_cloudtrail_trails") }}
 {% endmacro %}
+
+{% macro athena__integrated_with_cloudwatch_logs(framework, check_id) %}
+SELECT
+  '{{framework}}' AS framework,
+  '{{check_id}}' AS check_id,
+  'CloudTrail trails should be integrated with CloudWatch Logs' as title,
+  account_id,
+  arn as resource_id,
+  CASE
+    WHEN cloud_watch_logs_log_group_arn IS NULL
+      OR parse_datetime(replace(json_extract_scalar(status, '$.LatestCloudWatchLogsDeliveryTime'), 'Z', '+00:00'), 'yyyy-MM-dd''T''HH:mm:ss.SSSZZ') < date_add('day', -1, current_timestamp)
+    THEN 'fail'
+    ELSE 'pass'
+  END as status
+FROM aws_cloudtrail_trails
+{% endmacro %}

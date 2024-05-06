@@ -54,3 +54,23 @@ select
 from aws_iam_credential_reports r
 left join aws_iam_user_access_keys k on k.user_arn = r.arn
 {% endmacro %}
+
+{% macro athena__unused_creds_disabled(framework, check_id) %}
+SELECT
+  '{{framework}}' AS framework,
+  '{{check_id}}' AS check_id,
+  'Ensure credentials unused for 90 days or greater are disabled (Scored)' AS title,
+  split_part(r.arn, ':', 5) AS account_id,
+  r.arn AS resource_id,
+  CASE 
+    WHEN 
+      (lower(r.password_status) = 'true' AND date_diff('day', r.password_last_used, current_timestamp) > 90)
+      OR (date_diff('day', k.last_used, current_timestamp) > 90)
+    THEN 'fail'
+    ELSE 'pass'
+  END AS status
+FROM 
+  aws_iam_credential_reports r
+LEFT JOIN 
+  aws_iam_user_access_keys k ON k.user_arn = r.arn
+{% endmacro %}
