@@ -118,6 +118,10 @@ jobs:
         if: needs.prepare.outputs.bigquery == 'true'
         run: cloudquery migrate tests/bigquery.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
+      - name: Migrate DB Athena
+        if: needs.prepare.outputs.s3 == 'true'
+        run: cloudquery migrate tests/s3.yml
+        working-directory: ${{ needs.prepare.outputs.transformation_dir }}
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
