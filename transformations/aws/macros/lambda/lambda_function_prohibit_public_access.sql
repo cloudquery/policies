@@ -30,7 +30,6 @@ where statement ->> 'Effect' = 'Allow'
 	     end)::JSONB ? '*'
     )
 {% endmacro %}
-<<<<<<< HEAD
 {% macro snowflake__lambda_function_prohibit_public_access(framework, check_id) %}
 SELECT
     '{{framework}}' AS framework,
@@ -62,7 +61,6 @@ WHERE statement.value:Effect = 'Allow'
         )::VARIANT:AWS LIKE '%*%'
     )
 {% endmacro %}
-=======
 
 {% macro bigquery__lambda_function_prohibit_public_access(framework, check_id) %}
 select
@@ -82,4 +80,36 @@ where   JSON_VALUE(statement.Effect) = 'Allow'
             or ( '*' IN UNNEST(JSON_EXTRACT_STRING_ARRAY(statement.Principal.AWS)) )
         )
 {% endmacro %}
->>>>>>> 093192f (feat: Added queries for bigquery pci_dss)
+
+{% macro athena__lambda_function_prohibit_public_access(framework, check_id) %}
+select * from (
+with fixed_statement as (
+SELECT
+    account_id,
+    arn,
+    CASE 
+        WHEN json_array_length(json_extract(policy_document, '$.Statement')) IS NULL 
+            THEN json_parse('[' || json_extract_scalar(policy_document, '$.Statement') || ']')
+        ELSE json_extract(policy_document, '$.Statement')
+    END AS statement_fix
+FROM aws_lambda_functions 
+)
+
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Lambda functions should prohibit public access' AS title,
+    account_id,
+    arn as resource_id,
+    'fail' as status
+FROM fixed_statement,
+    UNNEST(CAST(statement_fix as array(json))) as t(statement) 
+WHERE  
+    JSON_EXTRACT_SCALAR(statement, '$.Effect') = 'Allow'
+        and (
+            JSON_EXTRACT_SCALAR(statement, '$.Principal') = '*'
+            or JSON_EXTRACT_SCALAR(statement, '$.Principal.AWS') = '*'
+            or JSON_ARRAY_CONTAINS(JSON_EXTRACT(statement, '$.Principal.AWS'), '*')
+        )
+)
+{% endmacro %}
