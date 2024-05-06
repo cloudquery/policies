@@ -45,3 +45,20 @@ select
     then 'fail' else 'pass' end as status
 from {{ full_table_name("aws_secretsmanager_secrets") }}
 {% endmacro %}
+
+{% macro athena__remove_unused_secrets_manager_secrets(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Remove unused Secrets Manager secrets' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE
+        WHEN
+            (last_accessed_date IS NULL AND created_date > date_add('day', -90, current_timestamp))
+            OR (last_accessed_date IS NOT NULL AND last_accessed_date > date_add('day', -90, current_timestamp))
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_secretsmanager_secrets
+{% endmacro %}

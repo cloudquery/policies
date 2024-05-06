@@ -46,3 +46,20 @@ select
      then 'fail' else 'pass' end as status
  from {{ full_table_name("aws_secretsmanager_secrets") }}
 {% endmacro %}
+
+{% macro athena__secrets_configured_with_automatic_rotation_should_rotate_successfully(framework, check_id) %}
+SELECT
+  '{{framework}}' AS framework,
+  '{{check_id}}' AS check_id,
+  'Secrets Manager secrets configured with automatic rotation should rotate successfully' AS title,
+  account_id,
+  arn AS resource_id,
+  CASE
+    WHEN
+      (last_rotated_date IS NULL AND created_date > date_add('day', -CAST(json_extract_scalar(rotation_rules, '$.AutomaticallyAfterDays') AS INTEGER), current_timestamp))
+      OR (last_rotated_date IS NOT NULL AND last_rotated_date > date_add('day', -CAST(json_extract_scalar(rotation_rules, '$.AutomaticallyAfterDays') AS INTEGER), current_timestamp))
+    THEN 'fail'
+    ELSE 'pass'
+  END AS status
+FROM aws_secretsmanager_secrets
+{% endmacro %}

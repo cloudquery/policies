@@ -16,6 +16,23 @@ select
 from aws_secretsmanager_secrets
 {% endmacro %}
 
+{% macro athena__secrets_should_be_rotated_within_a_specified_number_of_days(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Secrets Manager secrets should be rotated within a specified number of days' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE
+        WHEN
+            (last_rotated_date IS NULL AND created_date > date_add('day', -90, current_timestamp))
+            OR (last_rotated_date IS NOT NULL AND last_rotated_date > date_add('day', -90, current_timestamp))
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_secretsmanager_secrets
+{% endmacro %}
+
 {% macro postgres__secrets_should_be_rotated_within_a_specified_number_of_days(framework, check_id) %}
 select
     '{{framework}}' as framework,
