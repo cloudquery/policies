@@ -52,4 +52,18 @@ select
   from {{ full_table_name("aws_iam_credential_reports") }}
 {% endmacro %}
 
-
+{% macro athena__iam_root_last_used(framework, check_id) %}
+select
+  '{{framework}}' as framework,
+  '{{check_id}}' as check_id,
+  'Eliminate use of the ''root'' user for administrative and daily tasks' as title,
+  SPLIT_PART(arn, ':', 5) as account_id,
+  arn as resource_id,
+  case 
+    when CAST(password_last_used AS DATE) <= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
+    when CAST(access_key_1_last_used_date AS DATE) <= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
+    when CAST(access_key_2_last_used_date AS DATE) <= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
+      else 'pass'
+  end as status
+  from aws_iam_credential_reports
+{% endmacro %}

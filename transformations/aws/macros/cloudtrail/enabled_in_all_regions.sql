@@ -98,3 +98,44 @@ inner join
         and aws_cloudtrail_trails.region = aws_cloudtrail_trail_event_selectors.region
         and aws_cloudtrail_trails.account_id = aws_cloudtrail_trail_event_selectors.account_id
 {% endmacro %}
+
+{% macro athena__cloudtrail_enabled_all_regions(framework, check_id) %}
+select * from (
+WITH aes AS (
+    SELECT *
+    FROM aws_cloudtrail_trail_event_selectors,
+    UNNEST(cast(json_extract(advanced_event_selectors, '$') as array(json))) as t(aes)
+)
+SELECT DISTINCT
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Ensure CloudTrail is enabled in all regions' as title,
+    aws_cloudtrail_trails.account_id,
+    arn as resource_id,
+    CASE
+        WHEN aws_cloudtrail_trails.is_multi_region_trail = FALSE THEN 'fail'
+        WHEN EXISTS (
+            SELECT 1
+            FROM aws_cloudtrail_trail_event_selectors,
+            UNNEST(cast(json_extract(event_selectors, '$') as array(json))) as t1(es)
+            WHERE 
+                json_extract_scalar(es, '$.ReadWriteType') != 'All' 
+                OR cast(json_extract_scalar(es, '$.IncludeManagementEvents') AS boolean) = FALSE
+        ) THEN 'fail'
+        WHEN EXISTS (
+            SELECT 1
+            FROM aes,
+            UNNEST(cast(json_extract(aes.aes, '$.FieldSelectors') as array(json))) as t2(aes_fs)
+            WHERE json_extract_scalar(aes_fs, '$.Field') = 'readOnly'
+        ) THEN 'fail'
+        ELSE 'pass'
+    END as status
+FROM aws_cloudtrail_trails
+INNER JOIN
+    aws_cloudtrail_trail_event_selectors ON
+        aws_cloudtrail_trails.arn = aws_cloudtrail_trail_event_selectors.trail_arn
+        AND aws_cloudtrail_trails.region = aws_cloudtrail_trail_event_selectors.region
+        AND aws_cloudtrail_trails.account_id = aws_cloudtrail_trail_event_selectors.account_id
+
+)
+{% endmacro %}
