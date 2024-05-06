@@ -48,3 +48,20 @@ select
 from {{ full_table_name("aws_rds_cluster_snapshots") }},
       UNNEST(JSON_QUERY_ARRAY(attributes)) as attrs
 {% endmacro %}
+
+{% macro athena__snapshots_should_prohibit_public_access(framework, check_id) %}
+SELECT
+    'pci_dss_v3.2.1' AS framework,
+    'rds.1' AS check_id,
+    'RDS snapshots should be private' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE
+        WHEN json_extract_scalar(attrs, '$.AttributeName') IS NOT DISTINCT FROM 'restore'
+             AND json_array_contains(json_extract(attrs, '$.AttributeValues'), 'all')
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_rds_cluster_snapshots,
+UNNEST(cast(json_extract(attributes, '$') as array(json))) as t(attrs)
+{% endmacro %}
