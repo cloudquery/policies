@@ -47,15 +47,18 @@ from {{ full_table_name("aws_secretsmanager_secrets") }}
 {% endmacro %}
 
 {% macro athena__remove_unused_secrets_manager_secrets(framework, check_id) %}
-select
-    '{{framework}}' As framework,
-    '{{check_id}}' As check_id,
-    'Remove unused Secrets Manager secrets' as title,
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Remove unused Secrets Manager secrets' AS title,
     account_id,
-    arn as resource_id,
-    case when
-        (last_accessed_date is null and created_date > current_timestamp - INTERVAL '90' day)
-        or (last_accessed_date is not null and last_accessed_date > current_timestamp - INTERVAL '90' day)
-    then 'fail' else 'pass' end as status
-from aws_secretsmanager_secrets
+    arn AS resource_id,
+    CASE
+        WHEN
+            (last_accessed_date IS NULL AND created_date > date_add('day', -90, current_timestamp))
+            OR (last_accessed_date IS NOT NULL AND last_accessed_date > date_add('day', -90, current_timestamp))
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_secretsmanager_secrets
 {% endmacro %}
