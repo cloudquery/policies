@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.9.1...transformation-aws-compliance-premium-v1.10.0) (2024-05-06)
+
+
+### Features
+
+* Added macros cis_3_0_0 Athena plugin c ([#834](https://github.com/cloudquery/policies-premium/issues/834)) ([39db3b4](https://github.com/cloudquery/policies-premium/commit/39db3b4318a61502be0baff282ad2b2a488baaa4))
+* Athena aws foundational security ([#816](https://github.com/cloudquery/policies-premium/issues/816)) ([1402650](https://github.com/cloudquery/policies-premium/commit/1402650d4542b27dda4627684abc2261a5537b17))
+
 ## [1.9.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.9.0...transformation-aws-compliance-premium-v1.9.1) (2024-05-01)
 
 
