@@ -39,7 +39,7 @@ jobs:
             const [_, topLevelDir, ...rest] = TRANSFORMATION_TAG.split('-');
             const version = rest.pop();
             const transformation_dir = `transformations/${topLevelDir}/${rest.join('-')}`;
-            const [postgres, snowflake, bigquery] = await Promise.all([
+            const [postgres, snowflake, bigquery, s3] = await Promise.all([
               fs.access(`${transformation_dir}/tests/postgres.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
