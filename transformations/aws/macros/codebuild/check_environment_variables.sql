@@ -63,3 +63,23 @@ select distinct
 from {{ full_table_name("aws_codebuild_projects") }},
 UNNEST(JSON_QUERY_ARRAY(environment.EnvironmentVariables)) AS e
 {% endmacro %}
+
+{% macro athena__check_environment_variables(framework, check_id) %}
+select distinct
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CodeBuild project environment variables should not contain clear text credentials' as title,
+    account_id,
+    arn as resource_id,
+    case when
+            json_extract_scalar(e, '$.Type') = 'PLAINTEXT'
+            and (
+                UPPER(json_extract_scalar(e, '$.Name')) like '%ACCESS_KEY%' or
+                UPPER(json_extract_scalar(e, '$.Name')) like '%SECRET%' or
+                UPPER(json_extract_scalar(e, '$.Name')) like '%PASSWORD%'
+            )
+            then 'fail'
+        else 'pass'
+    end as status
+from aws_codebuild_projects, unnest(cast(json_extract(environment, '$.EnvironmentVariables') as array(varchar))) as t(e)
+{% endmacro %}

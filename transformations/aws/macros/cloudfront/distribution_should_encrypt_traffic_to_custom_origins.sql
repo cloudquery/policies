@@ -141,3 +141,50 @@ from
     LEFT JOIN origins as o on d.arn = o.arn
     LEFT JOIN cache_behaviors as cb on d.arn = cb.arn   
 {% endmacro %}
+
+{% macro athena__distribution_should_encrypt_traffic_to_custom_origins(framework, check_id) %}
+select * from (
+with origins as (
+    select distinct
+        arn,
+        json_extract_scalar(f, '$.CustomOriginConfig.OriginProtocolPolicy') as policy
+    from
+        aws_cloudfront_distributions d,
+        unnest(cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) as t(f)
+  
+    WHERE
+        json_extract_scalar(f, '$.CustomOriginConfig.OriginProtocolPolicy') = 'http-only'
+        or json_extract_scalar(f, '$.CustomOriginConfig.OriginProtocolPolicy') = 'match-viewer'   
+
+),
+cache_behaviors as (
+    select distinct 
+        arn
+    from
+        aws_cloudfront_distributions d,
+        unnest(cast(json_extract(distribution_config, '$.CacheBehaviors.Items') as array(json))) as f
+    where
+        json_extract_scalar(distribution_config, '$.ViewerProtocolPolicy') = 'allow-all'
+)
+select distinct
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should encrypt traffic to custom origins' as title,
+    d.account_id,
+    d.arn as resource_id,
+    CASE
+        WHEN o.policy = 'http-only' THEN 'fail'
+        WHEN o.policy = 'match-viewer' and (cb.arn is not null 
+                                            or
+                                            json_extract_scalar(distribution_config, '$.DefaultCacheBehavior.ViewerProtocolPolicy') = 'allow-all') 
+                                            THEN 'fail'
+        ELSE 'pass'
+    END as status
+    
+
+from
+    aws_cloudfront_distributions d
+    LEFT JOIN origins as o on d.arn = o.arn
+    LEFT JOIN cache_behaviors as cb on d.arn = cb.arn  
+)
+{% endmacro %}

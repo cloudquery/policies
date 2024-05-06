@@ -82,3 +82,32 @@ SELECT DISTINCT
   end as status
 FROM snapshot_access_groups
 {% endmacro %}                    
+
+{% macro athena__ebs_snapshot_permissions_check(framework, check_id) %}
+select * from (
+WITH snapshot_access_groups AS (
+    SELECT account_id,
+           region,
+           snapshot_id,
+           json_extract_scalar(create_volume_permission, '$.Group') AS "group",
+           json_extract_scalar(create_volume_permission, '$.UserId') AS user_id
+    FROM aws_ec2_ebs_snapshot_attributes
+    CROSS JOIN UNNEST(cast(json_parse(create_volume_permissions) as array(json))) AS t (create_volume_permission)
+)
+SELECT DISTINCT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Amazon EBS snapshots should not be public, determined by the ability to be restorable by anyone' AS title,
+    account_id,
+    snapshot_id AS resource_id,
+    CASE WHEN
+        "group" = 'all'
+        -- this is under question because
+        -- trusted accounts(user_id) do not violate this control
+        OR user_id IS NOT NULL AND user_id <> ''
+    THEN 'fail'
+    ELSE 'pass'
+    END AS status
+FROM snapshot_access_groups
+)
+{% endmacro %}  

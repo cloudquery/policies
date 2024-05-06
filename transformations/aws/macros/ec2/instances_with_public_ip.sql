@@ -48,3 +48,18 @@ select
     end as status
 from {{ full_table_name("aws_ec2_instances") }}
 {% endmacro %}
+
+{% macro athena__instances_with_public_ip(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'EC2 instances should not have a public IP address' AS title,
+    account_id,
+    instance_id AS resource_id,
+    CASE 
+        WHEN public_ip_address IS NOT NULL THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM
+    aws_ec2_instances
+{% endmacro %}

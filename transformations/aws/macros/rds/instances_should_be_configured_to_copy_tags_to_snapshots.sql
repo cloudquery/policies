@@ -36,3 +36,17 @@ select
     case when copy_tags_to_snapshot != TRUE then 'fail' else 'pass' end as status
 from {{ full_table_name("aws_rds_instances") }}
 {% endmacro %}
+
+{% macro athena__instances_should_be_configured_to_copy_tags_to_snapshots(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'RDS DB instances should be configured to copy tags to snapshots' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE 
+        WHEN copy_tags_to_snapshot = TRUE THEN 'pass'
+        ELSE 'fail'
+    END AS status
+FROM aws_rds_instances
+{% endmacro %}

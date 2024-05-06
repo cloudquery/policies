@@ -84,3 +84,29 @@ with wildcards as
   from {{ full_table_name("aws_lambda_functions") }} alf
   left join wildcards on alf.arn = wildcards.arn
 {% endmacro %}
+
+{% macro athena__lambda_function_public_access_prohibited(framework, check_id) %}
+select * from (
+with wildcards as
+(select
+    arn
+from aws_lambda_functions,
+unnest(cast(json_extract(policy_document, '$.Statement') as array(json))) as statements (statements)
+where
+  json_extract_scalar(statements, '$.Effect') = 'Allow'
+  and
+  (json_extract_scalar(statements, '$.Principal') = '*' or (json_extract_scalar(statements, '$.Principal') = '["*"]'))
+  and json_extract_scalar(statements, '$.Condition') is null
+  )
+select DISTINCT
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Lambda function policies should prohibit public access' AS title,
+    alf.account_id,
+    alf.arn AS resource_id,
+	case when wildcards.arn is null then 'pass'
+	else 'fail' end as status
+from aws_lambda_functions alf
+left join wildcards on alf.arn = wildcards.arn
+)
+{% endmacro %}

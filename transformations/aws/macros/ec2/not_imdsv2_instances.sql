@@ -48,3 +48,19 @@ select
   end as status
 from {{ full_table_name("aws_ec2_instances") }}
 {% endmacro %}
+
+{% macro athena__not_imdsv2_instances(framework, check_id) %}
+SELECT
+  '{{framework}}' AS framework,
+  '{{check_id}}' AS check_id,
+  'EC2 instances should use IMDSv2' AS title,
+  account_id,
+  instance_id AS resource_id,
+  CASE
+    WHEN json_extract_scalar(metadata_options, '$.HttpTokens') = 'required'
+    THEN 'pass'
+    ELSE 'fail'
+  END AS status
+FROM
+  aws_ec2_instances
+{% endmacro %}

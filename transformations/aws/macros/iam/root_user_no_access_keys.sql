@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('root_user_no_access_keys')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__root_user_no_access_keys(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__root_user_no_access_keys(framework, check_id) %}
 select
   '{{framework}}' As framework,

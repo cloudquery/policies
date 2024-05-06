@@ -20,7 +20,7 @@ with
     {{ union() }}
     ({{ api_gw_access_logging_should_be_configured('foundational_security','apigateway.9') }})
     {{ union() }}
-    ({{ api_gw_associated_wth_waf('foundational_security','apigateway.4') }})
+    ({{ api_gw_associated_with_waf('foundational_security','apigateway.4') }})
     {{ union() }}
     ({{ api_gw_cache_data_encrypted('foundational_security','apigateway.5') }})
     {{ union() }}

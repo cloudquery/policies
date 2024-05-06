@@ -45,3 +45,17 @@ select
     END AS status
 FROM {{ full_table_name("aws_cloudfront_distributions") }}
 {% endmacro %}
+
+{% macro athena__default_root_object_configured(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should have a default root object configured' as title,
+    account_id,
+    arn as resource_id,
+    CASE
+        WHEN cast(json_extract(distribution_config, '$.DefaultRootObject') as varchar) = '' THEN 'fail'
+        ELSE 'pass'
+    END AS status
+from aws_cloudfront_distributions
+{% endmacro %}

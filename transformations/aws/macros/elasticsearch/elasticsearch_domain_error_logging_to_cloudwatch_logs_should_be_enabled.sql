@@ -51,3 +51,19 @@ select
   end as status
 FROM {{ full_table_name("aws_elasticsearch_domains") }}
 {% endmacro %}
+
+{% macro athena__elasticsearch_domain_error_logging_to_cloudwatch_logs_should_be_enabled(framework, check_id) %}
+select
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Elasticsearch domain error logging to CloudWatch Logs should be enabled' as title,
+  account_id,
+  arn as resource_id,
+  case when
+    cast(json_extract_scalar(log_publishing_options, '$.ES_APPLICATION_LOGS.Enabled') as boolean) is distinct from true
+    OR json_extract_scalar(log_publishing_options, '$.ES_APPLICATION_LOGS:CloudWatchLogsLogGroupArn') IS NULL
+    then 'fail'
+    else 'pass'
+  end as status
+FROM aws_elasticsearch_domains
+{% endmacro %}

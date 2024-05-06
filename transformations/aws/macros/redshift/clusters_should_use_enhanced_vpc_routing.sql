@@ -42,3 +42,16 @@ select
     then 'fail' else 'pass' end as status
 from {{ full_table_name("aws_redshift_clusters") }}
 {% endmacro %}
+
+{% macro athena__clusters_should_use_enhanced_vpc_routing(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'Amazon Redshift clusters should use enhanced VPC routing' as title,
+    account_id,
+    arn as resource_id,
+    case when
+        enhanced_vpc_routing <> TRUE
+    then 'fail' else 'pass' end as status
+from aws_redshift_clusters
+{% endmacro %}

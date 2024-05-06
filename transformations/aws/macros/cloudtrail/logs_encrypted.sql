@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('logs_encrypted')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__logs_encrypted(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__logs_encrypted(framework, check_id) %}
 select
     '{{framework}}' As framework,
@@ -42,4 +44,18 @@ select
         else 'pass'
     end as status
 FROM {{ full_table_name("aws_cloudtrail_trails") }}
+{% endmacro %}
+
+{% macro athena__logs_encrypted(framework, check_id) %}
+select
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudTrail should have encryption at rest enabled' as title,
+    account_id,
+    arn as resource_id,
+    case
+        when kms_key_id is NULL then 'fail'
+        else 'pass'
+    end as status
+FROM aws_cloudtrail_trails
 {% endmacro %}

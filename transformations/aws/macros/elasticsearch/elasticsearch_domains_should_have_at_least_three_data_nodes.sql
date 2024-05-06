@@ -54,3 +54,20 @@ select
   end as status
 from {{ full_table_name("aws_elasticsearch_domains") }}
 {% endmacro %}  
+
+{% macro athena__elasticsearch_domains_should_have_at_least_three_data_nodes(framework, check_id) %}
+select
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
+  'Elasticsearch domains should have at least three data nodes' as title,
+  account_id,
+  arn as resource_id,
+  case when
+    not cast(json_extract_scalar(elasticsearch_cluster_config, '$.ZoneAwarenessEnabled') as boolean)
+    or cast(json_extract_scalar(elasticsearch_cluster_config, '$.InstanceCount') as integer) is null
+    or cast(json_extract_scalar(elasticsearch_cluster_config, '$.InstanceCount') as integer) < 3
+    then 'fail'
+    else 'pass'
+  end as status
+from aws_elasticsearch_domains
+{% endmacro %}

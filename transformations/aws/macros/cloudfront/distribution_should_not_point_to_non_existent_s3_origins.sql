@@ -115,3 +115,42 @@ FROM {{ full_table_name("aws_cloudfront_distributions") }} d
 LEFT JOIN s3_origins_no_bucket o 
 ON d.arn = o.arn
 {% endmacro %}
+
+{% macro athena__distribution_should_not_point_to_non_existent_s3_origins(framework, check_id) %}
+select * from (
+WITH s3_origins AS (
+    SELECT DISTINCT
+        arn,
+        json_extract_scalar(o, '$.DomainName') AS s3_domain_name
+    FROM
+        aws_cloudfront_distributions,
+        unnest(try_cast(json_extract(distribution_config, '$.Origins.Items') as array(json))) as t(o)
+    WHERE
+        (json_extract_scalar(o, '$.S3OriginConfig') IS NOT NULL OR json_extract_scalar(o, '$.S3OriginConfig') <> 'null')
+        AND json_extract_scalar(o, '$.DomainName') LIKE '%.s3.%'
+),
+s3_origins_no_bucket AS (
+SELECT DISTINCT
+    s.arn
+FROM
+    s3_origins s
+LEFT JOIN aws_s3_buckets b ON SPLIT_PART(s3_domain_name, '.', 1) = b.name
+WHERE b.name is null
+ 
+ )
+SELECT DISTINCT
+    '{{framework}}' As framework,
+    '{{check_id}}' As check_id,
+    'CloudFront distributions should not point to non-existent S3 origins' as title,
+    d.account_id,
+    d.arn as resouce_id,
+    CASE
+        WHEN o.arn is null THEN 'pass'
+        ELSE 'fail'
+    END as status
+    
+FROM aws_cloudfront_distributions d 
+    LEFT JOIN s3_origins_no_bucket o 
+    ON d.arn = o.arn
+)
+{% endmacro %}

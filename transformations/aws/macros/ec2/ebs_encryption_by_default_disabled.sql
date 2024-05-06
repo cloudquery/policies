@@ -48,3 +48,18 @@ select
   end as status
 from {{ full_table_name("aws_ec2_regional_configs") }}
 {% endmacro %}
+
+{% macro athena__ebs_encryption_by_default_disabled(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'EBS default encryption should be enabled' AS title,
+    account_id,
+    CONCAT(account_id, ':', region) AS resource_id,
+    CASE 
+        WHEN ebs_encryption_enabled_by_default <> TRUE
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_ec2_regional_configs
+{% endmacro %}

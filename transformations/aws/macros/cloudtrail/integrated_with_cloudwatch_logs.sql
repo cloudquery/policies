@@ -2,6 +2,8 @@
   {{ return(adapter.dispatch('integrated_with_cloudwatch_logs')(framework, check_id)) }}
 {% endmacro %}
 
+{% macro default__integrated_with_cloudwatch_logs(framework, check_id) %}{% endmacro %}
+
 {% macro snowflake__integrated_with_cloudwatch_logs(framework, check_id) %}
 select
   '{{framework}}' As framework,
@@ -51,15 +53,15 @@ from {{ full_table_name("aws_cloudtrail_trails") }}
 {% endmacro %}
 
 {% macro athena__integrated_with_cloudwatch_logs(framework, check_id) %}
-SELECT
-  '{{framework}}' AS framework,
-  '{{check_id}}' AS check_id,
+select distinct
+  '{{framework}}' As framework,
+  '{{check_id}}' As check_id,
   'CloudTrail trails should be integrated with CloudWatch Logs' as title,
   account_id,
   arn as resource_id,
   CASE
     WHEN cloud_watch_logs_log_group_arn IS NULL
-      OR parse_datetime(replace(json_extract_scalar(status, '$.LatestCloudWatchLogsDeliveryTime'), 'Z', '+00:00'), 'yyyy-MM-dd''T''HH:mm:ss.SSSZZ') < date_add('day', -1, current_timestamp)
+      OR from_iso8601_timestamp(json_extract_scalar(status, '$.LatestCloudWatchLogsDeliveryTime')) < DATE_ADD('day', -1, CURRENT_TIMESTAMP)
     THEN 'fail'
     ELSE 'pass'
   END as status
