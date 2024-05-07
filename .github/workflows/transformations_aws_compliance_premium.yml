@@ -140,7 +140,7 @@ jobs:
         if: needs.prepare.outputs.s3 == 'true'
         run: |
           cloudquery migrate tests/s3.yml
-          dbt run --target dev-athena --profiles-dir ./tests
+          dbt run --select +aws_compliance__foundational_security +aws_compliance__cis_v3_0_0 --target dev-athena --profiles-dir ./tests
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
