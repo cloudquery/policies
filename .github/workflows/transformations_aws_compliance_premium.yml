@@ -39,6 +39,7 @@ jobs:
       postgres: ${{ fromJson(steps.set-result.outputs.result).postgres }}
       snowflake: ${{ fromJson(steps.set-result.outputs.result).snowflake }}
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
+      s3: ${{ fromJson(steps.set-result.outputs.result).s3 }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
