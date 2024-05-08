@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.10.0...transformation-aws-compliance-premium-v1.10.1) (2024-05-06)
+
+
+### Bug Fixes
+
+* Updated table aws_kms_key_rotation_statuses in vars ([#840](https://github.com/cloudquery/policies-premium/issues/840)) ([767a12f](https://github.com/cloudquery/policies-premium/commit/767a12f354e55634b966e853efdfe1ce0a9e95cb))
+
 ## [1.10.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.9.1...transformation-aws-compliance-premium-v1.10.0) (2024-05-06)
 
 
