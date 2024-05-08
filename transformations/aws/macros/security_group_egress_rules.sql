@@ -60,3 +60,23 @@ from aws_ec2_security_groups, lateral flatten(input => parse_json(aws_ec2_securi
     lateral flatten(input => i.value:IpRanges, OUTER => TRUE) as ip_ranges,
     lateral flatten(input => i.value:Ipv6Ranges, OUTER => TRUE) as ip6_ranges
 {% endmacro %}
+
+{% macro athena__security_group_egress_rules() %}
+SELECT
+    sg.account_id,
+    sg.region,
+    sg.group_name,
+    sg.arn,
+    sg.group_id AS id,
+    sg.vpc_id,
+    cast(json_extract(ip_permission, '$.FromPort') as int) AS from_port,
+    cast(json_extract(ip_permission, '$.ToPort') as int) AS to_port,
+    json_extract_scalar(ip_permission, '$.IpProtocol') AS ip_protocol,
+    json_extract_scalar(ip_range, '$') AS ip,
+    json_extract_scalar(ip6_range, '$') AS ip6
+FROM
+    aws_ec2_security_groups sg
+    cross JOIN UNNEST(cast(json_extract(sg.ip_permissions_egress, '$') as array(json))) as t(ip_permission)
+    LEFT JOIN UNNEST(cast(json_extract(ip_permission, '$.IpRanges') as array(json))) as t2(ip_range) ON true
+    LEFT JOIN UNNEST(cast(json_extract(ip_permission, '$.Ipv6Ranges') as array(json))) as t3(ip6_range) ON true
+{% endmacro %}
