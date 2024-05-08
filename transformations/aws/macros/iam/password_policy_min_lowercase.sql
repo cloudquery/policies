@@ -52,3 +52,18 @@ select
 from
     aws_iam_password_policies
 {% endmacro %}
+
+{% macro athena__password_policy_min_lowercase(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Ensure IAM password policy requires at least one lowercase letter' AS title,
+    account_id,
+    account_id AS resource_id,
+    CASE 
+        WHEN require_lowercase_characters = FALSE OR policy_exists = FALSE
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_iam_password_policies
+{% endmacro %}
