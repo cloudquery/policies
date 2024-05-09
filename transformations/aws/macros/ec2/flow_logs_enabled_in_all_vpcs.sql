@@ -6,6 +6,7 @@
 
 {% macro snowflake__flow_logs_enabled_in_all_vpcs(framework, check_id) %}
 select
+  DISTINCT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'VPC flow logging should be enabled in all VPCs' as title,
@@ -15,7 +16,7 @@ select
       aws_ec2_flow_logs.resource_id is null
       then 'fail'
       else 'pass'
-  end
+  end as status
 from aws_ec2_vpcs
 left join aws_ec2_flow_logs on
         aws_ec2_vpcs.vpc_id = aws_ec2_flow_logs.resource_id
@@ -23,6 +24,7 @@ left join aws_ec2_flow_logs on
 
 {% macro postgres__flow_logs_enabled_in_all_vpcs(framework, check_id) %}
 select
+  DISTINCT
   '{{framework}}' as framework,
   '{{check_id}}' as check_id,
   'VPC flow logging should be enabled in all VPCs' as title,
@@ -32,7 +34,7 @@ select
       aws_ec2_flow_logs.resource_id is null
       then 'fail'
       else 'pass'
-  end
+  end as status
 from aws_ec2_vpcs
 left join aws_ec2_flow_logs on
         aws_ec2_vpcs.vpc_id = aws_ec2_flow_logs.resource_id
@@ -40,6 +42,7 @@ left join aws_ec2_flow_logs on
 
 {% macro bigquery__flow_logs_enabled_in_all_vpcs(framework, check_id) %}
 select
+  DISTINCT
   '{{framework}}' as framework,
   '{{check_id}}' as check_id,
   'VPC flow logging should be enabled in all VPCs' as title,
@@ -49,7 +52,7 @@ select
       aws_ec2_flow_logs.resource_id is null
       then 'fail'
       else 'pass'
-  end
+  end as status
 from {{ full_table_name("aws_ec2_vpcs") }}
 left join {{ full_table_name("aws_ec2_flow_logs") }} on
         aws_ec2_vpcs.vpc_id = aws_ec2_flow_logs.resource_id
@@ -57,6 +60,7 @@ left join {{ full_table_name("aws_ec2_flow_logs") }} on
 
 {% macro athena__flow_logs_enabled_in_all_vpcs(framework, check_id) %}
 SELECT
+    DISTINCT
     '{{framework}}' AS framework,
     '{{check_id}}' AS check_id,
     'VPC flow logging should be enabled in all VPCs' AS title,
