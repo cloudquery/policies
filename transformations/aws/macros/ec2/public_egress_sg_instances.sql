@@ -50,3 +50,29 @@ from aws_ec2_instances,
     inner join {{ ref('aws_compliance__security_group_egress_rules') }} on id = sg.value:GroupId
 where (ip = '0.0.0.0/0' or ip6 = '::/0')
 {% endmacro %}
+
+{% macro athena__public_egress_sg_instances(framework, check_id) %}
+select * from (
+    WITH SecurityGroupIds AS (
+    SELECT 
+        account_id,
+        instance_id,
+        json_extract_scalar(sg, '$.GroupId') AS group_id
+    FROM 
+        aws_ec2_instances,
+        UNNEST(cast(json_extract(security_groups, '$') as array(json))) AS t(sg)
+)
+-- Find all AWS instances that have a security group that allows unrestricted egress
+select
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'All ec2 instances that have unrestricted access to the internet via a security group' as title,
+    sgi.account_id,
+    instance_id as resource_id,
+    'fail' as status -- TODO FIXME
+from SecurityGroupIds sgi
+    -- 	Find all instances that have egress rule that allows access to all ip addresses
+    inner join {{ ref('aws_compliance__security_group_egress_rules') }} on id = group_id
+where (ip = '0.0.0.0/0' or ip6 = '::/0')
+)
+{% endmacro %}
