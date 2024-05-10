@@ -48,3 +48,18 @@ select
   end as status
 from aws_iam_users
 {% endmacro %}
+
+{% macro athena__avoid_root_usage(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Avoid the use of "root" account. Show used in last 30 days (Scored)' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE
+        WHEN user_name = '<root_account>' AND password_last_used > date_add('day', -30, current_date)
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_iam_users
+{% endmacro %}
