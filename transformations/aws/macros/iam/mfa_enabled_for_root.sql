@@ -16,6 +16,7 @@ select
     when user = '<root_account>' and mfa_active then 'pass'
   end as status
 from aws_iam_credential_reports
+where user = '<root_account>'
 {% endmacro %}
 
 {% macro bigquery__mfa_enabled_for_root(framework, check_id) %}
@@ -30,6 +31,7 @@ select
     when user = '<root_account>' and mfa_active then 'pass'
   end as status
 from {{ full_table_name("aws_iam_credential_reports") }}
+where user = '<root_account>'
 {% endmacro %}
 
 {% macro snowflake__mfa_enabled_for_root(framework, check_id) %}
@@ -44,6 +46,7 @@ select
     when user = '<root_account>' and mfa_active then 'pass'
   end as status
 from aws_iam_credential_reports
+where user = '<root_account>'
 {% endmacro %}
 
 {% macro athena__mfa_enabled_for_root(framework, check_id) %}
@@ -58,4 +61,5 @@ select
     when user = '<root_account>' and mfa_active then 'pass'
   end as status
 from aws_iam_credential_reports
+where user = '<root_account>'
 {% endmacro %}
