@@ -246,7 +246,7 @@ with
     {{ union() }}
     ({{ logs_encrypted('foundational_security','cloudtrail.2') }})
     {{ union() }}
-    ({{ logs_file_validation_enabled('foundational_security','cloudtrail.3') }})
+    ({{ cloudtrail_enabled('foundational_security','cloudtrail.3') }})
     {{ union() }}
     ({{ logs_file_validation_enabled('foundational_security','cloudtrail.4') }})
     {{ union() }}
