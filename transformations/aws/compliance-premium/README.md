@@ -826,7 +826,7 @@ This model is dependent on the following models:
 - ✅ `iam.5`: `mfa_enabled_for_console_access`
 - ✅ `iam.6`: `hardware_mfa_enabled_for_root`
 - ✅ `iam.7`: `password_policy_strong`
-- ✅ `iam.8`: `iam_access_keys_rotated_more_than_90_days`
+- ✅ `iam.8`: `unused_creds_disabled`
 - ✅ `iam.21`: `policies_have_wildcard_actions`
 - ✅ `kinesis`: `kinesis_stream_encrypted`
 - ✅ `kms.1`: `iam_customer_policy_no_kms_decrypt`
