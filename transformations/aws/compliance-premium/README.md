@@ -735,7 +735,7 @@ This model is dependent on the following models:
 - ✅ `cloudfront.13`: `distribution_should_use_origin_access_control`
 - ✅ `cloudtrail.1`: `cloudtrail_enabled_all_regions`
 - ✅ `cloudtrail.2`: `logs_encrypted`
-- ✅ `cloudtrail.3`: `logs_file_validation_enabled`
+- ✅ `cloudtrail.3`: `cloudtrail_enabled`
 - ✅ `cloudtrail.4`: `logs_file_validation_enabled`
 - ✅ `cloudtrail.5`: `integrated_with_cloudwatch_logs`
 - ✅ `codebuild.1`: `check_oauth_usage_for_sources`
