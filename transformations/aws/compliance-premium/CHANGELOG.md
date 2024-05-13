@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.10.1...transformation-aws-compliance-premium-v1.11.0) (2024-05-10)
+
+
+### Features
+
+* Added Athena queries for CIS 1_2 and 2_0 ([#846](https://github.com/cloudquery/policies-premium/issues/846)) ([123d9e3](https://github.com/cloudquery/policies-premium/commit/123d9e3aafca9e3ed0fc57ed48083270735f584c))
+
 ## [1.10.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.10.0...transformation-aws-compliance-premium-v1.10.1) (2024-05-06)
 
 

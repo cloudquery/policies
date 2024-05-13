@@ -143,3 +143,56 @@ select
 	end as status
 from public_bucket_data
 {% endmacro %}
+
+{% macro athena__cloudtrail_bucket_not_public(framework, check_id) %}
+SELECT * FROM (
+with public_bucket_data as (
+select
+	aws_s3_buckets.account_id,
+	aws_s3_buckets.arn,
+    count(aws_s3_buckets.arn) filter (
+      where
+        JSON_EXTRACT_SCALAR(grantee, '$.URI') like '%acs.amazonaws.com/groups/global/AllUsers'
+        or
+        JSON_EXTRACT_SCALAR(grantee, '$.URI') like '%acs.amazonaws.com/groups/global/AuthenticatedUsers'
+    ) as users_grants,
+	count(aws_s3_buckets.arn) filter (
+      where
+        JSON_EXTRACT_SCALAR(statements, '$.Effect') = 'Allow'
+		and
+		(JSON_EXTRACT_SCALAR(statements, '$.Principal') = '"*"'
+		or
+		JSON_EXTRACT_SCALAR(statements, '$.Principal') = '*'
+        or (
+            json_extract(statements, '$.Principal.AWS') IS NOT NULL
+            and (
+                json_extract_scalar(statements, '$.Principal.AWS') = '"*"'
+                or json_Format(json_extract(statements, '$.Principal.AWS')) LIKE '%"*"%'
+            ))
+		 )
+        
+    ) as anon_statements
+from aws_cloudtrail_trails 
+inner join aws_s3_buckets on aws_cloudtrail_trails.s3_bucket_name = aws_s3_buckets.name
+left join aws_s3_bucket_grants on aws_s3_bucket_grants._cq_parent_id = aws_s3_buckets._cq_id
+left join aws_s3_bucket_policies on aws_s3_bucket_policies._cq_parent_id = aws_s3_buckets._cq_id
+LEFT JOIN UNNEST(CAST(JSON_EXTRACT(aws_s3_bucket_policies.policy_json, '$.Statement') as array(json))) as t(statements) ON TRUE
+group by
+    aws_s3_buckets.account_id,
+	aws_s3_buckets.arn
+	)
+
+select 
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+    'Ensure the S3 bucket used to store CloudTrail logs is not publicly accessible' as title,
+	account_id,
+	arn as resource_id,
+	case
+	when users_grants > 0 then 'fail'
+    when anon_statements > 0 then 'fail'
+	else 'pass'
+	end as status
+from public_bucket_data
+)
+{% endmacro %}

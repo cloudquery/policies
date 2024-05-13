@@ -51,3 +51,18 @@ select
 from
     aws_iam_password_policies
 {% endmacro %}
+
+{% macro athena__password_policy_expire_old_passwords(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Ensure IAM password policy expires passwords within 90 days or less' AS title,
+    account_id,
+    account_id AS resource_id,
+    CASE 
+        WHEN max_password_age IS NULL OR max_password_age > 90 OR policy_exists = FALSE
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_iam_password_policies
+{% endmacro %}

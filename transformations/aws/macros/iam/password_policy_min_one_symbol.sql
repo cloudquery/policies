@@ -51,3 +51,18 @@ select
 from
     aws_iam_password_policies
 {% endmacro %}
+
+{% macro athena__password_policy_min_one_symbol(framework, check_id) %}
+SELECT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'Ensure IAM password policy requires at least one symbol' AS title,
+    account_id,
+    account_id AS resource_id,
+    CASE 
+        WHEN require_symbols = FALSE OR policy_exists = FALSE
+        THEN 'fail'
+        ELSE 'pass'
+    END AS status
+FROM aws_iam_password_policies
+{% endmacro %}
