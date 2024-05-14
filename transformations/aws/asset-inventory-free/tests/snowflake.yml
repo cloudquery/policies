@@ -12,7 +12,8 @@ spec:
   name: snowflake
   path: cloudquery/snowflake
   registry: cloudquery
-  version: "v3.6.2" # latest version of destination snowflake plugin
+  version: "v4.0.0" # latest version of destination snowflake plugin
+  migrate_mode: forced
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
     migrate_concurrency: 50
