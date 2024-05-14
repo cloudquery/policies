@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.3](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.8.2...transformation-azure-compliance-premium-v0.8.3) (2024-05-14)
+
+
+### Bug Fixes
+
+* Updating snowflake migrate mode for all snowflake tests ([#861](https://github.com/cloudquery/policies-premium/issues/861)) ([81e735f](https://github.com/cloudquery/policies-premium/commit/81e735f719beb750aa2251c02f2debbe47de4466))
+
 ## [0.8.2](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.8.1...transformation-azure-compliance-premium-v0.8.2) (2024-05-01)
 
 
