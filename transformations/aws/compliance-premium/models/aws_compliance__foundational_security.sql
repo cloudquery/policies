@@ -196,7 +196,7 @@ with
     {{ union() }}
     ({{ iam_access_keys_rotated_more_than_90_days('foundational_security','iam.3') }})
     {{ union() }}
-    ({{ iam_access_keys_rotated_more_than_90_days('foundational_security','iam.8') }})
+    ({{ unused_creds_disabled('foundational_security','iam.8') }})
     {{ union() }}
     ({{ iam_authentication_should_be_configured_for_rds_clusters('foundational_security','rds.12') }})
     {{ union() }}

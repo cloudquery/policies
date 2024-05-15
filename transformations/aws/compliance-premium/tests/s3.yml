@@ -3,7 +3,7 @@ spec:
   name: aws
   path: cloudquery/aws
   registry: cloudquery
-  version: "v26.3.0" # latest version of source aws plugin
+  version: "v26.4.0" # latest version of source aws plugin
   destinations: ["s3"]
   tables: ["*"]
 ---
@@ -12,11 +12,11 @@ spec:
   name: "s3"
   path: "cloudquery/s3"
   registry: "cloudquery"
-  version: "v6.2.0"
+  version: "v6.2.1"
   write_mode: "append"
   spec:
-    bucket: "aws-compliance-athena"
+    bucket: "cq-integration-tests"
     region: "us-east-1" # Example: us-east-1
-    path: "data/{{TABLE}}/{{UUID}}.{{FORMAT}}"
+    path: "aws-compliance-athena/data/{{TABLE}}/{{UUID}}.{{FORMAT}}"
     format: "parquet" # options: parquet, json, csv
     write_empty_objects_for_empty_tables: true
