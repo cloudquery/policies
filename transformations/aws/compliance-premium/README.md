@@ -735,7 +735,6 @@ This model is dependent on the following models:
 - ✅ `cloudfront.13`: `distribution_should_use_origin_access_control`
 - ✅ `cloudtrail.1`: `cloudtrail_enabled_all_regions`
 - ✅ `cloudtrail.2`: `logs_encrypted`
-- ✅ `cloudtrail.3`: `cloudtrail_enabled`
 - ✅ `cloudtrail.4`: `logs_file_validation_enabled`
 - ✅ `cloudtrail.5`: `integrated_with_cloudwatch_logs`
 - ✅ `codebuild.1`: `check_oauth_usage_for_sources`
@@ -933,6 +932,7 @@ This model is dependent on the following models:
 - ✅ `cloudtrail.2`: `cloudtrail_enabled_all_regions`
 - ✅ `cloudtrail.3`: `log_file_validation_enabled`
 - ✅ `cloudtrail.4`: `integrated_with_cloudwatch_logs`
+- ✅ `cloudtrail.5`: `cloudtrail_enabled`
 - ✅ `cloudwatch.1`: `alarm_root_account`
 - ✅ `codebuild.1`: `check_oauth_usage_for_sources`
 - ✅ `codebuild.2`: `check_environment_variables`
