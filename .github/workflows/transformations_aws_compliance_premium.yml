@@ -39,6 +39,7 @@ jobs:
       postgres: ${{ fromJson(steps.set-result.outputs.result).postgres }}
       snowflake: ${{ fromJson(steps.set-result.outputs.result).snowflake }}
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
+      s3: ${{ fromJson(steps.set-result.outputs.result).s3 }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,16 +51,18 @@ jobs:
           script: |
             const fs = require('fs/promises');
             const { TRANSFORMATION_DIR: transformation_dir } = process.env;
-            const [postgres, snowflake, bigquery] = await Promise.all([
+            const [postgres, snowflake, bigquery, s3] = await Promise.all([
               fs.access(`${transformation_dir}/tests/postgres.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
+              fs.access(`${transformation_dir}/tests/s3.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
             ]);
             return {
               transformation_dir,
               postgres,
               snowflake,
               bigquery,
+              s3
             };
   transformations-aws-compliance-premium:
     permissions:
@@ -98,6 +101,11 @@ jobs:
         with:
           workload_identity_provider: 'projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider'
           service_account: 'integration-service-account@cq-integration-tests.iam.gserviceaccount.com'
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::615713231484:role/cq-playground-aws-github-action
+          aws-region: us-east-1
       - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
@@ -108,7 +116,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
-          version: v5.18.1
+          version: v5.18.2
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
