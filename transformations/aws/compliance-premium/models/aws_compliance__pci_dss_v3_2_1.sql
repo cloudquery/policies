@@ -10,6 +10,8 @@ with
         {{ union() }}
         ({{ integrated_with_cloudwatch_logs('pci_dss_v3.2.1','cloudtrail.4') }})
         {{ union() }}
+        ({{ cloudtrail_enabled('pci_dss_v3.2.1','cloudtrail.5') }})
+        {{ union() }}
         ({{ check_oauth_usage_for_sources('pci_dss_v3.2.1','codebuild.1') }})
         {{ union() }}
         ({{ check_environment_variables('pci_dss_v3.2.1','codebuild.2') }})
