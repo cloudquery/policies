@@ -53,8 +53,8 @@ WITH fields AS (
         id,
         location,
         (properties:enabled)::boolean AS enabled,
-        value:field AS field,
-        field:equals AS equals
+        conditions.value:field AS field,
+        conditions.value:equals AS equals
     FROM azure_monitor_activity_log_alerts,
      LATERAL FLATTEN(input => properties:condition:allOf) AS conditions
 ),
@@ -85,7 +85,7 @@ SELECT
     '{{check_id}}' As check_id,
     'Ensure that Activity Log Alert exists for Delete Network Security Group Rule' AS title,
     subscription_id                                                                AS subscription_id,
-        CASE WHEN MAX(CASE WHEN condition THEN 1 ELSE 0 END) = 1 THEN 'pass' ELSE 'fail' END AS status
+        CASE BOOLOR_AGG(condition) THEN 'pass' ELSE 'fail' END AS status
 FROM conditions
 GROUP BY subscription_id, scope
 {% endmacro %}
