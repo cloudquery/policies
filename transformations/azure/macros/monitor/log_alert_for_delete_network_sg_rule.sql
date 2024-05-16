@@ -85,7 +85,7 @@ SELECT
     '{{check_id}}' As check_id,
     'Ensure that Activity Log Alert exists for Delete Network Security Group Rule' AS title,
     subscription_id                                                                AS subscription_id,
-        CASE BOOLOR_AGG(condition) THEN 'pass' ELSE 'fail' END AS status
+        CASE WHEN BOOLOR_AGG(condition) THEN 'pass' ELSE 'fail' END AS status
 FROM conditions
 GROUP BY subscription_id, scope
 {% endmacro %}
