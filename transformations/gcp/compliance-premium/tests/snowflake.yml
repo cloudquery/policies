@@ -2,7 +2,7 @@ kind: source
 spec:
   name: gcp
   path: cloudquery/gcp
-  version: "v12.8.0" # latest version of source gcp plugin
+  version: "v13.0.0" # latest version of source gcp plugin
   destinations: ["snowflake"]
   tables: ["*"]
 ---
