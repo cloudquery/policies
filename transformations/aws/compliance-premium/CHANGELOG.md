@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.12.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.11.0...transformation-aws-compliance-premium-v1.12.0) (2024-05-21)
+
+
+### Features
+
+* Athena integration test workflow ([#842](https://github.com/cloudquery/policies-premium/issues/842)) ([14eba05](https://github.com/cloudquery/policies-premium/commit/14eba05f5383461d5e3154406681731ce8349a4e))
+
+
+### Bug Fixes
+
+* Updated macro iam.8 ([#850](https://github.com/cloudquery/policies-premium/issues/850)) ([e79cfa4](https://github.com/cloudquery/policies-premium/commit/e79cfa4f0581fc96aa3d51afc972507393d30b9e))
+
 ## [1.11.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.10.1...transformation-aws-compliance-premium-v1.11.0) (2024-05-10)
 
 
