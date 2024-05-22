@@ -23,7 +23,7 @@
   "visualizations/aws/data_resilience+FILLER": "0.0.0",
   "transformations/aws/encryption": "2.0.4",
   "transformations/aws/encryption+FILLER": "0.0.0",
-  "transformations/aws/asset-inventory-free": "2.2.3",
+  "transformations/aws/asset-inventory-free": "2.2.4",
   "transformations/aws/asset-inventory+FILLER": "0.0.0",
   "visualizations/aws/asset_inventory": "2.1.0",
   "visualizations/aws/asset_inventory+FILLER": "0.0.0",
