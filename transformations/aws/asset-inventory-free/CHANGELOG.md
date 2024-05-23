@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.4](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.2.3...transformation-aws-asset-inventory-free-v2.2.4) (2024-05-22)
+
+
+### Bug Fixes
+
+* Removing line breaks from the bigquery aws asset inventory model ([#871](https://github.com/cloudquery/policies-premium/issues/871)) ([0780da4](https://github.com/cloudquery/policies-premium/commit/0780da4346319742a3ab43304f5d03488d64fb9d))
+
 ## [2.2.3](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.2.2...transformation-aws-asset-inventory-free-v2.2.3) (2024-05-14)
 
 
