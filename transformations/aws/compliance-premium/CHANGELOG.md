@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.12.0...transformation-aws-compliance-premium-v1.12.1) (2024-05-24)
+
+
+### Bug Fixes
+
+* Updated macro cloudtrail_3 ([#851](https://github.com/cloudquery/policies-premium/issues/851)) ([0d4f3ee](https://github.com/cloudquery/policies-premium/commit/0d4f3ee7456e1da56ae7180805ececb7edd5e901))
+
 ## [1.12.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.11.0...transformation-aws-compliance-premium-v1.12.0) (2024-05-21)
 
 
