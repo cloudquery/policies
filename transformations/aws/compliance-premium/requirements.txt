@@ -1,4 +1,4 @@
-dbt-postgres==1.7.13
+dbt-postgres==1.8.1
 dbt-bigquery==1.7.7
 dbt-snowflake==1.7.3
 dbt-athena-community==1.7.2
