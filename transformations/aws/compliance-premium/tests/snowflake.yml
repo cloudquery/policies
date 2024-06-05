@@ -3,7 +3,7 @@ spec:
   name: aws
   path: cloudquery/aws
   registry: cloudquery
-  version: "v26.9.0" # latest version of source aws plugin
+  version: "v26.10.0" # latest version of source aws plugin
   destinations: ["snowflake"]
   tables: ["*"]
 ---
@@ -12,7 +12,7 @@ spec:
   name: snowflake
   path: cloudquery/snowflake
   registry: cloudquery
-  version: "v4.0.1" # latest version of destination snowflake plugin
+  version: "v4.0.2" # latest version of destination snowflake plugin
   migrate_mode: forced
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
