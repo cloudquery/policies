@@ -1,1 +1,1 @@
-dbt-postgres==1.7.13
+dbt-postgres==1.8.1
