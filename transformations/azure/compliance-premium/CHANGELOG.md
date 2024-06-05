@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.4](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.8.3...transformation-azure-compliance-premium-v0.8.4) (2024-06-05)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-athena-community to v1.8.2 ([#878](https://github.com/cloudquery/policies-premium/issues/878)) ([71c1941](https://github.com/cloudquery/policies-premium/commit/71c1941478e75175e23f86e5374540da7b25ddb1))
+* **deps:** Update dependency dbt-bigquery to v1.8.1 ([#879](https://github.com/cloudquery/policies-premium/issues/879)) ([5a34a03](https://github.com/cloudquery/policies-premium/commit/5a34a03ed88958be63d4899fe8c477744e9524f7))
+* **deps:** Update dependency dbt-postgres to v1.8.1 ([#880](https://github.com/cloudquery/policies-premium/issues/880)) ([33c889a](https://github.com/cloudquery/policies-premium/commit/33c889a21fea65f4a13ce4ce3bcfc6e23664de3a))
+* **deps:** Update dependency dbt-snowflake to v1.8.2 ([#881](https://github.com/cloudquery/policies-premium/issues/881)) ([971915b](https://github.com/cloudquery/policies-premium/commit/971915bfa6a216c8481436d15c8c333f79d91310))
+* Update dbt dependencies ([#889](https://github.com/cloudquery/policies-premium/issues/889)) ([555cd25](https://github.com/cloudquery/policies-premium/commit/555cd257beae056490990e873bd12a183c844206))
+
 ## [0.8.3](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.8.2...transformation-azure-compliance-premium-v0.8.3) (2024-05-14)
 
 
