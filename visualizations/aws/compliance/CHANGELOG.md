@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.1](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v2.1.0...visualization-aws-compliance-v2.1.1) (2024-06-05)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-athena-community to v1.8.2 ([#878](https://github.com/cloudquery/policies-premium/issues/878)) ([71c1941](https://github.com/cloudquery/policies-premium/commit/71c1941478e75175e23f86e5374540da7b25ddb1))
+* **deps:** Update dependency dbt-bigquery to v1.8.1 ([#879](https://github.com/cloudquery/policies-premium/issues/879)) ([5a34a03](https://github.com/cloudquery/policies-premium/commit/5a34a03ed88958be63d4899fe8c477744e9524f7))
+
 ## [2.1.0](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v2.0.1...visualization-aws-compliance-v2.1.0) (2024-03-04)
 
 
