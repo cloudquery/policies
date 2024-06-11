@@ -4,7 +4,7 @@ spec:
   name: k8s
   path: cloudquery/k8s
   registry: cloudquery
-  version: "v6.0.17" # latest version of source k8s plugin
+  version: "v6.1.0" # latest version of source k8s plugin
   tables: ["*"]
   destinations: ["postgresql"]
   spec:
