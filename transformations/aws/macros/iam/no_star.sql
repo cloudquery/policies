@@ -135,32 +135,31 @@ WITH pvs AS (
 ),
 fix_resouce_action as (
     SELECT
-    id,
-    statement_fixed,
-    CASE 
-    WHEN json_array_length(json_extract(statement_fixed, '$.Resource')) IS NULL THEN
-      json_parse('[' || json_extract_scalar(statement_fixed, '$.Resource') || ']')
-    ELSE
-      json_extract(statement_fixed, '$.Resource')
-  END AS resource_fixed,
-  CASE 
-    WHEN json_array_length(json_extract(statement_fixed, '$.Action')) IS NULL THEN
-      json_parse('[' || json_extract_scalar(statement_fixed, '$.Action') || ']')
-    ELSE
-      json_extract(statement_fixed, '$.Action')
-  END AS action_fixed
-  FROM pvs
-    
+      id,
+      statement as statement_fixed,
+      CASE 
+        WHEN json_array_length(json_extract(statement, '$.Resource')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(statement, '$.Resource') || '"]')
+        ELSE
+          json_extract(statement, '$.Resource')
+      END AS resource_fixed,
+      CASE 
+        WHEN json_array_length(json_extract(statement, '$.Action')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(statement, '$.Action') || '"]')
+        ELSE
+          json_extract(statement, '$.Action')
+      END AS action_fixed
+    FROM pvs,
+    UNNEST(CAST(statement_fixed as array(json))) as t(statement)
 ),
 violations as (
     select
         id,
         COUNT(*) as violations
     from fix_resouce_action,
-        UNNEST(CAST(statement_fixed as array(json))) as t(statement),
         UNNEST(CAST(resource_fixed as array(varchar))) t(resource),
         UNNEST(CAST(action_fixed as array(varchar))) t(action)
-    where JSON_EXTRACT_SCALAR(statement, '$.Effect') = 'Allow'
+    where JSON_EXTRACT_SCALAR(statement_fixed, '$.Effect') = 'Allow'
           and resource = '*'
           and ( action = '*' or action = '*:*' )
     group by id
