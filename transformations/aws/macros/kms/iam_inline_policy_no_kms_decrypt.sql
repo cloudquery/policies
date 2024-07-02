@@ -333,105 +333,175 @@ LEFT JOIN decrypt_groups dg
 
 {% macro athena__iam_inline_policy_no_kms_decrypt(framework, check_id) %}
 select * from (
-WITH decrypt_users as (
-    SELECT DISTINCT
-        u.user_arn as arn
-    FROM 
-        aws_iam_user_policies u
-    WHERE 
-        json_extract_scalar(policy_document, '$.Effect') = 'Allow'
-        AND
-        (json_extract_scalar(policy_document, '$.Resource') = '*' OR
-        json_extract_scalar(policy_document, '$.Resource') LIKE '%kms%') 
-        AND 
-        (json_extract_scalar(policy_document, '$.Action') = '*' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:*%' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:decrypt%' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencryptfrom%'
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencrypt*%')
-  
+WITH decrypt_users AS (
+    SELECT
+        user_arn AS arn,
+        CASE 
+            WHEN json_array_length(json_extract(policy_document, '$.Statement')) IS NULL THEN
+                json_parse('[' || json_extract_scalar(policy_document, '$.Statement') || ']')
+            ELSE
+                json_extract(policy_document, '$.Statement')
+        END AS statement_fixed
+    FROM aws_iam_user_policies
 ),
-decrypt_roles as (
-  SELECT DISTINCT
-        r.role_arn as arn
-    FROM 
-        aws_iam_role_policies r
-    WHERE 
-        json_extract_scalar(policy_document, '$.Effect') = 'Allow'
-        AND
-        (json_extract_scalar(policy_document, '$.Resource') = '*' OR
-        json_extract_scalar(policy_document, '$.Resource') LIKE '%kms%') 
-        AND 
-        (json_extract_scalar(policy_document, '$.Action') = '*' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:*%' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:decrypt%' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencryptfrom%'
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencrypt*%')
-        AND r.role_arn NOT LIKE '%service-role/%'
-
+decrypt_users_resouce_action AS (
+    SELECT
+        arn,
+        statement AS statement_fixed,
+        CASE 
+            WHEN json_array_length(json_extract(statement, '$.Resource')) IS NULL THEN
+                json_parse('["' || json_extract_scalar(statement, '$.Resource') || '"]')
+            ELSE
+                json_extract(statement, '$.Resource')
+        END AS resource_fixed,
+        CASE 
+            WHEN json_array_length(json_extract(statement, '$.Action')) IS NULL THEN
+                json_parse('["' || json_extract_scalar(statement, '$.Action') || '"]')
+            ELSE
+                json_extract(statement, '$.Action')
+        END AS action_fixed
+    FROM decrypt_users,
+    UNNEST(CAST(statement_fixed AS ARRAY(JSON))) AS t(statement)
 ),
-decrypt_groups as (
-  SELECT DISTINCT
-        g.group_arn as arn
-    FROM 
-        aws_iam_group_policies g
-    WHERE 
-        json_extract_scalar(policy_document, '$.Effect') = 'Allow'
-        AND
-        (json_extract_scalar(policy_document, '$.Resource') = '*' OR
-        json_extract_scalar(policy_document, '$.Resource') LIKE '%kms%') 
-        AND 
-        (json_extract_scalar(policy_document, '$.Action') = '*' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:*%' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:decrypt%' 
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencryptfrom%'
-         OR json_extract_scalar(policy_document, '$.Action') LIKE '%kms:reencrypt*%')
+decrypt_users_violations AS (
+    SELECT
+        arn,
+        COUNT(*) AS violations
+    FROM decrypt_users_resouce_action,
+        UNNEST(CAST(resource_fixed AS ARRAY(VARCHAR))) t(resource),
+        UNNEST(CAST(action_fixed AS ARRAY(VARCHAR))) t(action)
+    WHERE JSON_EXTRACT_SCALAR(statement_fixed, '$.Effect') = 'Allow'
+          AND (resource = '*' OR resource LIKE '%kms%')
+          AND (action = '*' OR action LIKE '%kms:*%' OR action LIKE '%kms:decrypt%' OR action LIKE '%kms:reencryptfrom%' OR action LIKE '%kms:reencrypt*%')
+    GROUP BY arn
+),
+decrypt_roles AS (
+    SELECT
+        role_arn AS arn,
+        CASE 
+            WHEN json_array_length(json_extract(policy_document, '$.Statement')) IS NULL THEN
+                json_parse('[' || json_extract_scalar(policy_document, '$.Statement') || ']')
+            ELSE
+                json_extract(policy_document, '$.Statement')
+        END AS statement_fixed
+    FROM aws_iam_role_policies
+),
+decrypt_roles_resouce_action AS (
+    SELECT
+        arn,
+        statement AS statement_fixed,
+        CASE 
+            WHEN json_array_length(json_extract(statement, '$.Resource')) IS NULL THEN
+                json_parse('["' || json_extract_scalar(statement, '$.Resource') || '"]')
+            ELSE
+                json_extract(statement, '$.Resource')
+        END AS resource_fixed,
+        CASE 
+            WHEN json_array_length(json_extract(statement, '$.Action')) IS NULL THEN
+                json_parse('["' || json_extract_scalar(statement, '$.Action') || '"]')
+            ELSE
+                json_extract(statement, '$.Action')
+        END AS action_fixed
+    FROM decrypt_roles,
+    UNNEST(CAST(statement_fixed AS ARRAY(JSON))) AS t(statement)
+),
+decrypt_roles_violations AS (
+    SELECT
+        arn,
+        COUNT(*) AS violations
+    FROM decrypt_roles_resouce_action,
+        UNNEST(CAST(resource_fixed AS ARRAY(VARCHAR))) t(resource),
+        UNNEST(CAST(action_fixed AS ARRAY(VARCHAR))) t(action)
+    WHERE JSON_EXTRACT_SCALAR(statement_fixed, '$.Effect') = 'Allow'
+          AND (resource = '*' OR resource LIKE '%kms%')
+          AND (action = '*' OR action LIKE '%kms:*%' OR action LIKE '%kms:decrypt%' OR action LIKE '%kms:reencryptfrom%' OR action LIKE '%kms:reencrypt*%')
+          AND arn NOT LIKE '%service-role/%'
+    GROUP BY arn
+),
+decrypt_groups AS (
+    SELECT
+        gp.group_arn AS arn,
+        CASE 
+            WHEN json_array_length(json_extract(gp.policy_document, '$.Statement')) IS NULL THEN
+                json_parse('[' || json_extract_scalar(gp.policy_document, '$.Statement') || ']')
+            ELSE
+                json_extract(gp.policy_document, '$.Statement')
+        END AS statement_fixed
+    FROM aws_iam_group_policies gp
+),
+decrypt_groups_resource_action AS (
+    SELECT
+        arn,
+        statement AS statement_fixed,
+        CASE 
+            WHEN json_array_length(json_extract(statement, '$.Resource')) IS NULL THEN
+                json_parse('["' || json_extract_scalar(statement, '$.Resource') || '"]')
+            ELSE
+                json_extract(statement, '$.Resource')
+        END AS resource_fixed,
+        CASE 
+            WHEN json_array_length(json_extract(statement, '$.Action')) IS NULL THEN
+                json_parse('["' || json_extract_scalar(statement, '$.Action') || '"]')
+            ELSE
+                json_extract(statement, '$.Action')
+        END AS action_fixed
+    FROM decrypt_groups,
+    UNNEST(CAST(statement_fixed AS ARRAY(JSON))) AS t(statement)
+),
+decrypt_groups_violations AS (
+    SELECT
+        arn,
+        COUNT(*) AS violations
+    FROM decrypt_groups_resource_action,
+        UNNEST(CAST(resource_fixed AS ARRAY(VARCHAR))) t(resource),
+        UNNEST(CAST(action_fixed AS ARRAY(VARCHAR))) t(action)
+    WHERE JSON_EXTRACT_SCALAR(statement_fixed, '$.Effect') = 'Allow'
+          AND (resource = '*' OR resource LIKE '%kms%')
+          AND (action = '*' OR action LIKE '%kms:*%' OR action LIKE '%kms:decrypt%' OR action LIKE '%kms:reencryptfrom%' OR action LIKE '%kms:reencrypt*%')
+          AND arn NOT LIKE '%service-role/%'
+    GROUP BY arn
 )
-
 SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
     u.account_id,
-    u.arn as resource_id,
-    CASE
-    WHEN du.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
+    u.arn AS resource_id,
+    CASE 
+        WHEN v.arn IS NOT NULL AND v.violations > 0 THEN 'fail'
+        ELSE 'pass'
+    END AS status
 FROM aws_iam_users u
-LEFT JOIN decrypt_users du
-    ON u.arn = du.arn
+LEFT JOIN decrypt_users_violations v ON v.arn = u.arn
 
-UNION
+UNION ALL
 
 SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
     r.account_id,
-    r.arn as resource_id,
-    CASE
-    WHEN dr.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
+    r.arn AS resource_id,
+    CASE 
+        WHEN v.arn IS NOT NULL AND v.violations > 0 THEN 'fail'
+        ELSE 'pass'
+    END AS status
 FROM aws_iam_roles r
-LEFT JOIN decrypt_roles dr
-    ON r.arn = dr.arn
+LEFT JOIN decrypt_roles_violations v ON v.arn = r.arn
 
-UNION
+UNION ALL
 
 SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
     g.account_id,
-    g.arn as resource_id,
-    CASE
-    WHEN dg.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
+    g.arn AS resource_id,
+    CASE 
+        WHEN v.arn IS NOT NULL AND v.violations > 0 THEN 'fail'
+        ELSE 'pass'
+    END AS status
 FROM aws_iam_groups g
-LEFT JOIN decrypt_groups dg
-    ON g.arn = dg.arn
+LEFT JOIN decrypt_groups_violations v ON v.arn = g.arn
 )
 {% endmacro %}

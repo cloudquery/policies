@@ -113,35 +113,43 @@ WHERE
 {% endmacro %}
 
 {% macro athena__deny_http_requests(framework, check_id) %}
-select distinct
-    '{{framework}}' As framework,
-    '{{check_id}}' As check_id,
+select * from (
+WITH statements_cte AS (
+    SELECT
+        b.arn,
+        statement,
+        json_extract_scalar(statement, '$.Principal.AWS') AS principals_aws,
+        json_extract_scalar(statement, '$.Principal.Service') AS principals_service_scalar,
+        try_cast(json_extract(statement, '$.Principal.Service') AS ARRAY(VARCHAR)) AS principals_service_array
+    FROM
+        aws_s3_buckets AS b
+    INNER JOIN aws_s3_bucket_policies bp ON bp._cq_parent_id = b._cq_id,
+    UNNEST(cast(json_extract(bp.policy_json, '$.Statement') AS ARRAY(JSON))) t(statement)
+    WHERE
+        json_extract_scalar(statement, '$.Effect') = 'Deny'
+        AND json_extract_scalar(statement, '$.Condition.Bool.aws:SecureTransport') = 'false'
+),
+filtered_statements AS (
+    SELECT DISTINCT
+        arn
+    FROM
+        statements_cte
+    WHERE
+        principals_service_scalar = '*'
+        OR CONTAINS(principals_service_array, '*')
+)
+SELECT DISTINCT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
     'S3 buckets should deny non-HTTPS requests' AS title,
-    account_id,
-    arn AS resource_id,
-    'fail' AS status
+    b.account_id,
+    b.arn AS resource_id,
+    CASE
+        WHEN b.arn NOT IN (SELECT arn FROM filtered_statements) THEN 'fail'
+        ELSE 'pass'
+    END AS status
 FROM
-    aws_s3_buckets
-WHERE
-    arn NOT IN (
-        SELECT foo.arn
-        FROM (
-            SELECT
-                b.arn,
-                statement,
-                json_extract_scalar(statement, '$.Principal.AWS') as principals_aws,
-                json_extract_scalar(statement, '$.Principal.Service') as principals_service_scalar,
-                try_cast(json_extract(statement, '$.Principal.Service') as array(varchar)) as principals_service_array
-            FROM
-                aws_s3_buckets AS b
-            inner join aws_s3_bucket_policies bp ON bp._cq_parent_id = b._cq_id,
-            UNNEST(cast(json_extract(bp.policy_json, '$.Statement') as array(json))) t(statement)
-            WHERE
-                json_extract_scalar(statement, '$.Effect') = 'Deny'
-                AND json_extract_scalar(statement, '$.Condition.Bool.aws:SecureTransport') = 'false'
-        ) AS foo
-        WHERE
-            foo.principals_service_scalar = '*'
-            OR CONTAINS(foo.principals_service_array, '*')
-    )
+    aws_s3_buckets b
+
+)
 {% endmacro %}
