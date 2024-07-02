@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.7.5](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.7.4...transformation-gcp-compliance-premium-v0.7.5) (2024-07-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.8.2 ([#941](https://github.com/cloudquery/policies-premium/issues/941)) ([3c36fa4](https://github.com/cloudquery/policies-premium/commit/3c36fa46d7edfcf033b8523bbadf9db779661a63))
+* **deps:** Update dependency dbt-postgres to v1.8.2 ([#943](https://github.com/cloudquery/policies-premium/issues/943)) ([0c45a22](https://github.com/cloudquery/policies-premium/commit/0c45a226f6acdbd7ea070333b90bd2545b1af5c0))
+* **deps:** Update dependency dbt-snowflake to v1.8.3 ([#944](https://github.com/cloudquery/policies-premium/issues/944)) ([5ea2e5a](https://github.com/cloudquery/policies-premium/commit/5ea2e5a4a0b05ec1b0f19cd5fbc22305b3e13c90))
+
 ## [0.7.4](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-compliance-premium-v0.7.3...transformation-gcp-compliance-premium-v0.7.4) (2024-06-05)
 
 
