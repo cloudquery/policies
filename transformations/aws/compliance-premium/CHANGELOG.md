@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.12.3...transformation-aws-compliance-premium-v1.13.0) (2024-07-03)
+
+
+### Features
+
+* Aws iam root last used fix ([#937](https://github.com/cloudquery/policies-premium/issues/937)) ([96cd949](https://github.com/cloudquery/policies-premium/commit/96cd9498bdcb10c2eab51c161cc532f285905a1b))
+
 ## [1.12.3](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.12.2...transformation-aws-compliance-premium-v1.12.3) (2024-07-02)
 
 
