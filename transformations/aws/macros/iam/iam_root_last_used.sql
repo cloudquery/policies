@@ -12,12 +12,13 @@ select
   split_part(arn, ':', 5) as account_id,
   arn as resource_id,
   case 
-    when password_last_used <= (current_date - interval '90' day) then 'fail'
-    when access_key_1_last_used_date <= (current_date - interval '90' day) then 'fail'
-    when access_key_2_last_used_date <= (current_date - interval '90' day) then 'fail'
+    when password_last_used >= (current_date - interval '90' day) then 'fail'
+    when access_key_1_last_used_date >= (current_date - interval '90' day) then 'fail'
+    when access_key_2_last_used_date >= (current_date - interval '90' day) then 'fail'
       else 'pass'
   end as status
   from aws_iam_credential_reports
+  where user = '<root_account>'
 {% endmacro %}
 
 {% macro snowflake__iam_root_last_used(framework, check_id) %}
@@ -28,12 +29,13 @@ select
   split_part(arn, ':', 5) as account_id,
   arn as resource_id,
   case 
-    when password_last_used <= (CURRENT_DATE() - INTERVAL '90 day') then 'fail'
-    when access_key_1_last_used_date <= (CURRENT_DATE() - INTERVAL '90 day') then 'fail'
-    when access_key_2_last_used_date <= (CURRENT_DATE() - INTERVAL '90 day') then 'fail'
+    when password_last_used >= (CURRENT_DATE() - INTERVAL '90 day') then 'fail'
+    when access_key_1_last_used_date >= (CURRENT_DATE() - INTERVAL '90 day') then 'fail'
+    when access_key_2_last_used_date >= (CURRENT_DATE() - INTERVAL '90 day') then 'fail'
       else 'pass'
   end as status
   from aws_iam_credential_reports
+  where lower(user) = '<root_account>'
 {% endmacro %}
 
 {% macro bigquery__iam_root_last_used(framework, check_id) %}
@@ -44,12 +46,13 @@ select
   SPLIT(arn, ':')[offset(4)] as account_id,
   arn as resource_id,
   case 
-    when password_last_used <= (CURRENT_TIMESTAMP() - INTERVAL 90 DAY) then 'fail'
-    when access_key_1_last_used_date <= (CURRENT_TIMESTAMP() - INTERVAL 90 DAY) then 'fail'
-    when access_key_2_last_used_date <= (CURRENT_TIMESTAMP() - INTERVAL 90 DAY) then 'fail'
+    when password_last_used >= (CURRENT_TIMESTAMP() - INTERVAL 90 DAY) then 'fail'
+    when access_key_1_last_used_date >= (CURRENT_TIMESTAMP() - INTERVAL 90 DAY) then 'fail'
+    when access_key_2_last_used_date >= (CURRENT_TIMESTAMP() - INTERVAL 90 DAY) then 'fail'
       else 'pass'
   end as status
   from {{ full_table_name("aws_iam_credential_reports") }}
+  where user = '<root_account>'
 {% endmacro %}
 
 {% macro athena__iam_root_last_used(framework, check_id) %}
@@ -60,10 +63,11 @@ select
   SPLIT_PART(arn, ':', 5) as account_id,
   arn as resource_id,
   case 
-    when CAST(password_last_used AS DATE) <= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
-    when CAST(access_key_1_last_used_date AS DATE) <= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
-    when CAST(access_key_2_last_used_date AS DATE) <= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
+    when CAST(password_last_used AS DATE) >= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
+    when CAST(access_key_1_last_used_date AS DATE) >= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
+    when CAST(access_key_2_last_used_date AS DATE) >= (CURRENT_DATE - INTERVAL '90' DAY) then 'fail'
       else 'pass'
   end as status
   from aws_iam_credential_reports
+  where user = '<root_account>'
 {% endmacro %}
