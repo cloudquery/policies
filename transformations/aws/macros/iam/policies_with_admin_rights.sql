@@ -132,7 +132,19 @@ policy_statements AS (
         id,
         account_id,
         arn,
-        t.statement
+        t.statement,
+        CASE 
+        WHEN json_array_length(json_extract(t.statement, '$.Resource')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(t.statement, '$.Resource') || '"]')
+        ELSE
+          json_extract(t.statement, '$.Resource')
+      END AS resource_fixed,
+      CASE 
+        WHEN json_array_length(json_extract(t.statement, '$.Action')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(t.statement, '$.Action') || '"]')
+        ELSE
+          json_extract(t.statement, '$.Action')
+      END AS action_fixed
     FROM iam_policies
     CROSS JOIN UNNEST(CAST(statement AS array(json))) AS t(statement)
 ),
@@ -140,26 +152,31 @@ allow_all_statements AS (
     SELECT
         id,
         account_id,
-        arn
-    FROM policy_statements
-    WHERE (JSON_EXTRACT_SCALAR(statement, '$.Effect') = '"Allow"'
-            OR JSON_EXTRACT_SCALAR(statement, '$.Effect') = 'Allow')
-        AND (
-            JSON_EXTRACT_SCALAR(statement, '$.Action') = '*'
-            OR
-            JSON_EXTRACT_SCALAR(statement, '$.Action') LIKE '%"*"%'
-        )
-        AND 
-        (
-            JSON_EXTRACT_SCALAR(statement, '$.Resource') = '*'
-            OR
-            JSON_EXTRACT_SCALAR(statement, '$.Resource') LIKE '%"*"%'
-        )
-  
-    GROUP BY id, account_id, arn
+        arn,
+        CASE 
+        WHEN json_array_length(json_extract(statement, '$.Resource')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(statement, '$.Resource') || '"]')
+        ELSE
+          json_extract(statement, '$.Resource')
+      END AS resource_fixed,
+      CASE 
+        WHEN json_array_length(json_extract(statement, '$.Action')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(statement, '$.Action') || '"]')
+        ELSE
+          json_extract(statement, '$.Action')
+      END AS action_fixed
+    FROM policy_statements,
+    UNNEST(CAST(resource_fixed as array(varchar))) t(resource),
+        UNNEST(CAST(action_fixed as array(varchar))) t(action)
+    WHERE 
+        ((JSON_EXTRACT_SCALAR(statement, '$.Effect') = '"Allow"'
+        or JSON_EXTRACT_SCALAR(statement, '$.Effect') = 'Allow'))
+    AND
+        ( action = '*' or action LIKE '%"*"%' )
+    AND 
+        (resource = '*' or resource LIKE '%"*"%')
 )
-
-SELECT
+SELECT distinct
     '{{framework}}' AS framework,
     '{{check_id}}' AS check_id,
     'IAM policies should not allow full * administrative privileges' AS title,
