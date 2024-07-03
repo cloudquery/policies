@@ -121,7 +121,13 @@ policy_statements AS (
         id,
         account_id,
         arn,
-        t.statement
+        t.statement,
+      CASE 
+        WHEN json_array_length(json_extract(t.statement, '$.Action')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(t.statement, '$.Action') || '"]')
+        ELSE
+          json_extract(t.statement, '$.Action')
+      END AS action_fixed
     FROM iam_policies
     CROSS JOIN UNNEST(CAST(statement AS array(json))) AS t(statement)
 ),
@@ -130,12 +136,13 @@ bad_statements AS (
         ps.account_id,
         ps.arn AS resource_id,
         CASE
-            WHEN JSON_EXTRACT_SCALAR(ps.statement, '$.Action') LIKE '%:*'
-                OR JSON_EXTRACT_SCALAR(ps.statement, '$.Action') = '*' THEN 1
+            WHEN action LIKE '%:*'
+                OR action = '*' THEN 1
             ELSE 0
         END AS status
     FROM
-        policy_statements ps
+        policy_statements ps,
+        UNNEST(CAST(action_fixed as array(varchar))) t(action)
     WHERE JSON_EXTRACT_SCALAR(ps.statement, '$.Effect') = 'Allow'
 )
 SELECT DISTINCT
