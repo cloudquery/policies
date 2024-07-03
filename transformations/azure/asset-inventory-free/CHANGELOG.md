@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/cloudquery/policies-premium/compare/transformation-azure-asset-inventory-free-v1.2.2...transformation-azure-asset-inventory-free-v1.2.3) (2024-07-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.8.2 ([#943](https://github.com/cloudquery/policies-premium/issues/943)) ([0c45a22](https://github.com/cloudquery/policies-premium/commit/0c45a226f6acdbd7ea070333b90bd2545b1af5c0))
+
 ## [1.2.2](https://github.com/cloudquery/policies-premium/compare/transformation-azure-asset-inventory-free-v1.2.1...transformation-azure-asset-inventory-free-v1.2.2) (2024-06-05)
 
 
