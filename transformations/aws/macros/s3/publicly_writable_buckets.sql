@@ -205,7 +205,8 @@ WITH policy_allow_public AS (
             SELECT
                 b.arn,
                 statements,
-                json_extract_scalar(statements, '$.Principal.AWS') as principals_aws,
+                json_extract_scalar(statements, '$.Principal.AWS') as principals_aws_scalar,
+                try_cast(json_extract(statements, '$.Principal.AWS') as array(varchar)) as principals_aws_array,
                 json_extract_scalar(statements, '$.Principal.Service') as principals_service_scalar,
                 try_cast(json_extract(statements, '$.Principal.Service') as array(varchar)) as principals_service_array
             FROM
@@ -217,12 +218,8 @@ WITH policy_allow_public AS (
         ) AS foo
     WHERE
         (contains(foo.principals_service_array, '*') or foo.principals_service_scalar = '*')
-        OR (
-            foo.principals_aws is not null
-            AND (
-                foo.principals_aws = '*'
-                )
-            )
+        OR
+        (contains(foo.principals_aws_array, '*') or foo.principals_aws_scalar = '*')
     GROUP BY
         arn
         )
