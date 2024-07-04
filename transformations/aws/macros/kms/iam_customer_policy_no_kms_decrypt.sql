@@ -106,34 +106,60 @@ LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
 
 {% macro athena__iam_customer_policy_no_kms_decrypt(framework, check_id) %}
 select * from (
-WITH policy_with_decrypt AS (
-    SELECT DISTINCT arn
+WITH pvs AS (
+    SELECT
+        p.id AS id,
+        CASE 
+    WHEN json_array_length(json_extract(pv.document_json, '$.Statement')) IS NULL THEN
+      json_parse('[' || json_extract_scalar(pv.document_json, '$.Statement') || ']')
+    ELSE
+      json_extract(pv.document_json, '$.Statement')
+  END AS statement_fixed
     FROM aws_iam_policies p
-    INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
-    WHERE
-        json_extract_scalar(pv.document_json, '$.Statement[0].Effect') = 'Allow' --todo: benchmark regexp_like()
-        AND
-        (json_extract_scalar(pv.document_json, '$.Resource') = '*' OR
-        json_extract_scalar(pv.document_json, '$.Resource') LIKE '%kms%')
-        AND 
-        (json_extract_scalar(pv.document_json, '$.Action') = '*'
-         OR (json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:*%'
-         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:decrypt%'
-         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:reencryptfrom%'
-         OR json_extract_scalar(pv.document_json, '$.Action') LIKE '%kms:reencrypt*%'))
+    JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
+),
+fix_resouce_action as (
+    SELECT
+      id,
+      statement as statement_fixed,
+      CASE 
+        WHEN json_array_length(json_extract(statement, '$.Resource')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(statement, '$.Resource') || '"]')
+        ELSE
+          json_extract(statement, '$.Resource')
+      END AS resource_fixed,
+      CASE 
+        WHEN json_array_length(json_extract(statement, '$.Action')) IS NULL THEN
+          json_parse('["' || json_extract_scalar(statement, '$.Action') || '"]')
+        ELSE
+          json_extract(statement, '$.Action')
+      END AS action_fixed
+    FROM pvs,
+    UNNEST(CAST(statement_fixed as array(json))) as t(statement)
+),
+violations as (
+    select
+        id,
+        COUNT(*) as violations
+    from fix_resouce_action,
+        UNNEST(CAST(resource_fixed as array(varchar))) t(resource),
+        UNNEST(CAST(action_fixed as array(varchar))) t(action)
+    where JSON_EXTRACT_SCALAR(statement_fixed, '$.Effect') = 'Allow'
+          and 
+          (resource = '*' or resource LIKE '%kms%')
+          and ( action = '*' or action LIKE '%kms:*%' or action LIKE '%kms:decrypt%' or action LIKE '%kms:reencryptfrom%' or action LIKE '%kms:reencrypt*%')
+    group by id
 )
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
-  i.account_id,
-    i.arn AS resource_id,
-    CASE 
-        WHEN d.arn IS NULL THEN 'pass'
-        ELSE 'fail'
-    END AS status
-FROM    
-    aws_iam_policies i
-LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
+select distinct
+    '{{framework}}' as framework,
+    '{{check_id}}' as check_id,
+      'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
+    account_id,
+    arn AS resource_id,
+    case when
+        violations.id is not null AND violations.violations > 0
+    then 'fail' else 'pass' end as status
+from aws_iam_policies
+left join violations on violations.id = aws_iam_policies.id
 )
 {% endmacro %}
