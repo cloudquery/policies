@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.5](https://github.com/cloudquery/policies-premium/compare/transformation-aws-cost-v1.1.4...transformation-aws-cost-v1.1.5) (2024-07-16)
+
+
+### Bug Fixes
+
+* Fixed yaml formatting in readme ([#977](https://github.com/cloudquery/policies-premium/issues/977)) ([dd146bc](https://github.com/cloudquery/policies-premium/commit/dd146bc383386be9b0ca327625e122e3c4ea9260))
+
 ## [1.1.4](https://github.com/cloudquery/policies-premium/compare/transformation-aws-cost-v1.1.3...transformation-aws-cost-v1.1.4) (2024-07-02)
 
 
