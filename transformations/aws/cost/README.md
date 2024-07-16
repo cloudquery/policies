@@ -60,34 +60,34 @@ Because this policy uses premium features and tables you must login to your clou
 
 ### Syncing the Cost and Usage Report
 Using the S3 Plugin and the Postgres Plugin sync the CUR file, you can use this example config yaml but make sure to fill the necessary values
-    ```yml
-    kind: source
+```yml
+  kind: source
+  spec:
+    name: s3-cur # The type of source, in this case, a s3-cur source.
+    path: cloudquery/s3 # The plugin path for handling s3 sources.
+    registry: cloudquery # The registry from which the plugin is sourced.
+    version: "v1.0.1" # The version of the s3 plugin.
+    tables: ["*"] # Specifies that all tables in the source should be considered.
+    destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
     spec:
-      name: s3-cur # The type of source, in this case, a s3-cur source.
-      path: cloudquery/s3 # The plugin path for handling s3 sources.
-      registry: cloudquery # The registry from which the plugin is sourced.
-      version: "v1.0.1" # The version of the s3 plugin.
-      tables: ["*"] # Specifies that all tables in the source should be considered.
-      destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
-      spec:
-        bucket: "<BUCKET_NAME>"
-        region: "<REGION>" 
-        # path_prefix: "" # Optional. Only sync files with this prefix
-        # concurrency: 50 # Optional. Defines the number of files to sync in parallel. Defaults to 50 if not set.
+      bucket: "<BUCKET_NAME>"
+      region: "<REGION>" 
+      # path_prefix: "" # Optional. Only sync files with this prefix
+      # concurrency: 50 # Optional. Defines the number of files to sync in parallel. Defaults to 50 if not set.
 
-    ---
-    kind: destination
-    spec:
-      name: "postgresql" # The type of destination, in this case, PostgreSQL.
-      path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
-      registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-      version: "v7.3.5" # The version of the PostgreSQL plugin.
-    spec:
-        connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
-        # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
-        # You can also specify the connection string in DSN format, which allows for special characters in the password:
-        # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
-    ```
+  ---
+  kind: destination
+  spec:
+    name: "postgresql" # The type of destination, in this case, PostgreSQL.
+    path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
+    registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
+    version: "v7.3.5" # The version of the PostgreSQL plugin.
+  spec:
+      connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+      # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
+      # You can also specify the connection string in DSN format, which allows for special characters in the password:
+      # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
+```
 
 ### Syncing AWS data
 Based on the models you are interested in running you need to sync the relevant tables
@@ -95,7 +95,7 @@ this is an example sync for the relevant tables for all the models (views) in th
 
 *Do note* you will have to configure the cloudwatch spec to suit your data
 
- ```yml
+```yml
 kind: source
 spec:
   name: aws # The source type, in this case, AWS.
@@ -138,7 +138,7 @@ spec:
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
 
- ```
+```
 
 ### Running the Policy
 To run this policy you need to specify the name of the cost and usage report in your database, if you used the file plugin to load the report the table name will be the same as the file name (without the file extension).
