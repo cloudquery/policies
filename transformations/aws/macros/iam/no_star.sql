@@ -5,13 +5,12 @@
 {% macro default__no_star(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__no_star(framework, check_id) %}
-
 with pvs as (
     select
         p.id,
         pv.document_json as document
     from aws_iam_policies p
-    inner join aws_iam_policy_versions pv on pv._cq_parent_id = p._cq_id
+    inner join aws_iam_policy_default_versions pv on pv._cq_parent_id = p._cq_id
 ), violations as (
     select
         id,
@@ -57,7 +56,7 @@ with pvs as (
         p.id,
         pv.document_json as document
     from {{ full_table_name("aws_iam_policies") }} p
-    inner join {{ full_table_name("aws_iam_policy_versions") }} pv on pv._cq_parent_id = p._cq_id
+    inner join {{ full_table_name("aws_iam_policy_default_versions") }} pv on pv._cq_parent_id = p._cq_id
 ), violations as (
     select
         id,
@@ -68,7 +67,7 @@ with pvs as (
     UNNEST(JSON_QUERY_ARRAY(statement.Action)) AS action
     where JSON_VALUE(statement.Effect) = 'Allow'
           and JSON_VALUE(resource) = '*'
-          and ( JSON_VALUE(action.value) = '*' or JSON_VALUE(action.value) = '*:*' )
+          and ( JSON_VALUE(action) = '*' or JSON_VALUE(action) = '*:*' )
     group by id
 )
 
@@ -91,7 +90,7 @@ with pvs as (
         p.id,
         pv.document_json as document
     from aws_iam_policies p
-    inner join aws_iam_policy_versions pv on pv._cq_parent_id = p._cq_id
+    inner join aws_iam_policy_default_versions pv on pv._cq_parent_id = p._cq_id
 ), violations as (
     select
         id,
@@ -131,7 +130,7 @@ WITH pvs AS (
       json_extract(pv.document_json, '$.Statement')
   END AS statement_fixed
     FROM aws_iam_policies p
-    JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
+    JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
 ),
 fix_resouce_action as (
     SELECT

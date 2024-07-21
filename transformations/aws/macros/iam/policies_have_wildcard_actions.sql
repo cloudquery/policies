@@ -9,18 +9,19 @@ with bad_statements as (
 SELECT
     p.account_id,
     p.arn as resource_id,
+	a::text,
     CASE
-        WHEN s ->> 'Action' ~ '^[a-zA-Z0-9]+:\*$' 
-            OR s ->> 'Action' = '*:*' THEN 1
+        WHEN a::text ~ '^[a-zA-Z0-9]+:\\*$' 
+            OR a::text = '*:*' THEN 1
         ELSE 0
     END as status
 
 FROM
     aws_iam_policies p
-INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
-			, JSONB_ARRAY_ELEMENTS(pv.document_json -> 'Statement') as s
+INNER JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
+			, JSONB_ARRAY_ELEMENTS(pv.document_json -> 'Statement') as s,
+			JSONB_ARRAY_ELEMENTS_TEXT(s -> 'Action') as a
 where pv.is_default_version = true AND s ->> 'Effect' = 'Allow'
-
   )
 select DISTINCT
       '{{framework}}' As framework,
@@ -42,15 +43,16 @@ SELECT
     p.account_id,
     p.arn as resource_id,
     CASE
-        WHEN s.value:Action REGEXP '^[a-zA-Z0-9]+:\*$' 
-            OR s.value:Action = '*:*' THEN 1
+        WHEN a.value::string REGEXP '^[a-zA-Z0-9]+:\\*$' 
+            OR a.value::string = '*:*' THEN 1
         ELSE 0
     END as status
 
 FROM
     aws_iam_policies p
-    INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
-    , lateral flatten(input => pv.document_json:Statement) as s
+    INNER JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
+    , lateral flatten(input => pv.document_json:Statement) as s,
+    lateral flatten(input => s.value:Action) as a
 where pv.is_default_version = true AND s.value:Effect = 'Allow'
 )
 select DISTINCT
@@ -73,16 +75,17 @@ SELECT
     p.account_id,
     p.arn as resource_id,
     CASE
-        WHEN REGEXP_CONTAINS(JSON_VALUE(s.Action), r'^[a-zA-Z0-9]+:\*$')
-            OR JSON_VALUE(s.Action) = '*:*' THEN 1
+        WHEN REGEXP_CONTAINS(JSON_VALUE(action), r'^[a-zA-Z0-9]+:\*$')
+            OR JSON_VALUE(action) = '*:*' THEN 1
         ELSE 0
     END as status
 
 FROM
     {{ full_table_name("aws_iam_policies") }} p
-    INNER JOIN {{ full_table_name("aws_iam_policy_versions") }} pv
+    INNER JOIN {{ full_table_name("aws_iam_policy_default_versions") }} pv
      ON pv._cq_parent_id = p._cq_id, 
-    UNNEST(JSON_QUERY_ARRAY(pv.document_json.Statement)) AS s
+    UNNEST(JSON_QUERY_ARRAY(pv.document_json.Statement)) AS s,
+    UNNEST(JSON_QUERY_ARRAY(s.Action)) AS action
 where pv.is_default_version = true AND JSON_VALUE(s.Effect) = 'Allow'
 )
 select DISTINCT
@@ -113,7 +116,7 @@ WITH iam_policies AS (
       json_extract(pv.document_json, '$.Statement')
   END AS statement
     FROM aws_iam_policies p
-    JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
+    JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
     WHERE pv.is_default_version = TRUE and p.arn not like 'arn:aws:iam::aws:policy%'
 ),
 policy_statements AS (
