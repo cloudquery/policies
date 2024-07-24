@@ -12,7 +12,6 @@ with pvs as (
     from aws_iam_policies p
     inner join aws_iam_policy_default_versions pv on pv._cq_parent_id = p._cq_id
 ), violations as (
-
     select
         id,
         COUNT(*) as violations
