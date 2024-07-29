@@ -118,7 +118,7 @@ jobs:
       - name: Test Snowflake
         run: |
           cloudquery migrate tests/snowflake.yml
-          dbt seed --target dev-pg --profiles-dir ./tests
+          dbt seed --target dev-snowflake --profiles-dir ./tests
           dbt run --target dev-snowflake --profiles-dir ./tests
         if: needs.prepare.outputs.snowflake == 'true'
         env:
@@ -127,5 +127,5 @@ jobs:
         if: needs.prepare.outputs.bigquery == 'true'
         run: |
           cloudquery migrate tests/bigquery.yml
-          dbt seed --target dev-pg --profiles-dir ./tests
+          dbt seed --target dev-bigquery --profiles-dir ./tests
           dbt run --target dev-bigquery --profiles-dir ./tests
