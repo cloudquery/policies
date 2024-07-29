@@ -21,6 +21,7 @@ jobs:
         shard: [
           1,  2,  3,  4,
           5,  6,  7,  8,
+          9,  10
         ]
     timeout-minutes: 30
     services:
@@ -44,7 +45,7 @@ jobs:
         with:
           python-version: "3.9"
       - name: Install dbt packages
-        run: pip install dbt-postgres==1.8.2
+        run: pip install dbt-postgres
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
