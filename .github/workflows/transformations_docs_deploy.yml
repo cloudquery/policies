@@ -44,7 +44,7 @@ jobs:
         with:
           python-version: "3.9"
       - name: Install dbt packages
-        run: pip install dbt-postgres
+        run: pip install dbt-postgres==1.8.2
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v3
         with:
