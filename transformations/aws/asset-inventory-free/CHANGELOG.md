@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.7](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.2.6...transformation-aws-asset-inventory-free-v2.2.7) (2024-07-29)
+
+
+### Bug Fixes
+
+* Uppercase column names issue in aws asset inventory ([#990](https://github.com/cloudquery/policies-premium/issues/990)) ([651c9e6](https://github.com/cloudquery/policies-premium/commit/651c9e65a2aec319cd7a35ee2932c1af1d50bb39))
+
 ## [2.2.6](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.2.5...transformation-aws-asset-inventory-free-v2.2.6) (2024-07-02)
 
 
