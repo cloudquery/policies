@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-asset-inventory-free-v1.2.3...transformation-gcp-asset-inventory-free-v1.3.0) (2024-07-30)
+
+
+### Features
+
+* Fixing azure and gcp asset inventory columns ([#992](https://github.com/cloudquery/policies-premium/issues/992)) ([a3c2ee7](https://github.com/cloudquery/policies-premium/commit/a3c2ee70e6fd1af903fb0c06adf66c6f23b2e155))
+
 ## [1.2.3](https://github.com/cloudquery/policies-premium/compare/transformation-gcp-asset-inventory-free-v1.2.2...transformation-gcp-asset-inventory-free-v1.2.3) (2024-07-02)
 
 
