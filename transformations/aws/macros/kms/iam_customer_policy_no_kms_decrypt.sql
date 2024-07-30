@@ -5,103 +5,174 @@
 {% macro default__iam_customer_policy_no_kms_decrypt(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__iam_customer_policy_no_kms_decrypt(framework, check_id) %}
-WITH policy_with_decrypt AS (
-    SELECT DISTINCT arn
+WITH pvs AS (
+    SELECT
+        p.id AS id,
+        CASE 
+            WHEN jsonb_typeof(pv.document_json->'Statement') = 'array' THEN
+                pv.document_json->'Statement'
+            ELSE
+                jsonb_build_array(pv.document_json->'Statement')
+        END AS statement_fixed
     FROM aws_iam_policies p
-    INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
-    , JSONB_ARRAY_ELEMENTS(pv.document_json -> 'Statement') as s
-    WHERE
-        s ->> 'Effect' = 'Allow'
-        AND
-        (s ->> 'Resource' = '*' OR
-        s ->> 'Resource' LIKE '%kms%')
-        AND 
-        (s ->> 'Action' = '*'
-         OR s ->> 'Action' LIKE '%kms:*%'
-         OR s ->> 'Action' LIKE '%kms:decrypt%'
-         OR s ->> 'Action' LIKE '%kms:reencryptfrom%'
-         OR s ->> 'Action' LIKE '%kms:reencrypt*%')
+    JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
+),
+resources_actions AS (
+    SELECT
+        id,
+        statement AS statement_fixed,
+        CASE 
+            WHEN jsonb_typeof(statement->'Resource') = 'array' THEN
+                statement->'Resource'
+            ELSE
+                jsonb_build_array(statement->'Resource')
+        END AS resources,
+        CASE 
+            WHEN jsonb_typeof(statement->'Action') = 'array' THEN
+                statement->'Action'
+            ELSE
+                jsonb_build_array(statement->'Action')
+        END AS actions
+    FROM pvs,
+    jsonb_array_elements(statement_fixed) AS statement
+),
+violations AS (
+    SELECT
+        id,
+        COUNT(*) AS violations
+    FROM resources_actions,
+        jsonb_array_elements_text(resources) AS resource,
+        jsonb_array_elements_text(actions) AS action
+    WHERE statement_fixed->>'Effect' = 'Allow'
+          AND (resource = '*' or resource like '%kms%')
+          AND ( action = '*' or action = 'kms:Decrypt' or action = 'kms:ReEncryptFrom')
+    GROUP BY id
 )
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
-  i.account_id,
-    i.arn AS resource_id,
-    CASE 
-        WHEN d.arn IS NULL THEN 'pass'
-        ELSE 'fail'
-    END AS status
-FROM    
-    aws_iam_policies i
-LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
+SELECT DISTINCT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
+    p.account_id,
+    p.arn AS resource_id,
+    CASE WHEN
+        v.id IS NOT NULL AND v.violations > 0
+    THEN 'fail' ELSE 'pass' END AS status
+FROM aws_iam_policies p
+LEFT JOIN violations v ON v.id = p.id
 {% endmacro %}
 
 {% macro snowflake__iam_customer_policy_no_kms_decrypt(framework, check_id) %}
-WITH policy_with_decrypt AS (
-    SELECT DISTINCT arn
+WITH pvs AS (
+    SELECT
+        p.id AS id,
+        CASE 
+            WHEN ARRAY_SIZE(pv.document_json:Statement) IS NULL THEN
+              PARSE_JSON('[' || pv.document_json:Statement || ']')
+            ELSE
+              pv.document_json:Statement
+          END AS statements
     FROM aws_iam_policies p
-    INNER JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
-    , lateral flatten(input => pv.document_json:Statement) as s
-    WHERE
-        s.value:Effect = 'Allow'
-        AND
-        (s.value:Resource = '*' OR
-        s.value:Resource LIKE '%kms%')
-        AND 
-        (s.value:Action = '*'
-         OR s.value:Action ILIKE '%kms:*%'
-         OR s.value:Action ILIKE '%kms:decrypt%'
-         OR s.value:Action ILIKE '%kms:reencryptfrom%'
-         OR s.value:Action ILIKE '%kms:reencrypt*%')
+    JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
+),
+resources_actions AS (
+    SELECT
+        id,
+        statement.value AS statements,
+        CASE 
+            WHEN ARRAY_SIZE(statement.value:Resource) IS NULL THEN
+                PARSE_JSON('["' || statement.value:Resource || '"]')
+            ELSE
+                statement.value:Resource
+        END AS resources,
+        CASE 
+            WHEN ARRAY_SIZE(statement.value:Action) IS NULL THEN
+                PARSE_JSON('["' || statement.value:Action || '"]')
+            ELSE
+                statement.value:Action
+        END AS actions
+    FROM pvs,
+    LATERAL FLATTEN(statements) AS statement
+),
+violations AS (
+    SELECT
+        id,
+        COUNT(*) AS violations
+    FROM resources_actions,
+        LATERAL FLATTEN(resources) AS resource,
+        LATERAL FLATTEN(actions) AS action
+    WHERE statements:Effect = 'Allow'
+          AND (resource.value = '*' or resource.value like '%kms%')
+          AND ( action.value = '*' or action.value = 'kms:Decrypt' or action.value = 'kms:ReEncryptFrom')
+    GROUP BY id
 )
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
-  i.account_id,
-    i.arn AS resource_id,
-    CASE 
-        WHEN d.arn IS NULL THEN 'pass'
-        ELSE 'fail'
-    END AS status
-FROM    
-    aws_iam_policies i
-LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
+SELECT DISTINCT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
+    account_id,
+    arn AS resource_id,
+    CASE WHEN
+        violations.id IS NOT NULL AND violations.violations > 0
+    THEN 'fail' ELSE 'pass' END AS status
+FROM aws_iam_policies
+LEFT JOIN violations ON violations.id = aws_iam_policies.id
 {% endmacro %}
 
 {% macro bigquery__iam_customer_policy_no_kms_decrypt(framework, check_id) %}
-WITH policy_with_decrypt AS (
-    SELECT DISTINCT arn
+WITH pvs AS (
+    SELECT
+        p.id AS id,
+        CASE 
+            WHEN JSON_TYPE(pv.document_json.Statement) != 'array' THEN
+                PARSE_JSON(CONCAT('[', TO_JSON_STRING(pv.document_json.Statement), ']'))
+            ELSE
+                pv.document_json.Statement
+        END AS statements
     FROM {{ full_table_name("aws_iam_policies") }} p
-    INNER JOIN {{ full_table_name("aws_iam_policy_versions") }} pv 
-    ON pv._cq_parent_id = p._cq_id, 
-    UNNEST(JSON_QUERY_ARRAY(pv.document_json.Statement)) AS s
-    WHERE
-        JSON_VALUE(s.Effect) = 'Allow'
-        AND
-        (JSON_VALUE(s.Resource) = '*' OR
-        JSON_VALUE(s.Resource) LIKE '%kms%')
-        AND 
-        (JSON_VALUE(s.Action) = '*'
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:*%'
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:decrypt%'
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencryptfrom%'
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencrypt*%')
+    JOIN {{ full_table_name("aws_iam_policy_default_versions") }} pv ON pv._cq_parent_id = p._cq_id
+),
+resources_actions AS (
+    SELECT
+        id,
+        statement AS statements,
+        CASE 
+            WHEN JSON_TYPE(JSON_EXTRACT(statement, '$.Resource')) != 'array' THEN
+                PARSE_JSON(CONCAT('[', TO_JSON_STRING(statement.Resource), ']'))
+            ELSE
+                statement.Resource
+        END AS resources,
+        CASE 
+            WHEN JSON_TYPE(JSON_EXTRACT(statement, '$.Action')) != 'array' THEN
+                PARSE_JSON(CONCAT('[', TO_JSON_STRING(statement.Action), ']'))
+            ELSE
+                statement.Action
+        END AS actions
+    FROM pvs,
+    UNNEST(JSON_QUERY_ARRAY(statements)) AS statement
+),
+violations AS (
+    SELECT
+        id,
+        COUNT(*) AS violations
+    FROM resources_actions,
+        UNNEST(JSON_QUERY_ARRAY(resources)) AS resource,
+        UNNEST(JSON_QUERY_ARRAY(actions)) AS action
+    WHERE JSON_VALUE(statements.Effect) = 'Allow'
+          AND (JSON_VALUE(resource) = '*' or JSON_VALUE(resource) like '%kms%')
+          AND ( JSON_VALUE(action) = '*' or JSON_VALUE(action) = 'kms:Decrypt' or JSON_VALUE(action) = 'kms:ReEncryptFrom')
+    GROUP BY id
 )
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
-  i.account_id,
-    i.arn AS resource_id,
-    CASE 
-        WHEN d.arn IS NULL THEN 'pass'
-        ELSE 'fail'
-    END AS status
-FROM    
-    {{ full_table_name("aws_iam_policies") }} i
-LEFT JOIN policy_with_decrypt d ON i.arn = d.arn
+SELECT DISTINCT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM customer managed policies should not allow decryption actions on all KMS keys' AS title,
+    p.account_id,
+    p.arn AS resource_id,
+    CASE WHEN
+        v.id IS NOT NULL AND v.violations > 0
+    THEN 'fail' ELSE 'pass' END AS status
+FROM {{ full_table_name("aws_iam_policies") }} p
+LEFT JOIN violations v ON v.id = p.id
 {% endmacro %}
 
 {% macro athena__iam_customer_policy_no_kms_decrypt(framework, check_id) %}
@@ -116,7 +187,7 @@ WITH pvs AS (
       json_extract(pv.document_json, '$.Statement')
   END AS statement_fixed
     FROM aws_iam_policies p
-    JOIN aws_iam_policy_versions pv ON pv._cq_parent_id = p._cq_id
+    JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
 ),
 fix_resouce_action as (
     SELECT

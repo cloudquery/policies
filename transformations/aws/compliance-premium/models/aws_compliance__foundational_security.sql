@@ -292,7 +292,7 @@ with
     {{ union() }}
     ({{ policies_have_wildcard_actions('foundational_security','iam.21') }})
     {{ union() }}
-    ({{ policies_with_admin_rights('foundational_security','iam.1') }})
+    ({{ no_star('foundational_security','iam.1') }})
     {{ union() }}
     ({{ private_repositories_have_image_scanning_configured('foundational_security','ecr.1') }})
     {{ union() }}
