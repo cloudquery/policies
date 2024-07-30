@@ -16,6 +16,7 @@ WITH pvs AS (
         END AS statement_fixed
     FROM aws_iam_policies p
     JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
+    WHERE p.arn not like 'arn:aws:iam::aws:policy%'
 ),
 resources_actions AS (
     SELECT
@@ -73,6 +74,7 @@ WITH pvs AS (
         END AS statements
     FROM {{ full_table_name("aws_iam_policies") }} p
     JOIN {{ full_table_name("aws_iam_policy_default_versions") }} pv ON pv._cq_parent_id = p._cq_id
+    WHERE p.arn not like 'arn:aws:iam::aws:policy%'
 ),
 resources_actions AS (
     SELECT
@@ -130,6 +132,7 @@ WITH pvs AS (
           END AS statements
     FROM aws_iam_policies p
     JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
+    WHERE p.arn not like 'arn:aws:iam::aws:policy%'
 ),
 resources_actions AS (
     SELECT
@@ -188,6 +191,7 @@ WITH pvs AS (
   END AS statement_fixed
     FROM aws_iam_policies p
     JOIN aws_iam_policy_default_versions pv ON pv._cq_parent_id = p._cq_id
+    WHERE p.arn not like 'arn:aws:iam::aws:policy%'
 ),
 fix_resouce_action as (
     SELECT
