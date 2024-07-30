@@ -1,0 +1,19 @@
+kind: source
+spec:
+  name: gcp
+  path: cloudquery/gcp
+  registry: cloudquery
+  version: "v15.9.0" # latest version of source gcp plugin
+  destinations: ["snowflake"]
+  tables: ["*"]
+---
+kind: destination
+spec:
+  name: snowflake
+  path: cloudquery/snowflake
+  registry: cloudquery
+  version: "v4.1.4" # latest version of destination snowflake plugin
+  migrate_mode: forced
+  spec:
+    connection_string: ${SNOWFLAKE_CONNECTION_STRING}
+    migrate_concurrency: 50

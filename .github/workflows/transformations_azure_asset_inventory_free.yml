@@ -55,6 +55,7 @@ jobs:
               fs.access(`${transformation_dir}/tests/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
             ]);
+            console.log(JSON.stringify({ transformation_dir, postgres, snowflake, bigquery }));
             return {
               transformation_dir,
               postgres,
@@ -110,7 +111,6 @@ jobs:
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
-          dbt seed --target dev-pg --profiles-dir ./tests
           dbt run --target dev-pg --profiles-dir ./tests
         if: needs.prepare.outputs.postgres == 'true'
         env:
@@ -118,7 +118,6 @@ jobs:
       - name: Test Snowflake
         run: |
           cloudquery migrate tests/snowflake.yml
-          dbt seed --target dev-pg --profiles-dir ./tests
           dbt run --target dev-snowflake --profiles-dir ./tests
         if: needs.prepare.outputs.snowflake == 'true'
         env:
@@ -127,5 +126,4 @@ jobs:
         if: needs.prepare.outputs.bigquery == 'true'
         run: |
           cloudquery migrate tests/bigquery.yml
-          dbt seed --target dev-pg --profiles-dir ./tests
           dbt run --target dev-bigquery --profiles-dir ./tests

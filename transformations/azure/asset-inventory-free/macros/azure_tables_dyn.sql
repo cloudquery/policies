@@ -27,11 +27,11 @@ HAVING
 {% macro snowflake__azure_tables_dyn() %}
 SELECT 
     t.table_name as "table_name",
-    MAX(CASE WHEN UPPER(c.column_name) = 'SUBSCRIPTION_ID' THEN 1 ELSE 0 END) AS subscription_id_exist,
-    MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END) AS id_exist,
-    MAX(CASE WHEN UPPER(c.column_name) = 'LOCATION' THEN 1 ELSE 0 END) AS location_exist,
-    MAX(CASE WHEN UPPER(c.column_name) = 'KIND' THEN 1 ELSE 0 END) AS kind_exist,
-    MAX(CASE WHEN UPPER(c.column_name) = 'NAME' THEN 1 ELSE 0 END) AS name_exist 
+    MAX(CASE WHEN UPPER(c.column_name) = 'SUBSCRIPTION_ID' THEN 1 ELSE 0 END) AS "subscription_id_exist",
+    MAX(CASE WHEN UPPER(c.column_name) = 'ID' THEN 1 ELSE 0 END) AS "id_exist",
+    MAX(CASE WHEN UPPER(c.column_name) = 'LOCATION' THEN 1 ELSE 0 END) AS "location_exist",
+    MAX(CASE WHEN UPPER(c.column_name) = 'KIND' THEN 1 ELSE 0 END) AS "kind_exist",
+    MAX(CASE WHEN UPPER(c.column_name) = 'NAME' THEN 1 ELSE 0 END) AS "name_exist" 
 FROM 
     INFORMATION_SCHEMA.TABLES t
 LEFT JOIN 
