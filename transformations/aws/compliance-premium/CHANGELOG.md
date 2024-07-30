@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.13.0...transformation-aws-compliance-premium-v1.13.1) (2024-07-30)
+
+
+### Bug Fixes
+
+* Updated IAM.1 macro ([#988](https://github.com/cloudquery/policies-premium/issues/988)) ([f882e12](https://github.com/cloudquery/policies-premium/commit/f882e1271838927ce25e0ffa4aba42409a502d3f))
+
 ## [1.13.0](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.12.3...transformation-aws-compliance-premium-v1.13.0) (2024-07-03)
 
 
