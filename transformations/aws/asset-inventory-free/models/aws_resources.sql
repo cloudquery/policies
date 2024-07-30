@@ -5,7 +5,7 @@
 -- Generate dynamic SQL statements
 {% for row in run_query(aws_tables) -%}
     {% if row.table_name is not none and row.table_name != '' -%}
-        {{ aws_asset_resources(row.table_name, row.ARN_EXIST, row.ACCOUNT_ID_EXIST, row.REQUEST_ACCOUNT_ID_EXIST, row.REGION_EXIST, row.TAGS_EXIST) }}
+        {{ aws_asset_resources(row.table_name, row.arn_exist, row.account_id_exist, row.request_account_id_exist, row.region_exist, row.tags_exist) }}
         {% if not loop.last -%} UNION ALL {% endif -%}
     {%- endif %}
 {%- endfor %}
