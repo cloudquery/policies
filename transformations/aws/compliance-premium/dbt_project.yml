@@ -38,6 +38,7 @@ vars:
     - aws_iam_user_policies
     - aws_cloudtrail_trails
     - aws_kms_keys
+    - aws_kms_key_rotation_statuses
     - aws_ec2_flow_logs
     - aws_iam_virtual_mfa_devices
     - aws_ec2_security_groups
@@ -71,6 +72,7 @@ vars:
     - aws_config_configuration_recorders
     - aws_iam_saml_identity_providers
     - aws_kms_keys
+    - aws_kms_key_rotation_statuses
     - aws_ec2_instances
     - aws_iam_group_attached_policies
     - aws_s3_buckets
@@ -131,6 +133,7 @@ vars:
     - aws_sns_subscriptions
     - aws_ec2_network_acls
     - aws_cloudwatch_alarms
+    - aws_kms_key_rotation_statuses
   foundational_security:
     - aws_iam_password_policies
     - aws_rds_clusters
@@ -295,6 +298,7 @@ vars:
     - aws_sns_subscriptions
     - aws_cloudwatch_alarms
     - aws_cloudwatchlogs_metric_filters
+    - aws_kms_key_rotation_statuses
   imds_v2:
     - aws_ec2_images
     - aws_ec2_instances
@@ -444,3 +448,4 @@ vars:
     - aws_cloudwatchlogs_metric_filters
     - aws_sns_subscriptions
     - aws_cloudwatch_alarms
+    - aws_kms_key_rotation_statuses
