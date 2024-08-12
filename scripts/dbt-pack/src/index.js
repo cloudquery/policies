@@ -111,6 +111,9 @@ const getExtraFiles = async (dbtProjectDirectory) => {
   const allMacros = (
     await Promise.all(
       macros.map(async (macroPath) => {
+        if (!(await pathExists(macroPath))) {
+          return [];
+        }
         const dirents = await fs.readdir(macroPath, { withFileTypes: true });
         return dirents
           .filter((dirent) => dirent.isFile() && dirent.name.endsWith(".sql"))
