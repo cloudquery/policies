@@ -346,3 +346,4 @@ All of the models contain the following columns:
 - ✅ `replicaset_non_root_container`: `replicaset_non_root_container`
 - ✅ `service_account_token_disabled`: `service_account_token_disabled`
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
+
