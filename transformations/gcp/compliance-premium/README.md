@@ -398,3 +398,4 @@ All of the models contain the following columns:
 - ✅ `7.2`: `bigquery_datasets_without_default_cmek`
 - ✅ `7.3`: `bigquery_tables_not_encrypted_with_cmek`
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
+
