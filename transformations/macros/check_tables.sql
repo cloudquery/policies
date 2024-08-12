@@ -1,3 +1,4 @@
+/* DBT-PACK-ALWAYS-INCLUDE-IN-ZIP */
 {% macro check_tables_exist(variable_name) %}
     {% set tables = var(variable_name, []) %}
     {% for table in tables %}
