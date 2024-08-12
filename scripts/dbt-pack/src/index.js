@@ -5,6 +5,8 @@ import { execa } from "execa";
 import { temporaryDirectoryTask } from "tempy";
 import { parse, stringify } from "yaml";
 
+const ALWAY_INCLUDE_PATTERN = `/* DBT-PACK-ALWAYS-INCLUDE-IN-ZIP */`;
+
 const validateProjectDirectory = async (dbtProjectDirectory) => {
   if (!(await pathExists(dbtProjectDirectory))) {
     throw new Error(
@@ -83,7 +85,7 @@ const addDependencies = (node, allNodes, allMacros, filesToPack) => {
 };
 
 const analyzeManifestFiles = async (targetDirectories) => {
-  const filesToPack = new Set();
+  const manifestFilesToPack = new Set();
   for (const targetDirectory of targetDirectories) {
     const manifestFile = `${targetDirectory}/manifest.json`;
     console.log(`Analyzing manifest file ${manifestFile}`);
@@ -93,11 +95,38 @@ const analyzeManifestFiles = async (targetDirectories) => {
     // Only grab shared models if they are referenced by a top level model
     let topLevelModels = Object.values(allNodes).filter(node => node.resource_type === "model" && node.original_file_path.startsWith("models/"))
     for (const node of Object.values(topLevelModels)) {
-      addDependencies(node, allNodes, allMacros, filesToPack);
+      addDependencies(node, allNodes, allMacros, manifestFilesToPack);
     }
   }
 
-  return [...filesToPack];
+  return manifestFilesToPack;
+};
+
+const getExtraFiles = async (dbtProjectDirectory) => {
+  const dbtProjectFile = `${dbtProjectDirectory}/dbt_project.yml`;
+  const projectFile = parse(await fs.readFile(dbtProjectFile, "utf8"));
+  const macros = projectFile["macro-paths"].map((macroPath) =>
+    path.resolve(dbtProjectDirectory, macroPath),
+  );
+  const allMacros = (
+    await Promise.all(
+      macros.map(async (macroPath) => {
+        const dirents = await fs.readdir(macroPath, { withFileTypes: true });
+        return dirents
+          .filter((dirent) => dirent.isFile() && dirent.name.endsWith(".sql"))
+          .map((dirent) => `${macroPath}/${dirent.name}`);
+      }),
+    )
+  ).flat();
+
+  const withAlwaysIncludeComment = await Promise.all(
+    allMacros.filter(async (macro) => {
+      const content = await fs.readFile(macro, "utf8");
+      return content.includes(ALWAY_INCLUDE_PATTERN);
+    }),
+  );
+
+  return withAlwaysIncludeComment;
 };
 
 const getZipPath = (file) => {
@@ -142,7 +171,9 @@ const zipProject = async (dbtProjectDirectory, filesToPack) => {
     for (const { copyFrom, copyTo } of withProjectFiles) {
       const copyToPath = path.resolve(temporaryDirectory, copyTo);
       await fs.mkdir(path.dirname(copyToPath), { recursive: true });
-      await fs.copyFile(copyFrom, copyToPath);
+      const content = await fs.readFile(copyFrom, "utf8");
+      const newContent = content.replace(`${ALWAY_INCLUDE_PATTERN}\n`, "");
+      await fs.writeFile(copyToPath, newContent);
     }
     await updateProjectConfig(`${temporaryDirectory}/dbt_project.yml`);
     await fs.mkdir(path.dirname(outputFile), { recursive: true });
@@ -158,8 +189,12 @@ const zipProject = async (dbtProjectDirectory, filesToPack) => {
 export const pack = async ({ projectDir, dbtArgs }) => {
   await validateProjectDirectory(projectDir);
   const targetDirectories = await compileDbtProject(projectDir, dbtArgs);
-  const filesToPack = await analyzeManifestFiles(targetDirectories);
-  await zipProject(projectDir, filesToPack);
+  const fileToPack = await analyzeManifestFiles(targetDirectories);
+  const extraFiles = await getExtraFiles(projectDir);
+  for (const file of extraFiles) {
+    fileToPack.add(file);
+  }
+  await zipProject(projectDir, [...fileToPack]);
 };
 
 const getModels = async (dbtProjectDirectory) => {
