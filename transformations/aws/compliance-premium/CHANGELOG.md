@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.13.1...transformation-aws-compliance-premium-v1.13.2) (2024-08-12)
+
+
+### Bug Fixes
+
+* Include `check_tables_exist` in release ([#1017](https://github.com/cloudquery/policies-premium/issues/1017)) ([caa1b06](https://github.com/cloudquery/policies-premium/commit/caa1b062db0c58e47daac25257d61e733a4d5e1b))
+
 ## [1.13.1](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.13.0...transformation-aws-compliance-premium-v1.13.1) (2024-07-30)
 
 
