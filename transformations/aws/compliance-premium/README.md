@@ -218,6 +218,7 @@ There are
 "aws_ec2_vpcs",
 "aws_iam_credential_reports",
 "aws_kms_keys",
+"aws_kms_key_rotation_statuses",
 "aws_sns_subscriptions"
 ```
 This model is dependent on the following models:
@@ -268,7 +269,8 @@ This model is dependent on the following models:
 "aws_ec2_flow_logs",
 "aws_iam_credential_reports",
 "aws_kms_keys",
-"aws_iam_group_attached_policies"
+"aws_iam_group_attached_policies",
+"aws_kms_key_rotation_statuses"
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
@@ -318,7 +320,8 @@ This model is dependent on the following models:
 "aws_ec2_flow_logs",
 "aws_iam_credential_reports",
 "aws_kms_keys",
-"aws_iam_group_attached_policies"
+"aws_iam_group_attached_policies",
+"aws_kms_key_rotation_statuses"
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
@@ -496,7 +499,8 @@ This model is dependent on the following models:
 "aws_kms_keys",
 "aws_waf_web_acls",
 "aws_redshift_clusters",
-"aws_elasticsearch_domains"
+"aws_elasticsearch_domains",
+"aws_kms_key_rotation_statuses"
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
