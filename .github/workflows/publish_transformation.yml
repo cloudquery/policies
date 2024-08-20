@@ -116,7 +116,7 @@ jobs:
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         run: pip install -r requirements.txt
       - name: Setup CloudQuery
-        uses: cloudquery/setup-cloudquery@v3
+        uses: cloudquery/setup-cloudquery@v4
         with:
           version: v6.4.1
       - name: Migrate DB Postgres
@@ -152,7 +152,7 @@ jobs:
         working-directory: ./scripts/dbt-pack
         run: node index.js dbt-pack --project-dir=../../${{ needs.prepare.outputs.transformation_dir }}
       - name: Setup CloudQuery
-        uses: cloudquery/setup-cloudquery@v3
+        uses: cloudquery/setup-cloudquery@v4
         with:
           version: v6.4.1
       - name: Publish tranformation
