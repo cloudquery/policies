@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/cloudquery/policies-premium/compare/transformation-azure-asset-inventory-free-v1.3.0...transformation-azure-asset-inventory-free-v1.3.1) (2024-08-20)
+
+
+### Bug Fixes
+
+* Updated dataset ID for free compliance ([#1031](https://github.com/cloudquery/policies-premium/issues/1031)) ([359f237](https://github.com/cloudquery/policies-premium/commit/359f23797ce67009a01d4462f90fff68443a9ed5))
+
 ## [1.3.0](https://github.com/cloudquery/policies-premium/compare/transformation-azure-asset-inventory-free-v1.2.3...transformation-azure-asset-inventory-free-v1.3.0) (2024-07-30)
 
 
