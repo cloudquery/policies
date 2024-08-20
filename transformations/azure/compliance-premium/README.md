@@ -549,6 +549,10 @@ This model is dependent on the following models:
 - ✅ `9.4`: `web_app_client_cert_disabled`
 - ✅ `9.5`: `web_app_register_with_ad_disabled`
 - ✅ `9.10`: `web_app_ftp_deployment_enabled`
+
+##### `cis_v2.1.0`
+
+- ✅ `1.23`: `iam_custom_subscription_owner_roles`
 - ✅ `2.1.1`: `security_defender_on_for_servers`
 - ✅ `2.1.2`: `security_defender_on_for_app_service`
 - ✅ `2.1.3`: `security_defender_on_for_databases`
@@ -641,10 +645,6 @@ This model is dependent on the following models:
 - ✅ `9.7`: `app_using_latest_java_version`
 - ✅ `9.8`: `app_using_latest_http_version`
 - ✅ `9.9`: `web_app_ftp_deployment_enabled`
-
-##### `cis_v2.1.0`
-
-- ✅ `1.23`: `iam_custom_subscription_owner_roles`
 
 ##### `hipaa_hitrust_v9.2`
 
