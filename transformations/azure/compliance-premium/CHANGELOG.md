@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.7](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.8.6...transformation-azure-compliance-premium-v0.8.7) (2024-08-20)
+
+
+### Bug Fixes
+
+* Updated Azure cis_v2_1_0 doc ([#1032](https://github.com/cloudquery/policies-premium/issues/1032)) ([b8ea9b9](https://github.com/cloudquery/policies-premium/commit/b8ea9b9328c0eaea0fb73efe68527d0a6a598b37))
+
 ## [0.8.6](https://github.com/cloudquery/policies-premium/compare/transformation-azure-compliance-premium-v0.8.5...transformation-azure-compliance-premium-v0.8.6) (2024-08-12)
 
 
