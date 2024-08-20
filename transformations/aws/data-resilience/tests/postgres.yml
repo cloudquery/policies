@@ -3,7 +3,7 @@ spec:
   name: aws
   path: cloudquery/aws
   registry: cloudquery
-  version: "v27.13.1" # latest version of source aws plugin
+  version: "v27.14.0" # latest version of source aws plugin
   destinations: ["postgresql"]
   tables: ["*"]
 ---
@@ -12,7 +12,7 @@ spec:
   name: "postgresql"
   path: "cloudquery/postgresql"
   registry: cloudquery
-  version: "v8.5.1" # latest version of postgresql plugin
+  version: "v8.5.2" # latest version of postgresql plugin
   spec:
     batch_size: 10000
     connection_string: ${CQ_DSN}
