@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.3](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.13.2...transformation-aws-compliance-premium-v1.13.3) (2024-08-20)
+
+
+### Bug Fixes
+
+* Updated check_table function and maintained the names of tables ([#1014](https://github.com/cloudquery/policies-premium/issues/1014)) ([1faf839](https://github.com/cloudquery/policies-premium/commit/1faf8396b745c22a3a1a253ea492aab08e0c8ed3))
+
 ## [1.13.2](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.13.1...transformation-aws-compliance-premium-v1.13.2) (2024-08-12)
 
 
