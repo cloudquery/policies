@@ -270,7 +270,8 @@ This model is dependent on the following models:
 "aws_iam_credential_reports",
 "aws_kms_keys",
 "aws_iam_group_attached_policies",
-"aws_kms_key_rotation_statuses"
+"aws_kms_key_rotation_statuses",
+"aws_iam_policy_default_versions"
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
@@ -321,7 +322,8 @@ This model is dependent on the following models:
 "aws_iam_credential_reports",
 "aws_kms_keys",
 "aws_iam_group_attached_policies",
-"aws_kms_key_rotation_statuses"
+"aws_kms_key_rotation_statuses",
+"aws_iam_policy_default_versions"
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
@@ -445,7 +447,8 @@ This model is dependent on the following models:
 "aws_kms_key_rotation_statuses",
 "aws_waf_web_acls",
 "aws_apigatewayv2_api_routes",
-"aws_cloudformation_stacks"
+"aws_cloudformation_stacks",
+"aws_iam_policy_default_versions"
 ```
 This model is dependent on the following models:
 - aws_compliance__api_gateway_method_settings
