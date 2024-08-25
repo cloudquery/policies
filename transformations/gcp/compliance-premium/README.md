@@ -161,7 +161,7 @@ To execute a specific model along with its dependencies in your dbt project, use
 dbt run --select +<model_name>
 ```
 
-#### Models
+### Models
 
 The following models are available for PostgreSQL, Snowflake and Google BigQuery.
 - **gcp_compliance\_\_cis_v1_2_0.sql**: GCP Compliance CIS V1.3.0.
@@ -181,7 +181,7 @@ All of the models contain the following columns:
 ### Required tables
 - **gcp_compliance\_\_cis_v1_2_0.sql**:
 ```yaml
-"gcp_dns_policies",
+tables: ["gcp_dns_policies",
 "gcp_sql_instances",
 "gcp_resourcemanager_project_policies",
 "gcp_iam_service_accounts",
@@ -201,11 +201,11 @@ All of the models contain the following columns:
 "gcp_logging_sinks",
 "gcp_compute_projects",
 "gcp_compute_target_ssl_proxies",
-"gcp_dns_managed_zones"
+"gcp_dns_managed_zones"]
 ```
 - **gcp_compliance\_\_cis_v2_0_0.sql**:
 ```yaml
-"gcp_dns_policies",
+tables: ["gcp_dns_policies",
 "gcp_accessapproval_project_settings",
 "gcp_sql_instances",
 "gcp_resourcemanager_project_policies",
@@ -236,7 +236,7 @@ All of the models contain the following columns:
 "gcp_accessapproval_organization_settings",
 "gcp_compute_target_ssl_proxies",
 "gcp_dns_managed_zones",
-"gcp_essentialcontacts_organization_contacts"
+"gcp_essentialcontacts_organization_contacts"]
 ```
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
 #### Included Checks
