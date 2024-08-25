@@ -91,12 +91,31 @@ dbt debug
 This command will tell you if dbt can successfully connect to your PostgreSQL instance.
 
 ### Login to CloudQuery
-Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal.
+
+Since this policy uses premium features and tables, you must log in to your CloudQuery account by using the command cloudquery login in your terminal.
+
+### Migrating Tables
+Before syncing the data, we recommend migrating and creating all the necessary tables to ensure a smoother process flow. Make sure the `tables` part contains `*` for the migration.
+
+```yaml
+kind: source
+spec:
+  name: aws  # The source type, in this case, AWS.
+  path: cloudquery/aws  # The plugin path for handling AWS sources.
+  registry: cloudquery  # The registry from which the AWS plugin is sourced.
+  version: "v27.15.0"  # The version of the AWS plugin.
+  tables: ["*"]  # Include all tables for the migration process.
+  destinations: ["postgresql"]  # The destination for the data, in this case, PostgreSQL.
+  skip_dependent_tables: true
+  spec:
+    # Additional configuration goes here
+```
+
+Use the command:
+`cloudquery migrate config.yml`
 
 ### Syncing AWS data
-Based on the models you are interested in running, you need to sync the relevant tables.
-this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
+Based on the models you are interested in running, you need to sync the relevant tables. This time, we don’t sync all tables (`*`), but instead, focus on the relevant tables that match the policy to use fewer resources and save runtime. This is an example sync for the relevant tables for the model in compliance with `AWS CIS V1.2.0` with the PostgreSQL destination. You can modify the list of tables based on the compliance you want to check.
 
  ```yml
 kind: source
@@ -105,7 +124,25 @@ spec:
   path: cloudquery/aws # The plugin path for handling AWS sources.
   registry: cloudquery # The registry from which the AWS plugin is sourced.
   version: "v27.15.0" # The version of the AWS plugin.
-  tables: ["aws_neptune_cluster_snapshots","aws_apigatewayv2_api_stages","aws_elbv2_load_balancer_attributes","aws_ec2_images","aws_ec2_route_tables","aws_s3_bucket_public_access_blocks","aws_applicationautoscaling_policies","aws_autoscaling_groups","aws_s3_accounts","aws_wafv2_web_acls","aws_wafregional_rule_groups","aws_ssm_instance_compliance_items","aws_elbv1_load_balancers","aws_stepfunctions_state_machines","aws_ec2_network_acls","aws_iam_policies","aws_s3_bucket_encryption_rules","aws_cloudwatch_alarms","aws_efs_filesystems","aws_accessanalyzer_analyzers","aws_ec2_vpcs","aws_ecs_task_definitions","aws_autoscaling_launch_configurations","aws_iam_instance_profiles","aws_rds_instances","aws_ec2_instances","aws_iam_group_policies","aws_elbv2_load_balancers","aws_iam_groups","aws_dynamodb_table_continuous_backups","aws_lightsail_instances","aws_emr_clusters","aws_elasticbeanstalk_environments","aws_redshift_clusters","aws_iam_role_policies","aws_securityhub_hubs","aws_ecr_repository_lifecycle_policies","aws_s3_buckets","aws_dax_clusters","aws_apigateway_rest_apis","aws_iam_roles","aws_sns_subscriptions","aws_ec2_launch_template_versions","aws_eks_clusters","aws_s3_bucket_lifecycles","aws_ec2_subnets","aws_cloudwatchlogs_metric_filters","aws_ec2_vpn_connections","aws_iam_openid_connect_identity_providers","aws_s3_bucket_object_lock_configurations","aws_ecs_clusters","aws_sagemaker_notebook_instances","aws_codebuild_projects","aws_ec2_network_interfaces","aws_rds_events","aws_iam_accounts","aws_iam_saml_identity_providers","aws_iam_password_policies","aws_iam_user_attached_policies","aws_ec2_security_groups","aws_cloudtrail_trail_event_selectors","aws_iam_user_policies","aws_regions","aws_appsync_graphql_apis","aws_networkfirewall_rule_groups","aws_ec2_flow_logs","aws_iam_credential_reports","aws_networkfirewall_firewall_policies","aws_iam_group_attached_policies","aws_wafregional_web_acls","aws_elasticsearch_domains","aws_ec2_eips","aws_elasticbeanstalk_configuration_settings","aws_elasticache_clusters","aws_athena_work_groups","aws_redshift_cluster_parameter_groups","aws_iam_virtual_mfa_devices","aws_s3_bucket_grants","aws_waf_rules","aws_secretsmanager_secrets","aws_iam_role_attached_policies","aws_iam_server_certificates","aws_account_alternate_contacts","aws_iam_user_access_keys","aws_elbv1_load_balancer_policies","aws_cloudtrail_trails","aws_ssm_documents","aws_dynamodb_tables","aws_cloudfront_distributions","aws_rds_cluster_snapshots","aws_ssm_instances","aws_s3_bucket_replications","aws_ec2_ebs_volumes","aws_s3_bucket_notification_configurations","aws_dms_replication_instances","aws_elasticache_replication_groups","aws_waf_rule_groups","aws_neptune_clusters","aws_elbv2_listeners","aws_iam_users","aws_acm_certificates","aws_wafregional_rules","aws_ecs_cluster_services","aws_ec2_vpc_endpoints","aws_s3_bucket_policies","aws_ec2_ebs_snapshot_attributes","aws_guardduty_detectors","aws_efs_access_points","aws_config_configuration_recorders","aws_sns_topics","aws_rds_clusters","aws_s3_bucket_loggings","aws_sqs_queues","aws_ecr_repositories","aws_ec2_regional_configs","aws_lambda_runtimes","aws_lambda_functions","aws_apigateway_rest_api_stages","aws_redshift_cluster_parameters","aws_docdb_clusters","aws_ec2_transit_gateways","aws_s3_bucket_versionings","aws_rds_db_snapshots","aws_kinesis_streams","aws_iam_policy_versions","aws_apigatewayv2_apis","aws_kms_keys","aws_kms_key_rotation_statuses","aws_waf_web_acls","aws_apigatewayv2_api_routes","aws_cloudformation_stacks", "aws_iam_policy_default_versions"]
+  tables: ["aws_iam_password_policies",
+          "aws_s3_buckets",
+          "aws_iam_users",
+          "aws_iam_user_attached_policies",
+          "aws_s3_bucket_loggings",
+          "aws_iam_user_access_keys",
+          "aws_cloudtrail_trail_event_selectors",
+          "aws_ec2_security_groups",
+          "aws_iam_user_policies",
+          "aws_cloudwatchlogs_metric_filters",
+          "aws_cloudtrail_trails",
+          "aws_cloudwatch_alarms",
+          "aws_ec2_flow_logs",
+          "aws_iam_virtual_mfa_devices",
+          "aws_ec2_vpcs",
+          "aws_iam_credential_reports",
+          "aws_kms_keys",
+          "aws_kms_key_rotation_statuses",
+          "aws_sns_subscriptions"]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   skip_dependent_tables: true
   spec:
@@ -123,36 +160,13 @@ spec:
     # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
-
  ```
+Run the following command to sync the configuration:
+ `cloudquery sync config.yml`
+ 
+For more detailed instructions, you can check the page: [CloudQuery AWS Plugin Documentation](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs).
 
- See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
-
-## Pre-Run Table Existence Check in Your dbt Project
-
-Before executing models in your dbt project, it's a good practice to ensure that all necessary tables are available in your database. This step prevents failures during model execution due to missing tables. 
-
-### Run the Table Check Operation
-
-To verify the existence of required tables for specific models, use the `run-operation` command provided by dbt. This command invokes a custom operation (macro) that checks for the presence of necessary tables in the database.
-
-**Command to Check Table Existence**:
-```bash
-dbt run-operation check_tables_exist --args '{"variable_name": "variable_name_here"}'
-```
-
-### Variable Names You Can Use
-Each variable name corresponds to a specific model or a set of models within your dbt project. Use one of the following variable names as needed:
-
-- **cis_v1_2_0**
-- **cis_v2_0_0**
-- **cis_v3_0_0**
-- **foundational_security**
-- **pci_dss_v3_2_1**
-- **imds_v2**
-- **public_egress**
-- **publicly_available**
-- **aws_models**
+Visit [CloudQuery Hub](https://hub.cloudquery.io) to browse individual plugins and access their detailed documentation.
 
 ### Running Your dbt Project
 
@@ -201,7 +215,7 @@ There are
 ### Required tables
 - **aws_compliance\_\_cis_v1_2_0**:
 ```yaml
-"aws_iam_password_policies",
+tables: ["aws_iam_password_policies",
 "aws_s3_buckets",
 "aws_iam_users",
 "aws_iam_user_attached_policies",
@@ -219,7 +233,7 @@ There are
 "aws_iam_credential_reports",
 "aws_kms_keys",
 "aws_kms_key_rotation_statuses",
-"aws_sns_subscriptions"
+"aws_sns_subscriptions"]
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
@@ -227,7 +241,7 @@ This model is dependent on the following models:
 
 - **aws_compliance\_\_cis_v2_0_0**:
 ```yaml
-"aws_securityhub_hubs",
+tables: ["aws_securityhub_hubs",
 "aws_s3_buckets",
 "aws_iam_users",
 "aws_elasticache_clusters",
@@ -271,7 +285,7 @@ This model is dependent on the following models:
 "aws_kms_keys",
 "aws_iam_group_attached_policies",
 "aws_kms_key_rotation_statuses",
-"aws_iam_policy_default_versions"
+"aws_iam_policy_default_versions"]
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
@@ -280,7 +294,7 @@ This model is dependent on the following models:
 
 - **aws_compliance\_\_cis_v3_0_0**:
 ```yaml
-"aws_securityhub_hubs",
+tables: ["aws_securityhub_hubs",
 "aws_s3_buckets",
 "aws_iam_users",
 "aws_elasticache_clusters",
@@ -323,7 +337,7 @@ This model is dependent on the following models:
 "aws_kms_keys",
 "aws_iam_group_attached_policies",
 "aws_kms_key_rotation_statuses",
-"aws_iam_policy_default_versions"
+"aws_iam_policy_default_versions"]
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
@@ -333,7 +347,7 @@ This model is dependent on the following models:
 
 - **aws_compliance\_\_foundational_security**:
 ```yaml
-"aws_neptune_cluster_snapshots",
+tables: ["aws_neptune_cluster_snapshots",
 "aws_apigatewayv2_api_stages",
 "aws_elbv2_load_balancer_attributes",
 "aws_s3_bucket_public_access_blocks",
@@ -448,7 +462,7 @@ This model is dependent on the following models:
 "aws_waf_web_acls",
 "aws_apigatewayv2_api_routes",
 "aws_cloudformation_stacks",
-"aws_iam_policy_default_versions"
+"aws_iam_policy_default_versions"]
 ```
 This model is dependent on the following models:
 - aws_compliance__api_gateway_method_settings
@@ -456,7 +470,7 @@ This model is dependent on the following models:
 
 - **aws_compliance\_\_pci_dss_v3_2_1**:
 ```yaml
-"aws_ec2_eips",
+tables: ["aws_ec2_eips",
 "aws_elbv2_listeners",
 "aws_iam_users",
 "aws_s3_buckets",
@@ -503,7 +517,7 @@ This model is dependent on the following models:
 "aws_waf_web_acls",
 "aws_redshift_clusters",
 "aws_elasticsearch_domains",
-"aws_kms_key_rotation_statuses"
+"aws_kms_key_rotation_statuses"]
 ```
 This model is dependent on the following models:
 - aws_compliance__log_metric_filter_and_alarm
@@ -511,30 +525,30 @@ This model is dependent on the following models:
 
 - **aws_compliance\_\_imds_v2**:
 ```yaml
-"aws_ec2_images",
+tables: ["aws_ec2_images",
 "aws_ec2_instances",
-"aws_lightsail_instances"
+"aws_lightsail_instances"]
 ```
 - **aws_compliance\_\_public_egress**:
 ```yaml
-"aws_ec2_instances",
+tables: ["aws_ec2_instances",
 "aws_ec2_route_tables",
 "aws_lambda_functions",
-"aws_ec2_security_groups"
+"aws_ec2_security_groups"]
 ```
 This model is dependent on the following models:
 - aws_compliance__security_group_egress_rules
 
 - **aws_compliance\_\_publicly_available**:
 ```yaml
-"aws_cloudfront_distributions",
+tables: ["aws_cloudfront_distributions",
 "aws_ec2_instances",
 "aws_elbv1_load_balancers",
 "aws_apigateway_rest_apis",
 "aws_elbv2_load_balancers",
 "aws_redshift_clusters",
 "aws_apigatewayv2_apis",
-"aws_rds_instances"
+"aws_rds_instances"]
 ```
 
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
