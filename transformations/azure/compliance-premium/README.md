@@ -82,12 +82,28 @@ dbt debug
 This command will tell you if dbt can successfully connect to your PostgreSQL instance.
 
 ### Login to CloudQuery
-Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal.
+Since this policy uses premium features and tables, you must log in to your CloudQuery account by using the command `cloudquery login` in your terminal.
+
+### Migrating Tables
+Before syncing the data, we recommend migrating and creating all the necessary tables to ensure a smoother process flow. Make sure the `tables` part contains `*` for the migration.
+
+```yaml
+kind: source
+spec:
+  name: azure # The source type, in this case, Azure.
+  path: cloudquery/azure # The plugin path for handling Azure sources.
+  registry: cloudquery # The registry from which the Azure plugin is sourced.
+  version: "14.6.3" # The version of the Azure plugin.
+  tables: ["*"]
+  destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+  spec:
+```
+
+Use the command:
+`cloudquery migrate config.yml`
 
 ### Syncing Azure data
-Based on the models you are interested in running, you need to sync the relevant tables.
-this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
+Based on the models you are interested in running, you need to sync the relevant tables. This time, we don’t sync all tables (`*`), but instead, focus on the relevant tables that match the policy to use fewer resources and save runtime. Below is an example of a sync for the relevant tables for the model `Azure Compliance CIS V1.3.0` with a PostgreSQL destination. You can modify the list of tables based on the compliance you want to check. This package also supports Snowflake and Google BigQuery.
 
  ```yml
 kind: source
@@ -95,52 +111,65 @@ spec:
   name: azure # The source type, in this case, Azure.
   path: cloudquery/azure # The plugin path for handling Azure sources.
   registry: cloudquery # The registry from which the Azure plugin is sourced.
-  version: "12.1.2" # The version of the Azure plugin.
-  tables: ["azure_redis_caches","azure_storage_containers","azure_monitor_diagnostic_settings","azure_sql_managed_instance_encryption_protectors","azure_network_virtual_networks","azure_monitor_log_profiles","azure_authorization_role_definitions","azure_eventhub_namespace_network_rule_sets","azure_sql_server_database_long_term_retention_policies","azure_network_watcher_flow_logs","azure_authorization_role_assignments","azure_security_jit_network_access_policies","azure_monitor_subscription_diagnostic_settings","azure_compute_virtual_machine_extensions","azure_storage_accounts","azure_sql_server_databases","azure_mysqlflexibleservers_server_configurations","azure_postgresql_server_firewall_rules","azure_containerservice_managed_clusters","azure_compute_disks","azure_streamanalytics_streaming_jobs","azure_batch_account","azure_sql_server_database_blob_auditing_policies","azure_containerregistry_registries","azure_sql_server_advanced_threat_protection_settings","azure_network_bastion_hosts","azure_keyvault_keyvault","azure_sql_server_firewall_rules","azure_network_interfaces","azure_keyvault_keyvault_secrets","azure_sql_server_vulnerability_assessments","azure_compute_virtual_machines","azure_sql_server_admins","azure_keyvault_keyvault_keys","azure_sql_transparent_data_encryptions","azure_appservice_web_app_auth_settings","azure_applicationinsights_components","azure_sql_managed_instance_vulnerability_assessments","azure_appservice_web_app_configurations","azure_sql_servers","azure_security_contacts","azure_sql_server_encryption_protectors","azure_monitor_activity_log_alerts","azure_mysql_servers","azure_mysql_server_configurations","azure_cosmos_database_accounts","azure_eventhub_namespaces","azure_sql_managed_instances","azure_resources_links","azure_mariadb_servers","azure_network_security_groups","azure_datalakestore_accounts","azure_security_assessments","azure_security_auto_provisioning_settings","azure_security_pricings","azure_sql_server_blob_auditing_policies","azure_postgresql_server_configurations","azure_storage_blob_services","azure_logic_workflows","azure_mysqlflexibleservers_servers","azure_monitor_resources","azure_keyvault_keyvault_managed_hsms","azure_subscription_subscription_locations","azure_appservice_web_apps","azure_compute_virtual_machine_scale_sets","azure_network_watchers","azure_subscription_subscriptions","azure_postgresql_servers","azure_sql_server_virtual_network_rules","azure_appservice_web_app_vnet_connections","azure_sql_server_database_vulnerability_assessment_scans","azure_search_services",
-  "azure_policy_assignments",
-  "azure_network_security_groups"]
+  version: "14.6.3" # The version of the Azure plugin.
+  tables: ["azure_monitor_activity_log_alerts",
+"azure_keyvault_keyvault",
+"azure_appservice_web_app_auth_settings",
+"azure_storage_accounts",
+"azure_sql_server_admins",
+"azure_monitor_resources",
+"azure_appservice_web_apps",
+"azure_containerservice_managed_clusters",
+"azure_sql_servers",
+"azure_postgresql_server_firewall_rules",
+"azure_appservice_web_app_configurations",
+"azure_sql_server_firewall_rules",
+"azure_authorization_role_definitions",
+"azure_sql_server_advanced_threat_protection_settings",
+"azure_sql_server_database_blob_auditing_policies",
+"azure_compute_virtual_machines",
+"azure_monitor_subscription_diagnostic_settings",
+"azure_security_pricings",
+"azure_compute_disks",
+"azure_postgresql_server_configurations",
+"azure_sql_transparent_data_encryptions",
+"azure_storage_containers",
+"azure_security_auto_provisioning_settings",
+"azure_sql_server_databases",
+"azure_keyvault_keyvault_secrets",
+"azure_monitor_diagnostic_settings",
+"azure_sql_server_vulnerability_assessments",
+"azure_storage_blob_services",
+"azure_network_watcher_flow_logs",
+"azure_mysql_servers",
+"azure_postgresql_servers",
+"azure_keyvault_keyvault_keys",
+"azure_sql_server_blob_auditing_policies",
+"azure_sql_server_encryption_protectors",
+"azure_policy_assignments",
+"azure_network_security_groups"]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   spec:
-
 ---
 kind: destination
 spec:
   name: "postgresql" # The type of destination, in this case, PostgreSQL.
   path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
   registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-  version: "v8.0.1" # The version of the PostgreSQL plugin.
+  version: "v8.5.2" # The version of the PostgreSQL plugin.
 
   spec:
     connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
     # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
-
  ```
+Run the following command to sync the configuration:
+ `cloudquery sync config.yml`
 
- See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
+For more detailed instructions, you can check the page: [CloudQuery Azure Plugin Documentation](https://hub.cloudquery.io/plugins/source/cloudquery/azure/latest/docs).
 
-## Pre-Run Table Existence Check in Your dbt Project
-
-Before executing models in your dbt project, it's a good practice to ensure that all necessary tables are available in your database. This step prevents failures during model execution due to missing tables. 
-
-### Run the Table Check Operation
-
-To verify the existence of required tables for specific models, use the `run-operation` command provided by dbt. This command invokes a custom operation (macro) that checks for the presence of necessary tables in the database.
-
-**Command to Check Table Existence**:
-```bash
-dbt run-operation check_tables_exist --args '{"variable_name": "variable_name_here"}'
-```
-
-### Variable Names You Can Use
-Each variable name corresponds to a specific model or a set of models within your dbt project. Use one of the following variable names as needed:
-
-- **cis_v1_3_0**
-- **cis_v2_0_0**
-- **cis_v2_1_0**
-- **hippa_hitrust_9_2**
-- **azure_models**
+Visit [CloudQuery Hub](https://hub.cloudquery.io) to browse individual plugins and access their detailed documentation.
 
 ### Running Your dbt Project
 
