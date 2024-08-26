@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.4](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.13.3...transformation-aws-compliance-premium-v1.13.4) (2024-08-23)
+
+
+### Bug Fixes
+
+* Updated AWS Compliance doc - versions ([#1038](https://github.com/cloudquery/policies/issues/1038)) ([6ae445d](https://github.com/cloudquery/policies/commit/6ae445d24184c28b982d5989973f2fdb33a641da))
+
 ## [1.13.3](https://github.com/cloudquery/policies-premium/compare/transformation-aws-compliance-premium-v1.13.2...transformation-aws-compliance-premium-v1.13.3) (2024-08-20)
 
 
