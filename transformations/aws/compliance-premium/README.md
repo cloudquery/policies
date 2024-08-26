@@ -91,8 +91,7 @@ dbt debug
 This command will tell you if dbt can successfully connect to your PostgreSQL instance.
 
 ### Login to CloudQuery
-
-Since this policy uses premium features and tables, you must log in to your CloudQuery account by using the command cloudquery login in your terminal.
+Since this policy uses premium features and tables, you must log in to your CloudQuery account by using the command `cloudquery login` in your terminal.
 
 ### Migrating Tables
 Before syncing the data, we recommend migrating and creating all the necessary tables to ensure a smoother process flow. Make sure the `tables` part contains `*` for the migration.
@@ -115,7 +114,7 @@ Use the command:
 `cloudquery migrate config.yml`
 
 ### Syncing AWS data
-Based on the models you are interested in running, you need to sync the relevant tables. This time, we don’t sync all tables (`*`), but instead, focus on the relevant tables that match the policy to use fewer resources and save runtime. This is an example sync for the relevant tables for the model in compliance with `AWS CIS V1.2.0` with the PostgreSQL destination. You can modify the list of tables based on the compliance you want to check.
+Based on the models you are interested in running, you need to sync the relevant tables. This time, we don’t sync all tables (`*`), but instead, focus on the relevant tables that match the policy to use fewer resources and save runtime. Below is an example of a sync for the relevant tables for the model `AWS CIS V1.2.0` with a PostgreSQL destination. You can modify the list of tables based on the compliance you want to check. This package also supports Snowflake and Google BigQuery.
 
  ```yml
 kind: source
@@ -146,7 +145,6 @@ spec:
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   skip_dependent_tables: true
   spec:
-
 ---
 kind: destination
 spec:
