@@ -82,12 +82,28 @@ dbt debug
 This command will tell you if dbt can successfully connect to your PostgreSQL instance.
 
 ### Login to CloudQuery
-Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal.
+Since this policy uses premium features and tables, you must log in to your CloudQuery account by using the command `cloudquery login` in your terminal.
+
+### Migrating Tables
+Before syncing the data, we recommend migrating and creating all the necessary tables to ensure a smoother process flow. Make sure the `tables` part contains `*` for the migration.
+
+```yaml
+kind: source
+spec:
+  name: gcp # The source type, in this case, GCP.
+  path: cloudquery/gcp # The plugin path for handling GCP sources.
+  registry: cloudquery # The registry from which the GCP plugin is sourced.
+  version: "16.0.3" # The version of the GCP plugin.
+  tables: ["*"]
+  destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+  spec:
+```
+
+Use the command:
+`cloudquery migrate config.yml`
 
 ### Syncing GCP data
-Based on the models you are interested in running, you need to sync the relevant tables.
-this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
+Based on the models you are interested in running, you need to sync the relevant tables. This time, we don’t sync all tables (`*`), but instead, focus on the relevant tables that match the policy to use fewer resources and save runtime. Below is an example of a sync for the relevant tables for the model `GCP Compliance CIS V1.2.0` with a PostgreSQL destination. You can modify the list of tables based on the compliance you want to check. This package also supports Snowflake and Google BigQuery.
 
  ```yml
 kind: source
@@ -96,48 +112,49 @@ spec:
   path: cloudquery/gcp # The plugin path for handling GCP sources.
   registry: cloudquery # The registry from which the GCP plugin is sourced.
   version: "12.3.2" # The version of the GCP plugin.
-  tables: ["gcp_dns_policies","gcp_accessapproval_project_settings","gcp_sql_instances","gcp_storage_buckets","gcp_compute_backend_services","gcp_iam_service_account_keys","gcp_compute_disks","gcp_compute_instances","gcp_dataproc_clusters","gcp_logging_metrics","gcp_bigquery_datasets","gcp_compute_subnetworks","gcp_essentialcontacts_folder_contacts","gcp_resourcemanager_project_policies","gcp_iam_service_accounts","gcp_logging_sinks","gcp_compute_projects","gcp_accessapproval_folder_settings","gcp_essentialcontacts_project_contacts","gcp_compute_ssl_policies","gcp_compute_target_ssl_proxies","gcp_compute_url_maps","gcp_accessapproval_organization_settings","gcp_compute_firewalls","gcp_dns_managed_zones","gcp_storage_bucket_policies","gcp_apikeys_keys","gcp_kms_crypto_keys","gcp_bigquery_tables","gcp_compute_networks","gcp_essentialcontacts_organization_contacts","gcp_serviceusage_services"]
+  tables: ["gcp_dns_policies",
+"gcp_sql_instances",
+"gcp_resourcemanager_project_policies",
+"gcp_iam_service_accounts",
+"gcp_iam_service_account_keys",
+"gcp_compute_disks",
+"gcp_bigquery_datasets",
+"gcp_compute_subnetworks",
+"gcp_compute_ssl_policies",
+"gcp_storage_bucket_policies",
+"gcp_kms_crypto_keys",
+"gcp_bigquery_tables",
+"gcp_compute_firewalls",
+"gcp_compute_networks",
+"gcp_storage_buckets",
+"gcp_compute_instances",
+"gcp_logging_metrics",
+"gcp_logging_sinks",
+"gcp_compute_projects",
+"gcp_compute_target_ssl_proxies",
+"gcp_dns_managed_zones"]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   spec:
-
 ---
 kind: destination
 spec:
   name: "postgresql" # The type of destination, in this case, PostgreSQL.
   path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
   registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-  version: "v8.0.1" # The version of the PostgreSQL plugin.
+  version: "v8.5.2" # The version of the PostgreSQL plugin.
 
   spec:
     connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
     # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
-
  ```
+ Run the following command to sync the configuration:
+ `cloudquery sync config.yml`
 
- See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
+For more detailed instructions, you can check the page: [CloudQuery GCP Plugin Documentation](https://hub.cloudquery.io/plugins/source/cloudquery/gcp/latest/docs).
 
-
-## Pre-Run Table Existence Check in Your dbt Project
-
-Before executing models in your dbt project, it's a good practice to ensure that all necessary tables are available in your database. This step prevents failures during model execution due to missing tables. 
-
-### Run the Table Check Operation
-
-To verify the existence of required tables for specific models, use the `run-operation` command provided by dbt. This command invokes a custom operation (macro) that checks for the presence of necessary tables in the database.
-
-**Command to Check Table Existence**:
-```bash
-dbt run-operation check_tables_exist --args '{"variable_name": "variable_name_here"}'
-```
-
-### Variable Names You Can Use
-Each variable name corresponds to a specific model or a set of models within your dbt project. Use one of the following variable names as needed:
-
-- **cis_v1_2_0**
-- **cis_v2_0_0**
-- **gcp_models**
+Visit [CloudQuery Hub](https://hub.cloudquery.io) to browse individual plugins and access their detailed documentation.
 
 ### Running Your dbt Project
 
@@ -164,7 +181,7 @@ dbt run --select +<model_name>
 ### Models
 
 The following models are available for PostgreSQL, Snowflake and Google BigQuery.
-- **gcp_compliance\_\_cis_v1_2_0.sql**: GCP Compliance CIS V1.3.0.
+- **gcp_compliance\_\_cis_v1_2_0.sql**: GCP Compliance CIS V1.2.0.
 - **gcp_compliance\_\_cis_v2_0_0.sql**: GCP Compliance CIS V2.0.0.
 
 The premium version contains all queries.
