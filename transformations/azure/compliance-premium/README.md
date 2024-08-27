@@ -164,7 +164,7 @@ To execute a specific model along with its dependencies in your dbt project, use
 dbt run --select +<model_name>
 ```
 
-#### Models
+### Models
 
 The following models are available for PostgreSQL, Snowflake and Google BigQuery.
 - **azure_compliance\_\_cis_v1_3_0.sql**: Azure Compliance CIS V1.3.0.
@@ -187,7 +187,7 @@ All of the models contain the following columns:
 ### Required tables
 - **azure_compliance\_\_cis_v1_3_0.sql**:
 ```yaml
-"azure_monitor_activity_log_alerts",
+tables: ["azure_monitor_activity_log_alerts",
 "azure_keyvault_keyvault",
 "azure_appservice_web_app_auth_settings",
 "azure_storage_accounts",
@@ -222,7 +222,7 @@ All of the models contain the following columns:
 "azure_sql_server_blob_auditing_policies",
 "azure_sql_server_encryption_protectors",
 "azure_policy_assignments",
-"azure_network_security_groups"
+"azure_network_security_groups"]
 ```
 This model is dependent on the following models:
 - view_azure_security_policy_parameters
@@ -230,7 +230,7 @@ This model is dependent on the following models:
 
 - **azure_compliance\_\_cis_v2_0_0.sql**:
 ```yaml
-"azure_monitor_activity_log_alerts",
+tables: ["azure_monitor_activity_log_alerts",
 "azure_keyvault_keyvault",
 "azure_appservice_web_app_auth_settings",
 "azure_storage_accounts",
@@ -274,7 +274,7 @@ This model is dependent on the following models:
 "azure_sql_server_blob_auditing_policies",
 "azure_mysqlflexibleservers_server_configurations",
 "azure_policy_assignments",
-"azure_network_security_groups"
+"azure_network_security_groups"]
 ```
 This model is dependent on the following models:
 - view_azure_security_policy_parameters
@@ -282,7 +282,7 @@ This model is dependent on the following models:
 
 - **azure_compliance\_\_cis_v2_1_0.sql**:
 ```yaml
-"azure_network_virtual_networks",
+tables: ["azure_network_virtual_networks",
 "azure_network_watcher_flow_logs",
 "azure_postgresql_server_firewall_rules",
 "azure_keyvault_keyvault_secrets",
@@ -324,7 +324,7 @@ This model is dependent on the following models:
 "azure_appservice_web_apps",
 "azure_subscription_subscriptions",
 "azure_policy_assignments",
-"azure_network_security_groups"
+"azure_network_security_groups"]
 ```
 This model is dependent on the following models:
 - view_azure_security_policy_parameters
@@ -332,7 +332,7 @@ This model is dependent on the following models:
 
 - **azure_compliance\_\_hippa_hitrust_9_2.sql**:
 ```yaml
-"azure_monitor_activity_log_alerts",
+tables: ["azure_monitor_activity_log_alerts",
 "azure_security_assessments",
 "azure_subscription_subscription_locations",
 "azure_search_services",
@@ -381,7 +381,7 @@ This model is dependent on the following models:
 "azure_sql_server_virtual_network_rules",
 "azure_batch_account",
 "azure_security_jit_network_access_policies",
-"azure_network_security_groups"
+"azure_network_security_groups"]
 ```
 This model is dependent on the following models:
 - view_azure_nsg_rules

@@ -161,7 +161,7 @@ To execute a specific model along with its dependencies in your dbt project, use
 dbt run --select +<model_name>
 ```
 
-#### Models
+### Models
 
 - **k8s_compliance\_\_cis_v1_8.sql**: Kubernetes CIS V1.7 benchmarks, available for PostgreSQL, Snowflake and Google BigQuery.
 - **k8s_compliance\_\_nsa_cisa_v1.sql**: Kubernetes NSA/CISA V1 benchmarks, available for PostgreSQL.
@@ -175,20 +175,20 @@ All of the models contain the following columns:
 - **resource_name**: The resource name.
 - **status**: The status of the check (fail / pass).
 
-#### Tables
+### Required tables
 - **k8s_compliance\_\_cis_v1_8.sql**:
 ```yaml
-"k8s_networking_network_policies",
+tables: ["k8s_networking_network_policies",
 "k8s_rbac_cluster_role_bindings",
 "k8s_core_pods",
 "k8s_rbac_cluster_roles",
 "k8s_core_namespaces",
 "k8s_core_service_accounts",
-"k8s_rbac_roles"
+"k8s_rbac_roles"]
 ```
 - **k8s_compliance\_\_nsa_cisa_v1.sql**:
 ```yaml
-"k8s_networking_network_policies",
+tables: ["k8s_networking_network_policies",
 "k8s_core_pods",
 "k8s_core_namespaces",
 "k8s_core_service_accounts",
@@ -197,7 +197,7 @@ All of the models contain the following columns:
 "k8s_apps_deployments",
 "k8s_core_resource_quotas",
 "k8s_core_limit_ranges",
-"k8s_batch_jobs"
+"k8s_batch_jobs"]
 ```
 
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-START -->
