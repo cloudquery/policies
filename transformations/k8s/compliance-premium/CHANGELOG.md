@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.6](https://github.com/cloudquery/policies/compare/transformation-k8s-compliance-premium-v0.6.5...transformation-k8s-compliance-premium-v0.6.6) (2024-08-27)
+
+
+### Bug Fixes
+
+* Updated K8s, Azure, and GCP Compliance Docs ([#1043](https://github.com/cloudquery/policies/issues/1043)) ([454d94e](https://github.com/cloudquery/policies/commit/454d94e799d169d9c8394ad543f9d83aedbbe7d6))
+* Updated K8s, Azure, and GCP Compliance Docs ([#1051](https://github.com/cloudquery/policies/issues/1051)) ([6ea3521](https://github.com/cloudquery/policies/commit/6ea352186ac2caf958fe377fcccb4705633e34c3))
+
 ## [0.6.5](https://github.com/cloudquery/policies-premium/compare/transformation-k8s-compliance-premium-v0.6.4...transformation-k8s-compliance-premium-v0.6.5) (2024-08-12)
 
 
