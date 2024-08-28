@@ -82,12 +82,29 @@ dbt debug
 This command will tell you if dbt can successfully connect to your PostgreSQL instance.
 
 ### Login to CloudQuery
-Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal.
+Since this policy uses premium features and tables, you must log in to your CloudQuery account by using the command `cloudquery login` in your terminal.
+
+### Migrating Tables
+Before syncing the data, we recommend migrating and creating all the necessary tables to ensure a smoother process flow. Make sure the `tables` part contains `*` for the migration.
+
+```yaml
+kind: source
+spec:
+  name: k8s # The source type, in this case, K8S.
+  path: cloudquery/k8s # The plugin path for handling K8S sources.
+  registry: cloudquery # The registry from which the K8S plugin is sourced.
+  version: "7.0.1" # The version of the K8S plugin.
+  tables: ["*"]
+  destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
+  skip_dependent_tables: true
+  spec:
+```
+
+Use the command:
+`cloudquery migrate config.yml`
 
 ### Syncing K8S data
-Based on the models you are interested in running, you need to sync the relevant tables.
-this is an example sync for the relevant tables for all the models (views) in the policy and with the PostgreSQL destination. This package also supports Snowflake and Google BigQuery
+Based on the models you are interested in running, you need to sync the relevant tables. This time, we don’t sync all tables (`*`), but instead, focus on the relevant tables that match the policy to use fewer resources and save runtime. Below is an example of a sync for the relevant tables for the model `Kubernetes CIS V1.8` with a PostgreSQL destination. You can modify the list of tables based on the compliance you want to check. This package also supports Snowflake and Google BigQuery.
 
 ```yml
 kind: source
@@ -95,49 +112,37 @@ spec:
   name: k8s # The source type, in this case, K8S.
   path: cloudquery/k8s # The plugin path for handling K8S sources.
   registry: cloudquery # The registry from which the K8S plugin is sourced.
-  version: "6.0.9" # The version of the K8S plugin.
-  tables: ["k8s_networking_network_policies","k8s_rbac_roles","k8s_rbac_cluster_roles","k8s_core_resource_quotas","k8s_core_limit_ranges","k8s_core_namespaces","k8s_core_service_accounts","k8s_rbac_cluster_role_bindings","k8s_apps_daemon_sets","k8s_batch_jobs","k8s_apps_replica_sets","k8s_core_pods","k8s_apps_deployments",]
+  version: "7.0.1" # The version of the K8S plugin.
+  tables: ["k8s_networking_network_policies",
+"k8s_rbac_cluster_role_bindings",
+"k8s_core_pods",
+"k8s_rbac_cluster_roles",
+"k8s_core_namespaces",
+"k8s_core_service_accounts",
+"k8s_rbac_roles"]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   skip_dependent_tables: true
   spec:
-
 ---
 kind: destination
 spec:
   name: "postgresql" # The type of destination, in this case, PostgreSQL.
   path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
   registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-  version: "v8.0.1" # The version of the PostgreSQL plugin.
+  version: "v8.5.2" # The version of the PostgreSQL plugin.
 
   spec:
     connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
     # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
-
  ```
+Run the following command to sync the configuration:
+ `cloudquery sync config.yml`
 
- See [Hub](https://hub.cloudquery.io) to browse individual plugins and to get their detailed documentation.
+For more detailed instructions, you can check the page: [CloudQuery Kubernetes Plugin Documentation](https://hub.cloudquery.io/plugins/source/cloudquery/k8s/latest/docs).
 
-## Pre-Run Table Existence Check in Your dbt Project
-
-Before executing models in your dbt project, it's a good practice to ensure that all necessary tables are available in your database. This step prevents failures during model execution due to missing tables. 
-
-### Run the Table Check Operation
-
-To verify the existence of required tables for specific models, use the `run-operation` command provided by dbt. This command invokes a custom operation (macro) that checks for the presence of necessary tables in the database.
-
-**Command to Check Table Existence**:
-```bash
-dbt run-operation check_tables_exist --args '{"variable_name": "variable_name_here"}'
-```
-
-### Variable Names You Can Use
-Each variable name corresponds to a specific model or a set of models within your dbt project. Use one of the following variable names as needed:
-
-- **cis_v1_8**
-- **nsa_cisa_v1**
-- **k8s_models**
+Visit [CloudQuery Hub](https://hub.cloudquery.io) to browse individual plugins and access their detailed documentation.
 
 ### Running Your dbt Project
 
@@ -163,7 +168,7 @@ dbt run --select +<model_name>
 
 ### Models
 
-- **k8s_compliance\_\_cis_v1_8.sql**: Kubernetes CIS V1.7 benchmarks, available for PostgreSQL, Snowflake and Google BigQuery.
+- **k8s_compliance\_\_cis_v1_8.sql**: Kubernetes CIS V1.8 benchmarks, available for PostgreSQL, Snowflake and Google BigQuery.
 - **k8s_compliance\_\_nsa_cisa_v1.sql**: Kubernetes NSA/CISA V1 benchmarks, available for PostgreSQL.
 
 All of the models contain the following columns:
