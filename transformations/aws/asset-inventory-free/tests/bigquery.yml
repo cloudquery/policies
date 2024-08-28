@@ -6,6 +6,7 @@ spec:
   version: "v27.17.0" # latest version of source aws plugin
   destinations: ["bigquery"]
   tables: ["*"]
+  skip_dependent_tables: true
 ---
 kind: destination
 spec:
