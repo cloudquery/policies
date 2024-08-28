@@ -74,5 +74,7 @@ FROM {{ table_name | string }}
 {% endmacro %} 
 
 {% macro bigquery__aws_asset_resources(table_name, ARN_EXIST, ACCOUNT_ID_EXIST, REQUEST_ACCOUNT_ID_EXIST, REGION_EXIST, TAGS_EXIST) -%}
-SELECT _cq_id, _cq_source_name, _cq_sync_time,{% if ACCOUNT_ID_EXIST %} account_id {% else %} SPLIT(arn, ':')[5] {% endif %} AS account_id, {% if REQUEST_ACCOUNT_ID_EXIST %} request_account_id {% else %} SPLIT(arn, ':')[5] {% endif %} AS request_account_id, CASE WHEN SPLIT(SPLIT(arn, ':')[6], '/')[2] = '' AND SPLIT(arn, ':')[7] = '' THEN NULL ELSE SPLIT(SPLIT(arn, ':')[6], '/')[1] END AS TYPE, arn, {% if REGION_EXIST %} region {% else %} 'unavailable' {% endif %} AS region, {% if TAGS_EXIST %} TO_JSON_STRING(tags) {% else %} TO_JSON_STRING(STRUCT()) {% endif %} AS tags, SPLIT(arn, ':')[2] AS PARTITIONS, SPLIT(arn, ':')[3] AS service, '{{ table_name | string }}' AS _cq_table FROM {{ full_table_name(table_name | string) }} 
+SELECT 
+_cq_id, _cq_source_name, _cq_sync_time,{% if ACCOUNT_ID_EXIST %} account_id {% else %} SPLIT(arn, ':')[5] {% endif %} AS account_id, {% if REQUEST_ACCOUNT_ID_EXIST %} request_account_id {% else %} SPLIT(arn, ':')[5] {% endif %} AS request_account_id, CASE WHEN SPLIT(SPLIT(arn, ':')[6], '/')[2] = '' AND SPLIT(arn, ':')[7] = '' THEN NULL ELSE SPLIT(SPLIT(arn, ':')[6], '/')[1] END AS TYPE, arn, {% if REGION_EXIST %} region {% else %} 'unavailable' {% endif %} AS region, {% if TAGS_EXIST %} TO_JSON_STRING(tags) {% else %} TO_JSON_STRING(STRUCT()) {% endif %} AS tags, SPLIT(arn, ':')[2] AS PARTITIONS, SPLIT(arn, ':')[3] AS service, '{{ table_name | string }}' AS _cq_table 
+FROM {{ full_table_name(table_name | string) }} 
 {% endmacro %}  
