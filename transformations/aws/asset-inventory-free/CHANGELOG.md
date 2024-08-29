@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.8](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.2.7...transformation-aws-asset-inventory-free-v2.2.8) (2024-08-29)
+
+
+### Bug Fixes
+
+* Removing line breaks ([#1052](https://github.com/cloudquery/policies/issues/1052)) ([c2754f7](https://github.com/cloudquery/policies/commit/c2754f7a4e6dae95653870a333b245bee267959c))
+
 ## [2.2.7](https://github.com/cloudquery/policies-premium/compare/transformation-aws-asset-inventory-free-v2.2.6...transformation-aws-asset-inventory-free-v2.2.7) (2024-07-29)
 
 
