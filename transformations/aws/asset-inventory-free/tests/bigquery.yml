@@ -2,17 +2,18 @@ kind: source
 spec:
   name: aws
   path: cloudquery/aws
-  registry: cloudquery
-  version: "v27.16.0" # latest version of source aws plugin
+  registry: cloudquery\
+  version: "v27.17.0" # latest version of source aws plugin
   destinations: ["bigquery"]
   tables: ["*"]
+  skip_dependent_tables: true
 ---
 kind: destination
 spec:
   name: bigquery
   path: cloudquery/bigquery
   registry: cloudquery
-  version: "v3.3.9"
+  version: "v4.1.7"
   write_mode: "append"
   spec:
     project_id: cq-integration-tests
