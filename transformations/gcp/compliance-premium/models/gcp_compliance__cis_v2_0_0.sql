@@ -120,18 +120,6 @@ with
         {{ union() }}
         ({{ sql_postgresql_log_parser_stats_flag_on('cis_v2.0.0', '6.2.9') }})
         {{ union() }}
-        ({{ sql_postgresql_log_planner_stats_flag_on('cis_v2.0.0', '6.2.10') }})
-        {{ union() }}
-        ({{ sql_postgresql_log_executor_stats_flag_on('cis_v2.0.0', '6.2.11') }})
-        {{ union() }}
-        ({{ sql_postgresql_log_statement_stats_flag_on('cis_v2.0.0', '6.2.12') }})
-        {{ union() }}
-        ({{ sql_postgresql_log_min_error_statement_flag_less_error('cis_v2.0.0', '6.2.14') }})
-        {{ union() }}
-        ({{ sql_postgresql_log_temp_files_flag_off('cis_v2.0.0', '6.2.15') }})
-        {{ union() }}
-        ({{ sql_postgresql_log_min_duration_statement_flag_on('cis_v2.0.0', '6.2.16') }})
-        {{ union() }}
         ({{ sql_sqlserver_external_scripts_enabled_flag_on('cis_v2.0.0', '6.3.1') }})
         {{ union() }}
         ({{ sql_sqlserver_cross_db_ownership_chaining_flag_on('cis_v2.0.0', '6.3.2') }})
