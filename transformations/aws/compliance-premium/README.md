@@ -1013,4 +1013,3 @@ tables: ["aws_cloudfront_distributions",
 - ✅ `RDS`: `rds_db_instances_should_prohibit_public_access`
 - ✅ `Redshift`: `cluster_publicly_accessible`
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
-
