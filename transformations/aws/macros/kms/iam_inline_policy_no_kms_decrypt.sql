@@ -5,330 +5,291 @@
 {% macro default__iam_inline_policy_no_kms_decrypt(framework, check_id) %}{% endmacro %}
 
 {% macro postgres__iam_inline_policy_no_kms_decrypt(framework, check_id) %}
-WITH decrypt_users as (
-    SELECT DISTINCT
-        u.user_arn as arn
-    FROM 
-        aws_iam_user_policies u,
-		JSONB_ARRAY_ELEMENTS(u.policy_document) AS inline_policy,
-		JSONB_ARRAY_ELEMENTS(inline_policy -> 'PolicyDocument' -> 'Statement') AS s
-    WHERE 
-        s ->> 'Effect' = 'Allow'
-        AND
-        (s ->> 'Resource' = '*' OR
-        s ->> 'Resource' LIKE '%kms%') 
-        AND 
-        (s ->> 'Action' = '*' 
-         OR s ->> 'Action' ILIKE '%kms:*%' 
-         OR s ->> 'Action' ILIKE '%kms:decrypt%' 
-         OR s ->> 'Action' ILIKE '%kms:reencryptfrom%'
-         OR s ->> 'Action' ILIKE '%kms:reencrypt*%')
-  
+WITH pdu AS (
+    SELECT
+        u.user_arn as arn,
+        u.account_id as account_id,
+        CASE 
+            WHEN jsonb_typeof(u.policy_document->'Statement') = 'array' THEN
+                u.policy_document->'Statement'
+            ELSE
+                jsonb_build_array(u.policy_document->'Statement')
+        END AS statement_fixed
+    FROM aws_iam_user_policies u
 ),
-decrypt_roles as (
-  SELECT DISTINCT
-        r.role_arn as arn
-    FROM 
-        aws_iam_role_policies r,
-		JSONB_ARRAY_ELEMENTS(r.policy_document) AS inline_policy,
-		JSONB_ARRAY_ELEMENTS(inline_policy -> 'PolicyDocument' -> 'Statement') AS s
-    WHERE 
-        s ->> 'Effect' = 'Allow'
-        AND
-        (s ->> 'Resource' = '*' OR
-        s ->> 'Resource' LIKE '%kms%') 
-        AND 
-        (s ->> 'Action' = '*' 
-         OR s ->> 'Action' ILIKE '%kms:*%' 
-         OR s ->> 'Action' ILIKE '%kms:decrypt%' 
-         OR s ->> 'Action' ILIKE '%kms:reencryptfrom%'
-         OR s ->> 'Action' ILIKE '%kms:reencrypt*%')
-        AND r.role_arn NOT LIKE '%service-role/%'
-
+pdr AS (
+    SELECT
+        r.role_arn as arn,
+        r.account_id as account_id,
+        CASE 
+            WHEN jsonb_typeof(r.policy_document->'Statement') = 'array' THEN
+                r.policy_document->'Statement'
+            ELSE
+                jsonb_build_array(r.policy_document->'Statement')
+        END AS statement_fixed
+    FROM aws_iam_role_policies r
 ),
-decrypt_groups as (
-  SELECT DISTINCT
-        g.group_arn as arn
-    FROM 
-        aws_iam_group_policies g,
-        JSONB_ARRAY_ELEMENTS(g.policy_document) AS inline_policy,
-		JSONB_ARRAY_ELEMENTS(inline_policy -> 'PolicyDocument' -> 'Statement') AS s
-    WHERE 
-        s ->> 'Effect' = 'Allow'
-        AND
-        (s ->> 'Resource' = '*' OR
-        s ->> 'Resource' LIKE '%kms%') 
-        AND 
-        (s ->> 'Action' = '*' 
-         OR s ->> 'Action' ILIKE '%kms:*%' 
-         OR s ->> 'Action' ILIKE '%kms:decrypt%' 
-         OR s ->> 'Action' ILIKE '%kms:reencryptfrom%'
-         OR s ->> 'Action' ILIKE '%kms:reencrypt*%')
+pdg AS (
+    SELECT
+        g.group_arn as arn,
+        g.account_id as account_id,
+        CASE 
+            WHEN jsonb_typeof(g.policy_document->'Statement') = 'array' THEN
+                g.policy_document->'Statement'
+            ELSE
+                jsonb_build_array(g.policy_document->'Statement')
+        END AS statement_fixed
+    FROM aws_iam_group_policies g
+),
+resources_actions AS (
+    SELECT
+        arn,
+        account_id,
+        statement AS statement_fixed,
+        CASE 
+            WHEN jsonb_typeof(statement->'Resource') = 'array' THEN
+                statement->'Resource'
+            ELSE
+                jsonb_build_array(statement->'Resource')
+        END AS resources,
+        CASE 
+            WHEN jsonb_typeof(statement->'Action') = 'array' THEN
+                statement->'Action'
+            ELSE
+                jsonb_build_array(statement->'Action')
+        END AS actions
+    FROM (
+        SELECT * FROM pdu
+        UNION ALL
+        SELECT * FROM pdr
+        UNION ALL
+        SELECT * FROM pdg
+    ) AS combined_policies,
+    jsonb_array_elements(statement_fixed) AS statement
+),
+decrypt_policies AS (
+    SELECT
+        arn,
+        COUNT(*) AS violations
+    FROM resources_actions,
+        jsonb_array_elements_text(resources) AS resource,
+        jsonb_array_elements_text(actions) AS action
+    WHERE statement_fixed->>'Effect' = 'Allow'
+          AND (resource LIKE '%kms%' or resource = '*')
+          AND (action = 'kms:Decrypt' OR action = 'kms:ReEncryptFrom')
+    GROUP BY arn
 )
-
 SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
+  '{{framework}}' AS framework,
+  '{{check_id}}' AS check_id,
   'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
-    u.account_id,
-    u.arn as resource_id,
-    CASE
-    WHEN du.arn is not null THEN 'fail'
+  u.account_id,
+  u.arn AS resource_id,
+  CASE
+    WHEN dp.arn IS NOT NULL THEN 'fail'
     ELSE 'pass'
-    END as status
-FROM aws_iam_users u
-LEFT JOIN decrypt_users du
-    ON u.arn = du.arn
-
-UNION
-
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
-    r.account_id,
-    r.arn as resource_id,
-    CASE
-    WHEN dr.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
-FROM aws_iam_roles r
-LEFT JOIN decrypt_roles dr
-    ON r.arn = dr.arn
-
-UNION
-
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
-    g.account_id,
-    g.arn as resource_id,
-    CASE
-    WHEN dg.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
-FROM aws_iam_groups g
-LEFT JOIN decrypt_groups dg
-    ON g.arn = dg.arn
+  END AS status
+FROM (
+    SELECT arn, account_id FROM aws_iam_users
+    UNION ALL
+    SELECT arn, account_id FROM aws_iam_roles WHERE arn NOT LIKE '%service-role/%'
+    UNION ALL
+    SELECT arn, account_id FROM aws_iam_groups
+) AS u
+LEFT JOIN decrypt_policies dp
+    ON u.arn = dp.arn
 {% endmacro %}
 
 {% macro snowflake__iam_inline_policy_no_kms_decrypt(framework, check_id) %}
-WITH decrypt_users as (
-    SELECT DISTINCT
-        u.user_arn as arn
-    FROM 
-        aws_iam_user_policies u,
-        LATERAL FLATTEN(input => u.policy_document) inline_policy,
-        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s
-    WHERE 
-        s.value:Effect = 'Allow'
-        AND
-        (s.value:Resource = '*' OR
-        s.value:Resource LIKE '%kms%') 
-        AND 
-        (s.value:Action = '*' 
-         OR s.value:Action ILIKE '%kms:*%' 
-         OR s.value:Action ILIKE '%kms:decrypt%' 
-         OR s.value:Action ILIKE '%kms:reencryptfrom%'
-         OR s.value:Action ILIKE '%kms:reencrypt*%')
-  
+WITH pdu AS (
+    SELECT
+        u.user_arn AS arn,
+        u.account_id AS account_id,
+        CASE 
+            WHEN ARRAY_SIZE(u.policy_document:Statement) IS NULL THEN
+              PARSE_JSON('[' || u.policy_document:Statement || ']')
+            ELSE
+              u.policy_document:Statement
+        END AS statements
+    FROM aws_iam_user_policies u
 ),
-decrypt_roles as (
-  SELECT DISTINCT
-        r.role_arn as arn
-    FROM 
-        aws_iam_role_policies r,
-        LATERAL FLATTEN(input => r.policy_document) inline_policy,
-        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s
-    WHERE 
-        s.value:Effect = 'Allow'
-        AND
-        (s.value:Resource = '*' OR
-        s.value:Resource LIKE '%kms%') 
-        AND 
-        (s.value:Action = '*' 
-         OR s.value:Action ILIKE '%kms:*%' 
-         OR s.value:Action ILIKE '%kms:decrypt%' 
-         OR s.value:Action ILIKE '%kms:reencryptfrom%'
-         OR s.value:Action ILIKE '%kms:reencrypt*%')
-        AND r.role_arn NOT LIKE '%service-role/%'
-
+pdr AS (
+    SELECT
+        r.role_arn AS arn,
+        r.account_id AS account_id,
+        CASE 
+            WHEN ARRAY_SIZE(r.policy_document:Statement) IS NULL THEN
+              PARSE_JSON('[' || r.policy_document:Statement || ']')
+            ELSE
+              r.policy_document:Statement
+        END AS statements
+    FROM aws_iam_role_policies r
 ),
-decrypt_groups as (
-  SELECT DISTINCT
-        g.group_arn as arn
-    FROM 
-        aws_iam_group_policies g,
-        LATERAL FLATTEN(input => g.policy_document) inline_policy,
-        LATERAL FLATTEN(input => inline_policy.value:"PolicyDocument":"Statement") s
-    WHERE 
-        s.value:Effect = 'Allow'
-        AND
-        (s.value:Resource = '*' OR
-        s.value:Resource LIKE '%kms%') 
-        AND 
-        (s.value:Action = '*' 
-         OR s.value:Action ILIKE '%kms:*%' 
-         OR s.value:Action ILIKE '%kms:decrypt%' 
-         OR s.value:Action ILIKE '%kms:reencryptfrom%'
-         OR s.value:Action ILIKE '%kms:reencrypt*%')
+pdg AS (
+    SELECT
+        g.group_arn AS arn,
+        g.account_id AS account_id,
+        CASE 
+            WHEN ARRAY_SIZE(g.policy_document:Statement) IS NULL THEN
+              PARSE_JSON('[' || g.policy_document:Statement || ']')
+            ELSE
+              g.policy_document:Statement
+        END AS statements
+    FROM aws_iam_group_policies g
+),
+resources_actions AS (
+    SELECT
+        arn,
+        account_id,
+        statement.value AS statements,
+        CASE 
+            WHEN ARRAY_SIZE(statement.value:Resource) IS NULL THEN
+                PARSE_JSON('["' || statement.value:Resource || '"]')
+            ELSE
+                statement.value:Resource
+        END AS resources,
+        CASE 
+            WHEN ARRAY_SIZE(statement.value:Action) IS NULL THEN
+                PARSE_JSON('["' || statement.value:Action || '"]')
+            ELSE
+                statement.value:Action
+        END AS actions
+    FROM (
+        SELECT * FROM pdu
+        UNION ALL
+        SELECT * FROM pdr
+        UNION ALL
+        SELECT * FROM pdg
+    ) AS combined_policies,
+    LATERAL FLATTEN(combined_policies.statements) AS statement
+),
+decrypt_policies AS (
+    SELECT
+        arn,
+        COUNT(*) AS violations
+    FROM resources_actions,
+        LATERAL FLATTEN(resources) AS resource,
+        LATERAL FLATTEN(actions) AS action
+    WHERE statements:Effect = 'Allow'
+          AND (resource.value LIKE '%kms%' OR resource.value = '*')
+          AND (action.value = 'kms:Decrypt' OR action.value = 'kms:ReEncryptFrom')
+    GROUP BY arn
 )
-
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
+SELECT DISTINCT
+  '{{framework}}' AS framework,
+  '{{check_id}}' AS check_id,
   'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
-    u.account_id,
-    u.arn as resource_id,
-    CASE
-    WHEN du.arn is not null THEN 'fail'
+  u.account_id,
+  u.arn AS resource_id,
+  CASE
+    WHEN dp.arn IS NOT NULL THEN 'fail'
     ELSE 'pass'
-    END as status
-FROM aws_iam_users u
-LEFT JOIN decrypt_users du
-    ON u.arn = du.arn
-
-UNION
-
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
-    r.account_id,
-    r.arn as resource_id,
-    CASE
-    WHEN dr.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
-FROM aws_iam_roles r
-LEFT JOIN decrypt_roles dr
-    ON r.arn = dr.arn
-
-UNION
-
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
-    g.account_id,
-    g.arn as resource_id,
-    CASE
-    WHEN dg.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
-FROM aws_iam_groups g
-LEFT JOIN decrypt_groups dg
-    ON g.arn = dg.arn
+  END AS status
+FROM (
+    SELECT arn, account_id FROM aws_iam_users
+    UNION ALL
+    SELECT arn, account_id FROM aws_iam_roles WHERE arn NOT LIKE '%service-role/%'
+    UNION ALL
+    SELECT arn, account_id FROM aws_iam_groups
+) AS u
+LEFT JOIN decrypt_policies dp
+    ON u.arn = dp.arn
 {% endmacro %}
 
 {% macro bigquery__iam_inline_policy_no_kms_decrypt(framework, check_id) %}
-WITH decrypt_users as (
-    SELECT DISTINCT
-        u.user_arn as arn
-    FROM 
-        {{ full_table_name("aws_iam_user_policies") }} u,
- UNNEST(JSON_QUERY_ARRAY(u.policy_document)) AS inline_policy,
-UNNEST(JSON_QUERY_ARRAY(inline_policy.PolicyDocument.Statement)) AS s
-    WHERE 
-        JSON_VALUE(s.Effect) = 'Allow'
-        AND
-        (JSON_VALUE(s.Resource) = '*' OR
-        LOWER(JSON_VALUE(s.Action)) LIKE '%kms%') 
-        AND 
-        (JSON_VALUE(s.Action) = '*' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:*%' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:decrypt%' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencryptfrom%'
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencrypt*%')
-  
+ WITH pdu AS (
+    SELECT
+        u.user_arn AS arn,
+        u.account_id AS account_id,
+        CASE 
+            WHEN JSON_TYPE(u.policy_document.Statement) != 'array' THEN
+                PARSE_JSON(CONCAT('[', TO_JSON_STRING(u.policy_document.Statement), ']'))
+            ELSE
+                u.policy_document.Statement
+        END AS statements
+    FROM {{ full_table_name("aws_iam_user_policies") }} u
 ),
-decrypt_roles as (
-  SELECT DISTINCT
-        r.role_arn as arn
-    FROM 
-        {{ full_table_name("aws_iam_role_policies") }} r,
- UNNEST(JSON_QUERY_ARRAY(r.policy_document)) AS inline_policy,
-UNNEST(JSON_QUERY_ARRAY(inline_policy.PolicyDocument.Statement)) AS s
-    WHERE 
-        JSON_VALUE(s.Effect) = 'Allow'
-        AND
-        (JSON_VALUE(s.Resource) = '*' OR
-        JSON_VALUE(s.Resource) LIKE '%kms%') 
-        AND 
-        (JSON_VALUE(s.Action) = '*' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:*%' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:decrypt%' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencryptfrom%'
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencrypt*%')
-        AND r.role_arn NOT LIKE '%service-role/%'
-
+pdr AS (
+    SELECT
+        r.role_arn AS arn,
+        r.account_id AS account_id,
+        CASE 
+            WHEN JSON_TYPE(r.policy_document.Statement) != 'array' THEN
+                PARSE_JSON(CONCAT('[', TO_JSON_STRING(r.policy_document.Statement), ']'))
+            ELSE
+                r.policy_document.Statement
+        END AS statements
+    FROM {{ full_table_name("aws_iam_role_policies") }} r
 ),
-decrypt_groups as (
-  SELECT DISTINCT
-        g.group_arn as arn
-    FROM 
-        {{ full_table_name("aws_iam_group_policies") }} g,
- UNNEST(JSON_QUERY_ARRAY(g.policy_document)) AS inline_policy,
-UNNEST(JSON_QUERY_ARRAY(inline_policy.PolicyDocument.Statement)) AS s
-    WHERE 
-        JSON_VALUE(s.Effect) = 'Allow'
-        AND
-        (JSON_VALUE(s.Resource) = '*' OR
-        JSON_VALUE(s.Resource) LIKE '%kms%') 
-        AND 
-        (JSON_VALUE(s.Action) = '*' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:*%' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:decrypt%' 
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencryptfrom%'
-         OR LOWER(JSON_VALUE(s.Action)) LIKE '%kms:reencrypt*%')
+pdg AS (
+    SELECT
+        g.group_arn AS arn,
+        g.account_id AS account_id,
+        CASE 
+            WHEN JSON_TYPE(g.policy_document.Statement) != 'array' THEN
+                PARSE_JSON(CONCAT('[', TO_JSON_STRING(g.policy_document.Statement), ']'))
+            ELSE
+                g.policy_document.Statement
+        END AS statements
+    FROM {{ full_table_name("aws_iam_group_policies") }} g
+),
+resources_actions AS (
+    SELECT
+        arn,
+        account_id,
+        statement AS statements,
+        CASE 
+            WHEN JSON_TYPE(JSON_EXTRACT(statement, '$.Resource')) != 'array' THEN
+                PARSE_JSON(CONCAT('[', TO_JSON_STRING(statement.Resource), ']'))
+            ELSE
+                statement.Resource
+        END AS resources,
+        CASE 
+            WHEN JSON_TYPE(JSON_EXTRACT(statement, '$.Action')) != 'array' THEN
+                PARSE_JSON(CONCAT('[', TO_JSON_STRING(statement.Action), ']'))
+            ELSE
+                statement.Action
+        END AS actions
+    FROM (
+        SELECT * FROM pdu
+        UNION ALL
+        SELECT * FROM pdr
+        UNION ALL
+        SELECT * FROM pdg
+    ) AS combined_policies,
+    UNNEST(JSON_QUERY_ARRAY(statements)) AS statement
+),
+decrypt_policies AS (
+    SELECT
+        arn,
+        COUNT(*) AS violations
+    FROM resources_actions,
+        UNNEST(JSON_QUERY_ARRAY(resources)) AS resource,
+        UNNEST(JSON_QUERY_ARRAY(actions)) AS action
+    WHERE JSON_VALUE(statements.Effect) = 'Allow'
+          AND (JSON_VALUE(resource) = '*' OR JSON_VALUE(resource) LIKE '%kms%')
+          AND (JSON_VALUE(action) = 'kms:Decrypt' OR JSON_VALUE(action) = 'kms:ReEncryptFrom')
+    GROUP BY arn
 )
-
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
+SELECT DISTINCT
+    '{{framework}}' AS framework,
+    '{{check_id}}' AS check_id,
+    'IAM policies should not allow full * administrative privileges' AS title,
     u.account_id,
-    u.arn as resource_id,
+    u.arn AS resource_id,
     CASE
-    WHEN du.arn is not null THEN 'fail'
+    WHEN dp.arn IS NOT NULL THEN 'fail'
     ELSE 'pass'
-    END as status
-FROM {{ full_table_name("aws_iam_users") }} u
-LEFT JOIN decrypt_users du
-    ON u.arn = du.arn
-
-UNION ALL
-
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
-    r.account_id,
-    r.arn as resource_id,
-    CASE
-    WHEN dr.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
-FROM {{ full_table_name("aws_iam_roles") }} r
-LEFT JOIN decrypt_roles dr
-    ON r.arn = dr.arn
-
-UNION ALL
-
-SELECT
-  '{{framework}}' As framework,
-  '{{check_id}}' As check_id,
-  'IAM principals should not have IAM inline policies that allow decryption actions on all KMS keys' AS title,
-    g.account_id,
-    g.arn as resource_id,
-    CASE
-    WHEN dg.arn is not null THEN 'fail'
-    ELSE 'pass'
-    END as status
-FROM {{ full_table_name("aws_iam_groups") }} g
-LEFT JOIN decrypt_groups dg
-    ON g.arn = dg.arn
+    END AS status
+FROM (
+    SELECT arn, account_id FROM {{ full_table_name("aws_iam_users") }}
+    UNION ALL
+    SELECT arn, account_id FROM {{ full_table_name("aws_iam_roles") }} WHERE arn NOT LIKE '%service-role/%'
+    UNION ALL
+    SELECT arn, account_id FROM {{ full_table_name("aws_iam_groups") }}
+) AS u
+LEFT JOIN decrypt_policies dp
+    ON u.arn = dp.arn
 {% endmacro %}
 
 {% macro athena__iam_inline_policy_no_kms_decrypt(framework, check_id) %}
