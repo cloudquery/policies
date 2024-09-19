@@ -20,8 +20,8 @@ SELECT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins' as title,
-    d.arn as resource_id,
     d.account_id,
+    d.arn as resource_id,
     CASE
         WHEN o.arn is null THEN 'pass'
         ELSE 'fail'
@@ -48,8 +48,8 @@ SELECT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins' as title,
-    d.arn as resource_id,
     d.account_id,
+    d.arn as resource_id,
     CASE
         WHEN o.arn is null THEN 'pass'
         ELSE 'fail'
@@ -75,8 +75,8 @@ SELECT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins' as title,
-    d.arn as resource_id,
     d.account_id,
+    d.arn as resource_id,
     CASE
         WHEN o.arn is null THEN 'pass'
         ELSE 'fail'
@@ -104,8 +104,8 @@ SELECT
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'CloudFront distributions should not use deprecated SSL protocols between edge locations and custom origins' as title,
-    d.arn as resource_id,
     d.account_id,
+    d.arn as resource_id,
     CASE
         WHEN o.arn is null THEN 'pass'
         ELSE 'fail'

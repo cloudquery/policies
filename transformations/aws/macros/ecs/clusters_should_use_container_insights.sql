@@ -20,8 +20,8 @@ SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ECS clusters should use Container Insights' as title,
-  c.arn as resource_id,
   c.account_id,
+  c.arn as resource_id,
   CASE
     WHEN s.arn is not null THEN 'fail'
     ELSE 'pass'
@@ -48,8 +48,8 @@ SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ECS clusters should use Container Insights' as title,
-  c.arn as resource_id,
   c.account_id,
+  c.arn as resource_id,
   CASE
     WHEN s.arn is not null THEN 'fail'
     ELSE 'pass'
@@ -76,8 +76,8 @@ SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ECS clusters should use Container Insights' as title,
-  c.arn as resource_id,
   c.account_id,
+  c.arn as resource_id,
   CASE
     WHEN s.arn is not null THEN 'fail'
     ELSE 'pass'
@@ -105,8 +105,8 @@ SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ECS clusters should use Container Insights' as title,
-  c.arn as resource_id,
   c.account_id,
+  c.arn as resource_id,
   CASE
     WHEN s.arn is not null THEN 'fail'
     ELSE 'pass'
