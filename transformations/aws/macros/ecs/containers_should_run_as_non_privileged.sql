@@ -24,8 +24,8 @@ select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'ECS containers should run as non-privileged' as title,
-    arn as resource_id,
     account_id,
+    arn as resource_id,
     CASE
         WHEN max(status) OVER (PARTITION BY arn) = 1 THEN 'fail'
         ELSE 'pass'
@@ -54,8 +54,8 @@ select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'ECS containers should run as non-privileged' as title,
-    arn as resource_id,
     account_id,
+    arn as resource_id,
     CASE
         WHEN max(status) OVER (PARTITION BY arn) = 1 THEN 'fail'
         ELSE 'pass'
@@ -84,8 +84,8 @@ select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'ECS containers should run as non-privileged' as title,
-    arn as resource_id,
     account_id,
+    arn as resource_id,
     CASE
         WHEN max(status) OVER (PARTITION BY arn) = 1 THEN 'fail'
         ELSE 'pass'
@@ -115,8 +115,8 @@ select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
     'ECS containers should run as non-privileged' as title,
-    arn as resource_id,
     account_id,
+    arn as resource_id,
     CASE
         WHEN max(status) OVER (PARTITION BY arn) = 1 THEN 'fail'
         ELSE 'pass'

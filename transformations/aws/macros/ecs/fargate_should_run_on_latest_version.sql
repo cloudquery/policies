@@ -9,8 +9,8 @@ SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ECS Fargate services should run on the latest Fargate platform version' as title,
-  arn as resource_id,
   account_id,
+  arn as resource_id,
   CASE
     WHEN platform_version is null OR platform_version = 'LATEST' THEN 'pass'
     WHEN (platform_family = 'LINUX' AND platform_version <> '1.4.0') 
@@ -30,8 +30,8 @@ SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ECS Fargate services should run on the latest Fargate platform version' as title,
-  arn as resource_id,
   account_id,
+  arn as resource_id,
   CASE
     WHEN platform_version is null OR platform_version = 'LATEST' THEN 'pass'
     WHEN (platform_family = 'LINUX' AND platform_version <> '1.4.0') 
@@ -51,8 +51,8 @@ SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ECS Fargate services should run on the latest Fargate platform version' as title,
-  arn as resource_id,
   account_id,
+  arn as resource_id,
   CASE
     WHEN platform_version is null OR platform_version = 'LATEST' THEN 'pass'
     WHEN (platform_family = 'LINUX' AND platform_version <> '1.4.0') 
@@ -72,8 +72,8 @@ SELECT
   '{{framework}}' As framework,
   '{{check_id}}' As check_id,
   'ECS Fargate services should run on the latest Fargate platform version' as title,
-  arn as resource_id,
   account_id,
+  arn as resource_id,
   CASE
     WHEN platform_version is null OR platform_version = 'LATEST' THEN 'pass'
     WHEN (platform_family = 'LINUX' AND platform_version <> '1.4.0') 
