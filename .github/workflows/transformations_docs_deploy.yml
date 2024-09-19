@@ -49,7 +49,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v4
         with:
-          version: v6.7.0
+          version: v6.7.1
       - name: Generate the docs
         run: make shard=${{ matrix.shard }} gen-site
         env:
