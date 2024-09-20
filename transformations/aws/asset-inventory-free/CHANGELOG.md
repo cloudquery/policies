@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.9](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.2.8...transformation-aws-asset-inventory-free-v2.2.9) (2024-09-19)
+
+
+### Bug Fixes
+
+* Updated dataset_id in asset_inventory_free ([#1070](https://github.com/cloudquery/policies/issues/1070)) ([f35a197](https://github.com/cloudquery/policies/commit/f35a197b16117c1b6ead99081fb23cb235ead66c))
+
 ## [2.2.8](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.2.7...transformation-aws-asset-inventory-free-v2.2.8) (2024-08-29)
 
 
