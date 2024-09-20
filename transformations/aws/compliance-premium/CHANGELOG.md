@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.0...transformation-aws-compliance-premium-v1.14.1) (2024-09-19)
+
+
+### Bug Fixes
+
+* Updated account_id in few macros ([#1076](https://github.com/cloudquery/policies/issues/1076)) ([9ce1d5f](https://github.com/cloudquery/policies/commit/9ce1d5ff9bd0a9ed7a983df8a513e88d2d959d0b))
+
 ## [1.14.0](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.13.6...transformation-aws-compliance-premium-v1.14.0) (2024-09-04)
 
 
