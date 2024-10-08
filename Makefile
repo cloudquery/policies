@@ -39,7 +39,6 @@ endif
 .PHONY: gen-single-site
 gen-single-site:
 	cloudquery migrate transformations/$(transformation_dir)/tests/postgres.yml
-	dbt seed --target dev-pg --profiles-dir transformations/$(transformation_dir)/tests --project-dir transformations/$(transformation_dir)
 	dbt run --target dev-pg --profiles-dir transformations/$(transformation_dir)/tests --project-dir transformations/$(transformation_dir)
 	dbt docs generate --target dev-pg --static --profiles-dir transformations/$(transformation_dir)/tests --project-dir transformations/$(transformation_dir)
 	cp transformations/$(transformation_dir)/target/static_index.html $(output_file_name).html
