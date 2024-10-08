@@ -2,4 +2,4 @@ dbt-postgres==1.8.2
 dbt-snowflake==1.8.3
 dbt-bigquery==1.8.2
 dbt-athena-community==1.8.4
-pyarrow >= 3.0.0
+dbt==1.8.7
