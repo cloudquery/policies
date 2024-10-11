@@ -21,7 +21,6 @@ GROUP BY
 HAVING
     MAX(CASE WHEN UPPER(c.column_name) = 'ARN' THEN 1 ELSE 0 END)::bool
     AND (MAX(CASE WHEN UPPER(c.column_name) = 'ACCOUNT_ID' THEN 1 ELSE 0 END)::bool OR MAX(CASE WHEN UPPER(c.column_name) = 'REQUEST_ACCOUNT_ID' THEN 1 ELSE 0 END)::bool)
-
 {% endmacro %}    
 
 {% macro snowflake__aws_tables_dyn() %}
@@ -83,7 +82,7 @@ JOIN
     system.tables t ON c.database = t.database AND c.table = t.name
 WHERE
     t.name LIKE 'aws_%'
-    AND t.engine = 'MergeTree' -- assuming you're only interested in base tables
+    AND t.engine NOT IN ('View', 'MaterializedView', 'LiveView')
 GROUP BY 
     c.table
 HAVING
