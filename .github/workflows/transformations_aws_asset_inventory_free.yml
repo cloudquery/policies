@@ -39,6 +39,7 @@ jobs:
       postgres: ${{ fromJson(steps.set-result.outputs.result).postgres }}
       snowflake: ${{ fromJson(steps.set-result.outputs.result).snowflake }}
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
+      clickhouse: ${{ fromJson(steps.set-result.outputs.result).clickhouse }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,10 +51,11 @@ jobs:
           script: |
             const fs = require('fs/promises');
             const { TRANSFORMATION_DIR: transformation_dir } = process.env;
-            const [postgres, snowflake, bigquery] = await Promise.all([
+            const [postgres, snowflake, bigquery, clickhouse] = await Promise.all([
               fs.access(`${transformation_dir}/tests/postgres.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
+              fs.access(`${transformation_dir}/tests/clickhouse.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
             ]);
             console.log(JSON.stringify({ transformation_dir, postgres, snowflake, bigquery }));
             return {
@@ -61,6 +63,7 @@ jobs:
               postgres,
               snowflake,
               bigquery,
+              clickhouse,
             };
   transformations-aws-asset-inventory-free:
     permissions:
@@ -127,3 +130,22 @@ jobs:
         run: |
           cloudquery migrate tests/bigquery.yml
           dbt run --target dev-bigquery --profiles-dir ./tests
+      - name: Start ClickHouse Container
+        if: needs.prepare.outputs.clickhouse == 'true'
+        run: |
+          docker run --platform linux/amd64 -d --name clickhouse-server --rm -p 8123:8123 -p 9000:9000 \
+            -e CLICKHOUSE_PASSWORD=test \
+            -e CLICKHOUSE_USER=cq \
+            -e CLICKHOUSE_DB=cloudquery \
+            -e CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1 \
+            -v ${{ github.workspace }}/.github/clickhouse.xml:/etc/clickhouse-server/users.d/cloudquery.xml \
+            clickhouse/clickhouse-server:22.1.2
+          sudo apt update && sudo apt install wait-for-it -y
+          wait-for-it -h localhost -p 9000 -t 120
+      - name: Test Clickhouse
+        if: needs.prepare.outputs.clickhouse == 'true'
+        env:
+          CLICKHOUSE_CONNECTION_STRING: "clickhouse://cq:test@localhost:9000/cloudquery"
+        run: |
+          cloudquery migrate tests/clickhouse.yml
+          dbt run --target dev-clickhouse --profiles-dir ./tests

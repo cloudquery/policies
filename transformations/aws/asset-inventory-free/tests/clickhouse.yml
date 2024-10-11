@@ -1,0 +1,19 @@
+kind: source
+spec:
+  name: aws
+  path: cloudquery/aws
+  registry: cloudquery
+  version: "v27.21.0" # latest version of source aws plugin
+  destinations: ["clickhouse"]
+  tables: ["*"]
+---
+kind: destination
+spec:
+  name: "clickhouse"
+  path: "cloudquery/clickhouse"
+  registry: "cloudquery"
+  version: "v5.0.5"
+  write_mode: "append"
+
+  spec:
+    connection_string: ${CLICKHOUSE_CONNECTION_STRING}
