@@ -92,11 +92,10 @@ request_account_id
 {% else %}
 splitByChar(':', COALESCE(arn, ''))[5]
 {% endif %} AS request_account_id,
-CASE
-WHEN
+CASE WHEN 
 splitByChar('/', COALESCE(splitByChar(':', COALESCE(arn, ''))[6], ''))[2] = ''
 AND splitByChar(':', COALESCE(arn, ''))[7] = '' THEN NULL
-ELSE splitByChar('/', COALESCE(splitByChar(':', COALESCE(arn, ''))[6], ''))[1]
+ELSE splitByChar('/', COALESCE(splitByChar(':', COALESCE(arn, ''))[6], ''))[1] 
 END AS TYPE,
 arn,
 {% if REGION_EXIST %}
@@ -107,8 +106,9 @@ region
 {% if TAGS_EXIST %}
 tags
 {% else %}
-'{}'
+'{}' 
 {% endif %} AS tags,
-'{{ table_name | string }}' AS _cq_table
-FROM {{ table_name | string }}
+splitByChar(':', COALESCE(arn, ''))[2] AS PARTITION,
+splitByChar(':', COALESCE(arn, ''))[3] AS service,
+'{{ table_name | string }}' AS _cq_table FROM {{ table_name | string }}
 {% endmacro %}
