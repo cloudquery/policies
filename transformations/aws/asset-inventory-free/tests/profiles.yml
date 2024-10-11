@@ -28,3 +28,10 @@ aws_asset_inventory: # This should match the name in your dbt_project.yml
       dataset: policies_free_ci_test # You can also use "schema" here
       threads: 4 # Must be a value of 1 or greater
       location: us-west1
+    dev-clickhouse:
+      type: clickhouse
+      schema: cloudquery
+      host: localhost
+      port: 9000
+      user: cq
+      password: test
