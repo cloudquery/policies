@@ -217,7 +217,7 @@ Add the following settings inside the <profiles> section to adjust the limits:
 ```xml
 <profiles>
     <default>
-        <max_query_size>1000000</max_query_size>
+        <max_query_size>10000000</max_query_size>
         <max_ast_elements>150000</max_ast_elements>
     </default>
 </profiles>
