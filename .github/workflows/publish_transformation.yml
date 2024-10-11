@@ -26,6 +26,7 @@ jobs:
       snowflake: ${{ fromJson(steps.set-result.outputs.result).snowflake }}
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
       s3: ${{ fromJson(steps.set-result.outputs.result).s3 }}
+      clickhouse: ${{ fromJson(steps.set-result.outputs.result).clickhouse }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,11 +41,12 @@ jobs:
             const [_, topLevelDir, ...rest] = TRANSFORMATION_TAG.split('-');
             const version = rest.pop();
             const transformation_dir = `transformations/${topLevelDir}/${rest.join('-')}`;
-            const [postgres, snowflake, bigquery, s3] = await Promise.all([
+            const [postgres, snowflake, bigquery, s3, clickhouse] = await Promise.all([
               fs.access(`${transformation_dir}/tests/postgres.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
               fs.access(`${transformation_dir}/tests/s3.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
+              fs.access(`${transformation_dir}/tests/clickhouse.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
             ]);
             return {
               transformation_dir,
@@ -52,7 +54,8 @@ jobs:
               postgres,
               snowflake,
               bigquery,
-              s3
+              s3,
+              clickhouse,
             };
   publish-transformation:
     permissions:
@@ -118,7 +121,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v4
         with:
-          version: v6.8.2
+          version: v6.8.3
       - name: Migrate DB Postgres
         if: needs.prepare.outputs.postgres == 'true'
         run: cloudquery migrate tests/postgres.yml
@@ -139,6 +142,24 @@ jobs:
         if: needs.prepare.outputs.s3 == 'true'
         run: cloudquery migrate tests/s3.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
+      - name: Start ClickHouse Container
+        if: needs.prepare.outputs.clickhouse == 'true'
+        run: |
+          docker run --platform linux/amd64 -d --name clickhouse-server --rm -p 8123:8123 -p 9000:9000 \
+            -e CLICKHOUSE_PASSWORD=test \
+            -e CLICKHOUSE_USER=cq \
+            -e CLICKHOUSE_DB=cloudquery \
+            -e CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1 \
+            -v ${{ github.workspace }}/.github/clickhouse.xml:/etc/clickhouse-server/users.d/cloudquery.xml \
+            clickhouse/clickhouse-server:22.1.2
+          sudo apt update && sudo apt install wait-for-it -y
+          wait-for-it -h localhost -p 9000
+      - name: Migrate DB Clickhouse
+        if: needs.prepare.outputs.clickhouse == 'true'
+        working-directory: ${{ needs.prepare.outputs.transformation_dir }}
+        env:
+          CLICKHOUSE_CONNECTION_STRING: "clickhouse://cq:test@localhost:9000/cloudquery"
+        run: cloudquery migrate tests/clickhouse.yml
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -154,7 +175,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v4
         with:
-          version: v6.8.2
+          version: v6.8.3
       - name: Publish tranformation
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:

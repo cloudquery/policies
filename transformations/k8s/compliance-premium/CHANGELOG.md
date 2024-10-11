@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.7](https://github.com/cloudquery/policies/compare/transformation-k8s-compliance-premium-v0.6.6...transformation-k8s-compliance-premium-v0.6.7) (2024-10-11)
+
+
+### Bug Fixes
+
+* Pin dbt-core to v1.8.7 ([#1089](https://github.com/cloudquery/policies/issues/1089)) ([5eae050](https://github.com/cloudquery/policies/commit/5eae050bd1284b1cc934b7070662987c28c6d639))
+
 ## [0.6.6](https://github.com/cloudquery/policies/compare/transformation-k8s-compliance-premium-v0.6.5...transformation-k8s-compliance-premium-v0.6.6) (2024-08-27)
 
 
