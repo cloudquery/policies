@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/cloudquery/policies/compare/transformation-azure-asset-inventory-free-v1.3.1...transformation-azure-asset-inventory-free-v1.3.2) (2024-10-11)
+
+
+### Bug Fixes
+
+* Pin dbt-core to v1.8.7 ([#1089](https://github.com/cloudquery/policies/issues/1089)) ([5eae050](https://github.com/cloudquery/policies/commit/5eae050bd1284b1cc934b7070662987c28c6d639))
+
 ## [1.3.1](https://github.com/cloudquery/policies-premium/compare/transformation-azure-asset-inventory-free-v1.3.0...transformation-azure-asset-inventory-free-v1.3.1) (2024-08-20)
 
 

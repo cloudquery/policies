@@ -171,3 +171,73 @@ For a specific folder and the models in the dependency graph:
 ```bash
 dbt run --models +<model_name>
 ```
+
+## Syncing Aws Asset Inventory to ClickHouse Using dbt
+
+This guide will walk you through the process of syncing **`aws_asset_inventory`** to [ClickHouse](https://hub.cloudquery.io/plugins/destination/cloudquery/clickhouse/latest/docs) as a destination using dbt.
+
+We recommend utilizing the **`aws_resources`** model for this purpose. However, due to ClickHouse's limitations in handling large and complex queries—specifically related to query size and AST (Abstract Syntax Tree) restrictions—you may encounter some challenges. To resolve these, follow the steps outlined below.
+
+### Steps to Configure ClickHouse for dbt:
+
+### 1. Create a Docker Container for ClickHouse
+
+Run the following command to create a Docker container for ClickHouse:
+
+```bash
+docker run -d --name clickhouse-server -p 9000:9000 -p 8123:8123 clickhouse/clickhouse-server
+```
+This command will download the ClickHouse image and start a container that exposes the required ports for interaction.
+
+
+### 2. Install Nano to Edit Configuration Files
+
+You will need to edit the ClickHouse configuration file. First, install nano in the container to make it easier to edit the configuration file.
+
+```bash
+docker exec -it clickhouse-server bash
+apt update
+apt install nano -y
+```
+
+This will install nano in the running container, allowing you to edit the configuration directly.
+
+### 3. Modify the Configuration File
+
+ClickHouse has a limit on query size and AST complexity that can cause issues with large queries. To avoid this, you will need to increase the max_query_size and max_ast_elements settings.
+
+Open the configuration file for editing:
+
+```bash
+nano /etc/clickhouse-server/users.xml
+```
+
+Add the following settings inside the <profiles> section to adjust the limits:
+
+```xml
+<profiles>
+    <default>
+        <max_query_size>10000000</max_query_size>
+        <max_ast_elements>150000</max_ast_elements>
+    </default>
+</profiles>
+```
+This increases the maximum query size and the number of elements allowed in the AST, helping to handle larger queries effectively.
+
+### 4. Restart the ClickHouse Container
+
+After making changes to the configuration file, you need to restart the container for the new settings to take effect:
+
+```bash
+docker restart clickhouse-server
+```
+This command will restart the container, applying the changes to the ClickHouse configuration.
+
+### 5. Run dbt
+
+Once the ClickHouse server is properly configured, you can now run dbt with the appropriate profile:
+
+```bash
+dbt run
+```
+This will execute your dbt models and sync the data to your ClickHouse destination. Make sure everything is properly set up in the dbt profile to connect to the ClickHouse server.
