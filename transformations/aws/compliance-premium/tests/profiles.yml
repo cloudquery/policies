@@ -31,7 +31,7 @@ aws_compliance: # This should match the name in your dbt_project.yml
     dev-athena:
       type: athena
       s3_staging_dir: "s3://cq-integration-tests/dbt/"
-      region_name: "us-east-1"
+      region_name: "us-west-1"
       database: "awsdatacatalog" 
       schema: "athena_integration"
       threads: 1
