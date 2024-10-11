@@ -31,7 +31,7 @@
   "transformations/aws/cost+FILLER": "0.0.0",
   "transformations/aws/cost-free": "1.0.0",
   "transformations/aws/cost-free+FILLER": "0.0.0",
-  "transformations/gcp/asset-inventory-free": "1.3.0",
+  "transformations/gcp/asset-inventory-free": "1.3.1",
   "transformations/gcp/asset-inventory-free+FILLER": "0.0.0",
   "transformations/azure/asset-inventory-free": "1.3.2",
   "transformations/azure/asset-inventory-free+FILLER": "0.0.0"
