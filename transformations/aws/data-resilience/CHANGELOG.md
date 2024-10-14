@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.6](https://github.com/cloudquery/policies/compare/transformation-aws-data-resilience-v2.1.5...transformation-aws-data-resilience-v2.1.6) (2024-10-14)
+
+
+### Bug Fixes
+
+* Pin dbt-core to v1.8.7 ([#1089](https://github.com/cloudquery/policies/issues/1089)) ([5eae050](https://github.com/cloudquery/policies/commit/5eae050bd1284b1cc934b7070662987c28c6d639))
+
 ## [2.1.5](https://github.com/cloudquery/policies-premium/compare/transformation-aws-data-resilience-v2.1.4...transformation-aws-data-resilience-v2.1.5) (2024-07-02)
 
 
