@@ -1,12 +1,5 @@
 # Changelog
 
-## [2.3.0](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.2.10...transformation-aws-asset-inventory-free-v2.3.0) (2024-10-11)
-
-
-### Features
-
-* Added macros for ClickHouse destination ([#1090](https://github.com/cloudquery/policies/issues/1090)) ([8a940a8](https://github.com/cloudquery/policies/commit/8a940a86ff5d10a77da0da0bbdce3719c502f5b2))
-
 ## [2.2.10](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.2.9...transformation-aws-asset-inventory-free-v2.2.10) (2024-10-11)
 
 
