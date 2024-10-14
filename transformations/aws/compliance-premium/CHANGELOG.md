@@ -1,12 +1,5 @@
 # Changelog
 
-## [1.14.2](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.1...transformation-aws-compliance-premium-v1.14.2) (2024-10-11)
-
-
-### Bug Fixes
-
-* Pin dbt-core to v1.8.7 ([#1089](https://github.com/cloudquery/policies/issues/1089)) ([5eae050](https://github.com/cloudquery/policies/commit/5eae050bd1284b1cc934b7070662987c28c6d639))
-
 ## [1.14.1](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.0...transformation-aws-compliance-premium-v1.14.1) (2024-09-19)
 
 
