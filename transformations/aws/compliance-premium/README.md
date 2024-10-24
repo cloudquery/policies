@@ -918,10 +918,10 @@ tables: ["aws_cloudfront_distributions",
 - ✅ `sagemaker.1`: `sagemaker_notebook_instance_direct_internet_access_disabled`
 - ✅ `sagemaker.2`: `sagemaker_notebook_instance_inside_vpc`
 - ✅ `sagemaker.3`: `sagemaker_notebook_instance_root_access_check`
-- ✅ `secretmanager.1`: `secrets_should_have_automatic_rotation_enabled`
-- ✅ `secretmanager.2`: `secrets_configured_with_automatic_rotation_should_rotate_successfully`
-- ✅ `secretmanager.3`: `remove_unused_secrets_manager_secrets`
-- ✅ `secretmanager.4`: `secrets_should_be_rotated_within_a_specified_number_of_days`
+- ✅ `secretsmanager.1`: `secrets_should_have_automatic_rotation_enabled`
+- ✅ `secretsmanager.2`: `secrets_configured_with_automatic_rotation_should_rotate_successfully`
+- ✅ `secretsmanager.3`: `remove_unused_secrets_manager_secrets`
+- ✅ `secretsmanager.4`: `secrets_should_be_rotated_within_a_specified_number_of_days`
 - ✅ `sns.1`: `sns_topics_should_be_encrypted_at_rest_using_aws_kms`
 - ✅ `sns.2`: `sns_topics_should_have_message_delivery_notification_enabled`
 - ✅ `sqs.1`: `sqs_queues_should_be_encrypted_at_rest`

@@ -342,7 +342,7 @@ with
     {{ union() }}
     ({{ redshift_default_db_name_check('foundational_security','redshift.9') }})
     {{ union() }}
-    ({{ remove_unused_secrets_manager_secrets('foundational_security','secretmanager.3') }})
+    ({{ remove_unused_secrets_manager_secrets('foundational_security','secretsmanager.3') }})
     {{ union() }}
     ({{ replication_not_public('foundational_security','dms.1') }})
     {{ union() }}
@@ -376,11 +376,11 @@ with
     {{ union() }}
     ({{ sagemaker_notebook_instance_root_access_check('foundational_security','sagemaker.3') }})
     {{ union() }}
-    ({{ secrets_configured_with_automatic_rotation_should_rotate_successfully('foundational_security','secretmanager.2') }})
+    ({{ secrets_configured_with_automatic_rotation_should_rotate_successfully('foundational_security','secretsmanager.2') }})
     {{ union() }}
-    ({{ secrets_should_be_rotated_within_a_specified_number_of_days('foundational_security','secretmanager.4') }})
+    ({{ secrets_should_be_rotated_within_a_specified_number_of_days('foundational_security','secretsmanager.4') }})
     {{ union() }}
-    ({{ secrets_should_have_automatic_rotation_enabled('foundational_security','secretmanager.1') }})
+    ({{ secrets_should_have_automatic_rotation_enabled('foundational_security','secretsmanager.1') }})
     {{ union() }}
     ({{ secrets_should_not_be_in_environment_variables('foundational_security','ecs.8') }})
     {{ union() }}
