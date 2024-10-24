@@ -3,7 +3,7 @@ spec:
   name: aws
   path: cloudquery/aws
   registry: cloudquery
-  version: "v27.23.1" # latest version of source aws plugin
+  version: "v27.25.0" # latest version of source aws plugin
   destinations: ["bigquery"]
   tables: ["*"]
   skip_dependent_tables: true
@@ -13,7 +13,7 @@ spec:
   name: bigquery
   path: cloudquery/bigquery
   registry: cloudquery
-  version: "v4.1.13" # latest version of destination bigquery plugin
+  version: "v4.1.15" # latest version of destination bigquery plugin
   write_mode: "append"
   spec:
     project_id: cq-integration-tests
