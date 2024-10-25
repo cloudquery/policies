@@ -1,12 +1,5 @@
 # Changelog
 
-## [1.14.3](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.2...transformation-aws-compliance-premium-v1.14.3) (2024-10-24)
-
-
-### Bug Fixes
-
-* Use `secretsmanager` instead of `secretmanager` for check Id ([#1114](https://github.com/cloudquery/policies/issues/1114)) ([81c3d89](https://github.com/cloudquery/policies/commit/81c3d89b2226714a88e2ddec90a90a32e959a808))
-
 ## [1.14.2](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.1...transformation-aws-compliance-premium-v1.14.2) (2024-10-14)
 
 
