@@ -3,7 +3,7 @@ spec:
   name: gcp
   path: cloudquery/gcp
   registry: cloudquery
-  version: "v17.0.1" # latest version of source gcp plugin
+  version: "v17.1.2" # latest version of source gcp plugin
   destinations: ["bigquery"]
   tables: ["*"]
 ---
@@ -12,7 +12,7 @@ spec:
   name: bigquery
   path: cloudquery/bigquery
   registry: cloudquery
-  version: "v4.1.13" # latest version of destination bigquery plugin
+  version: "v4.1.15" # latest version of destination bigquery plugin
   write_mode: "append"
   spec:
     project_id: cq-integration-tests
