@@ -17,8 +17,8 @@ SELECT
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM azure_keyvault_keyvault akv
-    JOIN azure_keyvault_keyvault_secrets akvs
+FROM azure_keyvault_keyvaults akv
+    JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
 {% endmacro %}
 
@@ -35,8 +35,8 @@ SELECT
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM azure_keyvault_keyvault akv
-    JOIN azure_keyvault_keyvault_secrets akvs
+FROM azure_keyvault_keyvaults akv
+    JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
 {% endmacro %}
 
@@ -53,7 +53,7 @@ SELECT
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM {{ full_table_name("azure_keyvault_keyvault") }} akv
-    JOIN {{ full_table_name("azure_keyvault_keyvault_secrets") }} akvs
+FROM {{ full_table_name("azure_keyvault_keyvaults") }} akv
+    JOIN {{ full_table_name("azure_keyvault_secrets") }} akvs
       ON akv._cq_id = akvs._cq_parent_id
 {% endmacro %}

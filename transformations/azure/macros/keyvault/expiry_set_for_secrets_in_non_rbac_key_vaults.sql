@@ -17,8 +17,8 @@ SELECT
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM azure_keyvault_keyvault akv
-    JOIN azure_keyvault_keyvault_secrets akvs
+FROM azure_keyvault_keyvaults akv
+    JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
       WHERE (akvs.properties ->> 'enableRBAC')::boolean IS NOT distinct from FALSE
 {% endmacro %}
@@ -36,8 +36,8 @@ SELECT
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM azure_keyvault_keyvault akv
-    JOIN azure_keyvault_keyvault_secrets akvs
+FROM azure_keyvault_keyvaults akv
+    JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
       where akvs.properties:enableRBAC::boolean = FALSE
 {% endmacro %}
@@ -55,8 +55,8 @@ SELECT
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM {{ full_table_name("azure_keyvault_keyvault") }} akv
-    JOIN {{ full_table_name("azure_keyvault_keyvault_secrets") }} akvs
+FROM {{ full_table_name("azure_keyvault_keyvaults") }} akv
+    JOIN {{ full_table_name("azure_keyvault_secrets") }} akvs
       ON akv._cq_id = akvs._cq_parent_id
       where CAST( JSON_VALUE(akvs.properties.enableRBAC) AS BOOL) = FALSE
 {% endmacro %}
