@@ -104,7 +104,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::615713231484:role/cq-playground-aws-github-action
+          role-to-assume: arn:aws:iam::590184131402:role/cq-integration-tests-aws-github-action
           aws-region: us-east-1
       - uses: actions/setup-python@v5
         with:
@@ -116,7 +116,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v4
         with:
-          version: v6.11.0
+          version: v6.8.5
       - name: Test Postgres
         run: |
           cloudquery migrate tests/postgres.yml
