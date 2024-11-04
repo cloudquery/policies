@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.7](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.1.6...transformation-aws-cost-v1.1.7) (2024-11-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-core to v1.8.8 ([#1131](https://github.com/cloudquery/policies/issues/1131)) ([c69edcc](https://github.com/cloudquery/policies/commit/c69edcc580e129e63173ffae68bdc2e573996968))
+
 ## [1.1.6](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.1.5...transformation-aws-cost-v1.1.6) (2024-10-11)
 
 
