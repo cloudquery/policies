@@ -9,7 +9,7 @@ SELECT
     '{{framework}}' AS framework,
     '{{check_id}}' AS check_id,
     'VPC Lambda functions should operate in more than one Availability Zone' AS title,
-    account_id,
+    l.account_id,
     l.arn AS resource_id,
     CASE
         WHEN COUNT(DISTINCT s.availability_zone_id) > 1 THEN 'pass'
@@ -22,7 +22,7 @@ INNER JOIN
 LEFT JOIN
     aws_ec2_subnets AS s ON a.value::text = s.subnet_id
 GROUP BY
-    l.arn, account_id
+    l.arn, l.account_id
 {% endmacro %}
 
 {% macro snowflake__lambda_vpc_multi_az_check(framework, check_id) %}
@@ -30,7 +30,7 @@ select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
   'VPC Lambda functions should operate in more than one Availability Zone' AS title,
-    account_id, 
+    l.account_id, 
     l.arn AS resource_id,
     CASE WHEN
     count (distinct s.availability_zone_id) > 1 THEN 'pass'
@@ -44,7 +44,7 @@ LEFT JOIN
     aws_ec2_subnets s
 ON
     a.value = s.subnet_id
-group by l.arn, account_id
+group by l.arn, l.account_id
 {% endmacro %}
 
 {% macro bigquery__lambda_vpc_multi_az_check(framework, check_id) %}
@@ -52,7 +52,7 @@ select
     'foundational_security' As framework,
     'lambda.5' As check_id,
   'VPC Lambda functions should operate in more than one Availability Zone' AS title,
-    account_id, 
+    l.account_id, 
     l.arn AS resource_id,
     CASE WHEN
     count (distinct s.availability_zone_id) > 1 THEN 'pass'
@@ -65,7 +65,7 @@ LEFT JOIN
     {{ full_table_name("aws_ec2_subnets") }} s
 ON
     JSON_VALUE(a.value) = s.subnet_id
-group by l.arn, account_id
+group by l.arn, l.account_id
 {% endmacro %}
 
 {% macro athena__lambda_vpc_multi_az_check(framework, check_id) %}
@@ -73,7 +73,7 @@ select
     '{{framework}}' As framework,
     '{{check_id}}' As check_id,
   'VPC Lambda functions should operate in more than one Availability Zone' AS title,
-    account_id, 
+    l.account_id, 
     l.arn AS resource_id,
     CASE WHEN
     count (distinct s.availability_zone_id) > 1 THEN 'pass'
@@ -85,5 +85,5 @@ LEFT JOIN
     aws_ec2_subnets s
 ON
     json_extract_scalar(l.configuration, '$.VpcConfig.SubnetIds') = s.subnet_id
-group by l.arn, account_id
+group by l.arn, l.account_id
 {% endmacro %}
