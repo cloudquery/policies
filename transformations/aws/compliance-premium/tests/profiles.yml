@@ -28,11 +28,11 @@ aws_compliance: # This should match the name in your dbt_project.yml
       dataset: policies_premium_ci_test # You can also use "schema" here
       threads: 4 # Must be a value of 1 or greater
       location: us-west1
-    # dev-athena:
-    #   type: athena
-    #   s3_staging_dir: "s3://cq-integration-tests/dbt/"
-    #   region_name: "us-west-1"
-    #   database: "awsdatacatalog"
-    #   schema: "athena_integration"
-    #   threads: 1
-    #   num_retries: 5 # number of retries performed by the adapter. Defaults to 5
+    dev-athena:
+      type: athena
+      s3_staging_dir: "s3://cq-integration-tests/dbt/"
+      region_name: "us-east-1"
+      database: "awsdatacatalog" 
+      schema: "athena_integration"
+      threads: 1
+      num_retries: 5 # number of retries performed by the adapter. Defaults to 5

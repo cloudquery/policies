@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.8](https://github.com/cloudquery/policies/compare/transformation-k8s-compliance-premium-v0.6.7...transformation-k8s-compliance-premium-v0.6.8) (2024-11-04)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-core to v1.8.8 ([#1131](https://github.com/cloudquery/policies/issues/1131)) ([c69edcc](https://github.com/cloudquery/policies/commit/c69edcc580e129e63173ffae68bdc2e573996968))
+
 ## [0.6.7](https://github.com/cloudquery/policies/compare/transformation-k8s-compliance-premium-v0.6.6...transformation-k8s-compliance-premium-v0.6.7) (2024-10-11)
 
 

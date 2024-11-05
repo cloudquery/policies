@@ -16,7 +16,7 @@ spec:
   write_mode: "append"
   spec:
     bucket: "cq-integration-tests"
-    region: "us-west-1"
+    region: "us-east-1"
     path: "aws-compliance-athena/data/{{TABLE}}/{{UUID}}.{{FORMAT}}"
     format: "parquet"
     write_empty_objects_for_empty_tables: true
