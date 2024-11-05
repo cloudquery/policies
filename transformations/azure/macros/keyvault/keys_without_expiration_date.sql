@@ -6,7 +6,7 @@
 
 {% macro postgres__keyvault_keys_without_expiration_date(framework, check_id) %}
 SELECT 
-       akvk.id                                                          AS resource_id,
+       akvk.kid                                                          AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Ensure that the expiration date is set on all keys (Automated)' AS title,
@@ -24,7 +24,7 @@ FROM azure_keyvault_keyvaults akv
 
 {% macro snowflake__keyvault_keys_without_expiration_date(framework, check_id) %}
 SELECT        
-        akvk.id                                                          AS resource_id,
+        akvk.kid                                                          AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Ensure that the expiration date is set on all keys (Automated)' AS title,
@@ -42,7 +42,7 @@ FROM azure_keyvault_keyvaults akv
 
 {% macro bigquery__keyvault_keys_without_expiration_date(framework, check_id) %}
 SELECT        
-        akvk.id                                                          AS resource_id,
+        akvk.kid                                                          AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Ensure that the expiration date is set on all keys (Automated)' AS title,

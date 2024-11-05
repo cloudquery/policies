@@ -6,7 +6,7 @@
 
 {% macro postgres__keyvault_expiry_set_for_keys_in_non_rbac_key_vaults(framework, check_id) %}
 SELECT 
-       akvk.id                                                          AS resource_id,
+       akvk.kid                                                          AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Ensure that the Expiration Date is set for all Keys in Non-RBAC Key Vaults (Automated)' AS title,
@@ -25,7 +25,7 @@ FROM azure_keyvault_keyvaults akv
 
 {% macro snowflake__keyvault_expiry_set_for_keys_in_non_rbac_key_vaults(framework, check_id) %}
 SELECT        
-        akvk.id                                                          AS resource_id,
+        akvk.kid                                                          AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Ensure that the Expiration Date is set for all Keys in Non-RBAC Key Vaults (Automated)' AS title,
@@ -44,7 +44,7 @@ FROM azure_keyvault_keyvaults akv
 
 {% macro bigquery__keyvault_expiry_set_for_keys_in_non_rbac_key_vaults(framework, check_id) %}
 SELECT        
-        akvk.id                                                          AS resource_id,
+        akvk.kid                                                          AS resource_id,
        '{{framework}}' As framework,
        '{{check_id}}' As check_id,
        'Ensure that the Expiration Date is set for all Keys in Non-RBAC Key Vaults (Automated)' AS title,
