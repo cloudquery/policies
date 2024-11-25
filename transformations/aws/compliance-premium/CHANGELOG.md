@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.14.4](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.3...transformation-aws-compliance-premium-v1.14.4) (2024-11-25)
+
+
+### Bug Fixes
+
+* Athena ci test fix ([#1122](https://github.com/cloudquery/policies/issues/1122)) ([5b53941](https://github.com/cloudquery/policies/commit/5b539412a59e5a0cafd8b1e63b5632b7e6fcee35))
+* **deps:** Update dependency dbt-bigquery to v1.8.3 ([#1130](https://github.com/cloudquery/policies/issues/1130)) ([79e2f64](https://github.com/cloudquery/policies/commit/79e2f64fa7cbc5bf33a6af4bf8c4b45b2e759a6d))
+* **deps:** Update dependency dbt-core to v1.8.8 ([#1131](https://github.com/cloudquery/policies/issues/1131)) ([c69edcc](https://github.com/cloudquery/policies/commit/c69edcc580e129e63173ffae68bdc2e573996968))
+* **deps:** Update dependency dbt-snowflake to v1.8.4 ([#1137](https://github.com/cloudquery/policies/issues/1137)) ([af49721](https://github.com/cloudquery/policies/commit/af49721f8246d920a05b87af735bacc92aceee21))
+
 ## [1.14.3](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.2...transformation-aws-compliance-premium-v1.14.3) (2024-10-25)
 
 
