@@ -20,7 +20,7 @@ SELECT
 FROM azure_keyvault_keyvaults akv
     JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
-      WHERE (akvs.attributes ->> 'enableRBAC')::boolean IS NOT distinct from TRUE
+      WHERE (akv.properties ->> 'enableRbacAuthorization')::boolean IS NOT distinct from TRUE
 {% endmacro %}
 
 {% macro snowflake__keyvault_expiry_set_for_secrets_in_rbac_key_vaults(framework, check_id) %}
@@ -39,7 +39,7 @@ SELECT
 FROM azure_keyvault_keyvaults akv
     JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
-      where akvs.attributes:enableRBAC::boolean = TRUE
+      where akv.properties:enableRbacAuthorization::boolean = TRUE
 {% endmacro %}
 
 {% macro bigquery__keyvault_expiry_set_for_secrets_in_rbac_key_vaults(framework, check_id) %}
@@ -58,5 +58,5 @@ SELECT
 FROM {{ full_table_name("azure_keyvault_keyvaults") }} akv
     JOIN {{ full_table_name("azure_keyvault_secrets") }} akvs
       ON akv._cq_id = akvs._cq_parent_id
-      where CAST( JSON_VALUE(akvs.attributes.enableRBAC) AS BOOL) = TRUE
+      where CAST( JSON_VALUE(akvs.attributes.enableRbacAuthorization) AS BOOL) = TRUE
 {% endmacro %}
