@@ -86,7 +86,7 @@ WITH IndividualRuleStatus AS (
 SELECT
 	'{{framework}}' as framework,
 	'{{check_id}}' as check_id,
-	'Aggregates rules of security groups with ports and IPs including ipv6' as title,	
+	'Security groups should not allow unrestricted access to ports with high risk' as title,
     account_id,
     resource_id,
     CASE
