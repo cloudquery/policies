@@ -39,7 +39,7 @@ SELECT
 FROM azure_keyvault_keyvaults akv
     JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
-      where akv.properties.enableRbacAuthorization::boolean = FALSE
+      where akv.properties:enableRbacAuthorization::boolean = FALSE
 {% endmacro %}
 
 {% macro bigquery__keyvault_expiry_set_for_secrets_in_non_rbac_key_vaults(framework, check_id) %}
