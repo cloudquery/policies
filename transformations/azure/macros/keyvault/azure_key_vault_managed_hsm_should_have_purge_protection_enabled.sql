@@ -11,5 +11,5 @@ SELECT
                OR (properties ->> 'enableSoftDelete')::boolean IS NOT TRUE THEN 'fail'
            ELSE 'pass'
       END                                                                               AS status
-FROM azure_keyvault_keyvault_managed_hsms
+FROM azure_keyvault_managed_hsms
 {% endmacro %}
