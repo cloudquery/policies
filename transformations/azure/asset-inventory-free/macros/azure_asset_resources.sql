@@ -26,7 +26,7 @@ kind
 'unavailable'
 {% endif %} AS kind,
 {% if name_exist %}
-name
+name::text
 {% else %}
 'unavailable'
 {% endif %} AS name,
@@ -58,7 +58,7 @@ kind
 'unavailable'
 {% endif %} AS kind,
 {% if name_exist %}
-name
+name::text
 {% else %}
 'unavailable'
 {% endif %} AS name,
@@ -90,7 +90,7 @@ kind
 'unavailable'
 {% endif %} AS kind,
 {% if name_exist %}
-name
+name::text
 {% else %}
 'unavailable'
 {% endif %} AS name,
