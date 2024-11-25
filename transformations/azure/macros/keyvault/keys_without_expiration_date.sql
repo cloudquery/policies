@@ -12,8 +12,8 @@ SELECT
        'Ensure that the expiration date is set on all keys (Automated)' AS title,
        akv.subscription_id                                              AS subscription_id,
        CASE
-           WHEN (akvk.properties -> 'attributes'->>'enabled')::boolean = TRUE
-            AND (akvk.properties -> 'attributes'->>'exp') IS NULL
+           WHEN (akv.properties -> 'attributes'->>'enabled')::boolean = TRUE
+            AND (akv.properties -> 'attributes'->>'exp') IS NULL
            THEN 'fail'
            ELSE 'pass'
        END                                                              AS status
@@ -30,8 +30,8 @@ SELECT
        'Ensure that the expiration date is set on all keys (Automated)' AS title,
        akv.subscription_id                                              AS subscription_id,
        CASE
-           WHEN (akvk.properties:attributes:enabled)::boolean = TRUE
-            AND (akvk.properties:attributes:exp) IS NULL
+           WHEN (akv.properties:attributes:enabled)::boolean = TRUE
+            AND (akv.properties:attributes:exp) IS NULL
            THEN 'fail'
            ELSE 'pass'
        END                                                              AS status
@@ -48,8 +48,8 @@ SELECT
        'Ensure that the expiration date is set on all keys (Automated)' AS title,
        akv.subscription_id                                              AS subscription_id,
        CASE
-           WHEN CAST( JSON_VALUE(akvk.properties.attributes.enabled) AS BOOL) = TRUE
-            AND JSON_VALUE(akvk.properties.attributes.exp) IS NULL
+           WHEN CAST( JSON_VALUE(akv.properties.attributes.enabled) AS BOOL) = TRUE
+            AND JSON_VALUE(akv.properties.attributes.exp) IS NULL
            THEN 'fail'
            ELSE 'pass'
        END                                                              AS status
