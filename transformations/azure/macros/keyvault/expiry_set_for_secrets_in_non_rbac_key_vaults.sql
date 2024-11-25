@@ -31,7 +31,7 @@ SELECT
        'Ensure that the Expiration Date is set for all Secrets in RBAC Key Vaults (Automated)' AS title,
        akv.subscription_id                                                 AS subscription_id,
        CASE
-           WHEN (akvs..attributes:enabled)::boolean = TRUE
+           WHEN (akvs.attributes:enabled)::boolean = TRUE
             AND (akvs.attributes:exp) IS NULL
            THEN 'fail'
            ELSE 'pass'
