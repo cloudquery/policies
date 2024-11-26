@@ -21,13 +21,13 @@ aws_asset_inventory: # This should match the name in your dbt_project.yml
       dbname: postgres
       schema: public # default schema where dbt will build the models
       threads: 1 # number of threads to use when running in parallel
-    dev-bigquery:
-      type: bigquery
-      method: oauth
-      project: cq-integration-tests
-      dataset: policies_free_ci_test # You can also use "schema" here
-      threads: 4 # Must be a value of 1 or greater
-      location: us-west1
+    # dev-bigquery:
+    #   type: bigquery
+    #   method: oauth
+    #   project: cq-integration-tests
+    #   dataset: policies_free_ci_test # You can also use "schema" here
+    #   threads: 4 # Must be a value of 1 or greater
+    #   location: us-west1
     dev-clickhouse:
       type: clickhouse
       schema: cloudquery
