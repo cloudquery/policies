@@ -90,7 +90,7 @@ kind
 'unavailable'
 {% endif %} AS kind,
 {% if name_exist %}
-name::text
+json_value(name)
 {% else %}
 'unavailable'
 {% endif %} AS name,
