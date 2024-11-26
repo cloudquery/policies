@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.2](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.3.1...transformation-aws-asset-inventory-free-v2.3.2) (2024-11-26)
+
+
+### Bug Fixes
+
+* Remove bigquery from CI test ([#1153](https://github.com/cloudquery/policies/issues/1153)) ([eafc168](https://github.com/cloudquery/policies/commit/eafc168a4b708fedd40d842b81a5190bb66dd6de))
+
 ## [2.3.1](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.3.0...transformation-aws-asset-inventory-free-v2.3.1) (2024-11-01)
 
 
