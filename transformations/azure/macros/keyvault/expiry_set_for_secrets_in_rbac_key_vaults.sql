@@ -12,15 +12,15 @@ SELECT
        'Ensure that the Expiration Date is set for all Secrets in RBAC Key Vaults (Automated)' AS title,
        akv.subscription_id                                                 AS subscription_id,
        CASE
-           WHEN (akvs.properties -> 'attributes'->>'enabled')::boolean = TRUE
-            AND (akvs.properties -> 'attributes'->>'exp') IS NULL
+           WHEN (akvs.attributes ->>'enabled')::boolean = TRUE
+            AND (akvs.attributes ->>'exp') IS NULL
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM azure_keyvault_keyvault akv
-    JOIN azure_keyvault_keyvault_secrets akvs
+FROM azure_keyvault_keyvaults akv
+    JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
-      WHERE (akvs.properties ->> 'enableRBAC')::boolean IS NOT distinct from TRUE
+      WHERE (akv.properties ->> 'enableRbacAuthorization')::boolean IS NOT distinct from TRUE
 {% endmacro %}
 
 {% macro snowflake__keyvault_expiry_set_for_secrets_in_rbac_key_vaults(framework, check_id) %}
@@ -31,15 +31,15 @@ SELECT
        'Ensure that the Expiration Date is set for all Secrets in RBAC Key Vaults (Automated)' AS title,
        akv.subscription_id                                                 AS subscription_id,
        CASE
-           WHEN (akvs.properties:attributes:enabled)::boolean = TRUE
-            AND (akvs.properties:attributes:exp) IS NULL
+           WHEN (akvs.attributes:enabled)::boolean = TRUE
+            AND (akvs.attributes:exp) IS NULL
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM azure_keyvault_keyvault akv
-    JOIN azure_keyvault_keyvault_secrets akvs
+FROM azure_keyvault_keyvaults akv
+    JOIN azure_keyvault_secrets akvs
       ON akv._cq_id = akvs._cq_parent_id
-      where akvs.properties:enableRBAC::boolean = TRUE
+      where akv.properties:enableRbacAuthorization::boolean = TRUE
 {% endmacro %}
 
 {% macro bigquery__keyvault_expiry_set_for_secrets_in_rbac_key_vaults(framework, check_id) %}
@@ -50,13 +50,13 @@ SELECT
        'Ensure that the Expiration Date is set for all Secrets in RBAC Key Vaults (Automated)' AS title,
        akv.subscription_id                                                 AS subscription_id,
        CASE
-           WHEN CAST( JSON_VALUE(akvs.properties.attributes.enabled) AS BOOL) = TRUE
-            AND JSON_VALUE(akvs.properties.attributes.exp) IS NULL
+           WHEN CAST( JSON_VALUE(akvs.attributes.enabled) AS BOOL) = TRUE
+            AND JSON_VALUE(akvs.attributes.exp) IS NULL
            THEN 'fail'
            ELSE 'pass'
        END                                                                 AS status
-FROM {{ full_table_name("azure_keyvault_keyvault") }} akv
-    JOIN {{ full_table_name("azure_keyvault_keyvault_secrets") }} akvs
+FROM {{ full_table_name("azure_keyvault_keyvaults") }} akv
+    JOIN {{ full_table_name("azure_keyvault_secrets") }} akvs
       ON akv._cq_id = akvs._cq_parent_id
-      where CAST( JSON_VALUE(akvs.properties.enableRBAC) AS BOOL) = TRUE
+      where CAST( JSON_VALUE(akvs.attributes.enableRbacAuthorization) AS BOOL) = TRUE
 {% endmacro %}

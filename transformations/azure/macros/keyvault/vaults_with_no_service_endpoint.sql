@@ -4,7 +4,7 @@ WITH subs AS (
     FROM azure_network_virtual_networks
 ),
 secured_vaults AS (SELECT v._cq_id, nvr->>'id' AS subnet_id
-                        FROM azure_keyvault_keyvault  v,
+                        FROM azure_keyvault_keyvaults  v,
                              jsonb_array_elements(v.properties->'networkAcls'->'virtualNetworkRules') AS nvr
                                  LEFT JOIN subs
                                            ON nvr->>'id' = subs.subnet->>'id'
@@ -21,6 +21,6 @@ SELECT
   case
     when sv._cq_id IS NULL then 'fail' else 'pass'
   end
-FROM azure_keyvault_keyvault v
+FROM azure_keyvault_keyvaults v
   LEFT JOIN secured_vaults sv ON v._cq_id = sv._cq_id
 {% endmacro %}
