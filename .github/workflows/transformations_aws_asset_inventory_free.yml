@@ -125,11 +125,11 @@ jobs:
         if: needs.prepare.outputs.snowflake == 'true'
         env:
           SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}:${{ secrets.SNOW_PASSWORD }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
-      # - name: Test BigQuery
-      #   if: needs.prepare.outputs.bigquery == 'true'
-      #   run: |
-      #     cloudquery migrate tests/bigquery.yml
-      #     dbt run --target dev-bigquery --profiles-dir ./tests
+      - name: Test BigQuery
+        if: needs.prepare.outputs.bigquery == 'true'
+        run: |
+          cloudquery migrate tests/bigquery.yml
+          dbt run --target dev-bigquery --profiles-dir ./tests
       - name: Start ClickHouse Container
         if: needs.prepare.outputs.clickhouse == 'true'
         run: |
