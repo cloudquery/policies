@@ -5,7 +5,7 @@ WITH
     ),
     logging_enabled AS (
         SELECT DISTINCT a._cq_id
-  FROM azure_keyvault_keyvault_managed_hsms a
+  FROM azure_keyvault_managed_hsms a
     LEFT JOIN settings_with_logs s ON a.id = s.resource_id
     WHERE (s.logs->>'enabled')::boolean IS TRUE
     AND s.logs->>'category' = 'AuditEvent'
@@ -22,6 +22,6 @@ SELECT
   case
     when e._cq_id is null then 'fail' else 'pass'
   end
-FROM azure_keyvault_keyvault_managed_hsms a
+FROM azure_keyvault_managed_hsms a
      LEFT JOIN logging_enabled e ON a._cq_id = e._cq_id
 {% endmacro %}

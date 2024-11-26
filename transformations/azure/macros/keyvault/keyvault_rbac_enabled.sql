@@ -16,7 +16,7 @@ SELECT
         THEN 'fail'
         ELSE 'pass'
     END                                                                      AS status
-FROM azure_keyvault_keyvault
+FROM azure_keyvault_keyvaults
 {% endmacro %}
 
 {% macro snowflake__keyvault_rbac_enabled(framework, check_id) %}
@@ -31,7 +31,7 @@ SELECT
         THEN 'fail'
         ELSE 'pass'
     END                                                                      AS status
-FROM azure_keyvault_keyvault
+FROM azure_keyvault_keyvaults
 {% endmacro %}
 
 {% macro bigquery__keyvault_rbac_enabled(framework, check_id) %}
@@ -46,6 +46,6 @@ SELECT
         THEN 'fail'
         ELSE 'pass'
     END                                                                      AS status
-FROM {{ full_table_name("azure_keyvault_keyvault") }}
+FROM {{ full_table_name("azure_keyvault_keyvaults") }}
 {% endmacro %}
 

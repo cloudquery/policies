@@ -21,7 +21,7 @@ SELECT
         THEN 'pass'
         ELSE 'fail'
     END                                                                      AS status
-FROM azure_keyvault_keyvault
+FROM azure_keyvault_keyvaults
 {% endmacro %}
 
 
@@ -42,7 +42,7 @@ SELECT
         THEN 'pass'
         ELSE 'fail'
     END                                                                      AS status
-FROM azure_keyvault_keyvault
+FROM azure_keyvault_keyvaults
 {% endmacro %}
 
 {% macro bigquery__keyvault_vault_private_link_used(framework, check_id) %}
@@ -62,6 +62,6 @@ SELECT
         THEN 'pass'
         ELSE 'fail'
     END                                                                      AS status
-FROM {{ full_table_name("azure_keyvault_keyvault") }}
+FROM {{ full_table_name("azure_keyvault_keyvaults") }}
 {% endmacro %}
 

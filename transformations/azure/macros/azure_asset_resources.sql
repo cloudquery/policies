@@ -110,7 +110,7 @@
             'unavailable'
         {% endif %} AS location,
         {% if run_query(name_exists_query).rows %}
-            name
+            name::text
             {% else %}
             NULL
         {% endif %} AS name, 
