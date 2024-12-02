@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.11](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.10...transformation-azure-compliance-premium-v0.8.11) (2024-12-01)
+
+
+### Bug Fixes
+
+* Renamed azure keyvault tables ([#1123](https://github.com/cloudquery/policies/issues/1123)) ([1dd1d10](https://github.com/cloudquery/policies/commit/1dd1d109d64bb64dbfb82f1a36c52c2b0fa93b44))
+
 ## [0.8.10](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.9...transformation-azure-compliance-premium-v0.8.10) (2024-11-04)
 
 
