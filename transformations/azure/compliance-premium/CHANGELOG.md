@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.12](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.11...transformation-azure-compliance-premium-v0.8.12) (2024-12-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-core to v1.8.9 ([#1159](https://github.com/cloudquery/policies/issues/1159)) ([ce0dcc4](https://github.com/cloudquery/policies/commit/ce0dcc465a01e4a6ec5504fae5be3f5201bf5364))
+
 ## [0.8.11](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.10...transformation-azure-compliance-premium-v0.8.11) (2024-12-01)
 
 
