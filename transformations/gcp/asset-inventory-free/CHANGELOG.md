@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/cloudquery/policies/compare/transformation-gcp-asset-inventory-free-v1.3.2...transformation-gcp-asset-inventory-free-v1.3.3) (2024-12-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-core to v1.8.9 ([#1159](https://github.com/cloudquery/policies/issues/1159)) ([ce0dcc4](https://github.com/cloudquery/policies/commit/ce0dcc465a01e4a6ec5504fae5be3f5201bf5364))
+
 ## [1.3.2](https://github.com/cloudquery/policies/compare/transformation-gcp-asset-inventory-free-v1.3.1...transformation-gcp-asset-inventory-free-v1.3.2) (2024-11-04)
 
 
