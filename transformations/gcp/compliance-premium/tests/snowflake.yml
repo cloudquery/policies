@@ -2,7 +2,7 @@ kind: source
 spec:
   name: gcp
   path: cloudquery/gcp
-  version: "v17.2.0" # latest version of source gcp plugin
+  version: "v17.3.1" # latest version of source gcp plugin
   destinations: ["snowflake"]
   tables: ["*"]
 ---
@@ -11,7 +11,7 @@ spec:
   name: snowflake
   path: cloudquery/snowflake
   registry: cloudquery
-  version: "v4.3.6" # latest version of destination snowflake plugin
+  version: "v4.4.0" # latest version of destination snowflake plugin
   migrate_mode: forced
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
