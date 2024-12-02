@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4](https://github.com/cloudquery/policies/compare/transformation-azure-asset-inventory-free-v1.3.3...transformation-azure-asset-inventory-free-v1.3.4) (2024-12-02)
+
+
+### Bug Fixes
+
+* Renamed azure keyvault tables ([#1123](https://github.com/cloudquery/policies/issues/1123)) ([1dd1d10](https://github.com/cloudquery/policies/commit/1dd1d109d64bb64dbfb82f1a36c52c2b0fa93b44))
+
 ## [1.3.3](https://github.com/cloudquery/policies/compare/transformation-azure-asset-inventory-free-v1.3.2...transformation-azure-asset-inventory-free-v1.3.3) (2024-11-04)
 
 
