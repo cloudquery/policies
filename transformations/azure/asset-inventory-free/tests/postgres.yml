@@ -2,7 +2,7 @@ kind: source
 spec:
   name: azure
   path: cloudquery/azure
-  version: "v16.0.1" # latest version of source azure plugin
+  version: "v16.0.2" # latest version of source azure plugin
   destinations: ["postgresql"]
   tables: ["*"]
 ---
