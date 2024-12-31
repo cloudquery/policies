@@ -7,7 +7,7 @@
 {% macro postgres__recovery_lightsail_disk_snapshots(framework, check_id) %}
 with disk_snapshots_cost as (
 SELECT line_item_resource_id as resource_id, SUM(line_item_unblended_cost) as unblended_cost
-FROM {{ var('cost_usage_table') }}
+FROM {{ adapter.quote(var('cost_usage_table')) }}
 WHERE line_item_product_code = 'Amazon Lightsail'
 GROUP BY line_item_resource_id
 )

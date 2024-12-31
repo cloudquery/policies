@@ -4,7 +4,7 @@ select
     line_item_usage_type,
     sum(cast(line_item_usage_amount AS double precision)) as sum_line_item_usage_amount_hours
 from 
-  {{ var('cost_usage_table') }}
+  {{ adapter.quote(var('cost_usage_table')) }}
 where 
   line_item_line_item_type like '%Usage%'
 group by

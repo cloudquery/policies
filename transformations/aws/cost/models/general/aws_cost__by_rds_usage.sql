@@ -14,7 +14,7 @@ SELECT
   END) AS sum_line_item_usage_amount, 
   SUM(line_item_unblended_cost) AS sum_line_item_unblended_cost 
 FROM 
-  {{ var('cost_usage_table') }} 
+  {{ adapter.quote(var('cost_usage_table')) }} 
 WHERE  
   line_item_product_code = 'Amazon Relational Database Service'
 GROUP BY 

@@ -1,7 +1,7 @@
 SELECT
   DATE(line_item_usage_end_date) AS usage_date,
   SUM(line_item_unblended_cost) AS total_cost
-FROM {{ var('cost_usage_table') }}
+FROM {{ adapter.quote(var('cost_usage_table')) }}
 WHERE
   line_item_product_code = 'AmazonEC2'
   AND

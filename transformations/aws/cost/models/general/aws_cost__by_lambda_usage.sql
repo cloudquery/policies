@@ -17,7 +17,7 @@ SELECT
   pricing_term,
   SUM(CAST(line_item_usage_amount AS DOUBLE PRECISION)) AS sum_line_item_usage_amount,
   SUM(line_item_unblended_cost) AS sum_line_item_unblended_cost
-FROM {{ var('cost_usage_table') }}
+FROM {{ adapter.quote(var('cost_usage_table')) }}
   WHERE 
   line_item_product_code = 'AWS Lambda'
   AND line_item_line_item_type LIKE '%Usage%'
