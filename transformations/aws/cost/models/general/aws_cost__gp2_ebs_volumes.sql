@@ -13,7 +13,7 @@ FROM (
 	SELECT
 	  line_item_resource_id, line_item_product_code,
     SUM(line_item_unblended_cost) AS cost
-	FROM {{ var('cost_usage_table') }}
+	FROM {{ adapter.quote(var('cost_usage_table')) }}
 	WHERE
     line_item_resource_id LIKE 'vol-%'
 	GROUP BY

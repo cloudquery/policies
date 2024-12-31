@@ -1,5 +1,5 @@
 SELECT product_region_code, SUM(line_item_unblended_cost) as cost
-FROM {{ var('cost_usage_table') }}
+FROM {{ adapter.quote(var('cost_usage_table')) }}
 where line_item_line_item_type = 'Usage'
 AND line_item_product_code = 'AmazonEC2'
 AND line_item_resource_id like 'i-%'

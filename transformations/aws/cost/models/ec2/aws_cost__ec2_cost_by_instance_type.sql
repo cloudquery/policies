@@ -2,7 +2,7 @@ SELECT
   ec2.instance_type,
   SUM(cu.line_item_unblended_cost) AS cost
 FROM
-  {{ var('cost_usage_table') }} AS cu
+  {{ adapter.quote(var('cost_usage_table')) }} AS cu
 JOIN
   aws_ec2_instances AS ec2
 ON

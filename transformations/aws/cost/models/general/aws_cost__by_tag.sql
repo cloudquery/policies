@@ -7,7 +7,7 @@ with raw_tags as
     EXTRACT(month FROM bill_billing_period_start_date) AS month,
 	line_item_unblended_cost
 FROM 
-    {{ var('cost_usage_table') }}
+    {{ adapter.quote(var('cost_usage_table')) }}
 LEFT JOIN LATERAL (
     SELECT
         jsonb_array_elements(resource_tags::jsonb) ->> 'key' AS aws_tag_key,
