@@ -3,7 +3,7 @@ spec:
   name: azure
   path: cloudquery/azure
   registry: cloudquery
-  version: "v16.1.0" # latest version of source azure plugin
+  version: "v16.2.0" # latest version of source azure plugin
   destinations: ["postgresql"]
   tables: ["*"]
 ---

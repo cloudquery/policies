@@ -3,7 +3,7 @@ spec:
   name: gcp
   path: cloudquery/gcp
   registry: cloudquery
-  version: "v17.4.2" # latest version of source gcp plugin
+  version: "v17.5.0" # latest version of source gcp plugin
   destinations: ["snowflake"]
   tables: ["*"]
 ---
