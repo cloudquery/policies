@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.1.8...transformation-aws-cost-v1.2.0) (2025-01-07)
+
+
+### Features
+
+* Support cost table names with symbols ([4bde479](https://github.com/cloudquery/policies/commit/4bde479d4d791d54b7600e227bf6dfd2d7bb503a))
+
 ## [1.1.8](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.1.7...transformation-aws-cost-v1.1.8) (2024-12-02)
 
 
