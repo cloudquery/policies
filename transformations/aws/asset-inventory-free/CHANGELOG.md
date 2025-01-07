@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.3](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.3.2...transformation-aws-asset-inventory-free-v2.3.3) (2025-01-07)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.9.0 ([#1195](https://github.com/cloudquery/policies/issues/1195)) ([79ef526](https://github.com/cloudquery/policies/commit/79ef5261591279fefd5bda0aff5d7ceaf4f7f849))
+* **deps:** Update dependency dbt-clickhouse to v1.8.6 ([#1192](https://github.com/cloudquery/policies/issues/1192)) ([95e1986](https://github.com/cloudquery/policies/commit/95e19862137a06743cfa9145ee6ee741b5e52993))
+
 ## [2.3.2](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.3.1...transformation-aws-asset-inventory-free-v2.3.2) (2024-12-02)
 
 
