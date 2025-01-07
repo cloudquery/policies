@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.13](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.12...transformation-azure-compliance-premium-v0.8.13) (2025-01-07)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.9.0 ([#1195](https://github.com/cloudquery/policies/issues/1195)) ([79ef526](https://github.com/cloudquery/policies/commit/79ef5261591279fefd5bda0aff5d7ceaf4f7f849))
+
 ## [0.8.12](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.11...transformation-azure-compliance-premium-v0.8.12) (2024-12-02)
 
 
