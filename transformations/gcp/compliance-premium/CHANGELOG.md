@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.11](https://github.com/cloudquery/policies/compare/transformation-gcp-compliance-premium-v0.7.10...transformation-gcp-compliance-premium-v0.7.11) (2025-01-07)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.9.0 ([#1195](https://github.com/cloudquery/policies/issues/1195)) ([79ef526](https://github.com/cloudquery/policies/commit/79ef5261591279fefd5bda0aff5d7ceaf4f7f849))
+
 ## [0.7.10](https://github.com/cloudquery/policies/compare/transformation-gcp-compliance-premium-v0.7.9...transformation-gcp-compliance-premium-v0.7.10) (2024-12-02)
 
 
