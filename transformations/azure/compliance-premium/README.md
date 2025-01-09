@@ -113,7 +113,7 @@ spec:
   registry: cloudquery # The registry from which the Azure plugin is sourced.
   version: "14.6.3" # The version of the Azure plugin.
   tables: ["azure_monitor_activity_log_alerts",
-"azure_keyvault_keyvault",
+"azure_keyvault_keyvaults",
 "azure_appservice_web_app_auth_settings",
 "azure_storage_accounts",
 "azure_sql_server_admins",
