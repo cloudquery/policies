@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.14](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.13...transformation-azure-compliance-premium-v0.8.14) (2025-01-10)
+
+
+### Bug Fixes
+
+* Update table name ([#1211](https://github.com/cloudquery/policies/issues/1211)) ([43a9491](https://github.com/cloudquery/policies/commit/43a9491b7d91556a721e13a8e9d7a0af44550874))
+
 ## [0.8.13](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.12...transformation-azure-compliance-premium-v0.8.13) (2025-01-07)
 
 
