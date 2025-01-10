@@ -111,9 +111,9 @@ spec:
   name: azure # The source type, in this case, Azure.
   path: cloudquery/azure # The plugin path for handling Azure sources.
   registry: cloudquery # The registry from which the Azure plugin is sourced.
-  version: "14.6.3" # The version of the Azure plugin.
+  version: "17.0.0" # The version of the Azure plugin.
   tables: ["azure_monitor_activity_log_alerts",
-"azure_keyvault_keyvault",
+"azure_keyvault_keyvaults",
 "azure_appservice_web_app_auth_settings",
 "azure_storage_accounts",
 "azure_sql_server_admins",
@@ -136,14 +136,14 @@ spec:
 "azure_storage_containers",
 "azure_security_auto_provisioning_settings",
 "azure_sql_server_databases",
-"azure_keyvault_keyvault_secrets",
+"azure_keyvault_secrets",
 "azure_monitor_diagnostic_settings",
 "azure_sql_server_vulnerability_assessments",
 "azure_storage_blob_services",
 "azure_network_watcher_flow_logs",
 "azure_mysql_servers",
 "azure_postgresql_servers",
-"azure_keyvault_keyvault_keys",
+"azure_keyvault_keys",
 "azure_sql_server_blob_auditing_policies",
 "azure_sql_server_encryption_protectors",
 "azure_policy_assignments",
