@@ -74,8 +74,6 @@ with
         {{ union() }}
         ({{ s3_cross_region_replication('pci_dss_v3.2.1','s3.3') }})
         {{ union() }}
-        ({{ s3_server_side_encryption_enabled('pci_dss_v3.2.1','s3.4') }})
-        {{ union() }}
         ({{ deny_http_requests('pci_dss_v3.2.1','s3.5') }})
         {{ union() }}
         ({{ account_level_public_access_blocks('pci_dss_v3.2.1','s3.6') }})
