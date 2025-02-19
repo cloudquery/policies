@@ -906,7 +906,6 @@ tables: ["aws_cloudfront_distributions",
 - ✅ `s3.1`: `account_level_public_access_blocks`
 - ✅ `s3.2`: `publicly_readable_buckets`
 - ✅ `s3.3`: `publicly_writable_buckets`
-- ✅ `s3.4`: `s3_server_side_encryption_enabled`
 - ✅ `s3.5`: `deny_http_requests`
 - ✅ `s3.6`: `restrict_cross_account_actions`
 - ✅ `s3.8`: `s3_bucket_level_public_access_prohibited`
@@ -984,7 +983,6 @@ tables: ["aws_cloudfront_distributions",
 - ✅ `s3.1`: `publicly_writable_buckets`
 - ✅ `s3.2`: `publicly_readable_buckets`
 - ✅ `s3.3`: `s3_cross_region_replication`
-- ✅ `s3.4`: `s3_server_side_encryption_enabled`
 - ✅ `s3.5`: `deny_http_requests`
 - ✅ `s3.6`: `account_level_public_access_blocks`
 - ✅ `sagemaker.1`: `sagemaker_notebook_instance_direct_internet_access_disabled`

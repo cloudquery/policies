@@ -366,8 +366,6 @@ with
     {{ union() }}
     ({{ s3_logs_encrypted('foundational_security','codebuild.3') }})
     {{ union() }}
-    ({{ s3_server_side_encryption_enabled('foundational_security','s3.4') }})
-    {{ union() }}
     ({{ s3_version_lifecycle_policy_check('foundational_security','s3.10') }})
     {{ union() }}
     ({{ sagemaker_notebook_instance_direct_internet_access_disabled('foundational_security','sagemaker.1') }})
