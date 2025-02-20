@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.2.0...transformation-aws-cost-v1.2.1) (2025-02-20)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.9.0 ([#1223](https://github.com/cloudquery/policies/issues/1223)) ([3d67019](https://github.com/cloudquery/policies/commit/3d67019d93d2a1903f71925b7181300e71180d8b))
+
 ## [1.2.0](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.1.8...transformation-aws-cost-v1.2.0) (2025-01-07)
 
 
