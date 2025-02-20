@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.15](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.14...transformation-azure-compliance-premium-v0.8.15) (2025-02-20)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.9.1 ([#1220](https://github.com/cloudquery/policies/issues/1220)) ([d9e5378](https://github.com/cloudquery/policies/commit/d9e537805f88fa0948ca7f1fe703df5766761ba3))
+* **deps:** Update dependency dbt-postgres to v1.9.0 ([#1223](https://github.com/cloudquery/policies/issues/1223)) ([3d67019](https://github.com/cloudquery/policies/commit/3d67019d93d2a1903f71925b7181300e71180d8b))
+* **deps:** Update dependency dbt-snowflake to v1.9.1 ([#1224](https://github.com/cloudquery/policies/issues/1224)) ([a6b729b](https://github.com/cloudquery/policies/commit/a6b729ba6d36357f3bc103a56d704df06979998c))
+
 ## [0.8.14](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.13...transformation-azure-compliance-premium-v0.8.14) (2025-01-10)
 
 
