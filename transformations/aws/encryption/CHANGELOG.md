@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.10](https://github.com/cloudquery/policies/compare/transformation-aws-encryption-v2.0.9...transformation-aws-encryption-v2.0.10) (2025-02-20)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-postgres to v1.9.0 ([#1223](https://github.com/cloudquery/policies/issues/1223)) ([3d67019](https://github.com/cloudquery/policies/commit/3d67019d93d2a1903f71925b7181300e71180d8b))
+
 ## [2.0.9](https://github.com/cloudquery/policies/compare/transformation-aws-encryption-v2.0.8...transformation-aws-encryption-v2.0.9) (2024-12-02)
 
 
