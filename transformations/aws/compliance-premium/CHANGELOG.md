@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.14.7](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.6...transformation-aws-compliance-premium-v1.14.7) (2025-02-19)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-bigquery to v1.9.1 ([#1220](https://github.com/cloudquery/policies/issues/1220)) ([d9e5378](https://github.com/cloudquery/policies/commit/d9e537805f88fa0948ca7f1fe703df5766761ba3))
+* **deps:** Update dependency dbt-postgres to v1.9.0 ([#1223](https://github.com/cloudquery/policies/issues/1223)) ([3d67019](https://github.com/cloudquery/policies/commit/3d67019d93d2a1903f71925b7181300e71180d8b))
+* **deps:** Update dependency dbt-snowflake to v1.9.1 ([#1224](https://github.com/cloudquery/policies/issues/1224)) ([a6b729b](https://github.com/cloudquery/policies/commit/a6b729ba6d36357f3bc103a56d704df06979998c))
+* Removed deprecated S3.4 check ([#1227](https://github.com/cloudquery/policies/issues/1227)) ([133ae1a](https://github.com/cloudquery/policies/commit/133ae1a2cd05efd1bb795351bdca78692a45e2f0))
+
 ## [1.14.6](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.5...transformation-aws-compliance-premium-v1.14.6) (2025-01-07)
 
 
