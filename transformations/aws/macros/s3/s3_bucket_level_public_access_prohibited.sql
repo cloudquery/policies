@@ -12,10 +12,10 @@ select
     b.account_id,
     b.arn AS resource_id,
     CASE
-    when (pab.public_access_block_configuration -> 'block_public_acls')::boolean
-    and (pab.public_access_block_configuration -> 'block_public_policy')::boolean
-    and (pab.public_access_block_configuration -> 'ignore_public_acls')::boolean
-    and (pab.public_access_block_configuration -> 'restrict_public_buckets')::boolean
+    when (pab.public_access_block_configuration -> 'BlockPublicAcls')::boolean
+    and (pab.public_access_block_configuration -> 'BlockPublicPolicy')::boolean
+    and (pab.public_access_block_configuration -> 'IgnorePublicAcls')::boolean
+    and (pab.public_access_block_configuration -> 'RestrictPublicBuckets')::boolean
 	THEN 'pass'
         ELSE 'fail'
     END AS status
@@ -33,10 +33,10 @@ select
     b.account_id,
     b.arn AS resource_id,
     CASE
-    when pab.public_access_block_configuration:block_public_acls
-    and pab.public_access_block_configuration:block_public_policy
-    and pab.public_access_block_configuration:ignore_public_acls
-    and pab.public_access_block_configuration:restrict_public_buckets THEN 'pass'
+    when pab.public_access_block_configuration:BlockPublicAcls
+    and pab.public_access_block_configuration:BlockPublicPolicy
+    and pab.public_access_block_configuration:IgnorePublicAcls
+    and pab.public_access_block_configuration:RestrictPublicBuckets THEN 'pass'
         ELSE 'fail'
     END AS status
 FROM
@@ -53,10 +53,10 @@ select
     b.account_id,
     b.arn AS resource_id,
     CASE
-    when CAST( JSON_VALUE(pab.public_access_block_configuration.block_public_acls) AS BOOL)
-    and CAST( JSON_VALUE(pab.public_access_block_configuration.block_public_policy) AS BOOL)
-    and CAST( JSON_VALUE(pab.public_access_block_configuration.ignore_public_acls) AS BOOL)
-    and CAST( JSON_VALUE(pab.public_access_block_configuration.restrict_public_buckets) AS BOOL)
+    when CAST( JSON_VALUE(pab.public_access_block_configuration.BlockPublicAcls) AS BOOL)
+    and CAST( JSON_VALUE(pab.public_access_block_configuration.BlockPublicPolicy) AS BOOL)
+    and CAST( JSON_VALUE(pab.public_access_block_configuration.IgnorePublicAcls) AS BOOL)
+    and CAST( JSON_VALUE(pab.public_access_block_configuration.RestrictPublicBuckets) AS BOOL)
     THEN 'pass'
         ELSE 'fail'
     END AS status
@@ -76,10 +76,10 @@ select distinct
     b.account_id,
     b.arn AS resource_id,
     CASE
-    when cast(json_extract_scalar(pab.public_access_block_configuration, '$.block_public_acls') as boolean)
-    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.block_public_policy') as boolean)
-    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.ignore_public_acls') as boolean)
-    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.restrict_public_buckets') as boolean) THEN 'pass'
+    when cast(json_extract_scalar(pab.public_access_block_configuration, '$.BlockPublicAcls') as boolean)
+    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.BlockPublicPolicy') as boolean)
+    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.IgnorePublicAcls') as boolean)
+    and cast(json_extract_scalar(pab.public_access_block_configuration, '$.RestrictPublicBuckets') as boolean) THEN 'pass'
         ELSE 'fail'
     END AS status
 FROM
