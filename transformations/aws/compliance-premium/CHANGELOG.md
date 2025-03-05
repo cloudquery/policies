@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.8](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.7...transformation-aws-compliance-premium-v1.14.8) (2025-03-04)
+
+
+### Bug Fixes
+
+* S3 bucket level public access check fix ([#1245](https://github.com/cloudquery/policies/issues/1245)) ([759ba2d](https://github.com/cloudquery/policies/commit/759ba2d9971619ec3151c7443f3aec5dbafb227d))
+
 ## [1.14.7](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.6...transformation-aws-compliance-premium-v1.14.7) (2025-02-19)
 
 
