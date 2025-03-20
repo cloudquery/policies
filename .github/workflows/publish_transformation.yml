@@ -121,7 +121,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v4
         with:
-          version: v6.15.5
+          version: v6.16.0
       - name: Migrate DB Postgres
         if: needs.prepare.outputs.postgres == 'true'
         run: cloudquery migrate tests/postgres.yml
@@ -175,7 +175,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@v4
         with:
-          version: v6.15.5
+          version: v6.16.0
       - name: Publish tranformation
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
