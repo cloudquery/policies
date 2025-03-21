@@ -19,9 +19,6 @@ SELECT DISTINCT
   snapshot_id as resource_id,
   case when
     "group" = 'all'
-    -- this is under question because
-    -- trusted accounts(user_id) do not violate this control
-        OR user_id IS DISTINCT FROM ''
     then 'fail'
     else 'pass'
   end as status
@@ -45,9 +42,6 @@ SELECT DISTINCT
   snapshot_id as resource_id,
   case when
     "group" = 'all'
-    -- this is under question because
-    -- trusted accounts(user_id) do not violate this control
-        OR user_id IS DISTINCT FROM ''
     then 'fail'
     else 'pass'
   end as status
@@ -74,9 +68,6 @@ SELECT DISTINCT
   snapshot_id as resource_id,
   case when
     JSON_VALUE(groupa) = 'all'
-    -- this is under question because
-    -- trusted accounts(user_id) do not violate this control
-        OR JSON_VALUE(user_id) IS DISTINCT FROM ''
     then 'fail'
     else 'pass'
   end as status
@@ -102,9 +93,6 @@ SELECT DISTINCT
     snapshot_id AS resource_id,
     CASE WHEN
         "group" = 'all'
-        -- this is under question because
-        -- trusted accounts(user_id) do not violate this control
-        OR user_id IS NOT NULL AND user_id <> ''
     THEN 'fail'
     ELSE 'pass'
     END AS status
