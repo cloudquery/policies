@@ -13,12 +13,18 @@ with flat_containers as (
                 WHEN (container_definition ->> 'readonlyRootFilesystem')::BOOLEAN = FALSE
                 OR container_definition ->> 'readonlyRootFilesystem' IS NULL THEN 1
                 ELSE 0
-            END AS status
+            END AS status,
+            task_role_arn,
+            max(revision) AS latest_revision
         FROM
             aws_ecs_task_definitions,
 			JSONB_ARRAY_ELEMENTS(container_definitions) as container_definition
         WHERE
             status = 'ACTIVE'
+        GROUP BY
+            arn,
+            account_id,
+            task_role_arn
     )
 select
     '{{framework}}' As framework,
@@ -43,12 +49,18 @@ with flat_containers as (
                 WHEN container_definition.value:readonlyRootFilesystem::BOOLEAN = FALSE
                 OR container_definition.value:readonlyRootFilesystem IS NULL THEN 1
                 ELSE 0
-            END AS status
+            END AS status,
+            task_role_arn,
+            max(revision) AS latest_revision
         FROM
             aws_ecs_task_definitions,
             LATERAL FLATTEN(input => container_definitions) AS container_definition
         WHERE
             status = 'ACTIVE'
+        GROUP BY
+            arn,
+            account_id,
+            task_role_arn
     )
 select
     '{{framework}}' As framework,
@@ -73,12 +85,18 @@ with flat_containers as (
                 WHEN CAST( JSON_VALUE(container_definition.readonlyRootFilesystem) AS BOOL) = FALSE
                 OR JSON_VALUE(container_definition.readonlyRootFilesystem) IS NULL THEN 1
                 ELSE 0
-            END AS status
+            END AS status,
+            task_role_arn,
+            max(revision) AS latest_revision
         FROM
             {{ full_table_name("aws_ecs_task_definitions") }},
             UNNEST(JSON_QUERY_ARRAY(container_definitions)) AS container_definition
         WHERE
             status = 'ACTIVE'
+        GROUP BY
+            arn,
+            account_id,
+            task_role_arn
     )
 select
     '{{framework}}' As framework,
@@ -104,12 +122,18 @@ with flat_containers as (
                 WHEN cast(json_extract_scalar(container_definition, '$.readonlyRootFilesystem') as BOOLEAN) = FALSE
                 OR json_extract_scalar(container_definition, '$.readonlyRootFilesystem') IS NULL THEN 1
                 ELSE 0
-            END AS status
+            END AS status,
+            task_role_arn,
+            max(revision) AS latest_revision
         FROM
             aws_ecs_task_definitions,
             unnest(cast(json_parse(container_definitions) as array(json))) as t(container_definition)
         WHERE
             status = 'ACTIVE'
+        GROUP BY
+            arn,
+            account_id,
+            task_role_arn
     )
 select
     '{{framework}}' As framework,
