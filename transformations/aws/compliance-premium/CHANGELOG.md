@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.14.9](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.8...transformation-aws-compliance-premium-v1.14.9) (2025-03-21)
+
+
+### Bug Fixes
+
+* Don't include null resources in EC2.2 check ([1554ebe](https://github.com/cloudquery/policies/commit/1554ebe8781c4fc8eacb44fea6b3419606099cc1))
+* EC2.1 EBS. Make snapshots group check stricter ([1554ebe](https://github.com/cloudquery/policies/commit/1554ebe8781c4fc8eacb44fea6b3419606099cc1))
+* ECS.5. Only check latest active versions of ECS task definitions ([1554ebe](https://github.com/cloudquery/policies/commit/1554ebe8781c4fc8eacb44fea6b3419606099cc1))
+* Remove deprecated `cloudfront.2` check ([#1262](https://github.com/cloudquery/policies/issues/1262)) ([3ec4f74](https://github.com/cloudquery/policies/commit/3ec4f747f1d618b849b7d18440cb036ac5d33f69))
+
 ## [1.14.8](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.7...transformation-aws-compliance-premium-v1.14.8) (2025-03-04)
 
 
