@@ -742,7 +742,6 @@ tables: ["aws_cloudfront_distributions",
 - ✅ `awsconfig.1`: `config_enabled_all_regions`
 - ✅ `cloudformation.1`: `cloudformation_stack_notification_check`
 - ✅ `cloudfront.1`: `default_root_object_configured`
-- ✅ `cloudfront.2`: `origin_access_identity_enabled`
 - ✅ `cloudfront.3`: `viewer_policy_https`
 - ✅ `cloudfront.4`: `origin_failover_enabled`
 - ✅ `cloudfront.5`: `access_logs_enabled`

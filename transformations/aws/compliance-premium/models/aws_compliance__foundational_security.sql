@@ -278,8 +278,6 @@ with
     {{ union() }}
     ({{ not_imdsv2_instances('foundational_security','ec2.8') }})
     {{ union() }}
-    ({{ origin_access_identity_enabled('foundational_security','cloudfront.2') }})
-    {{ union() }}
     ({{ origin_failover_enabled('foundational_security','cloudfront.4') }})
     {{ union() }}
     ({{ paravirtual_instances_should_not_be_used('foundational_security','ec2.24') }})
