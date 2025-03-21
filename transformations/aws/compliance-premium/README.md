@@ -1012,3 +1012,4 @@ tables: ["aws_cloudfront_distributions",
 - ✅ `Redshift`: `cluster_publicly_accessible`
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
 
+
