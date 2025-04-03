@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.16](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.15...transformation-azure-compliance-premium-v0.8.16) (2025-04-03)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-snowflake to v1.9.2 ([#1271](https://github.com/cloudquery/policies/issues/1271)) ([6234e26](https://github.com/cloudquery/policies/commit/6234e26e66af534c5fe480e04ce9974942c2bad0))
+
 ## [0.8.15](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.14...transformation-azure-compliance-premium-v0.8.15) (2025-02-20)
 
 
