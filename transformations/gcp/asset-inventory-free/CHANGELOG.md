@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.6](https://github.com/cloudquery/policies/compare/transformation-gcp-asset-inventory-free-v1.3.5...transformation-gcp-asset-inventory-free-v1.3.6) (2025-04-03)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-snowflake to v1.9.2 ([#1271](https://github.com/cloudquery/policies/issues/1271)) ([6234e26](https://github.com/cloudquery/policies/commit/6234e26e66af534c5fe480e04ce9974942c2bad0))
+
 ## [1.3.5](https://github.com/cloudquery/policies/compare/transformation-gcp-asset-inventory-free-v1.3.4...transformation-gcp-asset-inventory-free-v1.3.5) (2025-02-20)
 
 
