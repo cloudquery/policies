@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.13](https://github.com/cloudquery/policies/compare/transformation-gcp-compliance-premium-v0.7.12...transformation-gcp-compliance-premium-v0.7.13) (2025-04-03)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-snowflake to v1.9.2 ([#1271](https://github.com/cloudquery/policies/issues/1271)) ([6234e26](https://github.com/cloudquery/policies/commit/6234e26e66af534c5fe480e04ce9974942c2bad0))
+
 ## [0.7.12](https://github.com/cloudquery/policies/compare/transformation-gcp-compliance-premium-v0.7.11...transformation-gcp-compliance-premium-v0.7.12) (2025-02-20)
 
 
