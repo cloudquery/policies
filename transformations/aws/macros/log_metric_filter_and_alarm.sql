@@ -22,7 +22,7 @@ tes as (
 select
     t.account_id,
     t.region,
-    t.cloud_watch_logs_log_group_arn,
+    t.cloud_watch_logs_log_group_arn as resource_id,
     mf.filter_pattern as pattern
 from aws_cloudtrail_trails t
 inner join tes on t.arn = tes.trail_arn
@@ -57,7 +57,7 @@ tes as (
 select
     t.account_id,
     t.region,
-    t.cloud_watch_logs_log_group_arn,
+    t.cloud_watch_logs_log_group_arn as resource_id,
     mf.filter_pattern as pattern
 from {{ full_table_name("aws_cloudtrail_trails") }} t
 inner join tes on t.arn = tes.trail_arn
@@ -98,7 +98,7 @@ tes as (
 select
     t.account_id,
     t.region,
-    t.cloud_watch_logs_log_group_arn,
+    t.cloud_watch_logs_log_group_arn as resource_id,
     mf.filter_pattern as pattern
 from aws_cloudtrail_trails t
 inner join tes on t.arn = tes.trail_arn
@@ -152,7 +152,7 @@ tes AS (
 SELECT
     t.account_id,
     t.region,
-    t.cloud_watch_logs_log_group_arn,
+    t.cloud_watch_logs_log_group_arn as resource_id,
     mf.filter_pattern AS pattern
 FROM aws_cloudtrail_trails t
 INNER JOIN tes ON t.arn = tes.trail_arn

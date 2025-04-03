@@ -10,7 +10,7 @@ select
     '{{check_id}}' As check_id,
     'Security groups should not allow unrestricted access to ports with high risk' as title,
     account_id,
-    id as resource_id,
+    arn as resource_id,
     case when
         (ip = '0.0.0.0/0' or ip = '::/0')
         and ((from_port is null and to_port is null) -- all ports
@@ -48,8 +48,8 @@ FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 -- uses view which uses aws_security_group_ingress_rules.sql query
 WITH IndividualRuleStatus AS (
   SELECT
-      account_id,
-    id as resource_id,
+     account_id,
+     arn as resource_id,
      case when
         (ip = '0.0.0.0/0' or ip = '::/0')
         and ((from_port is null and to_port is null) -- all ports
@@ -106,7 +106,7 @@ select
     '{{check_id}}' As check_id,
     'Security groups should not allow unrestricted access to ports with high risk' as title,
     account_id,
-    id as resource_id,
+    arn as resource_id,
     case when
         (ip = '0.0.0.0/0' or ip = '::/0')
         and ((from_port is null and to_port is null) -- all ports
@@ -146,7 +146,7 @@ select * from (
 WITH CriticalPortStatus AS (
   SELECT
       account_id,
-      id as resource_id,
+      arn as resource_id,
       case when
         (ip = '0.0.0.0/0' or ip = '::/0') and
         ((from_port IS NULL and to_port IS NULL) -- implies all ports
