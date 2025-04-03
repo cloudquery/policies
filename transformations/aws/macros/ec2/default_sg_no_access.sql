@@ -10,7 +10,7 @@ select
   '{{check_id}}' As check_id,
   'The VPC default security group should not allow inbound and outbound traffic' AS title,
   account_id,
-  arn,
+  arn as resource_id,
   case when
       group_name='default'
           AND (
@@ -54,7 +54,7 @@ select
   '{{check_id}}' as check_id,
   'The VPC default security group should not allow inbound and outbound traffic' as title,
   account_id,
-  arn,
+  arn as resource_id,
   case when
     group_name='default'
     AND (
@@ -99,7 +99,7 @@ select
   '{{check_id}}' as check_id,
   'The VPC default security group should not allow inbound and outbound traffic' as title,
   account_id,
-  arn,
+  arn as resource_id,
   CASE
     WHEN group_name = 'default'
       AND (
@@ -144,7 +144,7 @@ select
   '{{check_id}}' As check_id,
   'The VPC default security group should not allow inbound and outbound traffic' AS title,
   account_id,
-  arn,
+  arn as resource_id,
   case when
       group_name='default'
       and
