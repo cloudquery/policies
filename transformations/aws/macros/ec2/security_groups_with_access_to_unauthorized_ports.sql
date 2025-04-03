@@ -10,7 +10,7 @@ SELECT
   '{{check_id}}' As check_id,
   'Aggregates rules of security groups with ports and IPs including ipv6' as title,
   account_id,
-  id as resource_id,
+  arn as resource_id,
   case when
     (ip = '0.0.0.0/0' OR ip = '::/0')
     AND (from_port IS NULL AND to_port IS NULL) -- all prots
@@ -29,7 +29,7 @@ FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 WITH IndividualRuleStatus AS (
   SELECT
       account_id,
-    id as resource_id,
+    arn as resource_id,
     case when
       (ip = '0.0.0.0/0' OR ip = '::/0')
       AND ((from_port IS NULL AND to_port IS NULL) -- all prots
@@ -69,7 +69,7 @@ SELECT
   '{{check_id}}' As check_id,
   'Aggregates rules of security groups with ports and IPs including ipv6' as title,
   account_id,
-  id as resource_id,
+  arn as resource_id,
   case when
     (ip = '0.0.0.0/0' OR ip = '::/0')
     AND (from_port IS NULL AND to_port IS NULL) -- all prots
@@ -89,7 +89,7 @@ select * from (
 WITH IndividualRuleStatus AS (
   SELECT
       account_id,
-    id as resource_id,
+    arn as resource_id,
     case when
       (ip = '0.0.0.0/0' OR ip = '::/0')
       AND ((from_port IS NULL AND to_port IS NULL) -- all ports
