@@ -15,7 +15,7 @@ WITH rules AS (SELECT aena.arn,
                       jsonb_array_elements(entries) ->> 'Egress'                     AS egress,
                       jsonb_array_elements(entries) ->> 'RuleAction'                 AS rule_action
                FROM aws_ec2_network_acls aena)
-SELECT arn AS resource_id, account_id, port_range_from, port_range_to, protocol, cidr_block, ipv6_cidr_block
+SELECT arn, account_id, port_range_from, port_range_to, protocol, cidr_block, ipv6_cidr_block
 FROM rules
 WHERE egress IS DISTINCT FROM 'true'
   AND rule_action = 'allow'
@@ -36,7 +36,7 @@ WITH rules AS (
 FROM aws_ec2_network_acls aena,
 LATERAL FLATTEN(ENTRIES) v
 )
-SELECT arn AS resource_id, account_id, port_range_from, port_range_to, protocol, cidr_block, ipv6_cidr_block
+SELECT arn, account_id, port_range_from, port_range_to, protocol, cidr_block, ipv6_cidr_block
 FROM rules
 WHERE egress IS DISTINCT FROM 'true'
   AND rule_action = 'allow'
@@ -61,7 +61,7 @@ WITH rules AS (SELECT aena.arn,
                UNNEST(JSON_QUERY_ARRAY(entries.Egress)) AS egress,
                UNNEST(JSON_QUERY_ARRAY(entries.RuleAction)) AS rule_action
                )
-SELECT arn as resource_id, account_id, port_range_from, port_range_to, protocol, cidr_block, ipv6_cidr_block
+SELECT arn, account_id, port_range_from, port_range_to, protocol, cidr_block, ipv6_cidr_block
 FROM rules
 WHERE egress IS DISTINCT FROM 'true'
   AND rule_action = 'allow'
@@ -86,7 +86,7 @@ WITH rules AS (
         UNNEST(cast(json_extract(aena.entries, '$') as array(json))) as t(v)
 )
 SELECT 
-    arn as resource_id,
+    arn, 
     account_id, 
     port_range_from, 
     port_range_to, 
