@@ -836,7 +836,7 @@ tables: ["aws_cloudfront_distributions",
 - ✅ `elbv2.12`: `elbv2_desync_migration_mode_defensive_or_strictest`
 - ✅ `elbv2.13`: `elbv2_have_multiple_availability_zones`
 - ✅ `emr.1`: `emr_cluster_master_nodes_should_not_have_public_ip_addresses`
-- ✅ `guarddury.1`: `detector_enabled`
+- ✅ `guardduty.1`: `detector_enabled`
 - ✅ `iam.1`: `no_star`
 - ✅ `iam.2`: `policies_attached_to_groups_roles`
 - ✅ `iam.3`: `iam_access_keys_rotated_more_than_90_days`

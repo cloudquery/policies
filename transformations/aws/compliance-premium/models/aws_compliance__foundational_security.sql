@@ -116,7 +116,7 @@ with
     {{ union() }}
     ({{ deny_http_requests('foundational_security','s3.5') }})
     {{ union() }}
-    ({{ detector_enabled('foundational_security','guarddury.1') }})
+    ({{ detector_enabled('foundational_security','guardduty.1') }})
     {{ union() }}
     ({{ distribution_should_encrypt_traffic_to_custom_origins('foundational_security','cloudfront.9') }})
     {{ union() }}
