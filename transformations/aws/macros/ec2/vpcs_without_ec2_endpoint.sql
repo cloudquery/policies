@@ -17,7 +17,7 @@ select
     '{{check_id}}' As check_id,
     'Amazon EC2 should be configured to use VPC endpoints that are created for the Amazon EC2 service' as title,
     account_id,
-    vpc_id as resource_id,
+    arn as resource_id,
     case when
         endpoints.vpc_endpoint_id is null
         then 'fail'
@@ -43,7 +43,7 @@ select
     '{{check_id}}' as check_id,
     'Amazon EC2 should be configured to use VPC endpoints that are created for the Amazon EC2 service' as title,
     account_id,
-    vpc_id as resource_id,
+    arn as resource_id,
     case when
         endpoints.vpc_endpoint_id is null
         then 'fail'
@@ -71,7 +71,7 @@ select
     '{{check_id}}' As check_id,
     'Amazon EC2 should be configured to use VPC endpoints that are created for the Amazon EC2 service' as title,
     account_id,
-    vpc_id as resource_id,
+    aws_ec2_vpcs.arn as resource_id,
     case when
         endpoints.vpc_endpoint_id is null
         then 'fail'
@@ -96,7 +96,7 @@ SELECT
     '{{check_id}}' AS check_id,
     'Amazon EC2 should be configured to use VPC endpoints that are created for the Amazon EC2 service' as title,
     account_id,
-    aws_ec2_vpcs.vpc_id as resource_id,
+    aws_ec2_vpcs.arn as resource_id,
     CASE WHEN
         endpoints.vpc_id IS NULL
         THEN 'fail'
