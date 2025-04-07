@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.10...transformation-aws-compliance-premium-v1.15.0) (2025-04-07)
+
+
+### Features
+
+* Add ARN to ec2.10 ([#1288](https://github.com/cloudquery/policies/issues/1288)) ([2bb4b67](https://github.com/cloudquery/policies/commit/2bb4b67f1c2dc6db81e2bd24ad1594348ba14590))
+
 ## [1.14.10](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.9...transformation-aws-compliance-premium-v1.14.10) (2025-04-03)
 
 
