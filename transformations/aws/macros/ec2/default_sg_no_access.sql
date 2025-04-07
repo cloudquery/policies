@@ -46,6 +46,8 @@ select
   end
 FROM
     aws_ec2_security_groups
+WHERE
+    group_name = 'default'
 {% endmacro %}
 
 {% macro postgres__default_sg_no_access(framework, check_id) %}
@@ -91,6 +93,8 @@ select
   end as status
 from
     aws_ec2_security_groups
+WHERE
+    group_name = 'default'
 {% endmacro %}
 
 {% macro bigquery__default_sg_no_access(framework, check_id) %}
@@ -136,6 +140,8 @@ select
   END AS status
 from
     {{ full_table_name("aws_ec2_security_groups") }}
+WHERE
+    group_name = 'default'
 {% endmacro %}
 
 {% macro athena__default_sg_no_access(framework, check_id) %}
@@ -156,4 +162,6 @@ select
   end
 FROM
     aws_ec2_security_groups
+WHERE
+    group_name = 'default'
 {% endmacro %}
