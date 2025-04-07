@@ -12,8 +12,7 @@ select
   account_id,
   arn AS resource_id,
   case when
-      group_name='default'
-          AND (
+          (
           array_size(parse_json(ip_permissions)) = 0
               OR (
               array_size(parse_json(ip_permissions)) = 1
@@ -26,8 +25,7 @@ select
                   AND array_size(parse_json(ip_permissions[0]):UserIdGroupPairs) = 1
                   AND parse_json(ip_permissions[0]):UserIdGroupPairs[0]:GroupName IS NULL
               )
-          )
-          AND (
+          ) AND (
           array_size(parse_json(ip_permissions_egress)) = 0
               OR (
               array_size(parse_json(ip_permissions_egress)) = 1
@@ -58,8 +56,7 @@ select
   account_id,
   arn as resource_id,
   case when
-    group_name='default'
-    AND (
+    (
     jsonb_array_length(ip_permissions) = 0
         OR (
         jsonb_array_length(ip_permissions) = 1
@@ -72,8 +69,7 @@ select
             AND jsonb_array_length(ip_permissions->0->'UserIdGroupPairs') = 1
             AND (ip_permissions->0->'UserIdGroupPairs'->0->>'GroupName') IS NULL
         )
-    )
-    AND (
+    ) AND (
     jsonb_array_length(ip_permissions_egress) = 0
         OR (
         jsonb_array_length(ip_permissions_egress) = 1
@@ -105,8 +101,7 @@ select
   account_id,
   arn as resource_id,
   CASE
-    WHEN group_name = 'default'
-      AND (
+      WHEN (
         ARRAY_LENGTH(JSON_EXTRACT_ARRAY(ip_permissions)) = 0
           OR (
           ARRAY_LENGTH(JSON_EXTRACT_ARRAY(ip_permissions)) = 1
@@ -119,8 +114,7 @@ select
             AND ARRAY_LENGTH(JSON_EXTRACT_ARRAY(JSON_EXTRACT_ARRAY(ip_permissions)[OFFSET(0)], '$.UserIdGroupPairs')) = 1
             AND JSON_EXTRACT_SCALAR(JSON_EXTRACT_ARRAY(JSON_EXTRACT_ARRAY(ip_permissions)[OFFSET(0)], '$.UserIdGroupPairs')[OFFSET(0)], '$.GroupName') IS NULL
           )
-        )
-      AND (
+      ) AND (
         ARRAY_LENGTH(JSON_EXTRACT_ARRAY(ip_permissions_egress)) = 0
           OR (
           ARRAY_LENGTH(JSON_EXTRACT_ARRAY(ip_permissions_egress)) = 1
@@ -152,8 +146,6 @@ select
   account_id,
   arn as resource_id,
   case when
-      group_name='default'
-      and
       json_array_length(json_parse(ip_permissions)) > 0
       or
       json_array_length(json_parse(ip_permissions_egress)) > 0
