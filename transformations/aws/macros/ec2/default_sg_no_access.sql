@@ -145,13 +145,37 @@ select
   'The VPC default security group should not allow inbound and outbound traffic' AS title,
   account_id,
   arn as resource_id,
-  case when
-      json_array_length(json_parse(ip_permissions)) > 0
-      or
-      json_array_length(json_parse(ip_permissions_egress)) > 0
-      then 'fail'
-      else 'pass'
-  end
+  CASE WHEN (
+    json_array_length(json_parse(ip_permissions)) = 0
+        OR (
+        json_array_length(json_parse(ip_permissions)) = 1
+            AND json_extract_scalar(json_parse(ip_permissions[0]), '$.FromPort') IS NULL
+            AND json_extract_scalar(json_parse(ip_permissions[0]), '$.ToPort') IS NULL
+            AND json_extract_scalar(json_parse(ip_permissions[0]), '$.IpProtocol') = '-1'
+            AND json_array_length(json_extract_array(json_parse(ip_permissions[0]), '$.IpRanges')) = 0
+            AND json_array_length(json_extract_array(json_parse(ip_permissions[0]), '$.Ipv6Ranges')) = 0
+            AND json_array_length(json_extract_array(json_parse(ip_permissions[0]), '$.PrefixListIds')) = 0
+            AND json_array_length(json_extract_array(json_parse(ip_permissions[0]), '$.UserIdGroupPairs')) = 1
+            AND json_extract_scalar(json_extract_array(json_parse(ip_permissions[0]), '$.UserIdGroupPairs')[0], '$.GroupName') IS NULL
+        )
+    ) AND (
+    json_array_length(json_parse(ip_permissions_egress)) = 0
+        OR (
+        json_array_length(json_parse(ip_permissions_egress)) = 1
+            AND json_extract_scalar(json_parse(ip_permissions_egress[0]), '$.FromPort') IS NULL
+            AND json_extract_scalar(json_parse(ip_permissions_egress[0]), '$.ToPort') IS NULL
+            AND json_extract_scalar(json_parse(ip_permissions_egress[0]), '$.IpProtocol') = '-1'
+            AND json_array_length(json_extract_array(json_parse(ip_permissions_egress[0]), '$.IpRanges')) = 1
+            AND json_extract_scalar(json_extract_array(json_parse(ip_permissions_egress[0]), '$.IpRanges')[0], '$.CidrIp') = '0.0.0.0/0'
+            AND json_extract_scalar(json_extract_array(json_parse(ip_permissions_egress[0]), '$.IpRanges')[0], '$.Description') IS NULL
+            AND json_array_length(json_extract_array(json_parse(ip_permissions_egress[0]), '$.Ipv6Ranges')) = 0
+            AND json_array_length(json_extract_array(json_parse(ip_permissions_egress[0]), '$.PrefixListIds')) = 0
+            AND json_array_length(json_extract_array(json_parse(ip_permissions_egress[0]), '$.UserIdGroupPairs')) = 0
+        )
+    )
+    THEN 'pass'
+    ELSE 'fail'
+  END
 FROM
     aws_ec2_security_groups
 WHERE
