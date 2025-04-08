@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.1](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.0...transformation-aws-compliance-premium-v1.15.1) (2025-04-08)
+
+
+### Bug Fixes
+
+* Harmonise Athena with the others ([#1293](https://github.com/cloudquery/policies/issues/1293)) ([b027505](https://github.com/cloudquery/policies/commit/b027505c2ddaeea224416106129c3850c4a1257f))
+
 ## [1.15.0](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.14.10...transformation-aws-compliance-premium-v1.15.0) (2025-04-07)
 
 
