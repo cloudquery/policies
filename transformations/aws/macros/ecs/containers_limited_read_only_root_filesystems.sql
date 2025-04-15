@@ -7,7 +7,7 @@
 {% macro postgres__containers_limited_read_only_root_filesystems(framework, check_id) %}
 with latest_revisions as (
     SELECT
-        arn,
+        regexp_replace(arn, ':[^:]+$', '') AS versionless_arn,
         account_id,
         task_role_arn,
         max(revision) AS latest_revision
@@ -16,7 +16,7 @@ with latest_revisions as (
     WHERE
         status = 'ACTIVE'
     GROUP BY
-        arn,
+        versionless_arn,
         account_id,
         task_role_arn
 ),
@@ -36,7 +36,7 @@ flat_containers as (
     JOIN
         aws_ecs_task_definitions t
     ON
-        lr.arn = t.arn
+        CONCAT(lr.versionless_arn, ':', latest_revision) = t.arn
         AND lr.account_id = t.account_id
         AND lr.task_role_arn = t.task_role_arn
         AND lr.latest_revision = t.revision,
@@ -61,7 +61,7 @@ from
 {% macro snowflake__containers_limited_read_only_root_filesystems(framework, check_id) %}
 with latest_revisions as (
         SELECT
-            arn,
+            REGEXP_REPLACE(arn, ':[^:]+$', '') AS versionless_arn,
             account_id,
             task_role_arn,
             max (revision) AS latest_revision
@@ -70,7 +70,7 @@ with latest_revisions as (
         WHERE
             status = 'ACTIVE'
         GROUP BY
-            arn,
+            versionless_arn,
             account_id,
             task_role_arn
 ), flat_containers as (
@@ -89,7 +89,7 @@ with latest_revisions as (
         JOIN
              aws_ecs_task_definitions t
         ON
-             lr.arn = t.arn
+             CONCAT(lr.versionless_arn, ':', latest_revision) = t.arn
              AND lr.account_id = t.account_id
              AND lr.task_role_arn = t.task_role_arn
              AND lr.latest_revision = t.revision,
@@ -114,7 +114,7 @@ from
 {% macro bigquery__containers_limited_read_only_root_filesystems(framework, check_id) %}
 with latest_revisions as (
     SELECT
-        arn,
+        REGEXP_REPLACE(arn, ':[^:]+$', '') AS versionless_arn,
         account_id,
         task_role_arn,
         max(revision) AS latest_revision
@@ -123,7 +123,7 @@ with latest_revisions as (
     WHERE
         status = 'ACTIVE'
     GROUP BY
-        arn,
+        versionless_arn,
         account_id,
         task_role_arn
 ),
@@ -143,7 +143,7 @@ flat_containers as (
     JOIN
         {{ full_table_name("aws_ecs_task_definitions") }} t
     ON
-        lr.arn = t.arn
+        CONCAT(lr.versionless_arn, ':', latest_revision) = t.arn
         AND lr.account_id = t.account_id
         AND lr.task_role_arn = t.task_role_arn
         AND lr.latest_revision = t.revision,
@@ -169,7 +169,7 @@ from
 select * from (
 with latest_revisions as (
     SELECT
-        arn,
+        REGEXP_REPLACE(arn, ':[^:]+$', '') AS versionless_arn,
         account_id,
         task_role_arn,
         max(revision) AS latest_revision
@@ -178,7 +178,7 @@ with latest_revisions as (
     WHERE
         status = 'ACTIVE'
     GROUP BY
-        arn,
+        REGEXP_REPLACE(arn, ':[^:]+$', ''),
         account_id,
         task_role_arn
 ),
@@ -198,7 +198,7 @@ flat_containers as (
             JOIN
         aws_ecs_task_definitions t
         ON
-            lr.arn = t.arn
+            CONCAT(lr.versionless_arn, ':', CAST(latest_revision AS VARCHAR)) = t.arn
                 AND lr.account_id = t.account_id
                 AND lr.task_role_arn = t.task_role_arn
                 AND lr.latest_revision = t.revision,
