@@ -6,7 +6,7 @@
 
 {% macro postgres__containers_limited_read_only_root_filesystems(framework, check_id) %}
 with latest_revisions as (
-    SELECT
+    SELECT distinct on (account_id, task_role_arn)
         arn,
         account_id,
         task_role_arn,
@@ -19,6 +19,7 @@ with latest_revisions as (
         arn,
         account_id,
         task_role_arn
+	ORDER BY account_id, task_role_arn, latest_revision DESC
 ),
 flat_containers as (
     SELECT
