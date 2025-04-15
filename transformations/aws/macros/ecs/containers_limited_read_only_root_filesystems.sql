@@ -178,7 +178,7 @@ with latest_revisions as (
     WHERE
         status = 'ACTIVE'
     GROUP BY
-        versionless_arn,
+        REGEXP_REPLACE(arn, ':[^:]+$', ''),
         account_id,
         task_role_arn
 ),
