@@ -16,7 +16,7 @@ with latest_revisions as (
     WHERE
         status = 'ACTIVE'
     GROUP BY
-        regexp_replace(arn, ':[^:]+$', ''),
+        versionless_arn,
         account_id,
         task_role_arn
 ),
@@ -70,7 +70,7 @@ with latest_revisions as (
         WHERE
             status = 'ACTIVE'
         GROUP BY
-            REGEXP_REPLACE(arn, ':[^:]+$', ''),
+            versionless_arn,
             account_id,
             task_role_arn
 ), flat_containers as (
@@ -123,7 +123,7 @@ with latest_revisions as (
     WHERE
         status = 'ACTIVE'
     GROUP BY
-        REGEXP_REPLACE(arn, ':[^:]+$', ''),
+        versionless_arn,
         account_id,
         task_role_arn
 ),
@@ -178,7 +178,7 @@ with latest_revisions as (
     WHERE
         status = 'ACTIVE'
     GROUP BY
-        REGEXP_REPLACE(arn, ':[^:]+$', ''),
+        versionless_arn,
         account_id,
         task_role_arn
 ),
