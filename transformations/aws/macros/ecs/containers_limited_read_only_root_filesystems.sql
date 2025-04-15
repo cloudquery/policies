@@ -198,7 +198,7 @@ flat_containers as (
             JOIN
         aws_ecs_task_definitions t
         ON
-            CONCAT(lr.versionless_arn, ':', latest_revision) = t.arn
+            CONCAT(lr.versionless_arn, ':', CAST(latest_revision AS VARCHAR)) = t.arn
                 AND lr.account_id = t.account_id
                 AND lr.task_role_arn = t.task_role_arn
                 AND lr.latest_revision = t.revision,
