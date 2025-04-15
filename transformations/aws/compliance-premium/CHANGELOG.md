@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.2](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.1...transformation-aws-compliance-premium-v1.15.2) (2025-04-15)
+
+
+### Bug Fixes
+
+* ARN grouping on ecs.5 ([#1301](https://github.com/cloudquery/policies/issues/1301)) ([025e07f](https://github.com/cloudquery/policies/commit/025e07fb68037cc1ed251de40d951ba74e9cc0d0))
+
 ## [1.15.1](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.0...transformation-aws-compliance-premium-v1.15.1) (2025-04-08)
 
 
