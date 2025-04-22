@@ -9,7 +9,6 @@ with latest_revisions as (
     SELECT
         regexp_replace(arn, ':[^:]+$', '') AS versionless_arn,
         account_id,
-        task_role_arn,
         max(revision) AS latest_revision
     FROM
         aws_ecs_task_definitions
@@ -17,8 +16,7 @@ with latest_revisions as (
         status = 'ACTIVE'
     GROUP BY
         versionless_arn,
-        account_id,
-        task_role_arn
+        account_id
 ),
 flat_containers as (
     SELECT
@@ -29,7 +27,6 @@ flat_containers as (
             OR container_definition ->> 'readonlyRootFilesystem' IS NULL THEN 1
             ELSE 0
         END AS status,
-        t.task_role_arn,
         lr.latest_revision
     FROM
         latest_revisions lr
@@ -38,7 +35,6 @@ flat_containers as (
     ON
         CONCAT(lr.versionless_arn, ':', latest_revision) = t.arn
         AND lr.account_id = t.account_id
-        AND lr.task_role_arn = t.task_role_arn
         AND lr.latest_revision = t.revision,
         JSONB_ARRAY_ELEMENTS(t.container_definitions) as container_definition
     WHERE
@@ -63,7 +59,6 @@ with latest_revisions as (
         SELECT
             REGEXP_REPLACE(arn, ':[^:]+$', '') AS versionless_arn,
             account_id,
-            task_role_arn,
             max (revision) AS latest_revision
         FROM
             aws_ecs_task_definitions
@@ -71,8 +66,7 @@ with latest_revisions as (
             status = 'ACTIVE'
         GROUP BY
             versionless_arn,
-            account_id,
-            task_role_arn
+            account_id
 ), flat_containers as (
         SELECT
              t.arn,
@@ -82,7 +76,6 @@ with latest_revisions as (
                  OR container_definition.value:readonlyRootFilesystem IS NULL THEN 1
                  ELSE 0
              END AS status,
-             t.task_role_arn,
              lr.latest_revision
         FROM
              latest_revisions lr
@@ -91,7 +84,6 @@ with latest_revisions as (
         ON
              CONCAT(lr.versionless_arn, ':', latest_revision) = t.arn
              AND lr.account_id = t.account_id
-             AND lr.task_role_arn = t.task_role_arn
              AND lr.latest_revision = t.revision,
              LATERAL FLATTEN(input => t.container_definitions) AS container_definition
         WHERE
@@ -116,7 +108,6 @@ with latest_revisions as (
     SELECT
         REGEXP_REPLACE(arn, ':[^:]+$', '') AS versionless_arn,
         account_id,
-        task_role_arn,
         max(revision) AS latest_revision
     FROM
         {{ full_table_name("aws_ecs_task_definitions") }}
@@ -124,8 +115,7 @@ with latest_revisions as (
         status = 'ACTIVE'
     GROUP BY
         versionless_arn,
-        account_id,
-        task_role_arn
+        account_id
 ),
 flat_containers as (
     SELECT
@@ -136,7 +126,6 @@ flat_containers as (
             OR JSON_VALUE(container_definition.readonlyRootFilesystem) IS NULL THEN 1
             ELSE 0
         END AS status,
-        t.task_role_arn,
         lr.latest_revision
     FROM
         latest_revisions lr
@@ -145,7 +134,6 @@ flat_containers as (
     ON
         CONCAT(lr.versionless_arn, ':', latest_revision) = t.arn
         AND lr.account_id = t.account_id
-        AND lr.task_role_arn = t.task_role_arn
         AND lr.latest_revision = t.revision,
         UNNEST(JSON_QUERY_ARRAY(t.container_definitions)) AS container_definition
     WHERE
@@ -171,7 +159,6 @@ with latest_revisions as (
     SELECT
         REGEXP_REPLACE(arn, ':[^:]+$', '') AS versionless_arn,
         account_id,
-        task_role_arn,
         max(revision) AS latest_revision
     FROM
         aws_ecs_task_definitions
@@ -179,8 +166,7 @@ with latest_revisions as (
         status = 'ACTIVE'
     GROUP BY
         REGEXP_REPLACE(arn, ':[^:]+$', ''),
-        account_id,
-        task_role_arn
+        account_id
 ),
 flat_containers as (
     SELECT
@@ -191,7 +177,6 @@ flat_containers as (
                 OR json_extract_scalar(container_definition, '$.readonlyRootFilesystem') IS NULL THEN 1
             ELSE 0
             END AS status,
-        t.task_role_arn,
         lr.latest_revision
     FROM
         latest_revisions lr
@@ -200,7 +185,6 @@ flat_containers as (
         ON
             CONCAT(lr.versionless_arn, ':', CAST(latest_revision AS VARCHAR)) = t.arn
                 AND lr.account_id = t.account_id
-                AND lr.task_role_arn = t.task_role_arn
                 AND lr.latest_revision = t.revision,
         unnest(cast(json_parse(t.container_definitions) as array(json))) as t(container_definition)
     WHERE
