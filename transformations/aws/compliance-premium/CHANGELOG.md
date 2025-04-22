@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.3](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.2...transformation-aws-compliance-premium-v1.15.3) (2025-04-22)
+
+
+### Bug Fixes
+
+* Remove task_role_arns from ecs.5 check ([#1308](https://github.com/cloudquery/policies/issues/1308)) ([581daa7](https://github.com/cloudquery/policies/commit/581daa7aad0ed0b95a9016bdb342381a6952279f))
+
 ## [1.15.2](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.1...transformation-aws-compliance-premium-v1.15.2) (2025-04-15)
 
 
