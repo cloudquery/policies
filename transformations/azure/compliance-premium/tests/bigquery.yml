@@ -12,7 +12,7 @@ spec:
   name: bigquery
   path: cloudquery/bigquery
   registry: cloudquery
-  version: "v4.2.14" # latest version of destination bigquery plugin
+  version: "v4.2.15" # latest version of destination bigquery plugin
   write_mode: "append"
   spec:
     project_id: cq-integration-tests
