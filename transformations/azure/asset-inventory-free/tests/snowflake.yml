@@ -12,7 +12,7 @@ spec:
   name: snowflake
   path: cloudquery/snowflake
   registry: cloudquery
-  version: "v4.4.14" # latest version of destination snowflake plugin
+  version: "v4.4.15" # latest version of destination snowflake plugin
   migrate_mode: forced
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
