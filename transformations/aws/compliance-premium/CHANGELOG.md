@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.4](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.3...transformation-aws-compliance-premium-v1.15.4) (2025-05-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dependency dbt-athena-community to v1.9.3 ([#1321](https://github.com/cloudquery/policies/issues/1321)) ([eed7412](https://github.com/cloudquery/policies/commit/eed74121a0edaeb18a1ffe04ada15c5e7f741e46))
+
 ## [1.15.3](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.2...transformation-aws-compliance-premium-v1.15.3) (2025-04-22)
 
 
