@@ -12,15 +12,15 @@ SELECT
   account_id,
   arn as resource_id,
   CASE
-    WHEN ip_protocol != 'tcp' THEN 'fail'
+    WHEN ip_protocol != 'tcp' THEN 'fail' -- No parameterised allowlist in place at the moment.
     WHEN ip IN ('0.0.0.0/0') OR ip6 IN ('::/0') THEN
       CASE
-        WHEN from_port IS NULL THEN 'fail' -- Unrestricted traffic
-        WHEN to_port IS NULL THEN 'fail' -- Unrestricted traffic
-        WHEN from_port IN (80, 443) AND to_port IN (80, 443) THEN 'pass' -- Authorized ports
-        ELSE 'fail' -- Any other port
+        WHEN from_port::TEXT IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN to_port::TEXT IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN TRIM(from_port::TEXT) IN ('80', '80,443', '443,80', '443') AND TRIM(to_port::TEXT) IN ('80', '80,443', '443,80', '443') THEN 'pass' -- Authorized ports
+        ELSE 'fail' -- Any other port; no parameterised allowlist in place at the moment.
       END
-    ELSE 'pass' -- Restricted IPs
+    ELSE 'pass' -- "NOT_APPLICABLE" per https://docs.aws.amazon.com/config/latest/developerguide/vpc-sg-open-only-to-authorized-ports.html
   END AS status
 FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 {% endmacro %}
@@ -32,15 +32,15 @@ WITH IndividualRuleStatus AS (
     account_id,
     arn as resource_id,
     CASE
-      WHEN ip_protocol != 'tcp' THEN 'fail'
+      WHEN ip_protocol != 'tcp' THEN 'fail' -- No parameterised allowlist in place at the moment.
       WHEN ip IN ('0.0.0.0/0') OR ip6 IN ('::/0') THEN
       CASE
-        WHEN from_port IS NULL THEN 'fail' -- Unrestricted traffic
-        WHEN to_port IS NULL THEN 'fail' -- Unrestricted traffic
-        WHEN from_port IN (80, 443) AND to_port IN (80, 443) THEN 'pass' -- Authorized ports
-        ELSE 'fail' -- Any other port
+        WHEN from_port::TEXT IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN to_port::TEXT IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN TRIM(from_port::TEXT) IN ('80', '80,443', '443,80', '443') AND TRIM(to_port::TEXT) IN ('80', '80,443', '443,80', '443') THEN 'pass' -- Authorized ports
+        ELSE 'fail' -- Any other port; no parameterised allowlist in place at the moment.
       END
-      ELSE 'pass' -- Restricted IPs
+      ELSE 'pass' -- "NOT_APPLICABLE" per https://docs.aws.amazon.com/config/latest/developerguide/vpc-sg-open-only-to-authorized-ports.html
     END AS status
   FROM {{ ref('aws_compliance__security_group_ingress_rules') }}
 )
@@ -72,15 +72,15 @@ SELECT
   account_id,
   arn as resource_id,
   CASE
-    WHEN ip_protocol != 'tcp' THEN 'fail'
+    WHEN ip_protocol != 'tcp' THEN 'fail' -- No parameterised allowlist in place at the moment.
     WHEN ip IN ('0.0.0.0/0') OR ip6 IN ('::/0') THEN
       CASE
-        WHEN from_port IS NULL THEN 'fail' -- Unrestricted traffic
-        WHEN to_port IS NULL THEN 'fail' -- Unrestricted traffic
-        WHEN from_port IN (80, 443) AND to_port IN (80, 443) THEN 'pass' -- Authorized ports
-        ELSE 'fail' -- Any other port
+        WHEN CAST(from_port AS STRING) IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN CAST(to_port AS STRING) IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN TRIM(CAST(from_port AS STRING)) IN ('80', '80,443', '443,80', '443') AND TRIM(CAST(to_port AS STRING)) IN ('80', '80,443', '443,80', '443') THEN 'pass' -- Authorized ports
+        ELSE 'fail' -- Any other port; no parameterised allowlist in place at the moment.
       END
-      ELSE 'pass' -- Restricted IPs
+      ELSE 'pass' -- "NOT_APPLICABLE" per https://docs.aws.amazon.com/config/latest/developerguide/vpc-sg-open-only-to-authorized-ports.html
     END AS status
 FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 {% endmacro %}
@@ -93,15 +93,15 @@ WITH IndividualRuleStatus AS (
     account_id,
     arn as resource_id,
     CASE
-      WHEN ip_protocol != 'tcp' THEN 'fail'
+      WHEN ip_protocol != 'tcp' THEN 'fail' -- No parameterised allowlist in place at the moment.
       WHEN ip IN ('0.0.0.0/0') OR ip6 IN ('::/0') THEN
         CASE
-          WHEN from_port IS NULL THEN 'fail' -- Unrestricted traffic
-          WHEN to_port IS NULL THEN 'fail' -- Unrestricted traffic
-          WHEN from_port IN (80, 443) AND to_port IN (80, 443) THEN 'pass' -- Authorized ports
-          ELSE 'fail' -- Any other port
+            WHEN CAST(from_port AS VARCHAR) IS NULL THEN 'fail' -- Unrestricted traffic
+            WHEN CAST(to_port AS VARCHAR) IS NULL THEN 'fail' -- Unrestricted traffic
+            WHEN TRIM(CAST(from_port AS VARCHAR)) IN ('80', '80,443', '443,80', '443') AND TRIM(CAST(to_port AS VARCHAR)) IN ('80', '80,443', '443,80', '443') THEN 'pass' -- Authorized ports
+          ELSE 'fail' -- Any other port; no parameterised allowlist in place at the moment.
         END
-      ELSE 'pass' -- Restricted IPs
+      ELSE 'pass' -- "NOT_APPLICABLE" per https://docs.aws.amazon.com/config/latest/developerguide/vpc-sg-open-only-to-authorized-ports.html
     END AS status
   FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 )

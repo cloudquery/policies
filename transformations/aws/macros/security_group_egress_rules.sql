@@ -12,8 +12,8 @@ select
     arn,
     group_id as id,
     vpc_id,
-    (i->>'FromPort')::integer AS from_port,
-        (i->>'ToPort')::integer AS to_port,
+    CAST((i->>'FromPort')::TEXT AS TEXT) AS from_port,
+        CAST((i->>'ToPort')::TEXT AS TEXT) to_port,
         i->>'IpProtocol' AS ip_protocol,
     ip_ranges->>'CidrIp' AS ip,
     ip6_ranges->>'CidrIpv6' AS ip6
@@ -30,8 +30,8 @@ select
     arn,
     group_id as id,
     vpc_id,
-    CAST(JSON_VALUE(i.FromPort) AS INT64) AS from_port,
-    CAST(JSON_VALUE(i.ToPort) AS INT64) AS to_port,
+    CAST(JSON_VALUE(i.FromPort) AS STRING) AS from_port,
+    CAST(JSON_VALUE(i.ToPort) AS STRING) AS to_port,
     JSON_VALUE(i.IpProtocol) AS ip_protocol,
     JSON_VALUE(ip_ranges.CidrIp) AS ip,
     JSON_VALUE(ip6_ranges.CidrIpv6) AS ip6
@@ -51,8 +51,8 @@ select
     arn,
     group_id as id,
     vpc_id,
-    i.value:FromPort::number AS from_port,
-    i.value:ToPort::number AS to_port,
+    CAST(i.value:FromPort::TEXT AS TEXT) AS from_port,
+    CAST(i.value:ToPort::TEXT AS TEXT) AS to_port,
     i.value:IpProtocol AS ip_protocol,
     ip_ranges.value:CidrIp AS ip,
     ip6_ranges.value:CidrIpv6 AS ip6
@@ -69,8 +69,8 @@ SELECT
     sg.arn,
     sg.group_id AS id,
     sg.vpc_id,
-    cast(json_extract(ip_permission, '$.FromPort') as int) AS from_port,
-    cast(json_extract(ip_permission, '$.ToPort') as int) AS to_port,
+    cast(json_extract_scalar(ip_permission, '$.FromPort') AS varchar) AS from_port,
+    cast(json_extract_scalar(ip_permission, '$.ToPort') AS varchar) AS to_port,
     json_extract_scalar(ip_permission, '$.IpProtocol') AS ip_protocol,
     json_extract_scalar(ip_range, '$') AS ip,
     json_extract_scalar(ip6_range, '$') AS ip6
