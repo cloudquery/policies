@@ -1010,4 +1010,5 @@ tables: ["aws_cloudfront_distributions",
 - ✅ `ELB-V2`: `elbv2_internet_facing`
 - ✅ `RDS`: `rds_db_instances_should_prohibit_public_access`
 - ✅ `Redshift`: `cluster_publicly_accessible`
+
 <!-- AUTO-GENERATED-INCLUDED-CHECKS-END -->
