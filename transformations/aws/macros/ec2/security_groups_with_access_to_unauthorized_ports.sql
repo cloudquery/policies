@@ -11,16 +11,17 @@ SELECT
   'Aggregates rules of security groups with ports and IPs including ipv6' as title,
   account_id,
   arn as resource_id,
-  case when
-    (ip = '0.0.0.0/0' OR ip = '::/0')
-    AND (from_port IS NULL AND to_port IS NULL) -- all prots
-    OR from_port IS DISTINCT FROM 80
-    OR to_port IS DISTINCT FROM 80
-    OR from_port IS DISTINCT FROM 443
-    OR to_port IS DISTINCT FROM 443
-    then 'fail'
-    else 'pass'
-  end
+  CASE
+    WHEN ip_protocol != 'tcp' THEN 'fail' -- No parameterised allowlist in place at the moment.
+    WHEN ip IN ('0.0.0.0/0') OR ip6 IN ('::/0') THEN
+      CASE
+        WHEN from_port::TEXT IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN to_port::TEXT IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN TRIM(from_port::TEXT) IN ('80', '80,443', '443,80', '443') AND TRIM(to_port::TEXT) IN ('80', '80,443', '443,80', '443') THEN 'pass' -- Authorized ports
+        ELSE 'fail' -- Any other port; no parameterised allowlist in place at the moment.
+      END
+    ELSE 'pass' -- "NOT_APPLICABLE" per https://docs.aws.amazon.com/config/latest/developerguide/vpc-sg-open-only-to-authorized-ports.html
+  END AS status
 FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 {% endmacro %}
 
@@ -28,19 +29,19 @@ FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 -- uses view which uses aws_security_group_ingress_rules.sql query
 WITH IndividualRuleStatus AS (
   SELECT
-      account_id,
+    account_id,
     arn as resource_id,
-    case when
-      (ip = '0.0.0.0/0' OR ip = '::/0')
-      AND ((from_port IS NULL AND to_port IS NULL) -- all prots
-      OR from_port IS DISTINCT FROM 80
-      OR to_port IS DISTINCT FROM 80
-      OR from_port IS DISTINCT FROM 443
-      OR to_port IS DISTINCT FROM 443
-      OR to_port IS DISTINCT FROM 443)
-      then 'fail'
-      else 'pass'
-    end as status
+    CASE
+      WHEN ip_protocol != 'tcp' THEN 'fail' -- No parameterised allowlist in place at the moment.
+      WHEN ip IN ('0.0.0.0/0') OR ip6 IN ('::/0') THEN
+      CASE
+        WHEN from_port::TEXT IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN to_port::TEXT IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN TRIM(from_port::TEXT) IN ('80', '80,443', '443,80', '443') AND TRIM(to_port::TEXT) IN ('80', '80,443', '443,80', '443') THEN 'pass' -- Authorized ports
+        ELSE 'fail' -- Any other port; no parameterised allowlist in place at the moment.
+      END
+      ELSE 'pass' -- "NOT_APPLICABLE" per https://docs.aws.amazon.com/config/latest/developerguide/vpc-sg-open-only-to-authorized-ports.html
+    END AS status
   FROM {{ ref('aws_compliance__security_group_ingress_rules') }}
 )
 
@@ -70,16 +71,17 @@ SELECT
   'Aggregates rules of security groups with ports and IPs including ipv6' as title,
   account_id,
   arn as resource_id,
-  case when
-    (ip = '0.0.0.0/0' OR ip = '::/0')
-    AND (from_port IS NULL AND to_port IS NULL) -- all prots
-    OR from_port IS DISTINCT FROM 80
-    OR to_port IS DISTINCT FROM 80
-    OR from_port IS DISTINCT FROM 443
-    OR to_port IS DISTINCT FROM 443
-    then 'fail'
-    else 'pass'
-  end
+  CASE
+    WHEN ip_protocol != 'tcp' THEN 'fail' -- No parameterised allowlist in place at the moment.
+    WHEN ip IN ('0.0.0.0/0') OR ip6 IN ('::/0') THEN
+      CASE
+        WHEN CAST(from_port AS STRING) IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN CAST(to_port AS STRING) IS NULL THEN 'fail' -- Unrestricted traffic
+        WHEN TRIM(CAST(from_port AS STRING)) IN ('80', '80,443', '443,80', '443') AND TRIM(CAST(to_port AS STRING)) IN ('80', '80,443', '443,80', '443') THEN 'pass' -- Authorized ports
+        ELSE 'fail' -- Any other port; no parameterised allowlist in place at the moment.
+      END
+      ELSE 'pass' -- "NOT_APPLICABLE" per https://docs.aws.amazon.com/config/latest/developerguide/vpc-sg-open-only-to-authorized-ports.html
+    END AS status
 FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 {% endmacro %}
 
@@ -88,16 +90,19 @@ FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 select * from (
 WITH IndividualRuleStatus AS (
   SELECT
-      account_id,
+    account_id,
     arn as resource_id,
-    case when
-      (ip = '0.0.0.0/0' OR ip = '::/0')
-      AND ((from_port IS NULL AND to_port IS NULL) -- all ports
-      OR (from_port <> 80 AND to_port <> 80) -- not only port 80
-      OR (from_port <> 443 AND to_port <> 443)) -- not only port 443
-      then 'fail'
-      else 'pass'
-    end as status
+    CASE
+      WHEN ip_protocol != 'tcp' THEN 'fail' -- No parameterised allowlist in place at the moment.
+      WHEN ip IN ('0.0.0.0/0') OR ip6 IN ('::/0') THEN
+        CASE
+            WHEN CAST(from_port AS VARCHAR) IS NULL THEN 'fail' -- Unrestricted traffic
+            WHEN CAST(to_port AS VARCHAR) IS NULL THEN 'fail' -- Unrestricted traffic
+            WHEN TRIM(CAST(from_port AS VARCHAR)) IN ('80', '80,443', '443,80', '443') AND TRIM(CAST(to_port AS VARCHAR)) IN ('80', '80,443', '443,80', '443') THEN 'pass' -- Authorized ports
+          ELSE 'fail' -- Any other port; no parameterised allowlist in place at the moment.
+        END
+      ELSE 'pass' -- "NOT_APPLICABLE" per https://docs.aws.amazon.com/config/latest/developerguide/vpc-sg-open-only-to-authorized-ports.html
+    END AS status
   FROM {{ref('aws_compliance__security_group_ingress_rules')}}
 )
 
