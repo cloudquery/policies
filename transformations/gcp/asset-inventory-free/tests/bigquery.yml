@@ -3,7 +3,7 @@ spec:
   name: gcp
   path: cloudquery/gcp
   registry: cloudquery
-  version: "v18.15.0" # latest version of source gcp plugin
+  version: "v18.16.0" # latest version of source gcp plugin
   destinations: ["bigquery"]
   tables: ["*"]
 ---
