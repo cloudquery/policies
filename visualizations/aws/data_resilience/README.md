@@ -6,7 +6,7 @@ This contains an AWS Resilience and Backup Dashboard for Grafana on top of Cloud
 
 ## Requirements
 
-- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [CloudQuery](https://cli-docs.cloudquery.io/docs/quickstart/)
   - [AWS Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
   - [PostgreSQL Plugin](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql) or [Snowflake Plugin](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake/)
   - [AWS Data Resilience Pack](https://hub.cloudquery.io/addons/transformation/cloudquery/aws-data-resilience/)
