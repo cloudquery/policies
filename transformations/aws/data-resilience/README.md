@@ -24,7 +24,7 @@ We recommend using this transformation with our [AWS Data Resilience Dashboard](
 - [dbt](https://docs.getdbt.com/docs/core/pip-install)
 - [CloudQuery](https://cli-docs.cloudquery.io/docs/quickstart/)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
-- [AWS Plugin](https://www.cloudquery.io/docs/plugins/sources/aws/overview)
+- [AWS Integration](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs)
 
 ## To run this package you need to complete the following steps
 
