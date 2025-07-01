@@ -26,7 +26,7 @@ ORDER BY count(*) DESC
 ### Requirements
 
 - [dbt](https://docs.getdbt.com/docs/core/pip-install)
-- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [CloudQuery](https://cli-docs.cloudquery.io/docs/quickstart/)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 - [GCP Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/gcp/latest/docs)
 

@@ -37,7 +37,7 @@ where tags is null or tags = '{}';
 
 ### Requirements
 
-- [CloudQuery](https://www.cloudquery.io/docs/quickstart)
+- [CloudQuery](https://cli-docs.cloudquery.io/docs/quickstart/)
 - [CloudQuery AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 - [dbt](https://docs.getdbt.com/docs/core/pip-install)
