@@ -98,7 +98,7 @@ jobs:
           service_account: 'integration-service-account@cq-integration-tests.iam.gserviceaccount.com'
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.9"
+          python-version: "3.13"
           cache: "pip"
           cache-dependency-path: "${{ needs.prepare.outputs.transformation_dir }}/requirements.txt"
       - name: Install dependencies
