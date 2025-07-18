@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.10](https://github.com/cloudquery/policies/compare/transformation-aws-data-resilience-v2.1.9...transformation-aws-data-resilience-v2.1.10) (2025-07-18)
+
+
+### Bug Fixes
+
+* Broken Links ([#1377](https://github.com/cloudquery/policies/issues/1377)) ([eb16cab](https://github.com/cloudquery/policies/commit/eb16cab9537e4c24bebb9e212a24a5389996a8cb))
+
 ## [2.1.9](https://github.com/cloudquery/policies/compare/transformation-aws-data-resilience-v2.1.8...transformation-aws-data-resilience-v2.1.9) (2025-02-20)
 
 
