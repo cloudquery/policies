@@ -77,7 +77,7 @@ mkdir -p ~/.dbt
 Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
 
 ```yaml
-aws_asset_inventory: # This should match the name in your dbt_project.yml
+azure_asset_inventory: # This should match the name in your dbt_project.yml
   target: dev
   outputs:
     dev:
