@@ -130,7 +130,8 @@ cloudquery login
 
 ### 4. Sync AWS data
 
-This is an example sync config with the minimum set of tables for this transformation. Save this to a file named `aws.yaml`. For additional tables to add to the sync config, see the list of tables in the [AWS plugin documentation](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/tables).
+This is an example sync config with the minimum set of tables for this transformation. Save this to a file named `aws.yaml`.
+For detailed AWS authentication and configuration options and additional tables to add to the sync config, see the [AWS plugin documentation](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs).
 
 ```yml
 kind: source
@@ -157,8 +158,6 @@ spec:
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
 ```
-
-For detailed AWS authentication options, list of supported tables, and additional configuration, see the [AWS plugin documentation](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs).
 
 Run the sync:
 
