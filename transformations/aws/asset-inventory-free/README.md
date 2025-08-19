@@ -2,7 +2,7 @@
 
 ## Overview
 
-Welcome to our free edition of the AWS Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your AWS environment. Currently, this package only supports usage with PostgreSQL databases.
+This AWS Asset Inventory package works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your AWS environment. This package supports PostgreSQL database only.
 
 We recommend using this transformation with our [AWS Asset Inventory Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-asset-inventory/latest/docs)
 
@@ -37,18 +37,16 @@ where tags is null or tags = '{}';
 
 ### Requirements
 
-- [CloudQuery](https://cli-docs.cloudquery.io/docs/quickstart/)
+- [CloudQuery](https://docs.cloudquery.io/docs/quickstart/)
 - [CloudQuery AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 - [dbt](https://docs.getdbt.com/docs/core/pip-install)
-
-One of the below databases:
-
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 
-#### Models Included
+### Models Included
 
 - **aws_resources**: AWS Resources View, available for PostgreSQL.
+
   - Required tables: This model has no specific table dependencies, other than requiring a single CloudQuery table from the AWS plugin that has an ARN.
 
   #### Columns Included
@@ -68,9 +66,13 @@ One of the below databases:
 
 ## To run this package you need to complete the following steps
 
-### Setting up the DBT profile
+### 1. Download and extract this package.
 
-First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+Click the **Download now** button on the top. You may need to create a CloudQuery account first.
+
+### 2. Install DBT and set up the DBT profile
+
+[Install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
 
 ```bash
 pip install dbt-postgres
@@ -101,25 +103,36 @@ aws_asset_inventory: # This should match the name in your dbt_project.yml
 
 Test the Connection:
 
-After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly:
+After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly. First, switch to the directory where you extracted this package. Then run this command:
 
 ```bash
 dbt debug
 ```
 
-This command will tell you if dbt can successfully connect to your PostgreSQL instance.
+This command will tell you if dbt can successfully connect to your PostgreSQL instance:
 
-### Login to CloudQuery
+```
+...
+09:37:00    retries: 1
+09:37:00  Registered adapter: postgres=1.9.0
+09:37:00    Connection test: [OK connection ok]
 
-Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal
+09:37:00  All checks passed!
+```
 
-### Syncing AWS data
+### 3. Login to CloudQuery
 
-Based on the models you are interested in running you need to sync the relevant tables.
-This is an example sync for the relevant tables for all the models (views) in the policy and with a Postgres destination.
+To run a sync with CloudQuery, you will need to create an account and log in.
 
- ```yml
+```
+cloudquery login
+```
+
+### 4. Sync AWS data
+
+This is an example sync config for the relevant tables for all the models (views) in this transformation. Save this to a file named `aws.yaml`.
+
+```yml
 kind: source
 spec:
   name: aws # The source type, in this case, AWS.
@@ -139,16 +152,23 @@ spec:
   version: "v8.0.1" # The version of the PostgreSQL plugin.
 
   spec:
-    connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+    connection_string: "${POSTGRESQL_CONNECTION_STRING}" # set the environment variable in a format like
     # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
+```
 
- ```
+For detailed AWS authentication options, list of supported tables, and additional configuration, see the [AWS plugin documentation](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs).
 
-#### Running Your dbt Project
+Run the sync:
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides.
+```shell
+cloudquery sync aws.yaml
+```
+
+### 5. Create the views
+
+Navigate to your dbt project directory, where you extracted this package.
 
 Before executing the `dbt run` command, it might be useful to check for any potential issues:
 
@@ -166,80 +186,18 @@ This command will run your `dbt` models and create tables/views in your destinat
 
 **Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
-To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
+### 6. Explore the data
 
-For a specific model and the models in the dependency graph:
+Connect to your PostgreSQL database and start exploring the data
 
-```bash
-dbt run --select +<model_name>
+```sql
+select * from aws_resources limit 10
 ```
 
-For a specific folder and the models in the dependency graph:
+### 7. Set up Grafana dashboard (Optional)
 
-```bash
-dbt run --models +<model_name>
-```
+Follow the instructions in [AWS Asset Inventory Dashboard](https://hub.cloudquery.io/addons/visualization/cloudquery/aws-asset-inventory/latest/docs) to set up a dashboard in Grafana.
 
-## Syncing Aws Asset Inventory to ClickHouse Using dbt
+### 8. Production deployment
 
-This guide will walk you through the process of syncing **`aws_asset_inventory`** to [ClickHouse](https://hub.cloudquery.io/plugins/destination/cloudquery/clickhouse/latest/docs) as a destination using dbt.
-
-We recommend utilizing the **`aws_resources`** model for this purpose. However, due to ClickHouse's limitations in handling large and complex queries—specifically related to query size and AST (Abstract Syntax Tree) restrictions—you may encounter some challenges. To resolve these, follow the steps outlined below.
-
-### Steps to Configure ClickHouse for dbt
-
-### 1. Create a `cloudquery.yml` ClickHouse Configuration File
-
-Create a `cloudquery.yml` file in your dbt project directory with the following configuration:
-
-```yaml
-<profiles>
-    <default>
-        <max_query_size>10000000</max_query_size>
-        <max_ast_elements>150000</max_ast_elements>
-    </default>
-</profiles>
-```
-
-### 2. Pass the Configuration File to ClickHouse (Example with Docker)
-
-Run the following command to create a Docker container for ClickHouse with the custom configuration file:
-
-```bash
-docker run --platform linux/amd64  --name clickhouse-server --rm -p 8123:8123 -p 9000:9000 \
-            -e CLICKHOUSE_PASSWORD=test \
-            -e CLICKHOUSE_USER=cq \
-            -e CLICKHOUSE_DB=cloudquery \
-            -e CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT=1 \
-            -v ./clickhouse.xml:/etc/clickhouse-server/users.d/cloudquery.xml \
-            clickhouse/clickhouse-server:22.1.2
-```
-
-This command will download the ClickHouse image and start a container that exposes the required ports for interaction.
-
-### 3. Update your `dbt` Profile for ClickHouse
-
-Update your `dbt` profile to include the ClickHouse destination:
-
-```yaml
-aws_asset_inventory:
-  target: dev
-  outputs:
-    dev:
-      type: clickhouse
-      schema: cloudquery
-      host: localhost
-      port: 9000
-      user: cq
-      password: test
-```
-
-### 4. Run `dbt`
-
-Once the ClickHouse server is properly configured, you can now run `dbt` with the appropriate profile:
-
-```bash
-dbt run
-```
-
-This will execute your `dbt` models and sync the data to your ClickHouse destination. Make sure everything is properly set up in the dbt profile to connect to the ClickHouse server.
+This transformation creates a view on top of the database tables synced by CloudQuery CLI. You need to re-run the transformation (using the `dbt run` command) only if you add or remove tables from the sync.
