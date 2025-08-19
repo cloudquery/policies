@@ -37,7 +37,7 @@ One of the below destination plugins based on your database:
 - [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
 - [BigQuery](https://hub.cloudquery.io/plugins/destination/cloudquery/bigquery)
 
-#### Models Included
+### Models Included
 
 - **gcp_resources**: GCP Resources View, available for PostgreSQL.
   - Required tables: This model has no specific table dependencies, other than requiring a single CloudQuery table from the GCP plugin that has a project id.
@@ -142,7 +142,7 @@ spec:
   name: "postgresql" # The type of destination, in this case, PostgreSQL.
   path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
   registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-  version: "v8.0.1" # The version of the PostgreSQL plugin.
+  version: "v8.9.0" # The version of the PostgreSQL plugin.
 
   spec:
     connection_string: "${POSTGRESQL_CONNECTION_STRING}" # set the environment variable in a format like
