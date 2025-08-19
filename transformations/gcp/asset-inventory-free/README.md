@@ -154,7 +154,7 @@ spec:
 Run the sync:
 
 ```shell
-cloudquery sync aws.yaml
+cloudquery sync gcp.yaml
 ```
 
 ### 5. Create the views
