@@ -1,14 +1,13 @@
 # CloudQuery &times; dbt: GCP Asset Inventory Package
+
 ## Overview
 
-Welcome to our free edition of the GCP Asset Inventory package, a solution that works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your GCP environment. Currently, this package supports usage with PostgreSQL, BigQuery, and Snowflake databases. 
-
-### Coming soon
-- GCP Asset Inventory Dashboard
+This GCP Asset Inventory package works on top of the CloudQuery framework. This package offers automated line-item listing of all active resources in your GCP environment. This package supports usage with PostgreSQL, BigQuery, and Snowflake databases.
 
 ### Example Queries
 
 How many resources are there per project? (PostgreSQL)
+
 ```sql
 select project_id, count(*)
 from gcp_resources
@@ -17,6 +16,7 @@ order by count(*) desc
 ```
 
 How many resources by project and region? (PostgreSQL)
+
 ```sql
 select project_id, region, count(*)
 from gcp_resources
@@ -26,12 +26,12 @@ order by count(*) desc
 
 ### Requirements
 
-- [dbt](https://docs.getdbt.com/docs/core/pip-install)
-- [CloudQuery](https://cli-docs.cloudquery.io/docs/quickstart/)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [CloudQuery](https://cloud.cloudquery.io/getting-started/)
 - [CloudQuery GCP plugin](https://hub.cloudquery.io/plugins/source/cloudquery/gcp)
- 
-One of the below databases:
+- [dbt](https://docs.getdbt.com/docs/core/pip-install)
+
+One of the below destination plugins based on your database:
 
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 - [Snowflake](https://hub.cloudquery.io/plugins/destination/cloudquery/snowflake)
@@ -40,7 +40,7 @@ One of the below databases:
 #### Models Included
 
 - **gcp_resources**: GCP Resources View, available for PostgreSQL.
-  - Required tables: This model has no specific table dependencies, other than requiring a single CloudQuery table from the GCP plugin that has a project id. 
+  - Required tables: This model has no specific table dependencies, other than requiring a single CloudQuery table from the GCP plugin that has a project id.
 
 #### Columns Included
 
@@ -56,8 +56,14 @@ One of the below databases:
 
 ## To run this package you need to complete the following steps
 
-### Setting up the DBT profile
-First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+### 1. Download and extract this package.
+
+Click the **Download now** button on the top. You may need to create a CloudQuery account first.
+
+### 2. Install DBT and set up the DBT profile
+
+[Install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+
 ```bash
 pip install dbt-postgres
 ```
@@ -71,7 +77,7 @@ mkdir -p ~/.dbt
 Create a `profiles.yml` file in your profile directory (e.g. `~/.dbt/profiles.yml`):
 
 ```yaml
-gcp_asset_inventory: # This should match the name in your dbt_project.yml
+aws_asset_inventory: # This should match the name in your dbt_project.yml
   target: dev
   outputs:
     dev:
@@ -87,30 +93,43 @@ gcp_asset_inventory: # This should match the name in your dbt_project.yml
 
 Test the Connection:
 
-After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly:
+After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly. First, switch to the directory where you extracted this package. Then run this command:
 
 ```bash
 dbt debug
 ```
 
-This command will tell you if dbt can successfully connect to your PostgreSQL instance.
+This command will tell you if dbt can successfully connect to your PostgreSQL instance:
 
-### Login to CloudQuery
-Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal
+```
+...
+09:37:00    retries: 1
+09:37:00  Registered adapter: postgres=1.9.0
+09:37:00    Connection test: [OK connection ok]
 
-### Syncing GCP data
-Based on the models you are interested in running you need to sync the relevant tables.
-This is an example sync for the relevant tables for all the models (views) in the policy and with a postgres destination
+09:37:00  All checks passed!
+```
 
- ```yml
+### 3. Login to CloudQuery
 
+To run a sync with CloudQuery, you will need to create an account and log in.
+
+```
+cloudquery login
+```
+
+### 4. Sync GCP data
+
+This is an example sync config for the relevant tables for all the models (views) in this transformation. Save this to a file named `gcp.yaml`.
+For detailed GCP authentication and configuration options and additional tables to add to the sync config, see the [GCP plugin documentation](https://hub.cloudquery.io/plugins/source/cloudquery/gcp/latest/docs).
+
+```yml
 kind: source
 spec:
   name: "gcp" # The source type, in this case, GCP.
   path: "cloudquery/gcp" # The plugin path for handling GCP sources.
   registry: "cloudquery" # The registry from which the GCP plugin is sourced.
-  version: "v12.3.2" # The version of the GCP plugin.
+  version: "v19.1.0" # The version of the GCP plugin.
   tables: ["gcp_storage_buckets"] # Include any tables that meet your requirements, separated by commas
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   spec:
@@ -126,16 +145,21 @@ spec:
   version: "v8.0.1" # The version of the PostgreSQL plugin.
 
   spec:
-    connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+    connection_string: "${POSTGRESQL_CONNECTION_STRING}" # set the environment variable in a format like
     # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
+```
 
- ```
+Run the sync:
 
-#### Running Your dbt Project
+```shell
+cloudquery sync aws.yaml
+```
 
-Navigate to your dbt project directory, where your `dbt_project.yml` resides.
+### 5. Create the views
+
+Navigate to your dbt project directory, where you extracted this package.
 
 Before executing the `dbt run` command, it might be useful to check for any potential issues:
 
@@ -153,17 +177,14 @@ This command will run your `dbt` models and create tables/views in your destinat
 
 **Note:** If running locally, ensure you are using `dbt-core` and not `dbt-cloud-cli` as dbt-core does not require extra authentication.
 
-To run specific models and the models in the dependency graph, the following `dbt run` commands can be used:
+### 6. Explore the data
 
-For a specific model and the models in the dependency graph:
+Connect to your database and start exploring the data
 
-```bash
-dbt run --select +<model_name>
+```sql
+select * from gcp_resources limit 10
 ```
 
-For a specific folder and the models in the dependency graph:
+### 7. Production deployment
 
-```bash
-dbt run --models +<model_name>
-```
-
+This transformation creates a view on top of the database tables synced by CloudQuery CLI. You need to re-run the transformation (using the `dbt run` command) only if you add or remove tables from the sync.
