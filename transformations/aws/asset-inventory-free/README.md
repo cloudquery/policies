@@ -130,7 +130,7 @@ cloudquery login
 
 ### 4. Sync AWS data
 
-This is an example sync config for the relevant tables for all the models (views) in this transformation. Save this to a file named `aws.yaml`.
+This is an example sync config with the minimum set of tables for this transformation. Save this to a file named `aws.yaml`. For additional tables to add to the sync config, see the list of tables in the [AWS plugin documentation](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/tables).
 
 ```yml
 kind: source
