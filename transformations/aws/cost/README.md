@@ -1,21 +1,31 @@
 # AWS Cost Policy
 
-Welcome to AWS Cost Policy, a comprehensive solution designed to help you analyze and optimize your AWS spending. By leveraging CloudQuery, Cost and Usage Report, and DBT, AWS Cost Policy provides insightful views into your AWS usage and costs, identifying under-utilized resources, and allocating costs based on tags. This tool is ideal for cloud engineers, finance teams, and anyone looking to gain better visibility into their AWS costs.
+This AWS Cost Policy package is designed to help you analyze and optimize your AWS spending. By leveraging CloudQuery, Cost and Usage Report, and DBT, AWS Cost Policy provides insightful views into your AWS usage and costs, identifying under-utilized resources, and allocating costs based on tags. This tool is ideal for cloud engineers, finance teams, and anyone looking to gain better visibility into their AWS costs.
 
 ## Prerequisites
 
 Before you begin, ensure you have the following:
-- An active AWS account with cost and usage report activated. [Creating a Cost and Usage Report](https://docs.aws.amazon.com/cur/latest/userguide/cur-create.html)
-- CloudQuery CLI downloaded and installed. [Installing CloudQuery CLI](https://docs.cloudquery.io/docs)
-- DBT CLI downloaded installed and configured. [Installing DBT CLI](https://docs.getdbt.com/docs/core/pip-install)
-- A CloudQuery account. [Register to CloudQuery](https://www.cloudquery.io/auth/register?returnTo=%2Fz)
+
+- An active AWS account with [Data Exports from Billing and Cost Management](https://docs.aws.amazon.com/cur/latest/userguide/what-is-data-exports.html?icmpid=docs_costmanagement_hp-dataexports-overview) enabled.
+- [CloudQuery](https://docs.cloudquery.io/docs/quickstart/)
+- [CloudQuery AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
+- [CloudQuery S3 plugin](https://hub.cloudquery.io/plugins/source/cloudquery/s3)
+- [A CloudQuery Account](https://www.cloudquery.io/auth/register)
+- [dbt](https://docs.getdbt.com/docs/core/pip-install)
+- [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 - A Postgresql instance running (Local or cloud based). [Running Postgres with Docker](https://www.docker.com/blog/how-to-use-the-postgres-docker-official-image/)
 - Basic familiarity with YAML and SQL.
 
-
 ## To run the policy you need to complete the following steps
-### Setting up the DBT profile
-First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+
+### 1. Download and extract this package.
+
+Click the **Download now** button on the top. You may need to create a CloudQuery account first.
+
+### 2. Install DBT and set up the DBT profile
+
+[Install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+
 ```bash
 pip install dbt-postgres
 ```
@@ -45,21 +55,37 @@ aws_cost: # This should match the name in your dbt_project.yml
 
 Test the Connection:
 
-After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly:
+After setting up your `profiles.yml`, you should test the connection to ensure everything is configured correctly. First, switch to the directory where you extracted this package. Then run this command:
 
 ```bash
 dbt debug
 ```
 
-This command will tell you if dbt can successfully connect to your PostgreSQL instance.
+This command will tell you if dbt can successfully connect to your PostgreSQL instance:
 
+```
+...
+09:37:00    retries: 1
+09:37:00  Registered adapter: postgres=1.9.0
+09:37:00    Connection test: [OK connection ok]
 
-### Login to CloudQuery
-Because this policy uses premium features and tables you must login to your cloudquery account using
-`cloudquery login` in your terminal
+09:37:00  All checks passed!
+```
 
-### Syncing the Cost and Usage Report
-Using the S3 Plugin and the Postgres Plugin sync the CUR file, you can use this example config yaml but make sure to fill the necessary values
+### 3. Login to CloudQuery
+
+To run a sync with CloudQuery, you will need to create an account and log in.
+
+```
+cloudquery login
+```
+
+### 4. Sync the Cost and Usage Report
+
+Using the S3 Plugin and the Postgres Plugin, sync the exported cost and usage report file. You can use this example config yaml, make sure to fill the necessary values for `bucket` and `region`.
+
+For detailed authentication options see the [S3 plugin documentation](https://hub.cloudquery.io/plugins/source/cloudquery/s3/latest/docs).
+
 ```yml
   kind: source
   spec:
@@ -70,30 +96,39 @@ Using the S3 Plugin and the Postgres Plugin sync the CUR file, you can use this 
     tables: ["*"] # Specifies that all tables in the source should be considered.
     destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
     spec:
-      bucket: "<BUCKET_NAME>"
-      region: "<REGION>" 
+      bucket: "<BUCKET_NAME>" # specify the name of the bucket with the exported reports
+      region: "<REGION>" # specify the bucket region
       # path_prefix: "" # Optional. Only sync files with this prefix
       # concurrency: 50 # Optional. Defines the number of files to sync in parallel. Defaults to 50 if not set.
-
   ---
   kind: destination
   spec:
     name: "postgresql" # The type of destination, in this case, PostgreSQL.
     path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
     registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-    version: "v7.3.5" # The version of the PostgreSQL plugin.
+    version: "v8.9.0"" # The version of the PostgreSQL plugin.
   spec:
-      connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+      connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like
       # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
       # You can also specify the connection string in DSN format, which allows for special characters in the password:
       # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
 ```
 
-### Syncing AWS data
-Based on the models you are interested in running you need to sync the relevant tables
-this is an example sync for the relevant tables for all the models (views) in the policy
+Run the sync (assuming the file above is saved to `s3_to_postgres.yaml`):
 
-*Do note* you will have to configure the cloudwatch spec to suit your data
+```shell
+cloudquery sync s3_to_postgres.yaml
+```
+
+### 4. Sync AWS data
+
+Based on the models you are interested in running you need to sync the relevant tables. Below is an example sync for the relevant tables for all the models (views) in the policy.
+
+_Do note_ you will have to configure the cloudwatch spec to suit your data.
+
+For detailed AWS authentication and configuration options and additional tables to add to the sync config, see the [AWS plugin documentation](https://hub.cloudquery.io/plugins/source/cloudquery/aws/latest/docs).
+
+Save this to a file named `aws.yaml`:
 
 ```yml
 kind: source
@@ -101,8 +136,70 @@ spec:
   name: aws # The source type, in this case, AWS.
   path: cloudquery/aws # The plugin path for handling AWS sources.
   registry: cloudquery # The registry from which the AWS plugin is sourced.
-  version: "v24.3.2" # The version of the AWS plugin.
-  tables: ["aws_cloudwatch_metrics", "aws_cloudwatch_metric_statistics", "aws_ec2_instances", "aws_rds_instances", "aws_cloudhsmv2_backups", "aws_docdb_cluster_snapshots", "aws_dynamodb_backups", "aws_dynamodb_table_continuous_backups", "aws_ec2_ebs_snapshots", "aws_elasticache_snapshots", "aws_fsx_backups", "aws_fsx_snapshots", "aws_lightsail_database_snapshots", "aws_lightsail_disk_snapshots", "aws_lightsail_instance_snapshots", "aws_neptune_cluster_snapshots", "aws_rds_cluster_snapshots", "aws_rds_db_snapshots", "aws_redshift_snapshots", "aws_computeoptimizer_autoscaling_group_recommendations", "aws_autoscaling_groups", "aws_computeoptimizer_ebs_volume_recommendations", "aws_computeoptimizer_ec2_instance_recommendations", "aws_ec2_instances", "aws_computeoptimizer_ecs_service_recommendations", "aws_ecs_cluster_services", "aws_computeoptimizer_lambda_function_recommendations", "aws_lambda_functions", "aws_acm_certificates", "aws_backup_vaults", "aws_cloudfront_distributions", "aws_directconnect_connections", "aws_dynamodb_tables", "aws_ec2_ebs_volumes", "aws_ec2_eips", "aws_ec2_hosts", "aws_ec2_images", "aws_ec2_internet_gateways", "aws_ec2_network_acls", "aws_ec2_transit_gateways", "aws_ec2_transit_gateway_attachments", "aws_ecr_repositories", "aws_ecr_repository_images", "aws_efs_filesystems", "aws_lightsail_container_service_deployments", "aws_lightsail_container_services", "aws_lightsail_disks", "aws_lightsail_distributions", "aws_lightsail_load_balancers", "aws_lightsail_static_ips", "aws_elbv2_listeners", "aws_elbv2_target_groups", "aws_elbv2_load_balancers", "aws_route53_hosted_zones", "aws_sns_subscriptions", "aws_sns_topics", "aws_support_trusted_advisor_checks", "aws_support_trusted_advisor_check_results"]
+  version: "v32.38.0" # The version of the AWS plugin.
+  tables:
+    [
+      "aws_rds_clusters",
+      "aws_ec2_instance_statuses",
+      "aws_cloudwatch_metrics",
+      "aws_cloudwatch_metric_statistics",
+      "aws_ec2_instances",
+      "aws_rds_instances",
+      "aws_cloudhsmv2_backups",
+      "aws_docdb_cluster_snapshots",
+      "aws_dynamodb_backups",
+      "aws_dynamodb_table_continuous_backups",
+      "aws_ec2_ebs_snapshots",
+      "aws_elasticache_snapshots",
+      "aws_fsx_backups",
+      "aws_fsx_snapshots",
+      "aws_lightsail_database_snapshots",
+      "aws_lightsail_disk_snapshots",
+      "aws_lightsail_instance_snapshots",
+      "aws_neptune_cluster_snapshots",
+      "aws_rds_cluster_snapshots",
+      "aws_rds_db_snapshots",
+      "aws_redshift_snapshots",
+      "aws_computeoptimizer_autoscaling_group_recommendations",
+      "aws_autoscaling_groups",
+      "aws_computeoptimizer_ebs_volume_recommendations",
+      "aws_computeoptimizer_ec2_instance_recommendations",
+      "aws_ec2_instances",
+      "aws_computeoptimizer_ecs_service_recommendations",
+      "aws_ecs_cluster_services",
+      "aws_computeoptimizer_lambda_function_recommendations",
+      "aws_lambda_functions",
+      "aws_acm_certificates",
+      "aws_backup_vaults",
+      "aws_cloudfront_distributions",
+      "aws_directconnect_connections",
+      "aws_dynamodb_tables",
+      "aws_ec2_ebs_volumes",
+      "aws_ec2_eips",
+      "aws_ec2_hosts",
+      "aws_ec2_images",
+      "aws_ec2_internet_gateways",
+      "aws_ec2_network_acls",
+      "aws_ec2_transit_gateways",
+      "aws_ec2_transit_gateway_attachments",
+      "aws_ecr_repositories",
+      "aws_ecr_repository_images",
+      "aws_efs_filesystems",
+      "aws_lightsail_container_service_deployments",
+      "aws_lightsail_container_services",
+      "aws_lightsail_disks",
+      "aws_lightsail_distributions",
+      "aws_lightsail_load_balancers",
+      "aws_lightsail_static_ips",
+      "aws_elbv2_listeners",
+      "aws_elbv2_target_groups",
+      "aws_elbv2_load_balancers",
+      "aws_route53_hosted_zones",
+      "aws_sns_subscriptions",
+      "aws_sns_topics",
+      "aws_support_trusted_advisor_checks",
+      "aws_support_trusted_advisor_check_results",
+    ]
   destinations: ["postgresql"] # The destination for the data, in this case, PostgreSQL.
   use_paid_apis: true
   skip_dependent_tables: true
@@ -130,96 +227,127 @@ spec:
   name: "postgresql" # The type of destination, in this case, PostgreSQL.
   path: "cloudquery/postgresql" # The plugin path for handling PostgreSQL as a destination.
   registry: "cloudquery" # The registry from which the PostgreSQL plugin is sourced.
-  version: "v7.3.5" # The version of the PostgreSQL plugin.
+  version: "v8.9.0" # The version of the PostgreSQL plugin.
 
   spec:
-    connection_string: "${POSTGRESQL_CONNECTION_STRING}"  # set the environment variable in a format like 
+    connection_string: "${POSTGRESQL_CONNECTION_STRING}" # set the environment variable in a format like
     # postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
     # You can also specify the connection string in DSN format, which allows for special characters in the password:
     # connection_string: "user=postgres password=pass+0-[word host=localhost port=5432 dbname=postgres"
-
 ```
 
-### Running the Policy
-To run this policy you need to specify the name of the cost and usage report in your database, if you used the file plugin to load the report the table name will be the same as the file name (without the file extension).
-Navigate to your dbt project directory, where your `dbt_project.yml` resides.
+Run the sync:
 
-Before executing the `dbt run` command, it might be useful to check for any potential issues:
+```shell
+cloudquery sync aws.yaml
+```
+
+### 5. Create the views
+
+To run this policy you need to specify the name of the cost and usage report in your database, if you used the file plugin to load the report the table name will be the same as the file name (without the file extension).
+
+Navigate to your dbt project directory, where you extracted this package.
+
+Before executing the `dbt run` command, it might be useful to check for any potential issues (replace `<cost_and_usage_report_name>` with the actual file name):
 
 ```bash
-dbt compile --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
+dbt compile --vars '{"cost_usage_table": "<cost_and_usage_report_name>"}'
 ```
 
 If everything compiles without errors, you can then execute:
 
 ```bash
-dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}'
+dbt run --vars '{"cost_usage_table": "<cost_and_usage_report_name>"}'
 ```
 
-To run specific models
+To run specific models (views) only:
 
 ```bash
 dbt run --vars '{"cost_usage_table": "<cost_and_usage_report>"}' --select aws_cost__by_regions aws_cost__by_resources
 ```
 
+### 6. Explore the data
 
-## Usage Examples
+Connect to your PostgreSQL database and start exploring the data. Below are a few examples of what you can do with the newly created views.
 
-### Top 10 Most Cost Consuming Under-Utilized Resources
+#### Top 10 Most Cost Consuming Under-Utilized Resources
+
 To quickly identify which resources are both under-utilized and consuming a significant portion of your budget, use the following query:
+
 ```sql
 SELECT service, arn, cost
 FROM aws_cost__by_under_utilized_resources
 ORDER BY cost DESC
 LIMIT 10;
 ```
-### Most Cost Consuming Resource Types for Unused Resources
+
+#### Most Cost Consuming Resource Types for Unused Resources
+
 To uncover resources that are no longer in use but still incurring costs, facilitating decisions on resource cleanup:
+
 ```sql
 SELECT resource_type, SUM(cost) AS total_cost
-FROM aws_cost__of_unused_resources
+FROM aws_cost__by_unused_resources
 GROUP BY resource_type
 ORDER BY total_cost DESC;
 ```
-### Cost Allocation by CloudFormation Tags
+
+#### Cost Allocation by CloudFormation Tags
+
 For organizations utilizing AWS CloudFormation, understanding cost distribution across different stacks is crucial:
+
 ```sql
 SELECT cloudformation_stack_name, SUM(sum_line_item_unblended_cost) AS total_cost
 FROM aws_cost__cloudformation_tag_spend_allocation
 GROUP BY cloudformation_stack_name
 ORDER BY total_cost DESC;
 ```
-### ECS Service Cost Optimization Opportunities
+
+#### ECS Service Cost Optimization Opportunities
+
 Identify ECS services that may benefit from optimization to reduce costs without compromising on performance:
+
 ```sql
 SELECT service_name, region, current_performance_risk, finding, recommended_performance_risk, cost
 FROM ecs_service_optimization_recommendations
 WHERE finding = 'Over-provisioned'
 ORDER BY cost DESC;
 ```
-### Lambda Functions with Optimization Potential
+
+#### Lambda Functions with Optimization Potential
+
 Spot Lambda functions that might be running with more memory than required, indicating an opportunity for cost savings:
+
 ```sql
 SELECT function_name, region, current_memory_size, recommend_memory_size, number_of_invocations, cost
 FROM lambda_function_optimization_recommendations
 WHERE current_memory_size > recommend_memory_size
 ORDER BY cost DESC;
 ```
-### Insights into Trusted Advisor Cost Optimization Recommendations
+
+#### Insights into Trusted Advisor Cost Optimization Recommendations
+
 Gain insights from AWS Trusted Advisor's cost optimization checks to further reduce expenses:
+
 ```sql
 SELECT name, description, category, arn, account_id
 FROM aws_cost__trusted_advisor_by_arn
 ORDER BY account_id, arn;
 ```
 
+### 7. Production deployment
+
+This transformation creates a view on top of the database tables synced by CloudQuery CLI. You need to re-run the transformation (using the `dbt run` command) only if you add or remove tables from the sync.
+
 ## Data Dictionary
+
 In this section you can see all the models (views) that are included in the policy with an explanation about the data inside and the columns available.
 cost will be in the same units as it is in the CUR file which are USD ($).
 line_item_resource_id is usually the resource ARN except in certain cases where it is a volume_id or instance_id of certain services.
-By default the models related to tags are disabled (Tags  are only available in the CUR if they are activated), to enable this model change them to enabled in the models section in `dbt_project.yml`
+By default the models related to tags are disabled (Tags are only available in the CUR if they are activated), to enable this model change them to enabled in the models section in `dbt_project.yml`
 
 #### `aws_cost__by_under_utilized_resources`
+
 Identifies resources that are under-utilized based on specific metrics (e.g., CPUUtilization, storage usage), highlighting opportunities for cost optimization. Supported services include EC2 Instances, RDS Clusters, and DynamoDB.
 
 - `arn` - The resource identifier.
@@ -230,6 +358,7 @@ Identifies resources that are under-utilized based on specific metrics (e.g., CP
 - `cost` - The cost of the resource.
 
 #### `aws_cost__of_unused_resources`
+
 Identifies resources and are completely unused (not metric based), highlighting 'To Be Deleted' resources.
 Supported services are acm certs, backup vaults, cloudfront distributions, directconnect connections, dynamodb tables, ec2 ebs volumes, ec2 eips, ec2 internet gateways, ec2 hosts, ec2 images, ec2 network acls, ec2 transit gateways, ecr repositories, efs filesystems, lightsail container services, lightsail disks, lightsail distributions, lightsail load balancers, lightsail static ips, load balancers, route53 hosted zones, sns topics.
 
@@ -239,6 +368,7 @@ Supported services are acm certs, backup vaults, cloudfront distributions, direc
 - `resource_type` - the type of resource (i.e lightsail load balancer)
 
 #### `aws_cost__cloudformation_tag_spend_allocation`
+
 Provides a breakdown of costs by CloudFormation tags, helping in cost allocation and chargeback calculations.
 
 - `cloudformation_logical_id` - Identifier for the CloudFormation resource.
@@ -253,6 +383,7 @@ Provides a breakdown of costs by CloudFormation tags, helping in cost allocation
 - `chargeback` - Chargeback amount for tagged resources.
 
 #### `aws_cost__by_cloudformation_tag`
+
 Focuses on cost allocation for resources tagged with CloudFormation tags.
 
 - `cloudformation_logical_id` - Identifier for the CloudFormation resource.
@@ -261,6 +392,7 @@ Focuses on cost allocation for resources tagged with CloudFormation tags.
 - `sum_line_item_unblended_cost` - Raw cost per CloudFormation tag group.
 
 #### `aws_cost__beanstalk_tag_spend_allocation`
+
 Analyzes costs associated with Elastic Beanstalk environments, aiding in understanding spend distribution across tagged and untagged resources.
 
 - `elasticbeanstalk_environment_id` - Identifier for the Elastic Beanstalk environment.
@@ -274,6 +406,7 @@ Analyzes costs associated with Elastic Beanstalk environments, aiding in underst
 - `chargeback` - Chargeback amount for tagged resources.
 
 #### `aws_cost__by_beanstalk_tag`
+
 Details cost allocation for Elastic Beanstalk tagged resources.
 
 - `elasticbeanstalk_environment_id` - Identifier for the Elastic Beanstalk environment.
@@ -281,6 +414,7 @@ Details cost allocation for Elastic Beanstalk tagged resources.
 - `sum_line_item_unblended_cost` - Raw cost per Elastic Beanstalk tag.
 
 #### `aws_cost__ecs_tag_spend_allocation`
+
 Offers insights into costs by ECS cluster tags, facilitating detailed spend analysis and chargeback for ECS resources.
 
 - `ecs_cluster` - Identifier for the ECS cluster.
@@ -294,6 +428,7 @@ Offers insights into costs by ECS cluster tags, facilitating detailed spend anal
 - `chargeback` - Chargeback amount for tagged resources.
 
 #### `aws_cost__by_ecs_tag`
+
 Concentrates on cost breakdown for resources tagged within ECS clusters.
 
 - `ecs_cluster` - Identifier for the ECS cluster.
@@ -301,6 +436,7 @@ Concentrates on cost breakdown for resources tagged within ECS clusters.
 - `sum_line_item_unblended_cost` - Raw cost per ECS tag.
 
 #### `aws_cost__lambda_tag_spend_allocation`
+
 Breaks down Lambda function costs by tags, aiding in the management and allocation of Lambda-related expenses.
 
 - `lambda_function_name` - Identifier for the Lambda function.
@@ -314,6 +450,7 @@ Breaks down Lambda function costs by tags, aiding in the management and allocati
 - `chargeback` - Chargeback amount for tagged resources.
 
 #### `aws_cost__by_lambda_tag`
+
 Details cost allocation for Lambda functions based on tagging.
 
 - `lambda_function_name` - Identifier for the Lambda function.
@@ -321,6 +458,7 @@ Details cost allocation for Lambda functions based on tagging.
 - `sum_line_item_unblended_cost` - Raw cost per Lambda tag.
 
 #### `aws_cost__by_tag`
+
 General view for analyzing costs by AWS tags, facilitating broad cost management across different AWS resources.
 
 - `aws_tag_name` - The name of the AWS tag.
@@ -329,6 +467,7 @@ General view for analyzing costs by AWS tags, facilitating broad cost management
 - `sum_line_item_unblended_cost` - Sum of the raw cost per tag.
 
 #### `aws_cost__by_untagged_resource`
+
 Highlights costs associated with untagged resources, offering insights into potential areas for cost optimization through better resource tagging.
 
 - `account_id` - AWS account ID.
@@ -338,14 +477,18 @@ Highlights costs associated with untagged resources, offering insights into pote
 - `sum_line_item_unblended_cost` - Sum of the raw cost per untagged resource.
 
 #### `aws_cost__by_recovery_resources`
+
 Provides insights into the cost associated with recovery resources.
+
 - `account_id` - The account ID that owns the resource.
 - `resource_id` - The identifier of the resource.
 - `cost` - The cost associated with the resource.
 - `resource_type` - The type of the resource, e.g., `rds_db_snapshots`.
 
 #### `autoscaling_group_optimization_recommendations`
+
 Offers recommendations for optimizing Auto Scaling Groups.
+
 - `account_id` - The account ID that owns the Auto Scaling Group resource.
 - `auto_scaling_group_arn` - The Amazon Resource Name (ARN) of the Auto Scaling Group.
 - `auto_scaling_group_name` - The name of the Auto Scaling Group.
@@ -369,7 +512,9 @@ Offers recommendations for optimizing Auto Scaling Groups.
 - `cost` - The cost associated with the Auto Scaling Group.
 
 #### `ebs_volume_optimization_recommendations`
+
 Analyzes EBS volumes to provide recommendations for optimizing performance and cost.
+
 - `account_id` - The account ID that owns the EBS volume resource.
 - `volume_arn` - The Amazon Resource Name (ARN) of the EBS volume.
 - `ecs_attached` - Indicates if the EBS volume is attached to an ECS container instance.
@@ -398,7 +543,9 @@ Analyzes EBS volumes to provide recommendations for optimizing performance and c
 - `cost` - The cost associated with the EBS volume.
 
 #### `ec2_instances_optimization_recommendations`
+
 Provides optimization recommendations for EC2 instances.
+
 - `account_id` - The account ID that owns the EC2 instance resource.
 - `instance_arn` - The Amazon Resource Name (ARN) of the EC2 instance.
 - `region` - The region where the EC2 instance is located.
@@ -420,7 +567,9 @@ Provides optimization recommendations for EC2 instances.
 - `cost` - The cost associated with the EC2 instance.
 
 #### `ecs_service_optimization_recommendations`
+
 Targets ECS services for optimization.
+
 - `account_id` - The account ID that owns the ECS service.
 - `service_arn` - The Amazon Resource Name (ARN) of the ECS service.
 - `service_name` - The name of the ECS service.
@@ -442,7 +591,9 @@ Targets ECS services for optimization.
 - `cost` - The cost associated with the ECS service.
 
 #### `lambda_function_optimization_recommendations`
+
 Provides optimization recommendations for Lambda functions.
+
 - `account_id` - The account ID that owns the Lambda function.
 - `function_arn` - The Amazon Resource Name (ARN) of the Lambda function.
 - `function_name` - The name of the Lambda function.
@@ -459,6 +610,7 @@ Provides optimization recommendations for Lambda functions.
 - `recommend_memory_size` - The recommended memory size for the Lambda function.
 
 #### `aws_cost__trusted_advisor_by_arn`
+
 This view aggregates data from AWS Trusted Advisor checks specifically related to cost optimization. It joins information about the checks with the resources they flag, providing a focused view on areas where cost efficiency can be improved.
 
 - `account_id` - The AWS account ID that owns the resource. This field helps identify which account a particular piece of advice applies to, making it easier for organizations with multiple accounts to allocate advice to the correct account.
@@ -469,7 +621,9 @@ This view aggregates data from AWS Trusted Advisor checks specifically related t
 - `description` - The description of the Trusted Advisor check. This field offers more detailed information about what the check entails and possibly how to address the advice given.
 
 ### `aws_cost__anomaly_per_service`
+
 Identifies resources within an AWS service that have costs considered statistically anomalous compared to other resources in the same service.
+
 - `line_item_product_code` - The AWS service.
 - `line_item_resource_id` - The resource ARN.
 - `cost` - The total cost of the resource.
@@ -477,28 +631,38 @@ Identifies resources within an AWS service that have costs considered statistica
 - `std_cost` - The standard deviation of the cost for the service (`product_code`).
 
 ### `aws_cost__by_account`
+
 Aggregates costs by account.
+
 - `line_item_usage_account_id` - The account that incurred the cost.
 - `cost` - The total cost for the account.
 
 ### `aws_cost__by_region`
+
 Aggregates costs by region.
+
 - `product_location` - The region where the resource is located.
 - `cost` - The total cost for the region.
 
 ### `aws_cost__by_resource`
+
 Aggregates costs by resource.
+
 - `line_item_resource_id` - The resource ARN.
 - `line_item_product_code` - The AWS service.
 - `cost` - The total cost of the resource.
 
 ### `aws_cost__by_product`
+
 Aggregates costs by AWS Product.
+
 - `line_item_product_code` - The AWS product (i.e EC2, RDS).
 - `cost` - The total cost for the region.
 
 ### `aws_cost__gp2_ebs_volumes`
+
 Details the cost of GP2 EBS volumes.
+
 - `line_item_resource_id` - The resource ID.
 - `cost` - The total cost of the resource.
 - `volume_type` - The volume type.
@@ -511,15 +675,17 @@ Details the cost of GP2 EBS volumes.
 - `create_time` - The volume creation time.
 
 ### `aws_cost__over_time`
+
 Aggregates cost by time period.
+
 - `line_item_usage_start_date` - The start date of the billing period.
 - `line_item_usage_end_date` - The end date of the billing period.
 - `cost` - The total cost in the time period.
 
-
 ## Required Tables By Model (View)
 
 ### `aws_cost__by_under_utilized_resources`
+
 - `cost table`
 - `aws_cloudwatch_metrics`
 - `aws_cloudwatch_metric_statistics`
@@ -527,6 +693,7 @@ Aggregates cost by time period.
 - `aws_rds_instances`
 
 ### `aws_cost__by_recovery_resources`
+
 - `cost table`
 - `aws_cloudhsmv2_backups`
 - `aws_docdb_cluster_snapshots`
@@ -545,6 +712,7 @@ Aggregates cost by time period.
 - `aws_redshift_snapshots`
 
 ### `compute_optimizer`
+
 - **Autoscaling Group**
   - `aws_computeoptimizer_autoscaling_group_recommendations`
   - `aws_autoscaling_groups`
@@ -562,6 +730,7 @@ Aggregates cost by time period.
   - `aws_lambda_functions`
 
 ### `aws_cost__by_unused_resources`
+
 - `cost table`
 - `aws_cost__by_resource`
 - `aws_acm_certificates`
@@ -594,83 +763,105 @@ Aggregates cost by time period.
 - `aws_sns_topics`
 
 ### `aws_cost__cloudformation_tag_spend_allocation`
+
 - `cost table`
 
 ### `aws_cost__by_cloudformation_tag`
+
 - `cost table`
 
 ### `aws_cost__beanstalk_tag_spend_allocation`
+
 - `cost table`
 
 ### `aws_cost__by_beanstalk_tag`
+
 - `cost table`
 
 ### `aws_cost__ecs_tag_spend_allocation`
+
 - `cost table`
 
 ### `aws_cost__by_ecs_tag`
+
 - `cost table`
 
 ### `aws_cost__lambda_tag_spend_allocation`
+
 - `cost table`
 
 ### `aws_cost__by_lambda_tag`
+
 - `cost table`
 
 ### `aws_cost__by_tag`
+
 - `cost table`
 
 ### `aws_cost__by_untagged_resource`
+
 - `cost table`
 
 ### `autoscaling_group_optimization_recommendations`
+
 - `cost table`
 - `aws_computeoptimizer_autoscaling_group_recommendations`
 - `aws_autoscaling_groups`
 
 ### `ebs_volume_optimization_recommendations`
+
 - `cost table`
 - `aws_computeoptimizer_ebs_volume_recommendations`
 - `aws_ec2_ebs_volumes`
 
 ### `ec2_instances_optimization_recommendations`
+
 - `cost table`
 - `aws_computeoptimizer_ec2_instance_recommendations`
 - `aws_ec2_instances`
 
 ### `ecs_service_optimization_recommendations`
+
 - `cost table`
 - `aws_computeoptimizer_ecs_service_recommendations`
 - `aws_ecs_cluster_services`
 
 ### `lambda_function_optimization_recommendations`
+
 - `cost table`
 - `aws_computeoptimizer_lambda_function_recommendations`
 - `aws_lambda_functions`
 
 ### `aws_cost__trusted_advisor_by_arn`
+
 - `aws_support_trusted_advisor_checks`
 - `aws_support_trusted_advisor_check_results`- `
 
-
 ### `aws_cost__over_time`
+
 - `cost table`
 
 ### `aws_cost__by_resource`
+
 - `cost table`
 
 ### `aws_cost__by_region`
+
 - `cost table`
 
 ### `aws_cost__by_account`
+
 - `cost table`
 
 ### `aws_cost__by_product`
+
 - `cost table`
 
 ### `aws_cost__anomaly_per_service`
+
 - `cost table`
 
 ### `aws_cost__gcp2_ebs_volumes`
+
 - `cost table`
 - `aws_ec2_ebs_volumes`
