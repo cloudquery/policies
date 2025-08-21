@@ -25,7 +25,7 @@
   "transformations/aws/encryption+FILLER": "0.0.0",
   "transformations/aws/asset-inventory-free": "2.3.6",
   "transformations/aws/asset-inventory+FILLER": "0.0.0",
-  "visualizations/aws/asset_inventory": "2.1.1",
+  "visualizations/aws/asset_inventory": "2.1.2",
   "visualizations/aws/asset_inventory+FILLER": "0.0.0",
   "transformations/aws/cost": "1.2.1",
   "transformations/aws/cost+FILLER": "0.0.0",
