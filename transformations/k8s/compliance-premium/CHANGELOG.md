@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.11](https://github.com/cloudquery/policies/compare/transformation-k8s-compliance-premium-v0.6.10...transformation-k8s-compliance-premium-v0.6.11) (2025-08-21)
+
+
+### Bug Fixes
+
+* Broken Links ([#1377](https://github.com/cloudquery/policies/issues/1377)) ([eb16cab](https://github.com/cloudquery/policies/commit/eb16cab9537e4c24bebb9e212a24a5389996a8cb))
+
 ## [0.6.10](https://github.com/cloudquery/policies/compare/transformation-k8s-compliance-premium-v0.6.9...transformation-k8s-compliance-premium-v0.6.10) (2025-02-20)
 
 

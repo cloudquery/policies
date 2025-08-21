@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/cloudquery/policies/compare/visualization-aws-compliance-v2.1.1...visualization-aws-compliance-v2.1.2) (2025-08-21)
+
+
+### Bug Fixes
+
+* Broken Links ([#1377](https://github.com/cloudquery/policies/issues/1377)) ([eb16cab](https://github.com/cloudquery/policies/commit/eb16cab9537e4c24bebb9e212a24a5389996a8cb))
+
 ## [2.1.1](https://github.com/cloudquery/policies-premium/compare/visualization-aws-compliance-v2.1.0...visualization-aws-compliance-v2.1.1) (2024-06-05)
 
 
