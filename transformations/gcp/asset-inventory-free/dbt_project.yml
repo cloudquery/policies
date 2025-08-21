@@ -1,5 +1,5 @@
 name: gcp_asset_inventory
-version: 1.3.6
+version: 1.3.7
 config-version: 2
 profile: gcp_asset_inventory
 model-paths:
