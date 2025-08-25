@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.2.1...transformation-aws-cost-v1.2.2) (2025-08-25)
+
+
+### Bug Fixes
+
+* Update docs ([fe8dbf7](https://github.com/cloudquery/policies/commit/fe8dbf77757b94090d5f8ed25f0e2b3225a3071e))
+
 ## [1.2.1](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.2.0...transformation-aws-cost-v1.2.1) (2025-02-20)
 
 
