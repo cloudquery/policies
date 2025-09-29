@@ -15,6 +15,9 @@ env:
   SNOW_SCHEMA: ${{ secrets.SNOW_SCHEMA }}
   SNOW_REGION: ${{ secrets.SNOW_REGION }}
   CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
+permissions:
+  contents: read
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -59,8 +62,8 @@ jobs:
             };
   publish-transformation:
     permissions:
-      id-token: 'write'
-      contents: 'read'
+      id-token: "write"
+      contents: "read"
     needs: prepare
     runs-on: ubuntu-latest
     services:
@@ -83,10 +86,10 @@ jobs:
         uses: actions/checkout@v4
       # Required for BigQuery targets
       - name: Authenticate to Google Cloud
-        uses: 'google-github-actions/auth@v2'
+        uses: "google-github-actions/auth@v2"
         with:
-          workload_identity_provider: 'projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider'
-          service_account: 'integration-service-account@cq-integration-tests.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider"
+          service_account: "integration-service-account@cq-integration-tests.iam.gserviceaccount.com"
       # Required for athena targets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -163,8 +166,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
-          cache: 'npm'
+          node-version: "lts/*"
+          cache: "npm"
           cache-dependency-path: scripts/dbt-pack/package-lock.json
       - name: Install Dependencies
         run: npm ci

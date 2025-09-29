@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/cloudquery/policies/compare/visualization-aws-asset-inventory-v2.1.2...visualization-aws-asset-inventory-v2.1.3) (2025-09-15)
+
+
+### Bug Fixes
+
+* Fix image paths ([#1439](https://github.com/cloudquery/policies/issues/1439)) ([f90dfb6](https://github.com/cloudquery/policies/commit/f90dfb68d8b32fa87b456e26f3ea93117a7da9d6))
+
 ## [2.1.2](https://github.com/cloudquery/policies/compare/visualization-aws-asset-inventory-v2.1.1...visualization-aws-asset-inventory-v2.1.2) (2025-08-21)
 
 
