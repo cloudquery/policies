@@ -5,6 +5,9 @@ on:
     tags:
       - "visualization-aws-asset-inventory-v*.*.*"
 
+permissions:
+  contents: read
+
 jobs:
   publish-visualization-aws-asset-inventory:
     runs-on: ubuntu-latest

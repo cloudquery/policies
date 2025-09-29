@@ -5,6 +5,9 @@ on:
     tags:
       - "visualization-aws-compliance-v*.*.*"
 
+permissions:
+  contents: read
+
 jobs:
   publish-visualization-aws-compliance:
     runs-on: ubuntu-latest
