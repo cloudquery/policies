@@ -11,4 +11,10 @@
     "transformations/gcp/compliance-free/**",
     "transformations/k8s/compliance-free/**",
   ],
+  packageRules: [
+    {
+      "matchPackagePatterns": ["^dbt-"],
+      "groupName": "dbt packages"
+    }
+  ]
 }
