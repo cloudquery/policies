@@ -5,6 +5,9 @@ on:
     tags:
       - "visualization-aws-data-resilience-v*.*.*"
 
+permissions:
+  contents: read
+
 jobs:
   publish-visualization-aws-data-resilience:
     runs-on: ubuntu-latest
