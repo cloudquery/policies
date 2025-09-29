@@ -27,4 +27,4 @@ This contains an AWS Asset Inventory Dashboard for Grafana on top of CloudQuery 
 
 Once you have connected Grafana to your Postgres database and have imported the dashboard template, you should see a dashboard similar to this one:
 
-![AWS Asset Inventory](/images/asset_inventory_dash.png)
+![AWS Asset Inventory](./images/asset_inventory_dash.png)

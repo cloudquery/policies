@@ -31,6 +31,9 @@ env:
   SNOW_REGION: ${{ secrets.SNOW_REGION }}
   CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
 
+permissions:
+  contents: read
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -63,8 +66,8 @@ jobs:
             };
   transformations-aws-data-resilience:
     permissions:
-      id-token: 'write'
-      contents: 'read'
+      id-token: "write"
+      contents: "read"
     name: ${{ needs.prepare.outputs.transformation_dir }}
     needs: prepare
     timeout-minutes: 30
@@ -91,11 +94,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Authenticate to Google Cloud
-        uses: 'google-github-actions/auth@v2'
+        uses: "google-github-actions/auth@v2"
         if: needs.prepare.outputs.bigquery == 'true'
         with:
-          workload_identity_provider: 'projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider'
-          service_account: 'integration-service-account@cq-integration-tests.iam.gserviceaccount.com'
+          workload_identity_provider: "projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider"
+          service_account: "integration-service-account@cq-integration-tests.iam.gserviceaccount.com"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.9"

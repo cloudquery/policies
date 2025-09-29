@@ -28,4 +28,4 @@ This package contains an AWS Resilience and Backup Dashboard for Grafana on top 
 
 Once you have connected Grafana to your Postgres database and have imported the AWS Asset Inventory template, you will see a dashboard similar to this one:
 
-![AWS Data Resilience](/images/aws-resiliency-dash.png)
+![AWS Data Resilience](./images/aws-resiliency-dash.png)
