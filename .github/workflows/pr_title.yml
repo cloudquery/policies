@@ -8,7 +8,7 @@ on:
       - synchronize
 
 permissions:
-  pull_requests: read
+  pull-requests: read
 
 jobs:
   main:
