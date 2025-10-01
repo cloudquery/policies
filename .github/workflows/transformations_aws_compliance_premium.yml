@@ -109,7 +109,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::590184131402:role/cq-integration-tests-aws-github-action
           aws-region: us-east-1
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.9"
           cache: "pip"
