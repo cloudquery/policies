@@ -100,7 +100,7 @@ jobs:
         with:
           workload_identity_provider: "projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider"
           service_account: "integration-service-account@cq-integration-tests.iam.gserviceaccount.com"
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.9"
           cache: "pip"
