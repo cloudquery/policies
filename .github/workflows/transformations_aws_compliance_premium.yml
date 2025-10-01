@@ -45,7 +45,7 @@ jobs:
       s3: ${{ fromJson(steps.set-result.outputs.result).s3 }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - uses: actions/github-script@v7
         id: set-result
         env:
@@ -95,7 +95,7 @@ jobs:
           --health-retries 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           token: ${{ secrets.GH_CQ_BOT }}
       - name: Authenticate to Google Cloud
