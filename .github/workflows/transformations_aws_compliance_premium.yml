@@ -99,13 +99,13 @@ jobs:
         with:
           token: ${{ secrets.GH_CQ_BOT }}
       - name: Authenticate to Google Cloud
-        uses: "google-github-actions/auth@v2"
+        uses: "google-github-actions/auth@v3"
         if: needs.prepare.outputs.bigquery == 'true'
         with:
           workload_identity_provider: "projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider"
           service_account: "integration-service-account@cq-integration-tests.iam.gserviceaccount.com"
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: arn:aws:iam::590184131402:role/cq-integration-tests-aws-github-action
           aws-region: us-east-1
@@ -156,7 +156,7 @@ jobs:
       - name: Gen docs
         run: |
           make gen-docs
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "chore: Update readme"
           file_pattern: "${{ needs.prepare.outputs.transformation_dir }}/README.md"
