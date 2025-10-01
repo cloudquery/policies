@@ -1,20 +1,22 @@
 {
   extends: [
-    "github>cloudquery/.github//.github/renovate-go-default.json5",
-    "github>cloudquery/.github//.github/renovate-node-default.json5",
-    "github>cloudquery/.github//.github/renovate-python-default.json5",
+    'github>cloudquery/.github//.github/renovate-go-default.json5',
+    'github>cloudquery/.github//.github/renovate-node-default.json5',
+    'github>cloudquery/.github//.github/renovate-python-default.json5',
   ],
   ignorePaths: [
-    "transformations/aws/compliance-free/**",
-    "transformations/aws/cost-free/**",
-    "transformations/azure/compliance-free/**",
-    "transformations/gcp/compliance-free/**",
-    "transformations/k8s/compliance-free/**",
+    'transformations/aws/compliance-free/**',
+    'transformations/aws/cost-free/**',
+    'transformations/azure/compliance-free/**',
+    'transformations/gcp/compliance-free/**',
+    'transformations/k8s/compliance-free/**',
   ],
   packageRules: [
     {
-      "matchPackagePatterns": ["^dbt-"],
-      "groupName": "dbt packages"
-    }
-  ]
+      groupName: 'dbt packages',
+      matchPackageNames: [
+        '/^dbt-/',
+      ],
+    },
+  ],
 }
