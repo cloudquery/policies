@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.8](https://github.com/cloudquery/policies/compare/transformation-gcp-asset-inventory-free-v1.3.7...transformation-gcp-asset-inventory-free-v1.3.8) (2025-10-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+
 ## [1.3.7](https://github.com/cloudquery/policies/compare/transformation-gcp-asset-inventory-free-v1.3.6...transformation-gcp-asset-inventory-free-v1.3.7) (2025-08-21)
 
 
