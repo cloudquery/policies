@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.6](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.5...transformation-aws-compliance-premium-v1.15.6) (2025-10-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+
 ## [1.15.5](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.4...transformation-aws-compliance-premium-v1.15.5) (2025-08-21)
 
 
