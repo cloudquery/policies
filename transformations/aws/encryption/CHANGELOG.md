@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.11](https://github.com/cloudquery/policies/compare/transformation-aws-encryption-v2.0.10...transformation-aws-encryption-v2.0.11) (2025-10-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+
 ## [2.0.10](https://github.com/cloudquery/policies/compare/transformation-aws-encryption-v2.0.9...transformation-aws-encryption-v2.0.10) (2025-02-20)
 
 
