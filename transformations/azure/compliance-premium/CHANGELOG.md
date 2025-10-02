@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.18](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.17...transformation-azure-compliance-premium-v0.8.18) (2025-10-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+
 ## [0.8.17](https://github.com/cloudquery/policies/compare/transformation-azure-compliance-premium-v0.8.16...transformation-azure-compliance-premium-v0.8.17) (2025-08-21)
 
 
