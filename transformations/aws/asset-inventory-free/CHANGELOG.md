@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.7](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.3.6...transformation-aws-asset-inventory-free-v2.3.7) (2025-10-02)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+
 ## [2.3.6](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.3.5...transformation-aws-asset-inventory-free-v2.3.6) (2025-08-21)
 
 
