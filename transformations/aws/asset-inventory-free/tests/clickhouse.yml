@@ -3,7 +3,7 @@ spec:
   name: aws
   path: cloudquery/aws
   registry: cloudquery
-  version: "v32.48.0" # latest version of source aws plugin
+  version: "v32.48.1" # latest version of source aws plugin
   destinations: ["clickhouse"]
   tables: ["*"]
 ---
