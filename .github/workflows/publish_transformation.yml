@@ -115,7 +115,7 @@ jobs:
             await fs.writeFile(changelogPath, linksRemoved);
       - uses: actions/setup-python@v6
         with:
-          python-version: "3.9"
+          python-version: "3.14"
           cache: "pip"
           cache-dependency-path: "./${{ needs.prepare.outputs.transformation_dir }}/requirements.txt"
       - name: Install dependencies
