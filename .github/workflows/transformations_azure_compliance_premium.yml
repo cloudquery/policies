@@ -132,7 +132,7 @@ jobs:
           cloudquery migrate tests/bigquery.yml
           dbt run --target dev-bigquery --profiles-dir ./tests
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "npm"
