@@ -164,7 +164,7 @@ jobs:
           CLICKHOUSE_CONNECTION_STRING: "clickhouse://cq:test@localhost:9000/cloudquery"
         run: cloudquery migrate tests/clickhouse.yml
       - name: Setup Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: "lts/*"
           cache: "npm"
