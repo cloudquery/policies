@@ -16,7 +16,7 @@ jobs:
         working-directory: visualizations/aws/data_resilience
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Update Release Notes
         uses: actions/github-script@v8
         with:
