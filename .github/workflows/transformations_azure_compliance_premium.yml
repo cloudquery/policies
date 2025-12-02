@@ -44,7 +44,7 @@ jobs:
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - uses: actions/github-script@v8
         id: set-result
         env:
@@ -92,7 +92,7 @@ jobs:
           --health-retries 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GH_CQ_BOT }}
       - name: Authenticate to Google Cloud
