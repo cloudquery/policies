@@ -3,7 +3,7 @@ spec:
   name: aws
   path: cloudquery/aws
   registry: cloudquery
-  version: "v32.55.0" # latest version of source aws plugin
+  version: "v32.56.0" # latest version of source aws plugin
   destinations: ["snowflake"]
   tables: ["*"]
 ---
