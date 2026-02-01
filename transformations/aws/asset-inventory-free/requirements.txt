@@ -1,5 +1,5 @@
 dbt-postgres==1.10.0
 dbt-snowflake==1.11.1
 dbt-bigquery==1.11.0
-dbt-clickhouse==1.9.7
+dbt-clickhouse==1.9.8
 dbt-core==1.11.2
