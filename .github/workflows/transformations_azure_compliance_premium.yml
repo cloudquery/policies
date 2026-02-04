@@ -143,7 +143,7 @@ jobs:
       - name: Gen docs
         run: |
           make gen-docs
-      - uses: stefanzweifel/git-auto-commit-action@v6
+      - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "chore: Update readme"
           file_pattern: "${{ needs.prepare.outputs.transformation_dir }}/README.md"
