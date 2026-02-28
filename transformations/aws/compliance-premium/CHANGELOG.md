@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.15.6](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.5...transformation-aws-compliance-premium-v1.15.6) (2026-02-28)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+* **deps:** Update dbt packages ([#1526](https://github.com/cloudquery/policies/issues/1526)) ([cd37587](https://github.com/cloudquery/policies/commit/cd375879b4626a8aa01559754c40ec51c2faa63d))
+* **deps:** Update dbt packages ([#1552](https://github.com/cloudquery/policies/issues/1552)) ([071c3d7](https://github.com/cloudquery/policies/commit/071c3d74c7f7aaa1a9b603ca51eff164904a86ae))
+* **deps:** Update dependency dbt-snowflake to v1.11.1 ([#1560](https://github.com/cloudquery/policies/issues/1560)) ([6694162](https://github.com/cloudquery/policies/commit/6694162e9f0ed17f70b7cb19aba0a630b1dc80b1))
+
 ## [1.15.5](https://github.com/cloudquery/policies/compare/transformation-aws-compliance-premium-v1.15.4...transformation-aws-compliance-premium-v1.15.5) (2025-08-21)
 
 
