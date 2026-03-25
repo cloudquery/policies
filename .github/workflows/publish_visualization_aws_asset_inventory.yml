@@ -16,9 +16,9 @@ jobs:
         working-directory: visualizations/aws/asset_inventory
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Update Release Notes
-        uses: actions/github-script@v8
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         with:
           script: |
             const fs = require('fs/promises');
@@ -35,7 +35,7 @@ jobs:
         run: |
           make build
       - name: Setup CloudQuery
-        uses: cloudquery/setup-cloudquery@v4
+        uses: cloudquery/setup-cloudquery@4a3af61f7d8c362d8d152a4a17053ed2aaa7180d # v4
         with:
           version: v6.35.2
       - name: Publish visualization
