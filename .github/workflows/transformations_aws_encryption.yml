@@ -44,8 +44,8 @@ jobs:
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
-      - uses: actions/github-script@v8
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         id: set-result
         env:
           TRANSFORMATION_DIR: transformations/aws/encryption
@@ -92,14 +92,14 @@ jobs:
           --health-retries 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Authenticate to Google Cloud
-        uses: "google-github-actions/auth@v3"
+        uses: "google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093" # v3
         if: needs.prepare.outputs.bigquery == 'true'
         with:
           workload_identity_provider: "projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider"
           service_account: "integration-service-account@cq-integration-tests.iam.gserviceaccount.com"
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
         with:
           python-version: "3.14"
           cache: "pip"
@@ -107,7 +107,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Setup CloudQuery
-        uses: cloudquery/setup-cloudquery@v4
+        uses: cloudquery/setup-cloudquery@4a3af61f7d8c362d8d152a4a17053ed2aaa7180d # v4
         with:
           version: v6.35.2
       - name: Test Postgres
