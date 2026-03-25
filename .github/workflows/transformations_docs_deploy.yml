@@ -39,19 +39,19 @@ jobs:
           --health-retries 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
         with:
           python-version: "3.14"
       - name: Setup CloudQuery
-        uses: cloudquery/setup-cloudquery@v4
+        uses: cloudquery/setup-cloudquery@4a3af61f7d8c362d8d152a4a17053ed2aaa7180d # v4
         with:
           version: v6.35.2
       - name: Generate the docs
         run: make shard=${{ matrix.shard }} gen-site
         env:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
           name: docs-artifact-${{ matrix.shard }}
           path: "*.html"
@@ -60,9 +60,9 @@ jobs:
     needs: generate-docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Download artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           pattern: docs-artifact-*
           path: actions-checkout-file-path
@@ -81,9 +81,9 @@ jobs:
     needs: generate-docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Download artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7
         with:
           pattern: docs-artifact-*
           path: actions-checkout-file-path
