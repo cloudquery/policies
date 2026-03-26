@@ -2,7 +2,7 @@
 version = 1
 
 [approve]
-auto_approve_usernames = ["cq-bot"]
+auto_approve_usernames = ["cloudquery-ci"]
 
 [merge.message]
 body = "pull_request_body"
@@ -12,7 +12,7 @@ cut_body_before = "<!-- 🎉 Thank you for making CloudQuery awesome by submitti
 title = "pull_request_title"
 
 [merge.automerge_dependencies]
-usernames = ["cq-bot"]
+usernames = ["cloudquery-ci"]
 versions = ["patch"]
 
 [merge]
