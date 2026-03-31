@@ -45,11 +45,11 @@ jobs:
             const version = rest.pop();
             const transformation_dir = `transformations/${topLevelDir}/${rest.join('-')}`;
             const [postgres, snowflake, bigquery, s3, clickhouse] = await Promise.all([
-              fs.access(`${transformation_dir}/tests/cloudquery/postgres.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
-              fs.access(`${transformation_dir}/tests/cloudquery/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
-              fs.access(`${transformation_dir}/tests/cloudquery/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
-              fs.access(`${transformation_dir}/tests/cloudquery/s3.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
-              fs.access(`${transformation_dir}/tests/cloudquery/clickhouse.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
+              fs.access(`${transformation_dir}/tests/postgres.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
+              fs.access(`${transformation_dir}/tests/snowflake.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
+              fs.access(`${transformation_dir}/tests/bigquery.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
+              fs.access(`${transformation_dir}/tests/s3.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
+              fs.access(`${transformation_dir}/tests/clickhouse.yml`, fs.constants.F_OK).then(() => true).catch(() => false),
             ]);
             return {
               transformation_dir,
@@ -129,23 +129,23 @@ jobs:
           version: v6.35.4
       - name: Migrate DB Postgres
         if: needs.prepare.outputs.postgres == 'true'
-        run: cloudquery migrate tests/cloudquery/postgres.yml
+        run: cloudquery migrate tests/postgres.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
           CQ_DSN: postgresql://postgres:pass@localhost:5432/postgres
       - name: Migrate DB Snowflake
         if: needs.prepare.outputs.snowflake == 'true'
-        run: cloudquery migrate tests/cloudquery/snowflake.yml
+        run: cloudquery migrate tests/snowflake.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
           SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}:${{ secrets.SNOW_PASSWORD }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
       - name: Migrate DB BigQuery
         if: needs.prepare.outputs.bigquery == 'true'
-        run: cloudquery migrate tests/cloudquery/bigquery.yml
+        run: cloudquery migrate tests/bigquery.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
       - name: Migrate DB Athena
         if: needs.prepare.outputs.s3 == 'true'
-        run: cloudquery migrate tests/cloudquery/s3.yml
+        run: cloudquery migrate tests/s3.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
       - name: Start ClickHouse Container
         if: needs.prepare.outputs.clickhouse == 'true'
@@ -164,7 +164,7 @@ jobs:
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
           CLICKHOUSE_CONNECTION_STRING: "clickhouse://cq:test@localhost:9000/cloudquery"
-        run: cloudquery migrate tests/cloudquery/clickhouse.yml
+        run: cloudquery migrate tests/clickhouse.yml
       - name: Setup Node.js
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:

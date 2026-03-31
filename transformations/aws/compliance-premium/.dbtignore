@@ -1,1 +1,4 @@
-tests/cloudquery
+tests/bigquery.yml
+tests/postgres.yml
+tests/s3.yml
+tests/snowflake.yml
