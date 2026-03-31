@@ -3,10 +3,10 @@ name = "gcp-compliance-premium"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
-    "dbt-postgres>=1.10.0",
-    "dbt-snowflake>=1.11.1",
-    "dbt-bigquery>=1.11.0",
-    "dbt-core>=1.11.2",
+    "dbt-postgres==1.10.0",
+    "dbt-snowflake==1.11.1",
+    "dbt-bigquery==1.11.0",
+    "dbt-core==1.11.2",
 ]
 
 [tool.uv]
