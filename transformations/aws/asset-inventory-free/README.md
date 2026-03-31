@@ -40,7 +40,7 @@ where tags is null or tags = '{}';
 - [CloudQuery](https://docs.cloudquery.io/docs/quickstart/)
 - [CloudQuery AWS plugin](https://hub.cloudquery.io/plugins/source/cloudquery/aws)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
-- [dbt](https://docs.getdbt.com/docs/core/pip-install)
+- [dbt](https://docs.getdbt.com/docs/core/installation-overview)
 - [PostgreSQL](https://hub.cloudquery.io/plugins/destination/cloudquery/postgresql)
 
 ### Models Included
@@ -72,10 +72,10 @@ Click the **Download now** button on the top. You may need to create a CloudQuer
 
 ### 2. Install DBT and set up the DBT profile
 
-[Install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+[Install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 
 ```bash
-pip install dbt-postgres
+uv add dbt-postgres
 ```
 
 Create the profile directory:

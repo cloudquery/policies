@@ -29,7 +29,7 @@ order by count(*) desc
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 - [CloudQuery](https://cloud.cloudquery.io/getting-started/)
 - [CloudQuery GCP plugin](https://hub.cloudquery.io/plugins/source/cloudquery/gcp)
-- [dbt](https://docs.getdbt.com/docs/core/pip-install)
+- [dbt](https://docs.getdbt.com/docs/core/installation-overview)
 
 One of the below destination plugins based on your database:
 
@@ -62,10 +62,10 @@ Click the **Download now** button on the top. You may need to create a CloudQuer
 
 ### 2. Install DBT and set up the DBT profile
 
-[Install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+[Install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 
 ```bash
-pip install dbt-postgres
+uv add dbt-postgres
 ```
 
 Create the profile directory:

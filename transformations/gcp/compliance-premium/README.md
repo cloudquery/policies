@@ -25,7 +25,7 @@ ORDER BY count(*) DESC
 
 ### Requirements
 
-- [dbt](https://docs.getdbt.com/docs/core/pip-install)
+- [dbt](https://docs.getdbt.com/docs/core/installation-overview)
 - [CloudQuery](https://cli-docs.cloudquery.io/docs/quickstart/)
 - [A CloudQuery Account](https://www.cloudquery.io/auth/register)
 - [GCP Source Plugin](https://hub.cloudquery.io/plugins/source/cloudquery/gcp/latest/docs)
@@ -43,9 +43,9 @@ Automated compliance checks following CIS 1.2 and 2.0
 ## To run this package you need to complete the following steps
 
 ### Setting up the DBT profile (PostgreSQL)
-First, [install `dbt`](https://docs.getdbt.com/docs/core/pip-install):
+First, [install `dbt`](https://docs.getdbt.com/docs/core/installation-overview):
 ```bash
-pip install dbt-postgres
+uv add dbt-postgres
 ```
 
 Create the profile directory:
