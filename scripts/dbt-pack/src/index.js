@@ -15,7 +15,7 @@ const validateProjectDirectory = async (dbtProjectDirectory) => {
   }
   const requiredFiles = [
     "dbt_project.yml",
-    "requirements.txt",
+    "pyproject.toml",
     "manifest.json",
     "README.md",
   ];
@@ -39,8 +39,10 @@ const compileDbtProject = async (dbtProjectDirectory, dbtArguments) => {
       `Compiling dbt project in ${fullProjectDirectory} with target: '${target}'`,
     );
     await execa(
-      "dbt",
+      "uv",
       [
+        "run",
+        "dbt",
         "compile",
         "--target",
         target,
@@ -165,8 +167,12 @@ const zipProject = async (dbtProjectDirectory, filesToPack) => {
       copyTo: "dbt_project.yml",
     },
     {
-      copyFrom: path.resolve(dbtProjectDirectory, "requirements.txt"),
-      copyTo: "requirements.txt",
+      copyFrom: path.resolve(dbtProjectDirectory, "pyproject.toml"),
+      copyTo: "pyproject.toml",
+    },
+    {
+      copyFrom: path.resolve(dbtProjectDirectory, "uv.lock"),
+      copyTo: "uv.lock",
     },
   ];
   console.log(`Packing ${withProjectFiles.length} files`);

@@ -1,0 +1,4 @@
+tests/postgres.yml
+tests/bigquery.yml.bak
+tests/clickhouse.yml
+tests/snowflake.yml

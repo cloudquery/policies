@@ -1,0 +1,3 @@
+tests/bigquery.yml
+tests/postgres.yml
+tests/snowflake.yml
