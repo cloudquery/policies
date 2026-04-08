@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.2.3](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.2.2...transformation-aws-cost-v1.2.3) (2026-04-08)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+* **deps:** Update dbt packages ([#1526](https://github.com/cloudquery/policies/issues/1526)) ([cd37587](https://github.com/cloudquery/policies/commit/cd375879b4626a8aa01559754c40ec51c2faa63d))
+* **deps:** Update dbt packages ([#1552](https://github.com/cloudquery/policies/issues/1552)) ([071c3d7](https://github.com/cloudquery/policies/commit/071c3d74c7f7aaa1a9b603ca51eff164904a86ae))
+* **deps:** Update dbt packages ([#1597](https://github.com/cloudquery/policies/issues/1597)) ([0f04cb0](https://github.com/cloudquery/policies/commit/0f04cb0822235a5847187291e205979539f8a9c9))
+
 ## [1.2.2](https://github.com/cloudquery/policies/compare/transformation-aws-cost-v1.2.1...transformation-aws-cost-v1.2.2) (2025-08-25)
 
 
