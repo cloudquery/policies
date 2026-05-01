@@ -93,7 +93,7 @@ jobs:
     steps:
       - name: Generate GitHub App token
         id: app-token
-        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3
+        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3
         with:
           app-id: ${{ secrets.CQ_APP_ID }}
           private-key: ${{ secrets.CQ_APP_PRIVATE_KEY }}
@@ -111,10 +111,10 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8
         with:
-          version: "0.11.2"
+          version: "0.11.7"
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
         with:
-          python-version: "3.11"
+          python-version: "3.14"
       - name: Install dependencies
         run: uv sync --frozen
       - name: Setup CloudQuery
@@ -141,7 +141,7 @@ jobs:
           cloudquery migrate tests/bigquery.yml
           uv run dbt run --target dev-bigquery --profiles-dir ./tests
       - name: Setup Node.js
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: "lts/*"
           cache: "npm"
