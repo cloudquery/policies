@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.1.11](https://github.com/cloudquery/policies/compare/transformation-aws-data-resilience-v2.1.10...transformation-aws-data-resilience-v2.1.11) (2026-05-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+* **deps:** Update dbt packages ([#1526](https://github.com/cloudquery/policies/issues/1526)) ([cd37587](https://github.com/cloudquery/policies/commit/cd375879b4626a8aa01559754c40ec51c2faa63d))
+* **deps:** Update dbt packages ([#1552](https://github.com/cloudquery/policies/issues/1552)) ([071c3d7](https://github.com/cloudquery/policies/commit/071c3d74c7f7aaa1a9b603ca51eff164904a86ae))
+* **deps:** Update dbt packages ([#1597](https://github.com/cloudquery/policies/issues/1597)) ([0f04cb0](https://github.com/cloudquery/policies/commit/0f04cb0822235a5847187291e205979539f8a9c9))
+* **deps:** Update dbt packages ([#1626](https://github.com/cloudquery/policies/issues/1626)) ([49a9f55](https://github.com/cloudquery/policies/commit/49a9f5515b8470a7c9869a2b9f3844d3bd663474))
+
 ## [2.1.10](https://github.com/cloudquery/policies/compare/transformation-aws-data-resilience-v2.1.9...transformation-aws-data-resilience-v2.1.10) (2025-08-21)
 
 

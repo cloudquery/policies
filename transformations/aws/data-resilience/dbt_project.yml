@@ -1,5 +1,5 @@
 name: aws_data_resilience
-version: 2.1.10
+version: 2.1.11
 config-version: 2
 profile: aws_data_resilience
 model-paths:
