@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.3.7](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.3.6...transformation-aws-asset-inventory-free-v2.3.7) (2026-05-01)
+
+
+### Bug Fixes
+
+* **deps:** Update dbt packages ([#1445](https://github.com/cloudquery/policies/issues/1445)) ([c9fa16d](https://github.com/cloudquery/policies/commit/c9fa16dde840fecae71eedd111121bd30811cbe5))
+* **deps:** Update dbt packages ([#1526](https://github.com/cloudquery/policies/issues/1526)) ([cd37587](https://github.com/cloudquery/policies/commit/cd375879b4626a8aa01559754c40ec51c2faa63d))
+* **deps:** Update dbt packages ([#1552](https://github.com/cloudquery/policies/issues/1552)) ([071c3d7](https://github.com/cloudquery/policies/commit/071c3d74c7f7aaa1a9b603ca51eff164904a86ae))
+* **deps:** Update dbt packages ([#1597](https://github.com/cloudquery/policies/issues/1597)) ([0f04cb0](https://github.com/cloudquery/policies/commit/0f04cb0822235a5847187291e205979539f8a9c9))
+* **deps:** Update dbt packages ([#1626](https://github.com/cloudquery/policies/issues/1626)) ([49a9f55](https://github.com/cloudquery/policies/commit/49a9f5515b8470a7c9869a2b9f3844d3bd663474))
+* **deps:** Update dependency dbt-clickhouse to v1.9.5 ([#1499](https://github.com/cloudquery/policies/issues/1499)) ([6799e6e](https://github.com/cloudquery/policies/commit/6799e6e1be91f4a8a1c51b2b99181e73050643d2))
+* **deps:** Update dependency dbt-clickhouse to v1.9.8 ([#1570](https://github.com/cloudquery/policies/issues/1570)) ([f54e618](https://github.com/cloudquery/policies/commit/f54e618d8ca003f17314a3322dcb95d28b8043f5))
+* **deps:** Update dependency dbt-snowflake to v1.11.1 ([#1560](https://github.com/cloudquery/policies/issues/1560)) ([6694162](https://github.com/cloudquery/policies/commit/6694162e9f0ed17f70b7cb19aba0a630b1dc80b1))
+
 ## [2.3.6](https://github.com/cloudquery/policies/compare/transformation-aws-asset-inventory-free-v2.3.5...transformation-aws-asset-inventory-free-v2.3.6) (2025-08-21)
 
 
