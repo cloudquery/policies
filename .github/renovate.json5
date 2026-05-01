@@ -18,5 +18,10 @@
         '/^dbt-/',
       ],
     },
+    {
+      matchManagers: ['github-actions'],
+      matchDepNames: ['python'],
+      enabled: false,
+    },
   ],
 }
