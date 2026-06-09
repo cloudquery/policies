@@ -19,7 +19,6 @@
       ],
     },
     {
-      matchManagers: ['github-actions'],
       matchPackageNames: ['python'],
       allowedVersions: '<3.12',
     },
