@@ -32,7 +32,7 @@ jobs:
       clickhouse: ${{ fromJson(steps.set-result.outputs.result).clickhouse }}
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         id: set-result
         env:
@@ -86,7 +86,7 @@ jobs:
           --health-retries 5
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
       # Required for BigQuery targets
       - name: Authenticate to Google Cloud
         uses: "google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093" # v3
@@ -95,14 +95,14 @@ jobs:
           service_account: "integration-service-account@cq-integration-tests.iam.gserviceaccount.com"
       # Required for athena targets
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6
+        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6
         with:
           role-to-assume: arn:aws:iam::590184131402:role/cq-integration-tests-aws-github-action
           aws-region: us-east-1
       - name: Install uv
         uses: astral-sh/setup-uv@cec208311dfd045dd5311c1add060b2062131d57 # v8
         with:
-          version: "0.11.7"
+          version: "0.11.18"
       - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6
         with:
           python-version: "3.11"
