@@ -5,9 +5,9 @@ gcp_asset_inventory: # This should match the name in your dbt_project.yml
       type: snowflake
       account: "{{ env_var('SNOW_ACCOUNT') }}"
 
-      # User/password auth
+      # Key-pair auth
       user:  "{{ env_var('SNOW_USER') }}"
-      password: "{{ env_var('SNOW_PASSWORD') }}"
+      private_key_path: "{{ env_var('SNOW_PRIVATE_KEY_PATH') }}"
 
       database: "{{ env_var('SNOW_DATABASE') }}"
       warehouse: "{{ env_var('SNOW_WAREHOUSE') }}"
