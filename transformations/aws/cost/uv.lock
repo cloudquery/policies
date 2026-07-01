@@ -57,8 +57,8 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "dbt-core", specifier = "==1.11.8" },
-    { name = "dbt-postgres", specifier = "==1.10.0" },
+    { name = "dbt-core", specifier = "==1.11.11" },
+    { name = "dbt-postgres", specifier = "==1.10.2" },
 ]
 
 [[package]]
@@ -258,7 +258,7 @@ wheels = [
 
 [[package]]
 name = "dbt-core"
-version = "1.11.8"
+version = "1.11.11"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "agate" },
@@ -285,9 +285,9 @@ dependencies = [
     { name = "sqlparse" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/54/4f/5524b85f0bd94053ee51fe7e8b0011295f056da707c754975ed7da3888f9/dbt_core-1.11.8.tar.gz", hash = "sha256:1bfe0b40c958785680a1b2b894b0851f5bf780ddc058747dd1e62c389b0d3b1d", size = 972635, upload-time = "2026-04-08T19:01:46.63Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/61/62/af8f4ab1e3e979b5677e876444f3a9c1b1021c2d4e77143e80f421bdc1f7/dbt_core-1.11.11.tar.gz", hash = "sha256:e53cfccc8c9c13a082e518bf80cf3bb33c2f1fdc3cab48ec822ef93737eccb81", size = 973079, upload-time = "2026-05-20T11:10:01.8Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/36/47/a07061c70e0872d8f49fbd12cf93f481b22cabb2e75016ce00aa3520a7ab/dbt_core-1.11.8-py3-none-any.whl", hash = "sha256:13ff79252a7ae9c9acc7de243789b72f04f7f915f05930d3407edeeea3758b6f", size = 1061289, upload-time = "2026-04-08T19:01:44.83Z" },
+    { url = "https://files.pythonhosted.org/packages/88/d2/9e1eb5d3c8f375d4e5523b9123b2ae25ea21d85abb044db2eff2e3ee9c1d/dbt_core-1.11.11-py3-none-any.whl", hash = "sha256:7f9e11f3f5400e20f40f544440800ace23fa0755086f87b08e9446181f8720e1", size = 1061938, upload-time = "2026-05-20T11:09:59.856Z" },
 ]
 
 [[package]]
@@ -315,7 +315,7 @@ wheels = [
 
 [[package]]
 name = "dbt-postgres"
-version = "1.10.0"
+version = "1.10.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "agate" },
@@ -324,9 +324,9 @@ dependencies = [
     { name = "dbt-core" },
     { name = "psycopg2-binary" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/53/f2/6d101b917c9f4a6c09a15cc239dc360be5b1115e27d5bdac9c6c3bead5f1/dbt_postgres-1.10.0.tar.gz", hash = "sha256:74dc7e8b531ab785bca9d44f3d1ee9b38c4cbac967eafe7373242ed181eb0fa2", size = 160230, upload-time = "2025-12-22T20:02:44.149Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/72/61/4b609911d827b9cb8a4b9647579cc6de0e02684fb2d9dce18213c9733628/dbt_postgres-1.10.2.tar.gz", hash = "sha256:83b6b03572452d74bf3b60ef2578c7172d6e5ff4c285c876cd51aa9ed09be4c4", size = 157388, upload-time = "2026-06-24T06:48:13.777Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2c/70/4f8ab84353844e5c5b2961d18f8c3d171b539c2c0425f855c550d766c960/dbt_postgres-1.10.0-py3-none-any.whl", hash = "sha256:9bc9d07342edbc86c16e20b2ab02c211c30c09b03736f925d612d963cbbe4f94", size = 35520, upload-time = "2025-12-22T20:02:42.792Z" },
+    { url = "https://files.pythonhosted.org/packages/d6/3a/32a00d796492ffcaa022eda9decf1f7366bce210715087fd985415b2fd94/dbt_postgres-1.10.2-py3-none-any.whl", hash = "sha256:1367386caa99ca59f8228eae6d0e03f9537f9615f55a5ba5cc80a5b06aa6d32e", size = 35517, upload-time = "2026-06-24T06:48:12.538Z" },
 ]
 
 [[package]]
