@@ -122,6 +122,8 @@ jobs:
       - name: Test Snowflake
         run: |
           printf '%s\n' "$SNOW_PRIVATE_KEY" > "$SNOW_PRIVATE_KEY_PATH"
+          PRIV_KEY=$(openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt -in "$SNOW_PRIVATE_KEY_PATH" | base64 -w0 | tr '+/' '-_' | tr -d '=')
+          export SNOWFLAKE_CONNECTION_STRING="${SNOWFLAKE_CONNECTION_STRING}&authenticator=snowflake_jwt&privateKey=${PRIV_KEY}"
           cloudquery migrate tests/snowflake.yml
           uv run dbt run --target dev-snowflake --profiles-dir ./tests
         if: needs.prepare.outputs.snowflake == 'true'
