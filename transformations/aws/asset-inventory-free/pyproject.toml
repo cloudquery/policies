@@ -3,11 +3,11 @@ name = "aws-asset-inventory-free"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
-    "dbt-postgres==1.10.0",
-    "dbt-snowflake==1.11.4",
-    "dbt-bigquery==1.11.1",
-    "dbt-clickhouse==1.10.0",
-    "dbt-core==1.11.8",
+    "dbt-postgres==1.10.2",
+    "dbt-snowflake==1.11.6",
+    "dbt-bigquery==1.11.3",
+    "dbt-clickhouse==1.10.1",
+    "dbt-core==1.11.11",
 ]
 
 [tool.uv]
