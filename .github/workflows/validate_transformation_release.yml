@@ -122,7 +122,7 @@ jobs:
         if: needs.prepare.outputs.snowflake == 'true'
         run: |
           printf '%s\n' "$SNOW_PRIVATE_KEY" > "$SNOW_PRIVATE_KEY_PATH"
-          PRIV_KEY=$(openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt -in "$SNOW_PRIVATE_KEY_PATH" | base64 -w0 | tr '+/' '-_' | tr -d '=')
+          PRIV_KEY=$(openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt -in "$SNOW_PRIVATE_KEY_PATH" | base64 -w0 | tr '+/' '-_')
           export SNOWFLAKE_CONNECTION_STRING="${SNOWFLAKE_CONNECTION_STRING}&authenticator=snowflake_jwt&privateKey=${PRIV_KEY}"
           cloudquery migrate tests/snowflake.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
