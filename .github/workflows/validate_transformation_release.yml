@@ -7,7 +7,6 @@ on:
 
 env:
   SNOW_USER: ${{ secrets.SNOW_USER }}
-  SNOW_PASSWORD: ${{ secrets.SNOW_PASSWORD }}
   # DBT assumes the account is in the form of <account>.<region>
   SNOW_ACCOUNT: "${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}"
   SNOW_WAREHOUSE: ${{ secrets.SNOW_WAREHOUSE }}
@@ -124,7 +123,8 @@ jobs:
         run: cloudquery migrate tests/snowflake.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
-          SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}:${{ secrets.SNOW_PASSWORD }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
+          SNOW_PRIVATE_KEY: ${{ secrets.SNOW_PRIVATE_KEY }}
+          SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
       - name: Migrate DB BigQuery
         if: needs.prepare.outputs.bigquery == 'true'
         run: cloudquery migrate tests/bigquery.yml

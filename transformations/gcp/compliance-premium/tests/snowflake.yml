@@ -15,4 +15,6 @@ spec:
   migrate_mode: forced
   spec:
     connection_string: ${SNOWFLAKE_CONNECTION_STRING}
+    private_key: |
+      ${SNOW_PRIVATE_KEY}
     migrate_concurrency: 50
