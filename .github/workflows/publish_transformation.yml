@@ -95,6 +95,14 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::590184131402:role/cq-integration-tests-aws-github-action
           aws-region: us-east-1
+      - name: Setup Snowflake key
+        if: needs.prepare.outputs.snowflake == 'true'
+        env:
+          SNOW_PRIVATE_KEY: ${{ secrets.SNOW_PRIVATE_KEY }}
+        run: |
+          SNOW_PRIVATE_KEY_PATH="${{ runner.temp }}/snow_key.p8"
+          printf '%s\n' "$SNOW_PRIVATE_KEY" > "$SNOW_PRIVATE_KEY_PATH"
+          echo "SNOW_PRIVATE_KEY_PATH=$SNOW_PRIVATE_KEY_PATH" >> "$GITHUB_ENV"
       - name: Update Release Notes
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
@@ -135,14 +143,11 @@ jobs:
       - name: Migrate DB Snowflake
         if: needs.prepare.outputs.snowflake == 'true'
         run: |
-          printf '%s\n' "$SNOW_PRIVATE_KEY" > "$SNOW_PRIVATE_KEY_PATH"
           PRIV_KEY=$(openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt -in "$SNOW_PRIVATE_KEY_PATH" | base64 -w0 | tr '+/' '-_')
           export SNOWFLAKE_CONNECTION_STRING="${SNOWFLAKE_CONNECTION_STRING}&authenticator=snowflake_jwt&privateKey=${PRIV_KEY}"
           cloudquery migrate tests/snowflake.yml
         working-directory: ${{ needs.prepare.outputs.transformation_dir }}
         env:
-          SNOW_PRIVATE_KEY: ${{ secrets.SNOW_PRIVATE_KEY }}
-          SNOW_PRIVATE_KEY_PATH: ${{ runner.temp }}/snow_key.p8
           SNOWFLAKE_CONNECTION_STRING: "${{ secrets.SNOW_USER }}@${{ secrets.SNOW_ACCOUNT }}.${{ secrets.SNOW_REGION }}/${{ secrets.SNOW_DATABASE }}/${{ secrets.SNOW_SCHEMA }}?warehouse=${{ secrets.SNOW_WAREHOUSE }}"
       - name: Migrate DB BigQuery
         if: needs.prepare.outputs.bigquery == 'true'
