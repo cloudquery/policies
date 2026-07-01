@@ -16,7 +16,7 @@ jobs:
         working-directory: visualizations/aws/data_resilience
     steps:
       - name: Checkout
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Update Release Notes
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         with:
@@ -37,7 +37,7 @@ jobs:
       - name: Setup CloudQuery
         uses: cloudquery/setup-cloudquery@b7f7ea62cfec9774ad44a0d9307d0f6c5573bcb6 # v5.0.2
         with:
-          version: v6.36.0
+          version: v6.38.0
       - name: Publish visualization
         env:
           CLOUDQUERY_API_KEY: ${{ secrets.CLOUDQUERY_API_KEY }}
