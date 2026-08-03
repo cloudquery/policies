@@ -43,7 +43,7 @@ jobs:
       bigquery: ${{ fromJson(steps.set-result.outputs.result).bigquery }}
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         id: set-result
         env:
@@ -98,7 +98,7 @@ jobs:
           private-key: ${{ secrets.CQ_APP_PRIVATE_KEY }}
           permission-contents: write
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           token: ${{ steps.app-token.outputs.token }}
       - name: Authenticate to Google Cloud
@@ -110,14 +110,14 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
-          version: "0.11.24"
+          version: "0.11.32"
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.11"
       - name: Install dependencies
         run: uv sync --frozen
       - name: Setup CloudQuery
-        uses: cloudquery/setup-cloudquery@b7f7ea62cfec9774ad44a0d9307d0f6c5573bcb6 # v5.0.2
+        uses: cloudquery/setup-cloudquery@757b19eb8496cf9e89a78de54f2c677253f54f6b # v5.0.3
         with:
           version: v6.41.0
       - name: Test Postgres
@@ -145,7 +145,7 @@ jobs:
           cloudquery migrate tests/bigquery.yml
           uv run dbt run --target dev-bigquery --profiles-dir ./tests
       - name: Setup Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: "lts/*"
           cache: "npm"
