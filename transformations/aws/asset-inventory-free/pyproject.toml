@@ -13,6 +13,8 @@ dependencies = [
 [tool.uv]
 exclude-newer = "1 week"
 
+# dbt-clickhouse caps dbt-adapters below what the other dbt packages require, so
+# we override it. Raise the lower bound when a dbt upgrade needs a newer adapter.
 override-dependencies = [
-    "dbt-adapters>=1.19.0,<2.0",
+    "dbt-adapters>=1.24.5,<2.0",
 ]
