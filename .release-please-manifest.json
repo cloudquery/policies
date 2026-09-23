@@ -11,7 +11,7 @@
   "transformations/azure/compliance-premium+FILLER": "0.0.0",
   "transformations/gcp/compliance-free": "1.5.0",
   "transformations/gcp/compliance-free+FILLER": "0.0.0",
-  "transformations/gcp/compliance-premium": "0.7.14",
+  "transformations/gcp/compliance-premium": "0.7.15",
   "transformations/gcp/compliance-premium+FILLER": "0.0.0",
   "transformations/k8s/compliance-free": "1.5.2",
   "transformations/k8s/compliance-free+FILLER": "0.0.0",
