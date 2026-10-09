@@ -6,7 +6,7 @@ as well as recommendations for optimizing performance and potentially reducing c
 
 SELECT 
     r.account_id,
-    volume_arn,
+    r.volume_arn,
 		eev.attachments ->> 'associatedResource' as ecs_attached,
 		eev.encrypted,
 		eev.fast_restored,
