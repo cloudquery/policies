@@ -44,7 +44,7 @@ vars:
     - aws_ec2_security_groups
     - aws_sns_subscriptions
     - aws_cloudwatchlogs_metric_filters
-    - aws_cloudwatch_alarms
+    - aws_cloudwatch_metric_alarms
   cis_v2_0_0:
     - aws_iam_password_policies
     - aws_iam_user_attached_policies
@@ -89,7 +89,7 @@ vars:
     - aws_sns_subscriptions
     - aws_ec2_network_acls
     - aws_cloudwatchlogs_metric_filters
-    - aws_cloudwatch_alarms
+    - aws_cloudwatch_metric_alarms
     - aws_iam_policy_default_versions
   cis_v3_0_0:
     - aws_iam_password_policies
@@ -133,7 +133,7 @@ vars:
     - aws_cloudwatchlogs_metric_filters
     - aws_sns_subscriptions
     - aws_ec2_network_acls
-    - aws_cloudwatch_alarms
+    - aws_cloudwatch_metric_alarms
     - aws_kms_key_rotation_statuses
     - aws_iam_policy_default_versions
   foundational_security:
@@ -299,7 +299,7 @@ vars:
     - aws_s3_accounts
     - aws_ec2_security_groups
     - aws_sns_subscriptions
-    - aws_cloudwatch_alarms
+    - aws_cloudwatch_metric_alarms
     - aws_cloudwatchlogs_metric_filters
     - aws_kms_key_rotation_statuses
   imds_v2:
@@ -450,5 +450,5 @@ vars:
     - aws_s3_bucket_lifecycles
     - aws_cloudwatchlogs_metric_filters
     - aws_sns_subscriptions
-    - aws_cloudwatch_alarms
+    - aws_cloudwatch_metric_alarms
     - aws_kms_key_rotation_statuses
