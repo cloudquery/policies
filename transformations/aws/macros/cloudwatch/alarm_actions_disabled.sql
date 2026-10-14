@@ -12,6 +12,6 @@ select
        account_id,
        arn                         as resource_id,
        'fail'                      as status
-from aws_cloudwatch_alarms
+from aws_cloudwatch_metric_alarms
 where actions_enabled = false
    or array_length(alarm_actions, 1) = 0{% endmacro %}
