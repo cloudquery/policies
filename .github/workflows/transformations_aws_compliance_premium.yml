@@ -156,6 +156,7 @@ jobs:
         if: needs.prepare.outputs.s3 == 'true'
         run: |
           cloudquery migrate tests/s3.yml
+          ./tests/create_athena_tables.sh
           uv run dbt run --target dev-athena --profiles-dir ./tests
       - name: Setup Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
