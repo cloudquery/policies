@@ -2,7 +2,7 @@ kind: source
 spec:
   name: azure
   path: cloudquery/azure
-  version: "v23.4.0" # latest version of source azure plugin
+  version: "v23.5.1" # latest version of source azure plugin
   destinations: ["postgresql"]
   tables: ["*"]
 ---
@@ -11,7 +11,7 @@ spec:
   name: "postgresql"
   path: "cloudquery/postgresql"
   registry: cloudquery
-  version: "v8.17.0" # latest version of postgresql plugin
+  version: "v8.18.0" # latest version of postgresql plugin
   spec:
     batch_size: 10000
     connection_string: ${CQ_DSN}
