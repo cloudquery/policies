@@ -7,7 +7,7 @@
 {% macro postgres__log_metric_filter_and_alarm() %}
 with af as (
   select distinct a.arn, a.actions_enabled, a.alarm_actions, m->'MetricStat'->'Metric'->>'MetricName' as metric_name -- TODO check
-  from aws_cloudwatch_alarms a, jsonb_array_elements(a.metrics) as m
+  from aws_cloudwatch_metric_alarms a, jsonb_array_elements(a.metrics) as m
 ),
 tes as (
     select trail_arn from aws_cloudtrail_trail_event_selectors
@@ -37,7 +37,7 @@ where t.is_multi_region_trail = TRUE
 {% macro bigquery__log_metric_filter_and_alarm() %}
 with af as (
   select distinct a.arn, a.actions_enabled, ARRAY_TO_STRING(a.alarm_actions, ',') as alarm_actions, JSON_VALUE(m.MetricStat.Metric.MetricName) as metric_name
-  from {{ full_table_name("aws_cloudwatch_alarms") }} a,
+  from {{ full_table_name("aws_cloudwatch_metric_alarms") }} a,
   UNNEST(JSON_QUERY_ARRAY(metrics)) as m
 ),
 tes as (
@@ -72,7 +72,7 @@ where t.is_multi_region_trail = TRUE
 {% macro snowflake__log_metric_filter_and_alarm() %}
 with af as (
   select distinct a.arn, a.actions_enabled, a.alarm_actions, m.value:MetricStat:Metric:MetricName as metric_name -- TODO check
-  from aws_cloudwatch_alarms a,
+  from aws_cloudwatch_metric_alarms a,
   LATERAL FLATTEN (metrics) as m
 ),
 aes as (
@@ -119,7 +119,7 @@ WITH af AS (
         a.alarm_actions, 
         json_extract_scalar(m, '$.MetricStat.Metric.MetricName') AS metric_name
     FROM 
-        aws_cloudwatch_alarms a
+        aws_cloudwatch_metric_alarms a
     CROSS JOIN
         UNNEST(cast(json_extract(a.metrics, '$') as array(json))) as t(m)
 ),
