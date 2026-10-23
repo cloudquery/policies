@@ -1,5 +1,5 @@
 name: azure_asset_inventory
-version: 1.3.9
+version: 1.3.10
 config-version: 2
 profile: azure_asset_inventory
 model-paths:
