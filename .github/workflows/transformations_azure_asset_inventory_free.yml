@@ -100,16 +100,16 @@ jobs:
           workload_identity_provider: "projects/151868820337/locations/global/workloadIdentityPools/integration-test-pool/providers/integration-test-provider"
           service_account: "integration-service-account@cq-integration-tests.iam.gserviceaccount.com"
       - name: Install uv
-        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
         with:
-          version: "0.12.18"
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+          version: "0.13.5"
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: "3.11"
       - name: Install dependencies
         run: uv sync --frozen
       - name: Setup CloudQuery
-        uses: cloudquery/setup-cloudquery@757b19eb8496cf9e89a78de54f2c677253f54f6b # v5.0.3
+        uses: cloudquery/setup-cloudquery@77d0ae10d00d0eaf349d7babde43bf5978250142 # v5.0.4
         with:
           version: v6.49.2
       - name: Test Postgres
