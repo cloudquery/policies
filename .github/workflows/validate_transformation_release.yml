@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+  merge_group:
 
 env:
   SNOW_USER: ${{ secrets.SNOW_USER }}

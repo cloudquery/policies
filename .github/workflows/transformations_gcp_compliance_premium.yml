@@ -10,6 +10,7 @@ on:
       - "transformations/macros/**"
       - ".github/workflows/wait_for_required_workflows.yml"
       - "scripts/workflows/wait_for_required_workflows.js"
+  merge_group:
   push:
     branches:
       - main
@@ -34,7 +35,21 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    if: github.event_name == 'merge_group'
+    uses: ./.github/workflows/changed_files.yml
+    with:
+      files: |
+        transformations/gcp/compliance-premium/**
+        .github/workflows/transformations_gcp_compliance_premium.yml
+        transformations/gcp/macros/**
+        transformations/gcp/models/**
+        transformations/macros/**
+        .github/workflows/wait_for_required_workflows.yml
+        scripts/workflows/wait_for_required_workflows.js
   prepare:
+    needs: changes
+    if: ${{ !failure() && !cancelled() && (github.event_name != 'merge_group' || needs.changes.outputs.any_changed == 'true') }}
     runs-on: ubuntu-latest
     outputs:
       transformation_dir: ${{ fromJson(steps.set-result.outputs.result).transformation_dir }}
@@ -69,6 +84,7 @@ jobs:
       contents: "read"
     name: ${{ needs.prepare.outputs.transformation_dir }}
     needs: prepare
+    if: ${{ !failure() && !cancelled() && needs.prepare.result == 'success' }}
     timeout-minutes: 30
     runs-on: ubuntu-latest
     defaults:
@@ -157,6 +173,7 @@ jobs:
         run: |
           make gen-docs
       - uses: stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c # v7
+        if: github.event_name != 'merge_group'
         with:
           commit_message: "chore: Update readme"
           file_pattern: "${{ needs.prepare.outputs.transformation_dir }}/README.md"

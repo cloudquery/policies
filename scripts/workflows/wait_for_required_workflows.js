@@ -38,7 +38,7 @@ module.exports = async ({github, context}) => {
         const checkRuns = await github.paginate(github.rest.checks.listForRef, {
             owner: 'cloudquery',
             repo: context.repo.repo,
-            ref: context.payload.pull_request.head.sha,
+            ref: context.eventName === 'merge_group' ? context.payload.merge_group.head_sha : context.payload.pull_request.head.sha,
             status: 'completed',
             per_page: 100
         })
