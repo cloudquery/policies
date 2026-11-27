@@ -6,6 +6,7 @@ on:
       - opened
       - edited
       - synchronize
+  merge_group:
 
 permissions:
   pull-requests: read
@@ -13,6 +14,7 @@ permissions:
 jobs:
   main:
     name: Validate PR title
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       # Please look up the latest version from

@@ -10,6 +10,7 @@ on:
       - "transformations/macros/**"
       - ".github/workflows/wait_for_required_workflows.yml"
       - "scripts/workflows/wait_for_required_workflows.js"
+  merge_group:
   push:
     branches:
       - main
@@ -34,7 +35,21 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    if: github.event_name == 'merge_group'
+    uses: ./.github/workflows/changed_files.yml
+    with:
+      files: |
+        transformations/aws/asset-inventory-free/**
+        .github/workflows/transformations_aws_asset_inventory_free.yml
+        transformations/aws/macros/**
+        transformations/aws/models/**
+        transformations/macros/**
+        .github/workflows/wait_for_required_workflows.yml
+        scripts/workflows/wait_for_required_workflows.js
   prepare:
+    needs: changes
+    if: ${{ !failure() && !cancelled() && (github.event_name != 'merge_group' || needs.changes.outputs.any_changed == 'true') }}
     runs-on: ubuntu-latest
     outputs:
       transformation_dir: ${{ fromJson(steps.set-result.outputs.result).transformation_dir }}
